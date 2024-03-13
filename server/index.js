@@ -1,5 +1,5 @@
 import express from 'express';
-import config from '../setup/config';
+import config from '.config';
 
 const app = express();
 app.use(express.json());
