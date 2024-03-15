@@ -23,8 +23,6 @@ const User = new Schema({
   ],
 });
 
-const UserModel = model("items", User);
+const UserModel = model("users", User);
 
 export default UserModel;
-
-//65ef050866b63835a2cc903d
