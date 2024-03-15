@@ -1,7 +1,6 @@
 import { InferSchemaType, Schema, model } from "mongoose";
-import mongoose from "./index";
 
-export type userType = InferSchemaType<typeof Item>;
+export type userType = InferSchemaType<typeof User>;
 
 // defining data structure
 const User = new Schema({
@@ -11,14 +10,14 @@ const User = new Schema({
   profilePic: File, // to check this
   groups: [
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "groups",
       required: false,
     },
   ],
   mixTapes: [
     {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "mixTapes",
     },
   ],
