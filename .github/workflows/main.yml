@@ -5,46 +5,45 @@ on:
     branches:
       - 'dev'
 
-
 jobs:
   lint:
     runs-on: ubuntu-latest
-    name: Run eslint 
-      steps: 
-        -name: Checkout
+    name: Run eslint
+    steps: 
+      - name: Checkout
         uses: actions/checkout@v4
-        - name: Setup Node
+      - name: Setup Node
         uses: actions/setup-node@v4
         with: 
-          node-version: 20.10
-        -name: Lint client
-          run: |
-            cd client &&
-            npm ci &&
-            npm lint 
-        -name: Lint server
-          run: |
-            cd server &&
-            npm ci &&
-            npm lint
+          node-version: 14.x
+      - name: Lint client
+        run: |
+          cd client &&
+          npm ci &&
+          npm run lint 
+      - name: Lint server
+        run: |
+          cd server &&
+          npm ci &&
+          npm run lint
 
   tests:
-      runs-on: ubuntu-latest
-      name: Run tests
-        steps: 
-          -name: Checkout
-          uses: actions/checkout@v4
-          - name: Setup Node
-          uses: actions/setup-node@v4
-          with: 
-            node-version: 20.10
-          -name: Test client
-            run: |
-              cd client &&
-              npm ci &&
-              npm test 
-          -name: Test server
-            run: |
-              cd server &&
-              npm ci &&
-              npm test
+    runs-on: ubuntu-latest
+    name: Run tests
+    steps: 
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with: 
+          node-version: 14.x
+      - name: Test client
+        run: |
+          cd client &&
+          npm ci &&
+          npm test 
+      - name: Test server
+        run: |
+          cd server &&
+          npm ci &&
+          npm test
