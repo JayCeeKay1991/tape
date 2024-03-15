@@ -1,25 +1,26 @@
-import { InferSchemaType, Schema, model } from "mongoose";
+import { InferSchemaType } from "mongoose";
+import mongoose from ".";
 
 export type mixTapeType = InferSchemaType<typeof MixTape>;
 
 // defining data structure
-const MixTape = new Schema({
+const MixTape = new mongoose.Schema({
   name: String,
   url: String,
   groups: [
     {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "groups",
     },
   ],
   creator: [
     {
-      type: Schema.Types.ObjectId,
+      type: mongoose.Schema.Types.ObjectId,
       ref: "users",
     },
   ],
 });
 
-const MixTapeModel = model("mixTapes", MixTape);
+const MixTapeModel = mongoose.model("mixTapes", MixTape);
 
 export default MixTapeModel;
