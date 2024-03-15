@@ -40,10 +40,10 @@ jobs:
       - name: Test client
         run: |
           cd client &&
-          npm ci &&
+          npm i &&
           npm run test 
       - name: Test server
         run: |
           cd server &&
-          npm ci &&
+          npm i &&
           npm run test
