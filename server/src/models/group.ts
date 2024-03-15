@@ -5,7 +5,7 @@ export type groupType = InferSchemaType<typeof Group>;
 // defining data structure
 const Group = new Schema({
   name: String,
-  picture: File, // check
+  picture: String,
   owner: {
     type: Schema.Types.ObjectId,
     ref: "users",

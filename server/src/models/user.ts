@@ -7,7 +7,7 @@ const User = new Schema({
   userName: String,
   email: String,
   password: String,
-  profilePic: File, // to check this
+  profilePic: String,
   groups: [
     {
       type: Schema.Types.ObjectId,
