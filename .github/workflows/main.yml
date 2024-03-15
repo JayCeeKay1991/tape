@@ -20,12 +20,12 @@ jobs:
         run: |
           cd client &&
           npm ci &&
-          npm run lint 
+          npm lint 
       - name: Lint server
         run: |
           cd server &&
           npm ci &&
-          npm run lint
+          npm lint
 
   tests:
     runs-on: ubuntu-latest
