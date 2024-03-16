@@ -3,7 +3,7 @@ import supertest from "supertest";
 import mongoose, { Model } from "mongoose";
 import router from "../../router";
 import ChannelModel, { channelType } from "../../models/channel";
-import { describe, afterEach, it } from "@jest/globals";
+import { describe, it, afterAll } from "@jest/globals";
 import { expect, beforeAll } from "@jest/globals";
 const Channels: Model<channelType> = ChannelModel;
 
@@ -26,7 +26,7 @@ describe("Integration tests", () => {
     await mongoose.connect(url);
   });
 
-  afterEach(async () => {
+  afterAll(async () => {
     await Channels.deleteMany();
     await mongoose.connection.close();
   });
