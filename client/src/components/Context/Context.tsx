@@ -7,7 +7,7 @@ import {
   PropsWithChildren,
 } from 'react';
 
-import { User } from '@app/types/User';
+import { User } from '../../types/User';
 
 type MainContext = {
   user: User;

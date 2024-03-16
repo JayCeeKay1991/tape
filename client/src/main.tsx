@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ContextProvider from './components/Context/Context';
+import App from './components/App/App';
 import Home from './routes/Home/Home';
 import Dash from './routes/Dash/Dash';
 import Profile from './routes/Profile/Profile';
@@ -11,8 +12,12 @@ import './index.css';
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Home />,
+    element: <App />,
     children: [
+      {
+        path: '/home',
+        element: <Home />,
+      },
       {
         path: '/dash',
         element: <Dash />,

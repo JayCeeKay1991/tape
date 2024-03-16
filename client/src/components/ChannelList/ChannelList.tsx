@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
-import AppContext from '../Context/Context';
+import { useMainContext } from '../Context/Context';
 import ChannelItem from '../ChannelItem/ChannelItem';
 import { getChannelsByUser } from '../../services/ChannelService';
 import { Channel } from '../../types/Channel';
 
+
 const ChannelList = () => {
-  const { user } = useAppContext();
+  const { user } = useMainContext();
   const [channelList, setChannelList] = useState<Channel[]>([]);
 
   useEffect(() => {
