@@ -16,12 +16,13 @@ import bcrypt from 'bcrypt';
 export const createUser = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
+
     const userInDb = await UserModel.findOne({ email: email });
     if (userInDb)
       return res
         .status(409)
-        .send({ error: '409', message: 'User already exists' });
-    if (password === '') throw new Error();
+        .json({ error: '409', message: 'User already exists' });
+    if (password === '') console.error(Error());
     const hash = await bcrypt.hash(password, 10);
     const newUser = new UserModel({
       ...req.body,
@@ -32,8 +33,34 @@ export const createUser = async (req: Request, res: Response) => {
     res.json(user);
   } catch (error) {
     res.status(400);
-    res.send({ error, message: 'Could not create user' });
+    res.json({ error, message: 'Could not create user' });
   }
 };
 
-export default { createUser };
+// getting the logged in user
+export const login = async (req: Request, res: Response) => {
+  try {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+      return res
+        .status(401)
+        .send('Bad request: Please provide email and password');
+    }
+    const user = await UserModel.findOne({ email: email });
+    if (!user) {
+      return res.status(400).send('No user found');
+    }
+
+    const validatedPass = bcrypt.compare(password, user.password!);
+
+    if (!validatedPass) console.error(Error());
+    res.status(200);
+    res.json(user);
+  } catch (error) {
+    res.status(401);
+    res.json({ error: '401', message: 'Username or password is incorrect' });
+  }
+};
+
+export default { createUser, login };

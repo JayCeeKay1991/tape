@@ -7,7 +7,7 @@ import {
   PropsWithChildren,
 } from 'react';
 
-import { User } from '@app/types/User';
+import { User } from '../../types/User';
 
 type MainContext = {
   user: User;
@@ -27,6 +27,9 @@ const initialUser = {
 const initialContext = {
   user: initialUser,
   setUser: () => {},
+  setUserData: () => {
+    return;
+  },
 };
 
 const MainContext = createContext<MainContext>(initialContext);
