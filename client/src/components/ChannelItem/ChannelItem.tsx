@@ -11,10 +11,14 @@ const ChannelItem = ({channel}:ChannelItemProps) => {
     <div>
       <img>{channel.picture}</img>
       <h3>{channel.name}</h3>
-      <img></img>
-      <img></img>
-      <img></img>
-      <p>duration</p>
+      <div id="channel-item-footer" >
+        <div id="channel-member-prev" >
+          <img></img>
+          <img></img>
+          <img></img>
+        </div>
+        <p>duration</p>
+      </div>
     </div>
   )
 
