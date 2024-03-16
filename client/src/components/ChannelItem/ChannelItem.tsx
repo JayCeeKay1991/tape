@@ -8,9 +8,14 @@ type ChannelItemProps = {
 const ChannelItem = ({channel}:ChannelItemProps) => {
 
   return (
-      <div>
-        <h3>{channel.name}</h3>
-      </div>
+    <div>
+      <img>{channel.picture}</img>
+      <h3>{channel.name}</h3>
+      <img></img>
+      <img></img>
+      <img></img>
+      <p>duration</p>
+    </div>
   )
 
 }
