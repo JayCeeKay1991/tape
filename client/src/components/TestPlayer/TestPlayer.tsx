@@ -1,22 +1,38 @@
-import { MouseEvent, useState } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 import { Howl } from "howler";
 
 const testUrl1 = 'https://res.cloudinary.com/ddj3xjxrc/video/upload/v1710529539/D.J._Poizen_Visits_Kool_Kyle_Side_A_ncjkhb.mp3'
 const testUrl2 = `https://res.cloudinary.com/ddj3xjxrc/video/upload/v1710529445/podcast_mark-mendoza-podcast_1988-mixtape_1000413811719_ts9qep.mp3`
 
+
 // Define the component
 const TestPlayer  = () => {
-  const [currentMixtape, setCurrentMixTape] = useState(testUrl1)
-  const stream = [testUrl1, testUrl2];
+  const channelMixtapes = [testUrl1, testUrl2];
+  const [currentMixtape, setCurrentMixTape] = useState<Howl | null >(null);
+  const [currentStream, setCurrentStream] = useState<Howl[]>([])
+
+  useEffect (() => {
+    // create stream array from mixTapes
+    const generateStream = () => {
+      const mixtapes: Howl[] = channelMixtapes.map((mixtape) => {
+        const mixTape = new Howl ({
+          src: [mixtape],
+          html5: true,
+      })
+      return mixTape;
+      })
+      return mixtapes;
+    }
+    
+    const stream = generateStream()
+    setCurrentStream(stream)
+    setCurrentMixTape(stream[0])
+  })
+  
+  
   
 
-    const mixTape = new Howl ({
-        src: [currentMixtape],
-        html5: true,
-    })
-
-
-  const handlePlayClick = (event: MouseEvent<HTMLButtonElement>) => {
+  const handlePlayClick = (event: MouseEvent<HTMLButtonElement>, mixtape: Howl) => {
     console.log('play clicked')
     console.log(currentMixtape)
     if (!mixTape.playing()) {
@@ -24,26 +40,29 @@ const TestPlayer  = () => {
     }
   }
 
-  const handlePauseClick = (event: MouseEvent<HTMLButtonElement>) => {
+  const handlePauseClick = (event: MouseEvent<HTMLButtonElement>, mixtape: Howl) => {
     console.log('pause clicked')
     if (mixTape.playing()) {
       mixTape.pause()
     }
   }
 
-  const handleStopClick = (event: MouseEvent<HTMLButtonElement>) => {
+  const handleStopClick = (event: MouseEvent<HTMLButtonElement>, mixtape: Howl) => {
     console.log('stop clicked')
-    mixTape.stop()
+    if (mixTape.playing()) {
+      mixTape.stop()
+    }
   }
 
-  const handleNextClick = (event: MouseEvent<HTMLButtonElement>) => {
+  const handleNextClick = (event: MouseEvent<HTMLButtonElement>, mixtape: Howl) => {
     console.log('next clicked')
     mixTape.stop()
-    const currentIndex = stream.indexOf(currentMixtape)
     const newIndex = currentIndex +1;
     console.log(newIndex)
-    setCurrentMixTape(stream[newIndex])
-    console.log(currentMixtape);
+    const newMixtape = stream[newIndex]
+    console.log(newMixtape)
+    setCurrentMixTape(newMixtape)
+
     mixTape.play()
   }
 
