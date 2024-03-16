@@ -11,7 +11,7 @@ export const createUser = async (req: Request, res: Response) => {
       return res
         .status(409)
         .send({ error: "409", message: "User already exists" });
-    if (password === "") console.log(Error());
+    if (password === "") console.error(Error());
     const hash = await bcrypt.hash(password, 10);
     const newUser = new UserModel({
       ...req.body,
@@ -19,7 +19,7 @@ export const createUser = async (req: Request, res: Response) => {
     });
     const user = await newUser.save();
     res.status(201);
-    res.send(user);
+    res.json(user);
   } catch (error) {
     res.status(400);
     res.send({ error, message: "Could not create user" });
@@ -27,7 +27,7 @@ export const createUser = async (req: Request, res: Response) => {
 };
 
 //Get User
-export const getUserByEmailPassword = async (req: Request, res: Response) => {
+export const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
     if (!email || !password) {
@@ -40,9 +40,9 @@ export const getUserByEmailPassword = async (req: Request, res: Response) => {
       return res.status(400).send("No user found");
     }
     const validatedPass = bcrypt.compare(password, user.password);
-    if (!validatedPass) throw new Error();
+    if (!validatedPass) console.error(Error());
     res.status(200);
-    res.send(user);
+    res.json(user);
   } catch (error) {
     res.status(401);
     res.send({ error: "401", message: "Username or password is incorrect" });

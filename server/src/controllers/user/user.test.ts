@@ -35,7 +35,7 @@ describe("Integration tests", () => {
   });
 
   it("should create new Item in the DB", async () => {
-    const res = await request.post("/").send(mockUser);
+    const res = await request.post("/users").send(mockUser);
     const user = await Users.findOne(mockUser);
     if (user) {
       expect(user.userName).toBe(mockUser.userName);
