@@ -10,3 +10,12 @@ export const signUp = async (body: FormValuesUser) => {
     console.error(error);
   }
 };
+
+// log in existing user
+export const logIn = async (body: Omit<FormValuesUser, 'name'>) => {
+  try {
+    return await apiClient<User>('users/login', 'POST', body);
+  } catch (error) {
+    console.error(error);
+  }
+};
