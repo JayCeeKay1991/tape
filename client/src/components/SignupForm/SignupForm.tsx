@@ -38,7 +38,7 @@ const SignupForm = () => {
         email: email,
         password: password,
       };
-      const newUser = await signUp(signupData); // this is from the service which does not wexist yet
+      const newUser = await signUp(signupData); // this is from the service which does not exist yet
       setFormValuesUser(initialStateUser);
       newUser && setUser(newUser);
       // navigate('/dash');
