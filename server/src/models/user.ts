@@ -9,10 +9,10 @@ const User = new mongoose.Schema({
   email: { type: String, required: true },
   password: { type: String, required: true },
   profilePic: String,
-  groups: [
+  channels: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "groups",
+      ref: "channels",
       required: false,
     },
   ],

@@ -7,10 +7,10 @@ export type mixTapeType = InferSchemaType<typeof MixTape>;
 const MixTape = new mongoose.Schema({
   name: String,
   url: String,
-  groups: [
+  channels: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "groups",
+      ref: "channels",
     },
   ],
   creator: [
