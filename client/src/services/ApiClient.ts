@@ -5,7 +5,7 @@ const BASEURL = `http://localhost:3000/${config.port}`
 export async function apiClient<T> (
     endpoint: string, 
     method: string = 'GET', // Defaults to GET method
-    body?: any // optional param for body
+    body?: Record<string, any>// optional param for body
   ): Promise <T> {
     const options: RequestInit = {
       method,
