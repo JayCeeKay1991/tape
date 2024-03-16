@@ -12,6 +12,8 @@
     "test": "vitest"
   },
   "dependencies": {
+    "@types/howler": "^2.2.11",
+    "howler": "^2.2.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "vitest": "^1.4.0"

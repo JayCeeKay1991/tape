@@ -1,4 +1,4 @@
-import { MouseEvent, useEffect, useState } from "react";
+import { MouseEvent, useEffect, useState, useRef} from "react";
 import { Howl } from "howler";
 
 const testUrl1 = 'https://res.cloudinary.com/ddj3xjxrc/video/upload/v1710529539/D.J._Poizen_Visits_Kool_Kyle_Side_A_ncjkhb.mp3'
@@ -8,32 +8,71 @@ const testUrl2 = `https://res.cloudinary.com/ddj3xjxrc/video/upload/v1710529445/
 // Define the component
 const TestPlayer  = () => {
   const channelMixtapes = [testUrl1, testUrl2];
-  const [currentMixtape, setCurrentMixTape] = useState<Howl | null >(null);
   const [stream, setStream] = useState<Howl[]>([])
   const [streamIndex, setStreamIndex] = useState<number>(0)
+  const durationRef = useRef<HTMLParagraphElement>(null)
+  const [duration, setDuration] = useState<number>(0);
 
-  useEffect (() => {
+  // useEffect (() => {
+  //   // create stream array from mixTapes
+  //   const generateStream = () => {
+  //     const mixtapes: Howl[] = channelMixtapes.map((mixtape) => {
+  //       return new Howl ({
+  //         src: [mixtape],
+  //         html5: true,
+  //         onplay: function (this: Howl)  {
+  //           if (durationRef.current && this.duration()) {
+  //             durationRef.current.textContent = formatTime(Math.round(this.duration()));
+  //             setDuration(Math.round(this.duration()));
+  //           }
+  //           const timerId = setInterval(() => {
+  //             if (durationRef.current && this.duration()) {                    
+  //             durationRef.current.textContent = formatTime(Math.round(this.duration()));
+  //             }
+  //           }, 1000);
+  //           return () => clearInterval(timerId);
+            
+  //         }
+  //     })
+  //     })
+  //     return mixtapes;
+  //   }
+  //   const generatedStream = generateStream()
+  //   setStream(generatedStream)
+  // }, [])
+
+  useEffect(() => {
     // create stream array from mixTapes
     const generateStream = () => {
       const mixtapes: Howl[] = channelMixtapes.map((mixtape) => {
-        return new Howl ({
+        const sound = new Howl({
           src: [mixtape],
           html5: true,
-      })
-      })
+          onplay: function (this: Howl) {
+            const timerId = setInterval(() => {
+              if (this.playing()) {
+                const currentTime = this.seek();
+                if (durationRef.current) {
+                  durationRef.current.textContent = formatTime(Math.round(currentTime));
+                  setDuration(Math.round(currentTime));
+                }
+              }
+            }, 1000);
+            return () => clearInterval(timerId);
+          }
+        });
+        return sound;
+      });
       return mixtapes;
-    }
-    const generatedStream = generateStream()
-    setStream(generatedStream)
-    setCurrentMixTape(generatedStream[0])
-  }, [])
+    };
+    const generatedStream = generateStream();
+    setStream(generatedStream);
+  }, []);
   
-  console.log(stream)
-  
+
   const handlePlayClick = (event: MouseEvent<HTMLButtonElement>) => {
     console.log('play clicked')
     const currentMixtape = stream[streamIndex];
-    console.log(currentMixtape)
     if (!currentMixtape.playing()) {
       currentMixtape.play()
     }
@@ -61,14 +100,21 @@ const TestPlayer  = () => {
     currentMixtape.stop();
     const newIndex = streamIndex + 1;
     setStreamIndex(newIndex);
-    const newMixtape = stream[newIndex]; // Use newIndex here
+    const newMixtape = stream[newIndex];
+    console.log;(newMixtape)
     newMixtape.play();
   };
+
+
+  const formatTime = (seconds: number) => {
+    return Math.floor(seconds / 60) + ':' + ('0' + Math.floor(seconds % 60)).slice(-2);
+  };  
   
 
   return (
     <div className="player">
       <h1>Channel #1</h1>
+      <p ref={durationRef}></p>
       <button type="button" onClick={handlePlayClick}>Play</button>
       <button type="button" onClick={handlePauseClick}>Pause</button>
       <button type="button" onClick={handleStopClick}>Stop</button>
