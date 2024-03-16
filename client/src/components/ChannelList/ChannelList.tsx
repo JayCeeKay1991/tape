@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useMainContext } from '../Context/Context';
 import ChannelItem from '../ChannelItem/ChannelItem';
-import { getChannelsByUser } from '../../services/ChannelService';
 import { Channel } from '../../types/Channel';
 
 
@@ -10,11 +9,7 @@ const ChannelList = () => {
   const [channelList, setChannelList] = useState<Channel[]>([]);
 
   useEffect(() => {
-    const fetchAndSet = async () => {
-      const channelsPerUser = await getChannelsByUser(user._id);
-      setChannelList(channelsPerUser);
-    };
-    fetchAndSet();
+    setChannelList(user.channels);
   }, [])
 
   return (
