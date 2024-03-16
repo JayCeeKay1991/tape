@@ -11,36 +11,9 @@ const TestPlayer  = () => {
   const [stream, setStream] = useState<Howl[]>([])
   const [streamIndex, setStreamIndex] = useState<number>(0)
   const durationRef = useRef<HTMLParagraphElement>(null)
-  const [duration, setDuration] = useState<number>(0);
 
-  // useEffect (() => {
-  //   // create stream array from mixTapes
-  //   const generateStream = () => {
-  //     const mixtapes: Howl[] = channelMixtapes.map((mixtape) => {
-  //       return new Howl ({
-  //         src: [mixtape],
-  //         html5: true,
-  //         onplay: function (this: Howl)  {
-  //           if (durationRef.current && this.duration()) {
-  //             durationRef.current.textContent = formatTime(Math.round(this.duration()));
-  //             setDuration(Math.round(this.duration()));
-  //           }
-  //           const timerId = setInterval(() => {
-  //             if (durationRef.current && this.duration()) {                    
-  //             durationRef.current.textContent = formatTime(Math.round(this.duration()));
-  //             }
-  //           }, 1000);
-  //           return () => clearInterval(timerId);
-            
-  //         }
-  //     })
-  //     })
-  //     return mixtapes;
-  //   }
-  //   const generatedStream = generateStream()
-  //   setStream(generatedStream)
-  // }, [])
 
+  
   useEffect(() => {
     // create stream array from mixTapes
     const generateStream = () => {
@@ -54,7 +27,6 @@ const TestPlayer  = () => {
                 const currentTime = this.seek();
                 if (durationRef.current) {
                   durationRef.current.textContent = formatTime(Math.round(currentTime));
-                  setDuration(Math.round(currentTime));
                 }
               }
             }, 1000);
