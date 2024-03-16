@@ -9,7 +9,7 @@ async function main () {
   } catch (error) {
     console.log('🔥 Error in the database connection.');
   }
-};
+}
 main();
 
 export default mongoose;
