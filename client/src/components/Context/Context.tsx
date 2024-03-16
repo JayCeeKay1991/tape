@@ -7,15 +7,7 @@ import {
   PropsWithChildren,
 } from 'react';
 
-export type User = {
-  _id: string;
-  username: string;
-  email: string;
-  password: string;
-  profilepic: string;
-  channels: string[];
-  mixtapes: string[];
-};
+import { User } from '@app/types/User';
 
 type MainContext = {
   user: User;

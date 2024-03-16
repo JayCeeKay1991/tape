@@ -1,5 +1,5 @@
 import { apiClient } from './ApiClient';
-import { User } from '@app/components/App/App';
+import { User } from '@app/types/User';
 import { FormValuesUser } from '@app/components/App/App';
 
 // SIGN UP POST

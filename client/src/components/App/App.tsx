@@ -2,7 +2,8 @@
 // import Dash from '../../routes/Dash';
 
 import { useState } from 'react';
-import { useMainContext, User } from '../Context/Context';
+import { useMainContext } from '../Context/Context';
+import { User } from '@app/types/User';
 import SignupForm from '../SignupForm/SignupForm';
 // import { useNavigate } from 'react-router-dom';
 
