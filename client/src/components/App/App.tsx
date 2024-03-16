@@ -1,13 +1,12 @@
-// import Home from '../../routes/Home';
-// import Dash from '../../routes/Dash';
-
+import Home from '../../routes/Home';
+import Dash from '../../routes/Dash';
 import { useState } from 'react';
 import { useMainContext } from '../Context/Context';
-import { User } from '@app/types/User';
+import { User } from '../../types/User';
 import SignupForm from '../SignupForm/SignupForm';
-// import { useNavigate } from 'react-router-dom';
-
+import { useNavigate } from 'react-router-dom';
 import './App.css';
+
 
 export type FormValuesUser = {
   userName: string;
@@ -63,7 +62,7 @@ function App() {
   return (
     <>
       {user?._id ? (
-        <h1>goes to Dashboard</h1>
+        <Dash/>
       ) : (
         //here we need to navigate to homepage if not logged in, dont know at the moment if the loging or the homepage, want to pop up the login !! check with others
         <form id="login-form" onSubmit={handleLogin}>
@@ -87,8 +86,8 @@ function App() {
             login
           </button>
         </form>
-      )}
-      :<h1>Goes to Homepage</h1>
+      )
+      : <Home/> }
     </>
   );
 }
