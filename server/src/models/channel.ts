@@ -5,7 +5,7 @@ export type channelType = InferSchemaType<typeof Channel>;
 
 // defining data structure
 const Channel = new mongoose.Schema({
-  name: String,
+  name: { type: String, required: true },
   picture: String,
   owner: {
     type: mongoose.Schema.Types.ObjectId,

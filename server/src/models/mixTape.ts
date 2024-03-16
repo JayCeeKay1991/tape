@@ -10,7 +10,7 @@ const MixTape = new mongoose.Schema({
   channels: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "groups",
+      ref: "channels",
     },
   ],
   creator: [
