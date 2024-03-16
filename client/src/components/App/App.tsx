@@ -1,4 +1,5 @@
 import './App.css'
+import TestPlayer from '../TestPlayer/TestPlayer'
 
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
       <p>Jay 👩‍🏫</p>
       <p>Joe 💿</p>
       <p>Navad 🧭</p>
+      <TestPlayer />
     </>
   )
 }
