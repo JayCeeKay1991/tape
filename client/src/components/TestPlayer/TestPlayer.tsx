@@ -13,6 +13,7 @@ const TestPlayer  = () => {
   const channelMixtapes = [testUrl1, testUrl2]; // urls of audio files
   const [stream, setStream] = useState<Howl[]>([]) // current stream, array of howls created in useeffect
   const [streamIndex, setStreamIndex] = useState<number>(0) // stores the index of current mixTape in stream
+  const [muted, setMuted] = useState<boolean>(false) // flag for if player is muted
   const durationRef = useRef<HTMLParagraphElement>(null) // ref to duration p element that will change
   const totalDurationRef = useRef<HTMLParagraphElement>(null) // ref to duration p that will show mixtapes total length
   const volumeRef = useRef<HTMLParagraphElement>(null) // ref to volume p that will show current vol
@@ -103,16 +104,34 @@ const TestPlayer  = () => {
 
   const handleVolumeUp = (event: MouseEvent<HTMLButtonElement>) => {  
     const currentMixtape = stream[streamIndex];
-    if (currentMixtape.volume() === 1) { return } // cant go above 100
-    const newVolume = currentMixtape.volume()+0.05;
+    const newVolume = Math.min(currentMixtape.volume() + 0.05, 1);
     currentMixtape.volume(newVolume);
+    if (volumeRef.current) {
+      // renders new volume
+      volumeRef.current.textContent = Math.round(currentMixtape.volume() * 100).toString();
+    }
   }
 
   const handleVolumeDown = (event: MouseEvent<HTMLButtonElement>) => {  
     const currentMixtape = stream[streamIndex];
-    if (currentMixtape.volume() === 0) { return } // cant go below 0
-    const newVolume = currentMixtape.volume()-0.05;
+    const newVolume = Math.max(currentMixtape.volume() - 0.05, 0);
     currentMixtape.volume(newVolume);
+    if (volumeRef.current) {
+      // renders new volume
+      volumeRef.current.textContent = Math.round(currentMixtape.volume() * 100).toString();
+    }
+  }
+
+  const handleToggleMute = (event: MouseEvent<HTMLButtonElement>) => {
+    const currentMixtape = stream[streamIndex];
+    if (muted === true) {
+      currentMixtape.volume(1)
+      setMuted(false)
+    }
+    else {
+      currentMixtape.volume(0)
+      setMuted(true)
+    }
   }
   
 
@@ -130,7 +149,7 @@ const TestPlayer  = () => {
       </div>
       <div className="volume-controls">
         <p ref={volumeRef}></p>
-        <button type="button">Mute</button>
+        <button type="button" onClick={handleToggleMute}>Mute</button>
         <button type="button" onClick={handleVolumeUp}>Volume Up</button>
         <button type="button" onClick={handleVolumeDown}>Volume Down</button>
       </div>
