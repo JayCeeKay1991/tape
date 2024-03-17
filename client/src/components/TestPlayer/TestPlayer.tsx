@@ -7,24 +7,32 @@ const testUrl2 = `https://res.cloudinary.com/ddj3xjxrc/video/upload/v1710529445/
 
 // Define the component
 const TestPlayer  = () => {
-  const channelMixtapes = [testUrl1, testUrl2];
-  const [stream, setStream] = useState<Howl[]>([])
-  const [streamIndex, setStreamIndex] = useState<number>(0)
-  const durationRef = useRef<HTMLParagraphElement>(null)
+  const channelMixtapes = [testUrl1, testUrl2]; // urls of audio files
+  const [stream, setStream] = useState<Howl[]>([]) // current stream, array of howls created in useeffect
+  const [streamIndex, setStreamIndex] = useState<number>(0) // stores the index of current mixTape in stream
+  const durationRef = useRef<HTMLParagraphElement>(null) // ref to duration p element that will change
+  const totalDurationRef = useRef<HTMLParagraphElement>(null) // ref to duration p that will show mixtapes total length
 
 
-  
+
   useEffect(() => {
     // create stream array from mixTapes
     const generateStream = () => {
       const mixtapes: Howl[] = channelMixtapes.map((mixtape) => {
-        const sound = new Howl({
+        // maps through urls and creates new howl obj for each mixtape url
+        return new Howl({
           src: [mixtape],
           html5: true,
           onplay: function (this: Howl) {
+            if (totalDurationRef.current) {
+              // renders total duration in p element
+              totalDurationRef.current.textContent = formatTime(Math.round(this.duration()));
+            }
             const timerId = setInterval(() => {
+              // handles the rendering of the currently elapsed time 
               if (this.playing()) {
                 const currentTime = this.seek();
+                // seek is property of howl, finds current point 
                 if (durationRef.current) {
                   durationRef.current.textContent = formatTime(Math.round(currentTime));
                 }
@@ -33,7 +41,6 @@ const TestPlayer  = () => {
             return () => clearInterval(timerId);
           }
         });
-        return sound;
       });
       return mixtapes;
     };
@@ -86,7 +93,7 @@ const TestPlayer  = () => {
   return (
     <div className="player">
       <h1>Channel #1</h1>
-      <p ref={durationRef}></p>
+      <p ref={durationRef}></p><p ref={totalDurationRef}></p>
       <button type="button" onClick={handlePlayClick}>Play</button>
       <button type="button" onClick={handlePauseClick}>Pause</button>
       <button type="button" onClick={handleStopClick}>Stop</button>
