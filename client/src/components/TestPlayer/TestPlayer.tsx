@@ -15,7 +15,7 @@ const TestPlayer  = () => {
   const [streamIndex, setStreamIndex] = useState<number>(0) // stores the index of current mixTape in stream
   const durationRef = useRef<HTMLParagraphElement>(null) // ref to duration p element that will change
   const totalDurationRef = useRef<HTMLParagraphElement>(null) // ref to duration p that will show mixtapes total length
-
+  const volumeRef = useRef<HTMLParagraphElement>(null) // ref to volume p that will show current vol
 
 
   useEffect(() => {
@@ -25,14 +25,18 @@ const TestPlayer  = () => {
         // maps through urls and creates new howl obj for each mixtape url
         return new Howl({
           src: [mixtape],
-          html5: true,
-          onplay: function (this: Howl) {
+          html5: true, // html 5 is better for large files
+          onplay: function (this: Howl) { // defines callback function that runs onplay, must be function needs explicit this
             if (totalDurationRef.current) {
               // renders total duration in p element
               totalDurationRef.current.textContent = formatTime(Math.round(this.duration()));
             }
+            if (volumeRef.current) {
+              // renders default 100% volume
+              volumeRef.current.textContent = (this.volume() * 100).toString()
+            }
             const timerId = setInterval(() => {
-              // handles the rendering of the currently elapsed time 
+              // handles the rendering of the currently elapsed time by updating every second
               if (this.playing()) {
                 const currentTime = this.seek();
                 // seek is property of howl, finds current point 
@@ -48,10 +52,14 @@ const TestPlayer  = () => {
       return mixtapes;
     };
     const generatedStream = generateStream();
+    // set the state to the stream produced by above function
     setStream(generatedStream);
   }, []);
   
+  // just to examine properties etc
+  console.log(stream);
 
+  // this all needs refactoring, was more to test and illustrate functionality, not DRY
   const handlePlayClick = (event: MouseEvent<HTMLButtonElement>) => {
     console.log('play clicked')
     const currentMixtape = stream[streamIndex];
@@ -78,6 +86,7 @@ const TestPlayer  = () => {
 
   const handleNextClick = (event: MouseEvent<HTMLButtonElement>) => {
     console.log('next clicked');
+    // tried to do this with a currentMixtape state but didnt work as well
     const currentMixtape = stream[streamIndex];
     currentMixtape.stop();
     const newIndex = streamIndex + 1;
@@ -87,28 +96,44 @@ const TestPlayer  = () => {
     newMixtape.play();
   };
 
-
+  // super ssimple time formatting util function
   const formatTime = (seconds: number) => {
     return Math.floor(seconds / 60) + ':' + ('0' + Math.floor(seconds % 60)).slice(-2);
   };  
+
+  const handleVolumeUp = (event: MouseEvent<HTMLButtonElement>) => {  
+    const currentMixtape = stream[streamIndex];
+    if (currentMixtape.volume() === 1) { return } // cant go above 100
+    const newVolume = currentMixtape.volume()+0.05;
+    currentMixtape.volume(newVolume);
+  }
+
+  const handleVolumeDown = (event: MouseEvent<HTMLButtonElement>) => {  
+    const currentMixtape = stream[streamIndex];
+    if (currentMixtape.volume() === 0) { return } // cant go below 0
+    const newVolume = currentMixtape.volume()-0.05;
+    currentMixtape.volume(newVolume);
+  }
   
 
   return (
-    <div className="Player">
+    <div className="player">
       <h1>Channel #1</h1>
-      <div className="ProgressBar">
+      <div className="progress-bar">
         <p ref={durationRef}></p><p ref={totalDurationRef}></p>
       </div>
-      <div className="PlayerControls">
+      <div className="player-controls">
         <button type="button" onClick={handlePlayClick}>Play</button>
         <button type="button" onClick={handlePauseClick}>Pause</button>
         <button type="button" onClick={handleStopClick}>Stop</button>
         <button type="button" onClick={handleNextClick}>Next</button>
       </div>
-      <div className="VolumeControls">
-
+      <div className="volume-controls">
+        <p ref={volumeRef}></p>
+        <button type="button">Mute</button>
+        <button type="button" onClick={handleVolumeUp}>Volume Up</button>
+        <button type="button" onClick={handleVolumeDown}>Volume Down</button>
       </div>
-    
     </div>
   );
 };
