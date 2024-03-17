@@ -14,7 +14,7 @@ type MainContext = {
   setUser: Dispatch<SetStateAction<User>>;
 };
 
-const initialUser = {
+export const initialStateUser = {
   _id: '',
   username: '',
   email: '',
@@ -25,7 +25,7 @@ const initialUser = {
 };
 
 const initialContext = {
-  user: initialUser,
+  user: initialStateUser,
   setUser: () => {},
   setUserData: () => {
     return;
@@ -35,7 +35,7 @@ const initialContext = {
 const MainContext = createContext<MainContext>(initialContext);
 
 export default function ContextProvider({ children }: PropsWithChildren) {
-  const [user, setUser] = useState<User>(initialUser);
+  const [user, setUser] = useState<User>(initialStateUser);
 
   return (
     <MainContext.Provider
