@@ -3,7 +3,6 @@ import config from "../config/config";
 
 async function main () {
   try {
-    console.log('Database connection log 😍');
     await mongoose.connect(`${config.dbUrl}`);
     console.log('Database successfully connected to server 🚀');
   } catch (error) {

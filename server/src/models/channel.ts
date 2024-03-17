@@ -1,11 +1,11 @@
 import { InferSchemaType } from "mongoose";
 import mongoose from ".";
 
-export type groupType = InferSchemaType<typeof Group>;
+export type channelType = InferSchemaType<typeof Channel>;
 
 // defining data structure
-const Group = new mongoose.Schema({
-  name: String,
+const Channel = new mongoose.Schema({
+  name: { type: String, required: true },
   picture: String,
   owner: {
     type: mongoose.Schema.Types.ObjectId,
@@ -25,6 +25,6 @@ const Group = new mongoose.Schema({
   ],
 });
 
-const GroupModel = mongoose.model("groups", Group);
+const ChannelModel = mongoose.model("channels", Channel);
 
-export default GroupModel;
+export default ChannelModel;

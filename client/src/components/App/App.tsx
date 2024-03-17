@@ -1,21 +1,25 @@
-import './App.css'
-import TestPlayer from '../TestPlayer/TestPlayer'
-
-
 function App() {
 
+import { Outlet, Link } from 'react-router-dom';
 
+const App = () => {
   return (
     <>
-      <h1>Tape 📼</h1>
-      <p>Alastair 🎨</p>
-      <p>Asiye 👮</p>
-      <p>Jay 👩‍🏫</p>
-      <p>Joe 💿</p>
-      <p>Navad 🧭</p>
-      <TestPlayer />
+      <div id="temporary-navbar" >
+      <Link to={`/home`} >
+        <button>Link to Home</button>
+      </Link>
+      <Link to={`/dash`} >
+        <button>Link to Dashboard</button>
+      </Link>
+      <Link to={`/user`} >
+        <button>Link to Profile</button>
+      </Link>
+    </div>
+    <Outlet/>
     </>
   )
+
 }
 
-export default App
+export default App;
