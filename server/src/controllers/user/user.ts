@@ -57,8 +57,7 @@ export const login = async (req: Request, res: Response) => {
       });
     }
     // Find user by email
-    const user = await UserModel.findOne({ email: email }).populate('channels');
-    console.log(user);
+    const user = await UserModel.findOne({ email: email }).populate('channels').exec();
 
     // Check if user exists
     if (!user) {

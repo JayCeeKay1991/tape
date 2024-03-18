@@ -11,7 +11,8 @@ const ChannelList = () => {
   const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
-    console.log(user);
+    console.log('🦋', user);
+    console.log('💚', user.channels);
     if (user) setChannelList(user.channels);
   }, [user])
 

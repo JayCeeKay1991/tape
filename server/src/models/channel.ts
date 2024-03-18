@@ -9,22 +9,22 @@ const Channel = new mongoose.Schema({
   picture: String,
   owner: {
     type: mongoose.Schema.Types.ObjectId,
-    ref: "users",
+    ref: "User",
   },
   members: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "users",
+      ref: "User",
     },
   ],
   mixTapes: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "mixTapes",
+      ref: "MixTape",
     },
   ],
 });
 
-const ChannelModel = mongoose.model("channels", Channel);
+const ChannelModel = mongoose.model("channel", Channel);
 
 export default ChannelModel;

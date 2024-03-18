@@ -10,17 +10,17 @@ const MixTape = new mongoose.Schema({
   channels: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "channels",
+      ref: "Channel",
     },
   ],
   creator: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "users",
+      ref: "User",
     },
   ],
 });
 
-const MixTapeModel = mongoose.model("mixTapes", MixTape);
+const MixTapeModel = mongoose.model("mixTape", MixTape);
 
 export default MixTapeModel;
