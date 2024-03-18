@@ -1,7 +1,7 @@
 //import Nav from '../../components/Nav/Nav';
 import { useState } from 'react';
 import SignupForm from '../../components/SignupForm/SignupForm';
-import LoginForm from '../../components/Temp/Temp';
+import LoginForm from '../../components/LoginForm/LoginForm';
 import React from 'react';
 
 const Home = () => {
