@@ -1,12 +1,8 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import TestPlayer from "../../components/TestPlayer/TestPlayer";
 import { CloudinaryRes, postMusicToCloudinary } from "../../services/CloudinaryService";
-import { Channel as ChannelType }  from "../../types/Channel";
 import { useLocation } from "react-router-dom";
 
-interface LocationState {
-  channel: ChannelType;
-}
 
 const Channel = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -14,9 +10,8 @@ const Channel = () => {
   const [uploadComplete, setUploadComplete] = useState(false);
   const [cldResponse, setCldResponse] = useState<any>(null);
 
-  const location = useLocation<LocationState>();
+  const location = useLocation();
   const { channel } = location.state;
-
 
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
