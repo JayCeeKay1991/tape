@@ -25,9 +25,6 @@ const ChannelList = () => {
         <h3>Your streams</h3>
         <div id="channel-list-controls" >
           <button onClick={toggleAddForm} >Add channel</button>
-          <button>Last</button>
-          <button>Most replayed</button>
-          <button>List view / cards view</button>
         </div>
       </div>
       <div id="channel-list" >

@@ -1,17 +1,17 @@
 const cloudinaryCloudname = import.meta.env.VITE_CLOUDINARY_CLOUDNAME;
+const cloudinaryPreset = import.meta.env.VITE_CLOUDINARY_PRESET;
 const cloudinaryUrl = `https://api.cloudinary.com/v1_1/${cloudinaryCloudname}/image/upload`;
 
 
 // post the image of a channel or user to cloudinary
 export async function postImageToCloudinary(body: {
   file: File;
-  upload_preset: string;
   }
 ): Promise<string> {
 
   const formData = new FormData();
   formData.append('file', body.file);
-  formData.append('upload_preset', body.upload_preset);
+  formData.append('upload_preset', cloudinaryPreset);
 
   try {
     const response = await fetch(cloudinaryUrl, {
