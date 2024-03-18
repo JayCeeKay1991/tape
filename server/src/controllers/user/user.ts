@@ -1,50 +1,86 @@
-import { Request, Response } from "express";
-import UserModel from "../../models/user";
-import bcrypt from "bcrypt";
+import { Request, Response } from 'express';
+import UserModel from '../../models/user';
+import bcrypt from 'bcrypt';
 
-//create a new user
 export const createUser = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
+
+    // Check if the user already exists
     const userInDb = await UserModel.findOne({ email: email });
     if (userInDb)
       return res
         .status(409)
-        .send({ error: "409", message: "User already exists" });
-    if (password === "") console.error(Error());
+        .json({ error: '409', message: 'User already exists' });
+
+    // Check if password is empty
+    if (!password) {
+      return res
+        .status(400)
+        .json({ error: '400', message: 'Password is required' });
+    }
+
+    // Hash the password
     const hash = await bcrypt.hash(password, 10);
+
+    // Create a new user with hashed password
     const newUser = new UserModel({
-      ...req.body,
+      email,
       password: hash,
     });
+
+    // Save the new user to the database
     const user = await newUser.save();
-    res.status(201);
-    res.json(user);
+
+    // send the result
+    res.status(201).json(user);
   } catch (error) {
-    res.status(400);
-    res.send({ error, message: "Could not create user" });
+    // Handle any errors
+    console.error('Error creating user:', error);
+    res.status(500).json({ error: '500', message: 'Could not create user' });
   }
 };
 
-//Get User
+// getting the logged in user
 export const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
+
+    // Check if email and password are provided
     if (!email || !password) {
+      return res.status(400).json({
+        error: '400',
+        message: 'Please provide email and password',
+      });
+    }
+    // Find user by email
+    const user = await UserModel.findOne({ email: email });
+
+    // Check if user exists
+    if (!user) {
+      return res.status(404).json({
+        error: '404',
+        message: 'User not found.',
+      });
+    }
+    // Compare passwords
+    const isPasswordValid = await bcrypt.compare(password, user.password!);
+
+    // If password is invalid, return unauthorized status
+    if (!isPasswordValid) {
       return res
         .status(401)
-        .send("Bad request: Please provide email and password");
+        .json({ error: '401', message: 'Username or password is incorrect' });
     }
-    const user = await UserModel.findOne({ email: email });
-    if (!user) {
-      return res.status(400).send("No user found");
-    }
-    const validatedPass = await bcrypt.compare(password, user.password);
-    if (!validatedPass) console.error(Error());
-    res.status(200);
-    res.json(user);
+    // if everything correct, send the user
+    res.status(200).json(user);
   } catch (error) {
-    res.status(401);
-    res.send({ error: "401", message: "Username or password is incorrect" });
+    console.error('Error logging in user:', error);
+
+    res
+      .status(500)
+      .json({ error: '500', message: 'An unexpected error occurred' });
   }
 };
+
+export default { createUser, login };
