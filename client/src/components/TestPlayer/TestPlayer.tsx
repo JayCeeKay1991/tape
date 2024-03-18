@@ -17,6 +17,7 @@ const TestPlayer = () => {
   const durationRef = useRef<HTMLParagraphElement>(null); // ref to duration p element that will change
   const totalDurationRef = useRef<HTMLParagraphElement>(null); // ref to duration p that will show mixtapes total length
   const volumeRef = useRef<HTMLParagraphElement>(null); // ref to volume p that will show current vol
+  const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
     // create stream array from mixTapes
@@ -36,7 +37,11 @@ const TestPlayer = () => {
             }
             if (volumeRef.current) {
               // renders default 100% volume
-              volumeRef.current.textContent = (this.volume() * 100).toString();
+
+              const roundedVolume = Math.round(this.volume() * 100)
+                .toFixed(2)
+                .toString();
+              volumeRef.current.textContent = roundedVolume;
             }
             const timerId = setInterval(() => {
               // handles the rendering of the currently elapsed time by updating every second
@@ -61,9 +66,6 @@ const TestPlayer = () => {
     setStream(generatedStream);
   }, []);
 
-  // just to examine properties etc
-  // console.log(stream);
-
   // this all needs refactoring, was more to test and illustrate functionality, not DRY
   const handlePlayClick = (event: MouseEvent<HTMLButtonElement>) => {
     console.log('play clicked');
@@ -83,7 +85,6 @@ const TestPlayer = () => {
 
   const handleStopClick = (event: MouseEvent<HTMLButtonElement>) => {
     const currentMixtape = stream[streamIndex];
-    console.log(currentMixtape);
     console.log('stop clicked');
     if (currentMixtape.playing()) {
       currentMixtape.stop();
@@ -91,12 +92,12 @@ const TestPlayer = () => {
   };
 
   const handleNextClick = (event: MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
     console.log('next clicked');
     // tried to do this with a currentMixtape state but didnt work as well
     const currentMixtape = stream[streamIndex];
     currentMixtape.stop();
 
-    // console.log(streamIndex);
     if (streamIndex < stream.length - 1) {
       const newIndex = streamIndex + 1;
       setStreamIndex(newIndex);
@@ -114,6 +115,7 @@ const TestPlayer = () => {
 
   const handlePreviousClick = (event: MouseEvent<HTMLButtonElement>) => {
     console.log('Previous clicked');
+    event.stopPropagation();
 
     // stop the current one
     const currentMixtape = stream[streamIndex];
@@ -122,9 +124,7 @@ const TestPlayer = () => {
     //if streamIndex is greater or equal than 1, decrement it
     if (streamIndex >= 1) {
       const newIndex = streamIndex - 1;
-
       setStreamIndex(newIndex);
-
       const newMixTape = stream[newIndex];
       newMixTape.play();
       // else go to the end
@@ -152,9 +152,10 @@ const TestPlayer = () => {
     currentMixtape.volume(newVolume);
     if (volumeRef.current) {
       // renders new volume
-      volumeRef.current.textContent = Math.round(
-        currentMixtape.volume() * 100
-      ).toString();
+      const roundedVolume = Math.round(currentMixtape.volume() * 100)
+        .toFixed(2)
+        .toString();
+      volumeRef.current.textContent = roundedVolume;
     }
   };
 
@@ -164,9 +165,11 @@ const TestPlayer = () => {
     currentMixtape.volume(newVolume);
     if (volumeRef.current) {
       // renders new volume
-      volumeRef.current.textContent = Math.round(
-        currentMixtape.volume() * 100
-      ).toString();
+      const roundedVolume = Math.round(currentMixtape.volume() * 100)
+        .toFixed(2)
+        .toString();
+
+      volumeRef.current.textContent = roundedVolume;
     }
   };
 
