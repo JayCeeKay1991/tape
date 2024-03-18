@@ -85,18 +85,19 @@ const Home = () => {
           </h2>
         </section>
 
-        <section
-          id="feature3"
-          className="h-screen w-full bg-gradient-to-t from-tapePink to-tapeYellow"
-        >
-          <img id="feature-background3"></img>
-          <div id="feature-body3">
-            <div className="overflow-x-hidden">
-              <div className="py-12 animate-marquee whitespace-nowrap ">
-                <span className="text-9xl mx-4 font-medium">
-                  Sharing music Making mixtapes Playing tunes
-                </span>
-              </div>
+        <section id="feature3" className="h-screen w-full bg-gradient-to-t from-tapePink to-tapeYellow">
+          <div id="text-wrapper">
+            <div className="text-[200px] font-medium whitespace-nowrap">
+              <p>Sharing music Making mixtapes Playing tunes</p>
+            </div>
+            <div className="text-[200px] font-medium whitespace-nowrap">
+              <p>Sharing music Making mixtapes Playing tunes</p>
+            </div>
+            <div className="text-[200px] font-medium whitespace-nowrap">
+              <p>Sharing music Making mixtapes Playing tunes</p>
+            </div>
+            <div className="text-[200px] font-medium whitespace-nowrap">
+              <p>Sharing music Making mixtapes Playing tunes</p>
             </div>
           </div>
         </section>

@@ -6,7 +6,7 @@ export default {
       tapeYellow: "#BBF771",
       tapePink: "#FF65AA",
       tapeBlack: "#151515",
-      tapeOffBlack: "#1B1B1B",
+      tapeOffBlack: "#181818",
       tapeWhite: "#FFFFFF",
     },
     fontFamily: {
