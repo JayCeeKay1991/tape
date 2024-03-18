@@ -1,6 +1,7 @@
 import ChannelList from "../../components/ChannelList/ChannelList";
 import { useMainContext } from "../../components/Context/Context";
 import './Dash.css';
+import React from "react";
 
 const Dash = () => {
   const { user } = useMainContext();
