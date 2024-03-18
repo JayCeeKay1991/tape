@@ -7,32 +7,35 @@ import {
   PropsWithChildren,
 } from 'react';
 
-import { User } from '@app/types/User';
+import { User } from '../../types/User';
 
 type MainContext = {
   user: User;
   setUser: Dispatch<SetStateAction<User>>;
 };
 
-const initialUser = {
+export const initialStateUser = {
   _id: '',
-  username: '',
+  userName: '',
   email: '',
   password: '',
-  profilepic: '',
+  profilePic: '',
   channels: [],
-  mixtapes: [],
+  mixTapes: [],
 };
 
 const initialContext = {
-  user: initialUser,
+  user: initialStateUser,
   setUser: () => {},
+  setUserData: () => {
+    return;
+  },
 };
 
 const MainContext = createContext<MainContext>(initialContext);
 
 export default function ContextProvider({ children }: PropsWithChildren) {
-  const [user, setUser] = useState<User>(initialUser);
+  const [user, setUser] = useState<User>(initialStateUser);
 
   return (
     <MainContext.Provider

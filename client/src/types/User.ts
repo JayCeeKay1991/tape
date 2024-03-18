@@ -3,10 +3,10 @@ import { Mixtape } from "./Mixtape";
 
 export type User = {
   _id: string;
-  username: string;
+  userName: string;
   email: string;
   password: string;
-  profilepic: string;
+  profilePic: string;
   channels: Channel[];
-  mixtapes: Mixtape[];
+  mixTapes: Mixtape[];
 };

@@ -1,0 +1,16 @@
+#channel-list-wrap {
+  width: 70%
+}
+
+#channel-list-header {
+  display: flex;
+  height: 100px;
+  width: 100%;
+  align-items: center;
+  background-color: lightgrey;
+  justify-content: space-between;
+}
+
+#user-info {
+  width: 20%;
+}
