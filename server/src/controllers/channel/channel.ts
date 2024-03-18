@@ -3,11 +3,14 @@ import ChannelModel from "../../models/channel";
 
 export const createChannel = async (req: Request, res: Response) => {
   try {
-    const {name, picture, owner } = req.body
+    console.log(req.body);
+    const {name, picture, owner, members, mixTapes } = req.body
     const newChannel = new ChannelModel({
       name: name,
-      picture: picture,
-      owner: owner
+      picture: picture || '',
+      owner: owner || '',
+      members: members || [],
+      mixTapes: mixTapes || [],
     });
     newChannel.save();
     res.send(newChannel);
