@@ -5,6 +5,7 @@ import router from "../../router";
 import ChannelModel, { channelType } from "../../models/channel";
 import { describe, it, afterAll } from "@jest/globals";
 import { expect, beforeAll } from "@jest/globals";
+
 const Channels: Model<channelType> = ChannelModel;
 
 const dbName = "test";
