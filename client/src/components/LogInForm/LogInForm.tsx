@@ -69,7 +69,7 @@ function App() {
     // navigate('/home');
   };
 
-  // if logged in: showing dashboard, else: homepage- the navigation is missing and below is the conditional is placeholder at the moment-do we need the navigation and conditional below, not sure?
+  // if logged in: showing dashboard, else: homepage- the navigation is missing and below is the conditional is placeholder at the moment
   return (
     <>
       {user?._id ? (

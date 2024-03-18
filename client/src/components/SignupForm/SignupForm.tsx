@@ -56,7 +56,7 @@ const SignupForm = () => {
     // navigate('/dash');
   };
 
-  // do we need conditional below? for showing the rendered stuff, check with others
+  // do we need conditional below?
   return (
     <form className="signUpForm" onSubmit={handleSignup}>
       <h2>Sign up</h2>
