@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useMainContext } from '../Context/Context';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { signUp } from '../../services/UserClientService';
 import './SignupForm.css';
 
@@ -19,7 +19,7 @@ const initialStateUser = {
 const SignupForm = () => {
   const { user, setUser } = useMainContext();
 
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
   const [formValuesUser, setFormValuesUser] =
     useState<FormValuesUser>(initialStateUser);
 
@@ -53,7 +53,7 @@ const SignupForm = () => {
     }
 
     // SET navigation to Dashboard
-    // navigate('/dash');
+    navigate('/dash');
   };
 
   // do we need conditional below?
