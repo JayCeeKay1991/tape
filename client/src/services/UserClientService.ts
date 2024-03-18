@@ -4,7 +4,7 @@ import { FormValuesUser } from '../components/SignupForm/SignupForm';
 import { FormValuesUserLogin } from '../components/LoginForm/LoginForm';
 
 // Sign up new user
-export const signUp = async (body: FormValuesUser) => {
+export const signup = async (body: FormValuesUser) => {
   try {
     return await apiClient<User>('users', 'POST', body);
   } catch (error) {
@@ -13,7 +13,7 @@ export const signUp = async (body: FormValuesUser) => {
 };
 
 // log in existing user
-export const logIn = async (body: FormValuesUserLogin) => {
+export const login = async (body: FormValuesUserLogin) => {
   try {
     return await apiClient<User>('users/login', 'POST', body);
   } catch (error) {
