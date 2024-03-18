@@ -8,6 +8,7 @@ import Dash from './routes/Dash/Dash';
 import Profile from './routes/Profile/Profile';
 import TestPlayer from './components/TestPlayer/TestPlayer';
 import './index.css';
+import Nav from './components/Nav/Nav';
 
 
 const router = createBrowserRouter([
@@ -38,6 +39,7 @@ const router = createBrowserRouter([
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <ContextProvider>
+      <App />
       <RouterProvider router={router} />
     </ContextProvider>
   </React.StrictMode>
