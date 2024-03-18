@@ -15,7 +15,7 @@ const initialStateUserLogin = {
 };
 
 function LoginForm() {
-  const { user, setUser } = useMainContext();
+  const { setUser } = useMainContext();
   const navigate = useNavigate();
 
   const [formValuesUserLogin, setFormValuesUserLogin] =
