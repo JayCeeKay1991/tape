@@ -9,7 +9,7 @@ function App() {
       <p>Asiye 👮</p>
       <p>Jay 👩‍🏫</p>
       <p>Joe 💿</p>
-      <p>Navad 🧭</p>
+      <p>Nadav 🧭</p>
     </>
   )
 }
