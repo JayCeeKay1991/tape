@@ -1,13 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TestPlayer from "../../components/TestPlayer/TestPlayer";
 import { CloudinaryRes, postMusicToCloudinary } from "../../services/CloudinaryService";
+import { Channel as ChannelType }  from "../../types/Channel";
+import { useLocation } from "react-router-dom";
 
+interface LocationState {
+  channel: ChannelType;
+}
 
 const Channel = () => {
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [uploadComplete, setUploadComplete] = useState(false);
   const [cldResponse, setCldResponse] = useState<any>(null);
+
+  const location = useLocation<LocationState>();
+  const { channel } = location.state;
+
+
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const {files} = e.target;
@@ -64,6 +74,7 @@ const Channel = () => {
 
   return (
     <>
+    <h1>{channel.name}</h1>
     <form>
       <h2>Add a mixtape! 📼</h2>
       <input name="file" type="file" onChange={changeHandler} ></input>

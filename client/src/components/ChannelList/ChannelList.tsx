@@ -5,6 +5,7 @@ import AddChannelForm from '../AddChannelForm/AddChannelForm';
 import { Channel } from '../../types/Channel';
 import './ChannelList.css';
 
+
 const ChannelList = () => {
   const { user } = useMainContext();
   const [channelList, setChannelList] = useState<Channel[]>([]);

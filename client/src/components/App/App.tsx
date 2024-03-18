@@ -13,8 +13,8 @@ const App = () => {
       <Link to={`/user`} >
         <button>Link to Profile</button>
       </Link>
-      <Link to={`/channel`} >
-        <button>Link to Channel</button>
+      <Link to={`/channels/65f8471ba7be5037549bfc44`} >
+        <button>Link to one Example Channel</button>
       </Link>
     </div>
     <Outlet/>
