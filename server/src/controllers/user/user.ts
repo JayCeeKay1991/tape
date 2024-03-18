@@ -92,6 +92,10 @@ export const editUser = async (req: Request, res: Response) => {
     const id = req.params.id;
     const { userName, email, password, profilePic, channels, mixTapes } =
       req.body;
+    if (password) {
+      const hash = await bcrypt.hash(password, 10);
+      req.body.password = hash;
+    }
     const updatedUser = await UserModel.findOneAndUpdate(
       { _id: id },
       {
@@ -106,8 +110,7 @@ export const editUser = async (req: Request, res: Response) => {
       },
       { new: true }
     );
-    res.status(201);
-    res.send(updatedUser);
+    res.status(201).send(updatedUser);
   } catch (error) {
     console.error(error);
     res.status(500);
