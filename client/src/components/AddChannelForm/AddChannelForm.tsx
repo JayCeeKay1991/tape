@@ -26,7 +26,6 @@ const AddChannelForm = ({setChannelList, setShowForm}:propsType) => {
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, files } = e.target;
-    console.log('💚', files);
     if (type === 'file' && files) {
       setPictureFile(files[0]); // Set the image file
     } else setFormValues({ ...formValues, [name]: value });
@@ -42,7 +41,6 @@ const AddChannelForm = ({setChannelList, setShowForm}:propsType) => {
           file: pictureFile,
           upload_preset: 'nwvjjpdw',
         });
-        console.log('🦊', pictureUrl);
       } catch (error) {
         console.error(error);
       }
@@ -54,7 +52,6 @@ const AddChannelForm = ({setChannelList, setShowForm}:propsType) => {
     };
 
     try {
-      console.log('🦋', newChannelData);
       const newChannel = await createChannel(newChannelData);
       setChannelList((prevList:Channel[]) => [...prevList, newChannel]);
       setFormValues(initialState);

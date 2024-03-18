@@ -13,7 +13,7 @@ const ChannelList = () => {
   useEffect(() => {
     console.log(user);
     if (user) setChannelList(user.channels);
-  }, [])
+  }, [user])
 
 
   const toggleAddForm = () => {

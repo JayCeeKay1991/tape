@@ -7,8 +7,6 @@ export async function postImageToCloudinary(body: {
   file: File;
   upload_preset: string;
   }
-
-
 ): Promise<string> {
 
   const formData = new FormData();
