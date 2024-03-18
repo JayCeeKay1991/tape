@@ -1,5 +1,3 @@
-function App() {
-
 import { Outlet, Link } from 'react-router-dom';
 
 const App = () => {
@@ -14,6 +12,9 @@ const App = () => {
       </Link>
       <Link to={`/user`} >
         <button>Link to Profile</button>
+      </Link>
+      <Link to={`/channel`} >
+        <button>Link to Channel</button>
       </Link>
     </div>
     <Outlet/>

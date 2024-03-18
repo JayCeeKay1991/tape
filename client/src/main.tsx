@@ -6,6 +6,7 @@ import App from './components/App/App';
 import Home from './routes/Home/Home';
 import Dash from './routes/Dash/Dash';
 import Profile from './routes/Profile/Profile';
+import TestPlayer from './components/TestPlayer/TestPlayer';
 import './index.css';
 
 
@@ -25,6 +26,10 @@ const router = createBrowserRouter([
       {
         path: '/user',
         element: <Profile />,
+      },
+      {
+        path: '/channel',
+        element: <TestPlayer />,
       }
     ],
   },
