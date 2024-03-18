@@ -1,12 +1,16 @@
-import { useState } from "react";
+import { Dispatch, useState, SetStateAction } from "react";
 import { Channel } from "../../types/Channel";
 import { useMainContext } from "../Context/Context";
 import { createChannel } from "../../services/ChannelService";
 
 type FormValues = Omit<Channel, '_id'>;
+type propsType = {
+  setShowForm: Dispatch<SetStateAction<boolean>>;
+  setChannelList: Dispatch<SetStateAction<Channel[]>>;
+};
 
-const AddChannelForm = ({setChannelList, setShowForm}) => {
-  const { user, setUser } = useMainContext();
+const AddChannelForm = ({setChannelList, setShowForm}:propsType) => {
+  const { user } = useMainContext();
 
   const initialState = {
   name: '',
