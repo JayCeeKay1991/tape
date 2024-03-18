@@ -3,8 +3,7 @@ import supertest from "supertest";
 import mongoose from "mongoose";
 import router from "../../router";
 import UserModel from "../../models/user";
-import { describe, afterEach, it, afterAll } from "@jest/globals";
-import { expect, beforeAll } from "@jest/globals";
+import { describe, afterEach, it, afterAll, expect, beforeAll} from "@jest/globals";
 
 const mockUser = {
   userName: "mock",
@@ -51,7 +50,7 @@ describe("User Controller", () => {
       })
   });
 
-  it("should not created User without password", async () => {
+  it("should not created User without email", async () => {
     await request.post("/users").send(mockUser2)
       .then(response => {
         expect(response.status).toBe(400);
