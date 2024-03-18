@@ -8,7 +8,12 @@
     }
 
     button {
-        @apply bg-tapeOrange rounded-full p-4 text-tapeGreen;
+        @apply bg-white rounded-full p-4 text-tapeBlack;
     }
+
+    input {
+        @apply bg-white border-tapeBlack;
+    }
+
 }
 

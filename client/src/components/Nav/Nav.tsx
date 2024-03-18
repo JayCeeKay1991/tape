@@ -1,14 +1,15 @@
-import { useState } from 'react';
 import './Nav.css'
 
 export function Nav() {
 
-    const [isOpen, setIsOpen] = useState;
-
     return (
-      <nav className="w-full h-20 bg-tapeBlack fixed top-0 left-0 flex flex-row items-center">
-            <p className=" text-tapeGreen">Logo</p>
-            <button>hello</button>
+      <nav className="w-full h-20 bg-tapeBlack fixed top-0 left-0 flex flex-row items-center justify-between pr-5 pl-5">
+        <a className=" text-white">Tape</a>
+        <ul className="flex flex-row text-white">
+          <li className="pr-5 ">Channels</li>
+          <li className="pr-5 ">Interactivty</li>
+          <li className="pr-5 ">Login</li>
+        </ul>
       </nav>
     );
 }

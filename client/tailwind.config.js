@@ -8,6 +8,7 @@ export default {
       tapePink: "#EE87B5",
       tapeBlack: "#151515",
       tapeOffBlack: "#1B1B1B",
+      white: "#FFFFFF",
     },
     extend: {},
   },
