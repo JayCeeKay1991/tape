@@ -1,4 +1,5 @@
 import { Channel } from "../../types/Channel"
+import { useNavigate } from "react-router"
 
 
 type ChannelItemProps = {
@@ -7,8 +8,15 @@ type ChannelItemProps = {
 
 const ChannelItem = ({channel}:ChannelItemProps) => {
 
+  const navigate = useNavigate();
+  const navigateToChannel = () => {
+    const id = channel._id;
+    navigate(`/channels/${id}`);
+  }
+
   return (
-    <div>
+    <div id="channel-item-wrap" >
+      <button onClick={navigateToChannel} ></button>
       <img>{channel.picture}</img>
       <h3>{channel.name}</h3>
       <div id="channel-item-footer" >
@@ -19,6 +27,7 @@ const ChannelItem = ({channel}:ChannelItemProps) => {
         </div>
         <p>duration</p>
       </div>
+
     </div>
   )
 

@@ -8,5 +8,5 @@ export type User = {
   password: string;
   profilePic: string;
   channels: Channel[];
-  mixtapes: Mixtape[];
+  mixTapes: Mixtape[];
 };

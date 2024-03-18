@@ -9,14 +9,18 @@ const ChannelList = () => {
   const [channelList, setChannelList] = useState<Channel[]>([]);
 
   useEffect(() => {
+    console.log(user);
     if (user) setChannelList(user.channels);
   }, [])
+
+
 
   return (
     <div id="channel-list-wrap" >
       <div id="channel-list-header" >
         <h3>Your streams</h3>
         <div id="channel-list-controls" >
+          <button>Add channel</button>
           <button>Last</button>
           <button>Most replayed</button>
           <button>List view / cards view</button>

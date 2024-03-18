@@ -16,12 +16,12 @@ type MainContext = {
 
 export const initialStateUser = {
   _id: '',
-  username: '',
+  userName: '',
   email: '',
   password: '',
-  profilepic: '',
+  profilePic: '',
   channels: [],
-  mixtapes: [],
+  mixTapes: [],
 };
 
 const initialContext = {
