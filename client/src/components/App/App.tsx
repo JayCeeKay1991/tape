@@ -1,9 +1,11 @@
-import { Outlet, Link } from 'react-router-dom';
+import { Outlet } from 'react-router-dom';
+import AppNav from '../AppNav/AppNav';
 
 const App = () => {
   return (
     <>
-      <div id="temporary-navbar" >
+    <AppNav />
+      {/* <div id="temporary-navbar" >
       <Link to={`/home`} >
         <button>Link to Home</button>
       </Link>
@@ -16,7 +18,7 @@ const App = () => {
       <Link to={`/channels/65f8471ba7be5037549bfc44`} >
         <button>Link to one Example Channel</button>
       </Link>
-    </div>
+    </div> */}
     <Outlet/>
     </>
   )
