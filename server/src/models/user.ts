@@ -5,14 +5,14 @@ export type userType = InferSchemaType<typeof User>;
 
 // defining data structure
 const User = new mongoose.Schema({
-  userName: String,
-  email: String,
-  password: String,
+  userName: { type: String, required: true },
+  email: { type: String, required: true },
+  password: { type: String, required: true },
   profilePic: String,
-  groups: [
+  channels: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "groups",
+      ref: "channels",
       required: false,
     },
   ],
