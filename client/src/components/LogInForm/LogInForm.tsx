@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useMainContext, initialStateUser } from '../Context/Context';
 import { useNavigate } from 'react-router-dom';
 import { logIn } from '../../services/UserClientService';
-import './LogInForm.css';
+import './LoginForm.css';
 
 export type FormValuesUserLogin = {
   email: string;
@@ -50,7 +50,7 @@ function LoginForm() {
     navigate('/dash');
   };
 
-  // logout function redirects to homepage
+  // logout function redirects to homepage, will be moved to nav bar
 
   const handleLogout = async () => {
     setUser(initialStateUser);

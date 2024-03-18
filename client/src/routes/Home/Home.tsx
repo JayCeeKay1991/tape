@@ -1,6 +1,7 @@
 //import Nav from '../../components/Nav/Nav';
 import { useState } from 'react';
 import SignupForm from '../../components/SignupForm/SignupForm';
+import LoginForm from '../../components/LoginForm/LoginForm';
 
 const Home = () => {
   const [showSignup, setShowSignup] = useState(false);
@@ -11,6 +12,7 @@ const Home = () => {
 
   return (
     <>
+    <LoginForm/>
       <div id="hero-wrap">
         <img id="hero-background" ></img>
         <div  id="hero-body" >
