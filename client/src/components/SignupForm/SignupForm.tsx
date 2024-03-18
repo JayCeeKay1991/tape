@@ -5,13 +5,13 @@ import { signUp } from '../../services/UserClientService';
 import './SignupForm.css';
 
 export type FormValuesUser = {
-  username: string;
+  userName: string;
   email: string;
   password: string;
 };
 
 const initialStateUser = {
-  username: '',
+  userName: '',
   email: '',
   password: '',
 };
@@ -32,9 +32,9 @@ const SignupForm = () => {
   const handleSignup = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    const { username, email, password } = formValuesUser;
+    const { userName, email, password } = formValuesUser;
     const signupData = {
-      username,
+      userName,
       email,
       password,
     };
@@ -62,7 +62,7 @@ const SignupForm = () => {
       <h2>Sign up</h2>
       <input
         name="username"
-        value={formValuesUser.username}
+        value={formValuesUser.userName}
         type="text"
         placeholder="username"
         onChange={changeHandler}
