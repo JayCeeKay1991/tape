@@ -11,9 +11,8 @@ const ChannelList = () => {
   const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
-    console.log(user);
     if (user) setChannelList(user.channels);
-  }, [])
+  }, [user])
 
 
   const toggleAddForm = () => {
@@ -32,7 +31,7 @@ const ChannelList = () => {
         </div>
       </div>
       <div id="channel-list" >
-        {channelList.length ? channelList.map(channel => <ChannelItem key={channel._id} channel={channel}/>) : <p>No channels yet.</p>}
+        {channelList.length ? channelList.map(channel => <ChannelItem key={channel._id} channel={channel}/>) : 'No channels yet.'}
       </div>
       {
         showForm ? <AddChannelForm setChannelList={setChannelList} setShowForm={setShowForm} /> : <></>
