@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useMainContext } from '../Context/Context';
 import { useNavigate } from 'react-router-dom';
-import { signUp } from '../../services/UserClientService';
+import { signup } from '../../services/UserClientService';
 import './SignupForm.css';
 
 export type FormValuesUser = {
@@ -40,7 +40,7 @@ const SignupForm = () => {
     };
 
     // make service call signup function
-    const newUser = await signUp(signupData);
+    const newUser = await signup(signupData);
 
     // set user to the signed up user
     newUser && setUser(newUser);
@@ -49,7 +49,7 @@ const SignupForm = () => {
 
     // set the localstorage to the new user id
     if (newUser) {
-      localStorage.setItem('loggedInUser', newUser._id);
+      localStorage.setItem('loggedinUser', newUser._id);
     }
 
     // SET navigation to Dashboard
@@ -58,10 +58,10 @@ const SignupForm = () => {
 
   // do we need conditional below?
   return (
-    <form className="signUpForm" onSubmit={handleSignup}>
+    <form className="signup-Form" onSubmit={handleSignup}>
       <h2>Sign up</h2>
       <input
-        name="username"
+        name="userName"
         value={formValuesUser.userName}
         type="text"
         placeholder="username"
