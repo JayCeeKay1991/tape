@@ -1,9 +1,6 @@
 import { MouseEvent, useEffect, useState, useRef} from "react";
 import { Howl } from "howler";
 
-/* So actually the main error I'm getting with this is that the html5 audiopool is exhausted, and just found a stack overflow thread that talks
-about this error with Howler and suggested the solution is to do it using the native html audio tag, so could maybe try that unless someone else finds a solution */
-
 const testUrl1 = 'https://res.cloudinary.com/ddj3xjxrc/video/upload/v1710529539/D.J._Poizen_Visits_Kool_Kyle_Side_A_ncjkhb.mp3'
 const testUrl2 = `https://res.cloudinary.com/ddj3xjxrc/video/upload/v1710529445/podcast_mark-mendoza-podcast_1988-mixtape_1000413811719_ts9qep.mp3`
 
@@ -40,7 +37,7 @@ const TestPlayer  = () => {
               // handles the rendering of the currently elapsed time by updating every second
               if (this.playing()) {
                 const currentTime = this.seek();
-                // seek is property of howl, finds current point 
+                // seek is property of howl, finds current point
                 if (durationRef.current) {
                   durationRef.current.textContent = formatTime(Math.round(currentTime));
                 }
@@ -56,7 +53,7 @@ const TestPlayer  = () => {
     // set the state to the stream produced by above function
     setStream(generatedStream);
   }, []);
-  
+
   // just to examine properties etc
   console.log(stream);
 
@@ -100,9 +97,9 @@ const TestPlayer  = () => {
   // super ssimple time formatting util function
   const formatTime = (seconds: number) => {
     return Math.floor(seconds / 60) + ':' + ('0' + Math.floor(seconds % 60)).slice(-2);
-  };  
+  };
 
-  const handleVolumeUp = (event: MouseEvent<HTMLButtonElement>) => {  
+  const handleVolumeUp = (event: MouseEvent<HTMLButtonElement>) => {
     const currentMixtape = stream[streamIndex];
     const newVolume = Math.min(currentMixtape.volume() + 0.05, 1);
     currentMixtape.volume(newVolume);
@@ -112,7 +109,7 @@ const TestPlayer  = () => {
     }
   }
 
-  const handleVolumeDown = (event: MouseEvent<HTMLButtonElement>) => {  
+  const handleVolumeDown = (event: MouseEvent<HTMLButtonElement>) => {
     const currentMixtape = stream[streamIndex];
     const newVolume = Math.max(currentMixtape.volume() - 0.05, 0);
     currentMixtape.volume(newVolume);
@@ -133,7 +130,7 @@ const TestPlayer  = () => {
       setMuted(true)
     }
   }
-  
+
 
   return (
     <div className="player">

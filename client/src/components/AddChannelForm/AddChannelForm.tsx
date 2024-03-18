@@ -38,8 +38,7 @@ const AddChannelForm = ({setChannelList, setShowForm}:propsType) => {
     if (pictureFile) {
       try {
         pictureUrl = await postImageToCloudinary({
-          file: pictureFile,
-          upload_preset: 'nwvjjpdw',
+          file: pictureFile
         });
       } catch (error) {
         console.error(error);
