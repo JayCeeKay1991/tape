@@ -25,6 +25,6 @@ const Channel = new mongoose.Schema({
   ],
 });
 
-const ChannelModel = mongoose.model("channel", Channel);
+const ChannelModel = mongoose.model("Channel", Channel);
 
 export default ChannelModel;

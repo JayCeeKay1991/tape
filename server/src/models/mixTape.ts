@@ -21,6 +21,6 @@ const MixTape = new mongoose.Schema({
   ],
 });
 
-const MixTapeModel = mongoose.model("mixTape", MixTape);
+const MixTapeModel = mongoose.model("MixTape", MixTape);
 
 export default MixTapeModel;
