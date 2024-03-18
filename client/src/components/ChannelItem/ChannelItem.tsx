@@ -16,7 +16,7 @@ const ChannelItem = ({channel}:ChannelItemProps) => {
 
   return (
     <div id="channel-item-wrap" >
-      <button onClick={navigateToChannel} ></button>
+      <button onClick={navigateToChannel} >To Channel</button>
       <img>{channel.picture}</img>
       <h3>{channel.name}</h3>
       <div id="channel-item-footer" >

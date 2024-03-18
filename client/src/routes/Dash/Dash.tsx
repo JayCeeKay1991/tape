@@ -9,7 +9,7 @@ const Dash = () => {
     <div  id="dash-wrap">
       <div id="user-info" >
         <img src={user.profilePic} />
-        <p>{user.userName}user-info-placeholder</p>
+        <p>Welcome {user.userName}</p>
       </div>
       <ChannelList/>
     </div>
