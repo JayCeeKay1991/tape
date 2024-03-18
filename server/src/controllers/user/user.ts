@@ -4,16 +4,15 @@ import bcrypt from "bcrypt";
 
 export const createUser = async (req: Request, res: Response) => {
   try {
-
     const { email, password } = req.body;
-    
-      // Check if email and password are provided
-      if (!email || !password) {
-        return res.status(400).json({
-          error: '400',
-          message: 'Please provide email and password',
-        });
-      }
+
+    // Check if email and password are provided
+    if (!email || !password) {
+      return res.status(400).json({
+        error: "400",
+        message: "Please provide email and password",
+      });
+    }
 
     // Check if the user already exists
     const userInDb = await UserModel.findOne({ email: email });
@@ -42,12 +41,10 @@ export const createUser = async (req: Request, res: Response) => {
     const user = await newUser.save();
     // send the result
     res.status(201).json(user);
-
-    
   } catch (error) {
     // Handle any errors
     // console.error('Error creating user:', error);
-    res.status(500).json('Error creating user')
+    res.status(500).json("Error creating user");
   }
 };
 
@@ -65,7 +62,9 @@ export const login = async (req: Request, res: Response) => {
     }
     // Find user by email
 
-    const user = await UserModel.findOne({ email: email }).populate('channels').exec();
+    const user = await UserModel.findOne({ email: email })
+      .populate("channels")
+      .exec();
 
     // Check if user exists
     if (!user) {
@@ -87,7 +86,7 @@ export const login = async (req: Request, res: Response) => {
     res.status(200).json(user);
   } catch (error) {
     // console.error('Error logging in user:', error);
-    res.status(500).json('Error logging in user');
+    res.status(500).json("Error logging in user");
   }
 };
 
@@ -99,6 +98,12 @@ export const editUser = async (req: Request, res: Response) => {
     if (password) {
       const hash = await bcrypt.hash(password, 10);
       req.body.password = hash;
+    }
+    if (!email || !password || !userName) {
+      return res.status(400).json({
+        error: "400",
+        message: "Please provide email and password",
+      });
     }
     const updatedUser = await UserModel.findOneAndUpdate(
       { _id: id },
