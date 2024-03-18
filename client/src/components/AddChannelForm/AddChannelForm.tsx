@@ -24,13 +24,13 @@ const AddChannelForm = ({setChannelList, setShowForm}:propsType) => {
   const [formValues, setFormValues] = useState<FormValues>(initialState);
   const [pictureFile, setPictureFile] = useState<File | null>(null);
 
-  function changeHandler(e: React.ChangeEvent<HTMLInputElement>) {
+  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, files } = e.target;
+    console.log('💚', files);
     if (type === 'file' && files) {
       setPictureFile(files[0]); // Set the image file
     } else setFormValues({ ...formValues, [name]: value });
   }
-
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -40,8 +40,9 @@ const AddChannelForm = ({setChannelList, setShowForm}:propsType) => {
       try {
         pictureUrl = await postImageToCloudinary({
           file: pictureFile,
-          upload_preset: 'nwjjpdw',
+          upload_preset: 'nwvjjpdw',
         });
+        console.log('🦊', pictureUrl);
       } catch (error) {
         console.error(error);
       }
@@ -53,6 +54,7 @@ const AddChannelForm = ({setChannelList, setShowForm}:propsType) => {
     };
 
     try {
+      console.log('🦋', newChannelData);
       const newChannel = await createChannel(newChannelData);
       setChannelList((prevList:Channel[]) => [...prevList, newChannel]);
       setFormValues(initialState);
