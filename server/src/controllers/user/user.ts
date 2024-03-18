@@ -4,7 +4,16 @@ import bcrypt from "bcrypt";
 
 export const createUser = async (req: Request, res: Response) => {
   try {
+
     const { email, password } = req.body;
+    
+      // Check if email and password are provided
+      if (!email || !password) {
+        return res.status(400).json({
+          error: '400',
+          message: 'Please provide email and password',
+        });
+      }
 
     // Check if the user already exists
     const userInDb = await UserModel.findOne({ email: email });
@@ -31,13 +40,14 @@ export const createUser = async (req: Request, res: Response) => {
 
     // Save the new user to the database
     const user = await newUser.save();
-
     // send the result
     res.status(201).json(user);
+
+    
   } catch (error) {
     // Handle any errors
-    console.error("Error creating user:", error);
-    res.status(500).json({ error: "500", message: "Could not create user" });
+    // console.error('Error creating user:', error);
+    res.status(500).json('Error creating user')
   }
 };
 
@@ -55,10 +65,7 @@ export const login = async (req: Request, res: Response) => {
     }
     // Find user by email
 
-    const user = await UserModel.findOne({ email: email })
-      .populate("channels")
-      .exec();
-    console.log("🦋", user);
+    const user = await UserModel.findOne({ email: email }).populate('channels').exec();
 
     // Check if user exists
     if (!user) {
@@ -79,11 +86,8 @@ export const login = async (req: Request, res: Response) => {
     // if everything correct, send the user
     res.status(200).json(user);
   } catch (error) {
-    console.error("Error logging in user:", error);
-
-    res
-      .status(500)
-      .json({ error: "500", message: "An unexpected error occurred" });
+    // console.error('Error logging in user:', error);
+    res.status(500).json('Error logging in user');
   }
 };
 
