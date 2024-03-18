@@ -2,6 +2,7 @@ import { Dispatch, useState, SetStateAction } from "react";
 import { Channel } from "../../types/Channel";
 import { useMainContext } from "../Context/Context";
 import { createChannel } from "../../services/ChannelService";
+import { postImageToCloudinary } from "../../services/CloudinaryService";
 
 type FormValues = Omit<Channel, '_id'>;
 type propsType = {

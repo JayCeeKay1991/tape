@@ -26,10 +26,7 @@ export const initialStateUser = {
 
 const initialContext = {
   user: initialStateUser,
-  setUser: () => {},
-  setUserData: () => {
-    return;
-  },
+  setUser: () => {}
 };
 
 const MainContext = createContext<MainContext>(initialContext);

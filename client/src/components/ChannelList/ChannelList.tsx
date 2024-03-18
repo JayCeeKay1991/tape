@@ -35,7 +35,7 @@ const ChannelList = () => {
         {channelList.length ? channelList.map(channel => <ChannelItem key={channel._id} channel={channel}/>) : <p>No channels yet.</p>}
       </div>
       {
-        showForm ? <AddChannelForm setChannelList={setChannelList} /> : <></>
+        showForm ? <AddChannelForm setChannelList={setChannelList} setShowForm={setShowForm} /> : <></>
       }
     </div>
   )
