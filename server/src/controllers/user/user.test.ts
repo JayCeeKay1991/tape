@@ -1,15 +1,21 @@
 import express from "express";
 import supertest from "supertest";
-import mongoose, { Model } from "mongoose";
+import mongoose from "mongoose";
 import router from "../../router";
 import UserModel from "../../models/user";
 import { describe, afterEach, it, afterAll } from "@jest/globals";
 import { expect, beforeAll } from "@jest/globals";
-import bcrypt from "bcrypt";
 
 const mockUser = {
   userName: "mock",
   email: "test@example.com",
+  password: "123",
+  profilePic: "",
+};
+
+const mockUser2 = {
+  userName: "mock",
+  email: "",
   password: "123",
   profilePic: "",
 };
@@ -37,22 +43,37 @@ describe("User Controller", () => {
 
   it("should create new User in the DB", async () => {
     await request.post("/users").send(mockUser)
-    
-    return await UserModel.findOne({ userName: mockUser.userName})
+
+    return await UserModel.findOne({ userName: mockUser.userName })
       .then(user => {
         expect(user?.userName).toBe(mockUser.userName)
         expect(user?.email).toBe(mockUser.email)
       })
   });
 
+  it("should not created User without password", async () => {
+    await request.post("/users").send(mockUser2)
+      .then(response => {
+        expect(response.status).toBe(400);
+      })
+  })
 
   it("should login user", async () => {
     await request.post("/users").send(mockUser)
 
-    return await request.post('/users/login').send({email: mockUser.email, password: mockUser.password})
+    return await request.post('/users/login').send({ email: mockUser.email, password: mockUser.password })
       .then(response => {
         expect(response?.status).toBe(200)
       })
-  })
+  });
 
+  it("should not login with incorrect credentials", async () => {
+    await request.post("/users").send(mockUser)
+
+    return await request.post('/users/login').send({ email: mockUser.email, password: 'wrongpw' })
+    .then(response => {
+      expect(response?.status).toBe(401)
+    })
+  })
+  
 })
