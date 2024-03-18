@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useMainContext, initialStateUser } from '../Context/Context';
 import { useNavigate } from 'react-router-dom';
-import { logIn } from '../../services/UserClientService';
+import { login } from '../../services/UserClientService';
 import './LoginForm.css';
 
 export type FormValuesUserLogin = {
@@ -33,17 +33,17 @@ function LoginForm() {
     const loginData = { email, password };
 
     // make service call login function
-    const loggedInUser = await logIn(loginData);
+    const loggedinUser = await login(loginData);
 
     // set user to the logged in user
-    loggedInUser && setUser(loggedInUser);
+    loggedinUser && setUser(loggedinUser);
 
     // empty the form
     setFormValuesUserLogin(initialStateUserLogin);
 
     // set the localstorage to the logged in user id
-    if (loggedInUser) {
-      localStorage.setItem('loggedInUser', loggedInUser._id);
+    if (loggedinUser) {
+      localStorage.setItem('loggedinUser', loggedinUser._id);
     }
 
     // SET navigation to Dashboard
@@ -84,7 +84,7 @@ function LoginForm() {
         </button>
       </form>
     </>
-  )
+  );
 }
 
 export default LoginForm;
