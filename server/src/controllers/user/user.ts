@@ -63,7 +63,13 @@ export const login = async (req: Request, res: Response) => {
     // Find user by email
 
     const user = await UserModel.findOne({ email: email })
-      .populate("channels")
+    .populate({
+      path: 'channels',
+      populate: {
+        path: 'mixTapes',
+        model: 'MixTape'
+      }
+    })
       .exec();
 
     // Check if user exists

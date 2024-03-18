@@ -10,3 +10,8 @@ export const getChannelsByUser = async (userId:string) => {
 export const createChannel = async (body:Omit<Channel, '_id'>) => {
   return await apiClient<Channel>('channels', 'POST', body);
 }
+
+// Edit channel
+export const editChannel = async (id:string, body:Channel) => {
+  return await apiClient<Channel>(`channels/${id}`, 'PUT', body);
+}
