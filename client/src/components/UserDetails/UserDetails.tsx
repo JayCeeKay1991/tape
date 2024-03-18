@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react';
 import { useMainContext } from '../Context/Context';
 
-// import user from 'context';
-
 export default function UserDetails() {
   const { user } = useMainContext();
-  console.log(user);
   return (
     <div>
       <h2>userDetails</h2>
@@ -33,21 +30,3 @@ export default function UserDetails() {
     </div>
   );
 }
-// export type MixTape = {
-//   _id: string;
-//   name: string;
-//   url: string;
-//   channels: Channel[];
-//   creator: User;
-// };
-
-
-// type userType = {
-//     _id: string;
-//     username: string;
-//     email: string;
-//     password: string;
-//     profilepic: string;
-//     groups: string[];
-//     mixtapes: string[];
-//   };
