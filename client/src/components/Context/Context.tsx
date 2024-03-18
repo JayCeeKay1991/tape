@@ -33,7 +33,6 @@ const MainContext = createContext<MainContext>(initialContext);
 
 export default function ContextProvider({ children }: PropsWithChildren) {
   const [user, setUser] = useState<User>(initialStateUser);
-
   return (
     <MainContext.Provider
       value={{
@@ -45,6 +44,7 @@ export default function ContextProvider({ children }: PropsWithChildren) {
     </MainContext.Provider>
   );
 }
+
 export function useMainContext() {
   return useContext(MainContext);
 }
