@@ -2,24 +2,42 @@ import { useState } from "react";
 import TestPlayer from "../../components/TestPlayer/TestPlayer";
 import { CloudinaryRes, postMusicToCloudinary } from "../../services/CloudinaryService";
 import { useLocation } from "react-router-dom";
+import { createMixTape } from "../../services/MixtapeClientService";
+import { useMainContext } from "../../components/Context/Context";
+import { MixTape
+ } from "../../types/MixTape";
 
+type FormValues = Omit<MixTape, '_id'>;
 
 const Channel = () => {
+  const { user } = useMainContext();
+  const location = useLocation();
+  const [channel, setChannel] = useState(location.state.channel);
+
+  const initialState = {
+    name: '',
+    url: '',
+    creator: user,
+    parentChannel: channel,
+    channels: []
+  };
+
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [uploadComplete, setUploadComplete] = useState(false);
   const [cldResponse, setCldResponse] = useState<any>(null);
-
-  const location = useLocation();
-  const { channel } = location.state;
+  const [formValues, setFormValues] = useState<FormValues>(initialState);
 
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const {files} = e.target;
-    if (files) setFile(files[0]);
+    const {name, value, type, files} = e.target;
+    if (type === 'file' && files) {
+      setFile(files[0]); // Set the image file
+    } else setFormValues({ ...formValues, [name]: value });
   };
 
 
+  // upload file to cloudinary
   const uploadFile = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
@@ -57,6 +75,7 @@ const Channel = () => {
     const onComplete = (response:CloudinaryRes) => {
       setCldResponse(response);
       console.log("Upload complete response:", response);
+      setUploading(false);
     };
 
     const uploadNextChunk = (start:number, end:number) => {
@@ -64,16 +83,51 @@ const Channel = () => {
     };
 
     uploadNextChunk(0, Math.min(chunkSize, file.size));
+
   };
+
+
+  // add the image to database together with the other form values
+  const submitHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    const addMixtape = async () => {
+      try {
+        if (cldResponse) {
+          const fileUrl = cldResponse.secure_url;
+          const newMixtapeData = {
+            ...formValues,
+            url:fileUrl,
+            parentChannel: channel
+          };
+          const newMixTape = await createMixTape(newMixtapeData);
+          setChannel({
+            ...channel,
+            mixTapes: [
+              ...channel.mixTapes,
+              newMixTape
+            ]
+          })
+      } else throw new Error('No uploaded file to add.');
+      setFormValues(initialState);
+      setFile(null);
+      } catch (error) {
+        console.error(error)
+      }
+    };
+    addMixtape();
+  }
 
 
   return (
     <>
     <h1>{channel.name}</h1>
+    <img src={channel.picture} />
     <form>
       <h2>Add a mixtape! 📼</h2>
+      <input name="name" type="text" onChange={changeHandler} placeholder="mixtape name"></input>
       <input name="file" type="file" onChange={changeHandler} ></input>
       <button onClick={uploadFile} disabled={uploading} >{uploading ? "Uploading..." : "Upload"}</button>
+      <button onClick={submitHandler} >Add new Mixtape</button>
       </form>
       {uploadComplete && cldResponse && (
         <div>
