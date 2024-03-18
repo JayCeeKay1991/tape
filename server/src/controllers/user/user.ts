@@ -1,6 +1,6 @@
-import { Request, Response } from 'express';
-import UserModel from '../../models/user';
-import bcrypt from 'bcrypt';
+import { Request, Response } from "express";
+import UserModel from "../../models/user";
+import bcrypt from "bcrypt";
 
 export const createUser = async (req: Request, res: Response) => {
   try {
@@ -11,13 +11,13 @@ export const createUser = async (req: Request, res: Response) => {
     if (userInDb)
       return res
         .status(409)
-        .json({ error: '409', message: 'User already exists' });
+        .json({ error: "409", message: "User already exists" });
 
     // Check if password is empty
     if (!password) {
       return res
         .status(400)
-        .json({ error: '400', message: 'Password is required' });
+        .json({ error: "400", message: "Password is required" });
     }
 
     // Hash the password
@@ -36,8 +36,8 @@ export const createUser = async (req: Request, res: Response) => {
     res.status(201).json(user);
   } catch (error) {
     // Handle any errors
-    console.error('Error creating user:', error);
-    res.status(500).json({ error: '500', message: 'Could not create user' });
+    console.error("Error creating user:", error);
+    res.status(500).json({ error: "500", message: "Could not create user" });
   }
 };
 
@@ -49,20 +49,22 @@ export const login = async (req: Request, res: Response) => {
     // Check if email and password are provided
     if (!email || !password) {
       return res.status(400).json({
-        error: '400',
-        message: 'Please provide email and password',
+        error: "400",
+        message: "Please provide email and password",
       });
     }
     // Find user by email
 
-    const user = await UserModel.findOne({ email: email }).populate('channels').exec();
-    console.log('🦋', user);
+    const user = await UserModel.findOne({ email: email })
+      .populate("channels")
+      .exec();
+    console.log("🦋", user);
 
     // Check if user exists
     if (!user) {
       return res.status(404).json({
-        error: '404',
-        message: 'User not found.',
+        error: "404",
+        message: "User not found.",
       });
     }
     // Compare passwords
@@ -72,17 +74,48 @@ export const login = async (req: Request, res: Response) => {
     if (!isPasswordValid) {
       return res
         .status(401)
-        .json({ error: '401', message: 'Username or password is incorrect' });
+        .json({ error: "401", message: "Username or password is incorrect" });
     }
     // if everything correct, send the user
     res.status(200).json(user);
   } catch (error) {
-    console.error('Error logging in user:', error);
+    console.error("Error logging in user:", error);
 
     res
       .status(500)
-      .json({ error: '500', message: 'An unexpected error occurred' });
+      .json({ error: "500", message: "An unexpected error occurred" });
   }
 };
 
-export default { createUser, login };
+export const editUser = async (req: Request, res: Response) => {
+  try {
+    const id = req.params.id;
+    const { userName, email, password, profilePic, channels, mixTapes } =
+      req.body;
+    const updatedUser = await UserModel.findOneAndUpdate(
+      { _id: id },
+      {
+        $set: {
+          userName: userName,
+          email: email,
+          password: password,
+          profilePic: profilePic,
+          channels: channels,
+          mixTapes: mixTapes,
+        },
+      },
+      { new: true }
+    );
+    res.status(201);
+    res.send(updatedUser);
+  } catch (error) {
+    console.error(error);
+    res.status(500);
+    res.send({
+      message:
+        "An unexpected error occurred while editing the user. Please try again later.",
+    });
+  }
+};
+
+export default { createUser, login, editUser };
