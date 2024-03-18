@@ -5,3 +5,8 @@ import { Channel } from "../types/Channel";
 export const getChannelsByUser = async (userId:string) => {
   return await apiClient<Channel[]>(`channels/${userId}`, 'GET');
 }
+
+// Create new channel
+export const createChannel = async (body:Omit<Channel, '_id'>) => {
+  return await apiClient<Channel>('channels', 'POST', body);
+}

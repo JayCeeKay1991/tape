@@ -9,6 +9,7 @@ type ChannelItemProps = {
 const ChannelItem = ({channel}:ChannelItemProps) => {
 
   const navigate = useNavigate();
+
   const navigateToChannel = () => {
     const id = channel._id;
     navigate(`/channels/${id}`);
@@ -16,7 +17,7 @@ const ChannelItem = ({channel}:ChannelItemProps) => {
 
   return (
     <div id="channel-item-wrap" >
-      <button onClick={navigateToChannel} ></button>
+      <button onClick={navigateToChannel} >To Channel</button>
       <img>{channel.picture}</img>
       <h3>{channel.name}</h3>
       <div id="channel-item-footer" >
@@ -27,7 +28,6 @@ const ChannelItem = ({channel}:ChannelItemProps) => {
         </div>
         <p>duration</p>
       </div>
-
     </div>
   )
 

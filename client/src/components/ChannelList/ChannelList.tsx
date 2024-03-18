@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useMainContext } from '../Context/Context';
 import ChannelItem from '../ChannelItem/ChannelItem';
+import AddChannelForm from '../AddChannelForm/AddChannelForm';
 import { Channel } from '../../types/Channel';
 import './ChannelList.css';
 
 const ChannelList = () => {
   const { user } = useMainContext();
   const [channelList, setChannelList] = useState<Channel[]>([]);
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     console.log(user);
@@ -14,21 +16,27 @@ const ChannelList = () => {
   }, [])
 
 
+  const toggleAddForm = () => {
+    setShowForm(!showForm)
+  }
 
   return (
     <div id="channel-list-wrap" >
       <div id="channel-list-header" >
         <h3>Your streams</h3>
         <div id="channel-list-controls" >
-          <button>Add channel</button>
+          <button onClick={toggleAddForm} >Add channel</button>
           <button>Last</button>
           <button>Most replayed</button>
           <button>List view / cards view</button>
         </div>
       </div>
       <div id="channel-list" >
-        {channelList.length ? channelList.map(channel => <ChannelItem channel={channel}/>) : <p>No channels yet.</p>}
+        {channelList.length ? channelList.map(channel => <ChannelItem key={channel._id} channel={channel}/>) : <p>No channels yet.</p>}
       </div>
+      {
+        showForm ? <AddChannelForm setChannelList={setChannelList} setShowForm={setShowForm} /> : <></>
+      }
     </div>
   )
 }

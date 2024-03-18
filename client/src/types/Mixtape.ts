@@ -1,7 +1,7 @@
 import { User } from './User';
 import { Channel } from './Channel';
 
-export type Mixtape = {
+export type MixTape = {
   _id: string;
   name: string;
   url: string;

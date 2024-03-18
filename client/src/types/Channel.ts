@@ -1,5 +1,5 @@
 import { User } from './User';
-import { Mixtape } from './Mixtape';
+import { MixTape } from './MixTape';
 
 export type Channel = {
   _id: string;
@@ -7,5 +7,5 @@ export type Channel = {
   picture: string;
   owner: User;
   members: User[];
-  mixtapes: Mixtape[];
+  mixTapes: MixTape[];
 };
