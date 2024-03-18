@@ -12,18 +12,18 @@ const User = new mongoose.Schema({
   channels: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "channels",
+      ref: "Channel",
       required: false,
     },
   ],
   mixTapes: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "mixTapes",
+      ref: "MixTape",
     },
   ],
 });
 
-const UserModel = mongoose.model("users", User);
+const UserModel = mongoose.model("User", User);
 
 export default UserModel;

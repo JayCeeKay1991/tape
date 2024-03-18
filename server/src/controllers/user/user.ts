@@ -5,7 +5,6 @@ import bcrypt from 'bcrypt';
 export const createUser = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
-    console.log(req.body);
 
     // Check if the user already exists
     const userInDb = await UserModel.findOne({ email: email });
@@ -32,7 +31,6 @@ export const createUser = async (req: Request, res: Response) => {
 
     // Save the new user to the database
     const user = await newUser.save();
-    console.log(user);
 
     // send the result
     res.status(201).json(user);
@@ -47,7 +45,6 @@ export const createUser = async (req: Request, res: Response) => {
 export const login = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
-    console.log(req.body);
 
     // Check if email and password are provided
     if (!email || !password) {
@@ -57,8 +54,9 @@ export const login = async (req: Request, res: Response) => {
       });
     }
     // Find user by email
-    const user = await UserModel.findOne({ email: email });
-    console.log(user);
+
+    const user = await UserModel.findOne({ email: email }).populate('channels').exec();
+    console.log('🦋', user);
 
     // Check if user exists
     if (!user) {
