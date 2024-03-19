@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useMainContext, initialStateUser } from '../Context/Context';
+import { useMainContext } from '../Context/Context';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../../services/UserClientService';
 import './LoginForm.css';
@@ -52,19 +52,9 @@ function LoginForm() {
     // SET navigation to Dashboard
   };
 
-  // logout function redirects to homepage, will be moved to nav bar
-
-  const handleLogout = async () => {
-    setUser(initialStateUser);
-    setFormValuesUserLogin(initialStateUserLogin);
-    localStorage.clear();
-    //SET navigation to Homepage("/")
-    navigate('/home');
-  };
-
   return (
-    <>
-      <form id="login-form" onSubmit={handleLogin} className='w-[400px] fixed z-50 bg-tapePink left-[200px] top-[200px]'>
+
+      <form id="login-form" onSubmit={handleLogin} className='w-[400px] fixed z-50 bg-tapePink left-[200px] top-[200px]' >
         <input
           name="email"
           type="text"
@@ -72,6 +62,7 @@ function LoginForm() {
           onChange={changeHandler}
           placeholder="email"
           required={true}
+          data-testid="input-email"
         ></input>
         <input
           name="password"
@@ -81,11 +72,11 @@ function LoginForm() {
           placeholder="password"
           required={true}
         ></input>
-        <button className="login-button" type="submit">
+        <button className="login-button" type="submit" data-testid="login-button" >
           login
         </button>
       </form>
-    </>
+
   );
 }
 

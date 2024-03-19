@@ -28,7 +28,7 @@ const AppNav = () => {
                     </div>
                 </Link>
                 <div className="flex flex-row align-middle">
-                    <button className="bg-none text-tapeWhite mx-8" onClick={handleLogout}><FiLogOut size={30} /></button>
+                    <button className="bg-none text-tapeWhite mx-8" onClick={handleLogout} data-testid="logout-button" ><FiLogOut size={30} /></button>
                 </div>
             </div>
         </nav>
