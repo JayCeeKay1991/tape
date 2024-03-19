@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import MixTapeModel from "../../models/mixTape";
 import ChannelModel from "../../models/channel";
-
+import UserModel from "../../models/user";
 
 export const createMixTape = async (req: Request, res: Response) => {
   try {
@@ -23,6 +23,13 @@ export const createMixTape = async (req: Request, res: Response) => {
       {$push: {mixTapes: savedMixTape._id}},
       {new: true}
     ).orFail(new Error('Channel not found in db'));;
+
+    // update the owner
+    const userToUpdate = await UserModel.findOneAndUpdate(
+      {_id: creatorId},
+      {$push: {mixTapes: savedMixTape._id}},
+      {new: true}
+    ).orFail(new Error('User not found in db'));;
 
     res.send(savedMixTape);
     res.status(201);
