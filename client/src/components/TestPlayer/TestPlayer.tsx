@@ -175,7 +175,7 @@ const TestPlayer = () => {
     <div id="player" className="w-full flex flex-row justify-center">
       <div
         id="progress-bar"
-        className="w-2/3 flex flex-row justify-center items-center"
+        className="w-2/3 flex flex-row justify-center items-center size-25"
       >
         <div id="btn-playPause">
           {/* if playing false, render play button, else render pause button */}
@@ -183,18 +183,18 @@ const TestPlayer = () => {
             <button
               type="button"
               onClick={(e) => handleClick(e, 'pause')}
-              className="text-tapeWhite me-5"
+              className="text-tapeWhite me-5 size-25"
               id="play-icon"
             >
-              <IoMdPause />
+              <IoMdPause size="25" />
             </button>
           ) : (
             <button
               type="button"
-              className="text-tapeWhite me-5"
+              className="text-tapeWhite me-5 size-25"
               onClick={(e) => handleClick(e, 'play')}
             >
-              <IoMdPlay />
+              <IoMdPlay size="25" />
             </button>
           )}
         </div>
@@ -211,7 +211,7 @@ const TestPlayer = () => {
           defaultValue="0"
           max={audioDuration.toString()}
           onChange={handleProgressBarChange}
-          className="w-[697px] me-5 border-tapePink text-tapePink"
+          className=" w-2/3 appearance-none bg-transparent [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-black/25 [&::-webkit-slider-thumb]:bg-tapeOffBlack [&::-webkit-slider-thumb]:h-[15px] [&::-webkit-slider-thumb]:w-[50px] [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-black-500 "
         />
         <span
           id="duration"
@@ -224,14 +224,14 @@ const TestPlayer = () => {
             onClick={handlePreviousClick}
             className="text-tapeWhite me-2"
           >
-            <MdSkipPrevious />
+            <MdSkipPrevious size="25" />
           </button>
           <button
             type="button"
             onClick={handleNextClick}
             className="text-tapeWhite"
           >
-            <MdSkipNext />
+            <MdSkipNext size="25" />
           </button>
         </div>
         <div className="volume-controls">
