@@ -22,6 +22,11 @@ describe('User inputs are calling change handlers', async () => {
       nameInput = screen.getByTestId('input-channel-name') as HTMLInputElement;
     })
 
+  it('should render a submit button', async () => {
+    const submitButton = screen.getByTestId('create-button') as HTMLButtonElement;
+    expect(submitButton).toHaveClass('white-button');
+  })
+
 
   it('should handle changes when filling in form', async () => {
     await userEvent.type(nameInput, channels[0].name);

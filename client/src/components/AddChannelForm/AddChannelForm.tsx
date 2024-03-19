@@ -66,7 +66,7 @@ const AddChannelForm = ({setChannelList, setShowForm}:propsType) => {
       <h1>Create a new channel</h1>
       <input name="name" value={formValues.name} type="text" onChange={changeHandler} placeholder="name" data-testid="input-channel-name" ></input>
       <input name="picture" value={formValues.picture} type="file" onChange={changeHandler}></input>
-      <button onClick={handleSubmit} className="white-button" >Create</button>
+      <button onClick={handleSubmit} className="white-button" data-testid="create-button">Create</button>
     </form>
   )
 
