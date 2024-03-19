@@ -4,8 +4,7 @@ import SignupForm from "../SignupForm/SignupForm";
 
 type propsType = {
   formValue: string;
-    toggleShowLogin: () => void;
-    setFormState: () => void;
+  toggleShowLogin: () => void;
 };
 
 
