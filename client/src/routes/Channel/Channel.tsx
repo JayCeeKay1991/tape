@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import TestPlayer from "../../components/TestPlayer/TestPlayer";
 import { CloudinaryRes, postMusicToCloudinary } from "../../services/CloudinaryService";
 import { useLocation } from "react-router-dom";
@@ -14,6 +14,8 @@ const Channel = () => {
   const { user } = useMainContext();
   const location = useLocation();
   const [channel, setChannel] = useState(location.state.channel);
+  const [showMixForm, setShowMixForm] = useState(false);
+  const [showMemberForm, setShowMemberForm] = useState(false);
 
   const initialState = {
     name: '',
@@ -29,6 +31,10 @@ const Channel = () => {
   const [uploadComplete, setUploadComplete] = useState(false);
   const [cldResponse, setCldResponse] = useState<any>(null);
   const [formValues, setFormValues] = useState<FormValues>(initialState);
+
+  useEffect(() => {
+    setChannel(channel);
+  }, [channel])
 
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -113,6 +119,7 @@ const Channel = () => {
       } else throw new Error('No uploaded file to add.');
       setFormValues(initialState);
       setFile(null);
+      setShowMixForm(false);
       } catch (error) {
         console.error(error)
       }
@@ -120,35 +127,39 @@ const Channel = () => {
     addMixtape();
   }
 
+   const toggleMixForm = () => {
+    setShowMixForm(!showMixForm)
+   }
+   const toggleMemberForm = () => {
+    setShowMemberForm(!showMemberForm)
+   }
+
 
   return (
     <>
     <div id="channel-element" className="text-tapeWhite h-72 bg-gradient-to-r from-tapePink tapeYellow flex justify-between p-10 w-11/12 m-12 rounded-2xl" >
       <div id="channel-info" >
         <h1 className="flex items-center" ><MdPlayArrow size={35}/>{channel.name}</h1>
-        <p className="pl-3" >{`${channel.mixtapes ? channel.mixtapes.length : 0} mixtapes`}</p>
+        <p className="pl-3" >{`${channel.mixTapes ? channel.mixTapes.length : 0} mixtape${channel.mixTapes.length > 1 ? 's' : ''}`}</p>
       </div>
       <img src={channel.picture} className="w-48 rounded-2xl object-cover" />
     </div>
-    <form className="text-tapeWhite flex flex-col w-72 gap-2" >
-      <h2>Add a mixtape</h2>
-      <input name="name" type="text" onChange={changeHandler} placeholder="mixtape name"></input>
-      <div className="flex" >
-      <input name="file" type="file" onChange={changeHandler} ></input>
-      <button className="white-button" onClick={uploadFile} disabled={uploading} >{uploading ? "Uploading..." : "Upload"}</button>
-      </div>
-      {
-        !uploading ? <button className="white-button" onClick={submitHandler} >Add Mixtape</button> : <></>
-      }
-      </form>
-      {uploadComplete && cldResponse && (
-        <div>
-          <span className="left">
-            <p>Upload response:</p>
-            <pre>{JSON.stringify(cldResponse, null, 2)}</pre>
-          </span>
-        </div>
-      )}
+    <button onClick={toggleMixForm} className="white-button ml-12" >Add Mixtape</button>
+    <button onClick={toggleMemberForm} className="white-button" >Add Members</button>
+    {
+     showMixForm ? (
+        <form className="text-tapeWhite flex flex-col w-72 gap-2" >
+          <input name="name" type="text" onChange={changeHandler} placeholder="mixtape name"></input>
+          <div className="flex" >
+          <input name="file" type="file" onChange={changeHandler} ></input>
+          <button className="white-button" onClick={uploadFile} disabled={uploading} >{uploading ? "Uploading..." : "Upload"}</button>
+          </div>
+          {
+            uploading ? <></> : <button className="white-button" onClick={submitHandler} >Add Mixtape</button>
+          }
+        </form>) : (<></>)
+    }
+
       <TestPlayer/>
     </>
   )
