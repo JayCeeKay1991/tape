@@ -1,20 +1,12 @@
 import LoginForm from './LoginForm';
 import { render, screen } from '../../test/testConfig';
-import { describe, it, expect, vi, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach } from 'vitest';
 import { user } from '../../test/mocks';
 import { MemoryRouter as Router } from "react-router-dom";
 import userEvent from '@testing-library/user-event';
 
 
-vi.mock('../Component/Component', () => ({
-  useMainContext: () => ({
-    handleLogin: vi.fn()
-  })
-}));
-
-
-describe('User inputs are calling change handlers', async () => {
-  beforeEach(() => {
+beforeEach(() => {
   render(
     <Router>
       <LoginForm />
@@ -22,11 +14,17 @@ describe('User inputs are calling change handlers', async () => {
     );
   })
 
+
+describe('Elements are rendered correctly', async () => {
+
   it('should render a submit button', async () => {
     const loginButton = await screen.findByTestId('login-button');
     expect(loginButton).toHaveClass('login-button');
   })
+})
 
+
+describe('User inputs are calling change handlers', async () => {
   it('should handle changes when filling in form', async () => {
     const emailInput:HTMLInputElement = await screen.findByTestId('input-email');
     await userEvent.type(emailInput, user.email);
@@ -35,20 +33,3 @@ describe('User inputs are calling change handlers', async () => {
 
 });
 
-// describe('Login button calls login function', async () => {
-//   const handleLogin = vi.fn();
-
-//   beforeEach(() => {
-//    render(
-//      <Router>
-//        <LoginForm handleLogin={handleLogin} />
-//      </Router>
-//      );
-//   })
-
-//   it('should should call the submithandler on submit', async () => {
-//   const loginButton = await screen.getByTestId('login-button');
-//   await userEvent.click(loginButton);
-//   expect(handleLogin).toHaveBeenCalled();
-//   })
-// });

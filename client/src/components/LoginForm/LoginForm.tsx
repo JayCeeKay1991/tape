@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useMainContext, initialStateUser } from '../Context/Context';
+import { useMainContext } from '../Context/Context';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../../services/UserClientService';
 import './LoginForm.css';
@@ -48,16 +48,6 @@ function LoginForm() {
 
     // SET navigation to Dashboard
     navigate('/dash');
-  };
-
-  // logout function redirects to homepage, will be moved to nav bar
-
-  const handleLogout = async () => {
-    setUser(initialStateUser);
-    setFormValuesUserLogin(initialStateUserLogin);
-    localStorage.clear();
-    //SET navigation to Homepage("/")
-    navigate('/home');
   };
 
   return (
