@@ -7,7 +7,6 @@ import johnMartin from '../../components/AppNav/johnmartin.jpg'
 const AddMembersSelect = () => {
   const [users, setUsers] = useState<User[]>([])
   const [selectedMembers, setSelectedMembers]  = useState<User[]>([])
-  const selectedMembersRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     // get all users to populate dropdown
@@ -29,10 +28,9 @@ const AddMembersSelect = () => {
     }
   };
 
-
   return (
     <div className='flex flex-column'>
-      <div id='selected-members'>
+      <div id='selected-members' className=''>
         {selectedMembers.map(user => (
           <div key={user._id} className="flex items-center">
             <img
@@ -41,11 +39,10 @@ const AddMembersSelect = () => {
               className="w-16 h-16 object-cover"
               style={{ objectPosition: 'center-center' }}
             />
-            <p className="text-tapeWhite">{user.userName}</p>
           </div>
         ))}
       </div>
-      <ul className='align-middle text-tapeWhite flex flex-col w-72 gap-2 rounded-2xl'>
+      <ul className='align-middle text-tapeWhite flex flex-col w-72 gap-2 bg-tapeOffBlack'>
         {users.map(user => (
           <li
             key={user._id}
