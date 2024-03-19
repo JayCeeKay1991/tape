@@ -23,7 +23,13 @@ export default function UserDetails() {
     profilePic: user.profilePic,
   };
   const [ formValuesProfile , setFormValuesProfile] = useState<FormValuesUserProfile>(initialFormState);
-  
+  const [ changePassword, setChangePassword ] = useState(false);
+
+  function handlePasswordChange(e: React.MouseEvent) {
+    e.preventDefault();
+    setChangePassword(!changePassword);
+  }
+
   function changeHandler(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
     setFormValuesProfile({...formValuesProfile, [name]: value });
@@ -41,6 +47,7 @@ export default function UserDetails() {
       mixTapes: user.mixTapes ? [...user.mixTapes] : [],
     };
     updateUser(newUser);
+    setChangePassword(false);
   }
 
   return (
@@ -70,13 +77,17 @@ export default function UserDetails() {
             </div>
             <div id='password'>
               <label>password:</label>
-              <input
-                name="password"
-                type="text"
-                onChange={changeHandler}
-                value={formValuesProfile.password}
-                required={true}
-              />
+              {changePassword ? (
+                <input
+                  name="password"
+                  type="password"
+                  onChange={changeHandler}
+                  value={formValuesProfile.password}
+                  required={true}
+                />
+              ) : (
+                 <button onClick={handlePasswordChange}>set new password</button>
+              )}
             </div>
             <div id='profilePic'>
               <label>profilePic:</label>
