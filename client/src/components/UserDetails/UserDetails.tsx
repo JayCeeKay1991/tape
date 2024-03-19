@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import "./UserDetails.css"
 import { useMainContext } from '../Context/Context';
 import { updateUser } from '../../services/UserClientService';
 import { User } from '../../types/User';
@@ -88,7 +89,7 @@ export default function UserDetails() {
             </div>
           </div>
         </div>
-        <button type="submit">
+        <button className='submitButton' type="submit">
           update details
         </button>
       </form>
@@ -96,7 +97,7 @@ export default function UserDetails() {
       <div>
         <div>
           Channels:
-          {user.channels ? (
+          {user.channels.length > 0 ? (
             user.channels!.map((channel) => (
               <div>
                 <div>Channel name: {channel.name}</div>
@@ -108,7 +109,7 @@ export default function UserDetails() {
         </div>
         <div>
           Tapes:
-          {user.mixTapes ? (
+          {user.mixTapes.length > 0 ? (
           user.mixTapes.map((tape) => (
             <div>
               <div>Tape name: {tape.name}</div>
