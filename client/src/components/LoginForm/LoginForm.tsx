@@ -62,7 +62,11 @@ function LoginForm() {
 
   return (
     <>
-      <form id="login-form" onSubmit={handleLogin} className='w-[400px] fixed z-50 bg-tapePink left-[200px] top-[200px]'>
+      <form
+        id="login-form"
+        onSubmit={handleLogin}
+        className="w-full h-[420px] flex flex-col"
+      >
         <input
           name="email"
           type="text"
@@ -70,6 +74,7 @@ function LoginForm() {
           onChange={changeHandler}
           placeholder="email"
           required={true}
+          className="h-[90px] mb-[20px] p-[30px]"
         ></input>
         <input
           name="password"
@@ -78,8 +83,9 @@ function LoginForm() {
           onChange={changeHandler}
           placeholder="password"
           required={true}
+          className="h-[90px] mb-[20px] p-[30px]"
         ></input>
-        <button className="login-button" type="submit">
+        <button className="h-[90px] bg-tapeYellow border-none rounded-[10px]" type="submit">
           login
         </button>
       </form>

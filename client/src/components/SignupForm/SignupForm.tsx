@@ -58,8 +58,7 @@ const SignupForm = () => {
 
   // do we need conditional below?
   return (
-    <form className="signup-Form" onSubmit={handleSignup}>
-      <h2>Sign up</h2>
+    <form onSubmit={handleSignup} className="w-full h-[420px] flex flex-col">
       <input
         name="userName"
         value={formValuesUser.userName}
@@ -67,6 +66,7 @@ const SignupForm = () => {
         placeholder="username"
         onChange={changeHandler}
         required={true}
+        className="h-[90px] mb-[20px] p-[30px]"
       />
       <input
         name="email"
@@ -75,6 +75,7 @@ const SignupForm = () => {
         placeholder="email"
         onChange={changeHandler}
         required={true}
+        className="h-[90px] mb-[20px] p-[30px] "
       />
       <input
         name="password"
@@ -83,8 +84,12 @@ const SignupForm = () => {
         placeholder="password"
         onChange={changeHandler}
         required={true}
+        className="h-[90px] mb-[20px] p-[30px]"
       />
-      <button className="signup-button" type="submit">
+      <button
+        className="h-[90px] bg-tapeYellow border-none rounded-[10px]"
+        type="submit"
+      >
         Sign Up
       </button>
     </form>
