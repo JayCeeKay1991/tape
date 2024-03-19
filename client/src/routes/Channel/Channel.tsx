@@ -180,15 +180,8 @@ const Channel = () => {
           </form>) : (<></>)
       }
       {
-      showMemberForm ? (
-      // <form className="text-tapeWhite flex flex-col w-72 gap-2">
-      //   <select name="members select">
-      //     {users.map(user => (
-      //       <option key={user._id} value={user.userName}>{user.userName}</option>
-      //     ))}
-      //   </select>
-      // </form>)
-      <AddMembersSelect />) : (<></>)
+        showMemberForm ? (
+          <AddMembersSelect />) : (<></>)
       }
       <TestPlayer />
     </div>
