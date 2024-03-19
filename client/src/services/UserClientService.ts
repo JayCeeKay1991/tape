@@ -20,3 +20,9 @@ export const login = async (body: FormValuesUserLogin) => {
     console.error(error);
   }
 };
+
+
+// get all users
+export const getAllUsers = async () => {
+  return await apiClient<User[]>('users')
+}
