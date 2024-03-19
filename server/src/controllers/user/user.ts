@@ -2,6 +2,24 @@ import { Request, Response } from "express";
 import UserModel from "../../models/user";
 import bcrypt from "bcrypt";
 
+
+// get all users
+export const getAllUsers = async(req: Request, res: Response) => {
+  try {
+    const users = UserModel.find({});
+    if (users) {
+      res.status(200).json(users)
+    }
+    else {
+      res.status(400).json('No users!')
+    }
+  } catch (error) {
+    res.status(500).json("Error getting users");
+    console.error(error);
+  }
+}
+
+
 export const createUser = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
@@ -43,11 +61,10 @@ export const createUser = async (req: Request, res: Response) => {
     res.status(201).json(user);
   } catch (error) {
     // Handle any errors
-    // console.error('Error creating user:', error);
+    console.error('Error creating user:', error);
     res.status(500).json("Error creating user");
   }
 };
-
 // getting the logged in user
 export const login = async (req: Request, res: Response) => {
   try {

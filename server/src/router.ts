@@ -4,6 +4,8 @@ import { createChannel } from "./controllers/channel/channel";
 import { createMixTape } from "./controllers/mixTape/mixTape";
 const router = express.Router();
 
+
+router.users(, getAllUsers);
 router.post("/users/login", login);
 router.post("/users", createUser);
 router.put("/users/:id", editUser);
