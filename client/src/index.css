@@ -3,18 +3,15 @@
 @tailwind utilities;
 
 @layer components {
-    h1 {
-        @apply text-xl;
-    }
 
-    button {
-        @apply bg-tapeWhite rounded-full p-4 text-tapeBlack;
+
+    .white-button {
+        @apply bg-tapeWhite rounded-full p-[10px] text-tapeBlack;
     }
 
     input {
-        @apply bg-tapeWhite border-tapeBlack;
+        @apply bg-tapeWhite border-tapeBlack text-tapeBlack rounded-xl p-1;
     }
-
 }
 
 /* || Reset styles */
@@ -26,7 +23,8 @@ body {
     font-optical-sizing: auto;
     font-style: normal;
     margin: 0;
-    padding: 0;
+    padding: 100px 0;
+    background-color: var(--tapeBlack);
 }
 
 html {
@@ -44,9 +42,9 @@ html {
 :root {
     /* COLORS */
     --tapeBlack: #151515;
-    --tapeBlack: #1B1B1B;
-    --tapeGreen: #00A97C;
-    --tapePink: #EE87B5;
+    --tapeOffBlack: #1B1B1B;
+    /* --tapeGreen: #BBF771;
+    --tapePink: #FF65AA; */
     --tapeOrange: #FE7B27;
     --darkGrey: #87888A;
     --mediumGrey: #BCBDC0;

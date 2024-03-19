@@ -20,6 +20,7 @@ export type CloudinaryRes = {
   placeholder: boolean;
   url: string;
   secure_url: string;
+  duration: number;
 }
 
 // post the image of a channel or user to cloudinary
@@ -39,6 +40,7 @@ export async function postImageToCloudinary(body: {
     });
     const data = await response.json();
     if (data.secure_url) {
+      console.log('🚀', data );
       return data.secure_url;
     } else {
       throw new Error('secure_url not found in response.');
