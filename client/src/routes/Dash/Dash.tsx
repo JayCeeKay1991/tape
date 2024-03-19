@@ -20,7 +20,7 @@ const Dash = () => {
   }
 
   return (
-    <div id="channel-list-wrap" className='text-tapeWhite bg-tapeOffBlack flex-col w-11/12 mx-10 my-5 p-10 rounded-3xl'>
+    <div id="channel-list-wrap" className='text-tapeWhite bg-tapeOffBlack flex-col w-11/12 mx-10 my-5 px-10 rounded-3xl'>
       <div id="channel-list-header" className='flex justify-between items-center'>
         <h1>Your channels</h1>
         <div id="channel-list-controls" >

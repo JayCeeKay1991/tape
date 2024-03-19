@@ -6,6 +6,7 @@ import { createMixTape } from "../../services/MixtapeClientService";
 import { useMainContext } from "../../components/Context/Context";
 import { MixTape
  } from "../../types/MixTape";
+import { MdPlayArrow } from "react-icons/md";
 
 type FormValues = Omit<MixTape, '_id'>;
 
@@ -122,15 +123,22 @@ const Channel = () => {
 
   return (
     <>
-    <h1>{channel.name}</h1>
-    <img src={channel.picture} />
-    <form>
-      <h2>Add a mixtape! 📼</h2>
+    <div id="channel-element" className="text-tapeWhite h-72 bg-gradient-to-r from-tapePink tapeYellow flex justify-between p-10 w-11/12 m-12 rounded-2xl" >
+      <div id="channel-info" >
+        <h1 className="flex items-center" ><MdPlayArrow size={35}/>{channel.name}</h1>
+        <p>{`${channel.mixtapes ? channel.mixtapes.length : 0} mixtapes`}</p>
+      </div>
+      <img src={channel.picture} className="w-48 rounded-2xl" />
+    </div>
+    <form className="text-tapeWhite flex flex-col w-72 gap-2" >
+      <h2>Add a mixtape</h2>
       <input name="name" type="text" onChange={changeHandler} placeholder="mixtape name"></input>
+      <div className="flex" >
       <input name="file" type="file" onChange={changeHandler} ></input>
-      <button onClick={uploadFile} disabled={uploading} >{uploading ? "Uploading..." : "Upload"}</button>
+      <button className="white-button" onClick={uploadFile} disabled={uploading} >{uploading ? "Uploading..." : "Upload"}</button>
+      </div>
       {
-        !uploading ? <button onClick={submitHandler} >Add Mixtape</button> : <></>
+        !uploading ? <button className="white-button" onClick={submitHandler} >Add Mixtape</button> : <></>
       }
       </form>
       {uploadComplete && cldResponse && (
