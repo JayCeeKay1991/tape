@@ -44,10 +44,12 @@ function LoginForm() {
     // set the localstorage to the logged in user id
     if (loggedinUser) {
       localStorage.setItem('loggedinUser', loggedinUser._id);
+      navigate('/dash');
+    } else {
+      alert('Invalid credentials');
     }
 
     // SET navigation to Dashboard
-    navigate('/dash');
   };
 
   return (

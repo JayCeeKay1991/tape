@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import "./UserDetails.css"
 import { useMainContext } from '../Context/Context';
 import { updateUser } from '../../services/UserClientService';
 import { User } from '../../types/User';
@@ -12,7 +13,6 @@ export type FormValuesUserProfile = {
 };
 
 
-
 export default function UserDetails() {
   const { user, setUser } = useMainContext();
   const initialFormState = {
@@ -22,7 +22,13 @@ export default function UserDetails() {
     profilePic: user.profilePic,
   };
   const [ formValuesProfile , setFormValuesProfile] = useState<FormValuesUserProfile>(initialFormState);
-  
+  const [ changePassword, setChangePassword ] = useState(false);
+
+  function handlePasswordChange(e: React.MouseEvent) {
+    e.preventDefault();
+    setChangePassword(!changePassword);
+  }
+
   function changeHandler(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value } = e.target;
     setFormValuesProfile({...formValuesProfile, [name]: value });
@@ -40,6 +46,7 @@ export default function UserDetails() {
       mixTapes: user.mixTapes ? [...user.mixTapes] : [],
     };
     updateUser(newUser);
+    setChangePassword(false);
   }
 
   return (
@@ -69,13 +76,17 @@ export default function UserDetails() {
             </div>
             <div id='password'>
               <label>password:</label>
-              <input
-                name="password"
-                type="text"
-                onChange={changeHandler}
-                value={formValuesProfile.password}
-                required={true}
-              />
+              {changePassword ? (
+                <input
+                  name="password"
+                  type="password"
+                  onChange={changeHandler}
+                  value={formValuesProfile.password}
+                  required={true}
+                />
+              ) : (
+                 <button onClick={handlePasswordChange}>set new password</button>
+              )}
             </div>
             <div id='profilePic'>
               <label>profilePic:</label>
@@ -88,7 +99,7 @@ export default function UserDetails() {
             </div>
           </div>
         </div>
-        <button type="submit">
+        <button className='submitButton' type="submit">
           update details
         </button>
       </form>
@@ -96,7 +107,7 @@ export default function UserDetails() {
       <div>
         <div>
           Channels:
-          {user.channels ? (
+          {user.channels.length > 0 ? (
             user.channels!.map((channel) => (
               <div>
                 <div>Channel name: {channel.name}</div>
@@ -108,7 +119,7 @@ export default function UserDetails() {
         </div>
         <div>
           Tapes:
-          {user.mixTapes ? (
+          {user.mixTapes.length > 0 ? (
           user.mixTapes.map((tape) => (
             <div>
               <div>Tape name: {tape.name}</div>
