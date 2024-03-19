@@ -62,7 +62,7 @@ function LoginForm() {
 
   return (
     <>
-      <form id="login-form" onSubmit={handleLogin}>
+      <form id="login-form" onSubmit={handleLogin} className='w-[400px] fixed z-50 bg-tapePink left-[200px] top-[200px]'>
         <input
           name="email"
           type="text"

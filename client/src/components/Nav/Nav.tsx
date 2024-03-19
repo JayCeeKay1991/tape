@@ -1,4 +1,5 @@
 import './Nav.css'
+import icon from "../../assets/svg/logo-icon.svg";
 
 //type react props
 type propsType = {
@@ -7,13 +8,21 @@ type propsType = {
 
 export function Nav({ toggleShowLogin }: propsType) {
   return (
-    <nav className="w-full h-[90px] bg-tapeBlack fixed top-0 left-0 flex flex-row items-center justify-between pr-[40px] pl-[40px] z-20">
-      <a className=" text-tapeWhite text-[28px] font-semibold">Logo</a>
-      <ul className="flex flex-row text-tapeWhite">
-        <li className="pr-[40px] text-[28px] font-semibold">Channels</li>
-        <li className="pr-[40px] text-[28px] font-semibold">Interactivty</li>
-        <li className="pr-[40px] text-[28px] font-semibold">
-          <a onClick={toggleShowLogin}>Login</a>
+    <nav className="w-full h-[90px] bg-tapeBlack fixed top-0 left-0 flex flex-row items-center justify-between pr-[40px] pl-[40px] z-50">
+      <a className=" text-tapeWhite text-[28px] font-semibold">
+        <img id="icon" className="w-[70px]" src={icon}></img>
+      </a>
+      <ul className="flex flex-row">
+        <li className="p-[50px] text-[28px] font-medium text-tapeWhite">
+          Channels
+        </li>
+        <li className="p-[50px] text-[28px] font-medium  text-tapeWhite">
+          Interactivty
+        </li>
+        <li
+          onClick={toggleShowLogin}
+          className="p-[50px] text-[28px] font-medium  text-tapeWhite hover:bg-tapeWhite hover:text-tapeBlack rounded-full cursor-pointer"
+        >Login
         </li>
       </ul>
     </nav>

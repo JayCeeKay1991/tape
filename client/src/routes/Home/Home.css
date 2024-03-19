@@ -3,3 +3,67 @@
 #hero-bg {
     width: 100%;
 }
+
+#blur1 {
+    width: 650px;
+    height: 200px;
+    border-radius: 200px;
+    position:absolute;
+    right: 240px;
+    z-index: 20;
+    border: 2px solid rgba(255, 255, 255, 0.064);
+    background: rgba(201, 201, 201, 0.092);
+    backdrop-filter: blur(18px);
+}
+#blur2 {
+    width: 650px;
+    height: 200px;
+    border-radius: 200px;
+    position:absolute;
+    top: 150px;
+    left: 200px;
+    z-index: 20;
+    border: 2px solid rgba(255, 255, 255, 0.064);
+    background: rgba(201, 201, 201, 0.092);
+    backdrop-filter: blur(18px);
+}
+
+#img-crop1 {
+    width: 180px;
+    height:180px;
+    overflow: hidden;
+    position: relative;
+    border-radius: 20px;
+    border:4px solid #BBF771;
+    left: 100px;
+}
+
+#img1 {
+    width: 100%;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}
+#img-crop2 {
+    width: 180px;
+    height:180px;
+    overflow: hidden;
+    position: absolute;
+    border-radius: 20px;
+    border:4px solid #FF65AA;
+    right: 200px;
+    top: 100px;
+}
+
+#img2 {
+    width: 100%;
+    position: absolute;
+    margin: auto;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+}

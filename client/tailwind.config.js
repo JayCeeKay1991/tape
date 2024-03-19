@@ -13,6 +13,9 @@ export default {
       sans: ["Darker Grotesque"],
     },
     extend: {
+      gradient: {
+
+      },
       animation: {
         marquee: "marquee 25s linear infinite",
       },
