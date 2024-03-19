@@ -31,7 +31,7 @@ const Home = () => {
 
       <div
         id="wrapper"
-        className="w-full mt-[40px] h-full bg-tapeGreen flex flex-col"
+        className="w-full h-full bg-tapeGreen flex flex-col"
       >
         <section
           id="feature0"
@@ -45,7 +45,7 @@ const Home = () => {
               Tape FM lets you upload mixes and share them in groups of your
               friends
             </p>
-            <button className="pl-[40px] pr-[50px] pt-[20px] pb-[20px] text-2xl font-medium rounded-[15px]">
+            <button className="pl-[40px] pr-[50px] pt-[20px] pb-[20px] text-2xl font-medium rounded-[15px] bg-tapeWhite">
               Join now
             </button>
           </div>
