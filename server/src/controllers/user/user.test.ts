@@ -105,7 +105,7 @@ describe("User Controller", () => {
       });
   });
 
-  it("should not update user if the ine of the required filed is missing", async () => {
+  it("should not update user if the one of the required fields is missing", async () => {
     const mockWithId = await request.post("/users").send(mockUser);
     return await request
       .put(`/users/${mockWithId.body._id}`)
