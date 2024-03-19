@@ -1,10 +1,16 @@
-import { useState, useEffect, useRef, MouseEvent } from 'react'
+import { useState, useEffect, Dispatch, SetStateAction } from 'react'
 import { getAllUsers } from '../../services/UserClientService'
 import { User } from '../../types/User'
 import johnMartin from '../../components/AppNav/johnmartin.jpg'
+import { addUserToChannel } from '../../services/ChannelClientService';
+import { Channel } from '../../types/Channel';
 
+interface AddMembersSelectProps {
+  channelId: string
+  setChannel: Dispatch<SetStateAction<Channel>>
+}
 
-const AddMembersSelect = () => {
+const AddMembersSelect = ({channelId, setChannel}:AddMembersSelectProps) => {
   const [users, setUsers] = useState<User[]>([])
   const [selectedMembers, setSelectedMembers]  = useState<User[]>([])
 
@@ -21,10 +27,12 @@ const AddMembersSelect = () => {
     retrieveAllUsers();
   }, [])
 
-  const handleMemberSelect = (userId: string) => {
+  const handleMemberSelect = async (userId: string) => {
     const user = users.find(user => user._id === userId);
     if (user) {
       setSelectedMembers(prevSelectedMembers => [...prevSelectedMembers, user]);
+      // add new user to channel on back end
+      await addUserToChannel(channelId, { userId: user._id})
     }
   };
 
