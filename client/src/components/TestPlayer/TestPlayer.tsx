@@ -17,8 +17,6 @@ const TestPlayer = () => {
   const [muted, setMuted] = useState<boolean>(false); // flag for if player is muted
   const durationRef = useRef<HTMLParagraphElement>(null); // ref to duration p element that will change
   const totalDurationRef = useRef<HTMLParagraphElement>(null); // ref to duration p that will show mixtapes total length
-  const volumeRef = useRef<HTMLParagraphElement>(null); // ref to volume p that will show current vol
-  const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
     // create stream array from mixTapes
@@ -37,8 +35,8 @@ const TestPlayer = () => {
               );
             }
 
+            // handles the rendering of the currently elapsed time by updating every second
             const timerId = setInterval(() => {
-              // handles the rendering of the currently elapsed time by updating every second
               if (this.playing()) {
                 const currentTime = this.seek();
                 // seek is property of howl, finds current point
@@ -60,83 +58,56 @@ const TestPlayer = () => {
     setStream(generatedStream);
   }, []);
 
-  // this all needs refactoring, was more to test and illustrate functionality, not DRY
-  // const handClick = (event: MouseEvent<HTMLButtonElement>) => {
-  //   const currentMixtape = stream[streamIndex];
-  //   if (button.className === 'lay')
-  //     if (!currentMixtape.playing()) {
-  //       currentMixtape.play();
-  //     }
-  // };
-
-  const handlePlayClick = (event: MouseEvent<HTMLButtonElement>) => {
-    console.log('play clicked');
+  // handle click event for play,pause and stop
+  const handleClick = (
+    event: MouseEvent<HTMLButtonElement>,
+    action: string
+  ) => {
     const currentMixtape = stream[streamIndex];
-    if (!currentMixtape.playing()) {
+
+    if (action === 'play' && !currentMixtape.playing()) {
       currentMixtape.play();
-    }
-  };
-
-  const handlePauseClick = (event: MouseEvent<HTMLButtonElement>) => {
-    console.log('pause clicked');
-    const currentMixtape = stream[streamIndex];
-    if (currentMixtape.playing()) {
+    } else if (action === 'pause' && currentMixtape.playing()) {
       currentMixtape.pause();
-    }
-  };
-
-  const handleStopClick = (event: MouseEvent<HTMLButtonElement>) => {
-    const currentMixtape = stream[streamIndex];
-    console.log('stop clicked');
-    if (currentMixtape.playing()) {
+    } else if (action === 'stop' && currentMixtape.playing()) {
       currentMixtape.stop();
     }
   };
 
-  const handleNextClick = (event: MouseEvent<HTMLButtonElement>) => {
-    event.stopPropagation();
-    console.log('next clicked');
-    // tried to do this with a currentMixtape state but didnt work as well
-    const currentMixtape = stream[streamIndex];
+  // Handle click Navigation parent function for next and previous
+  const handleClickNavigation = (newIndex: number) => {
+    setStreamIndex(newIndex);
+    const newMixtape = stream[newIndex];
+    newMixtape.play();
+  };
 
+  const handleNextClick = (event: MouseEvent<HTMLButtonElement>) => {
+    const currentMixtape = stream[streamIndex];
     currentMixtape.stop();
 
+    // if the stream is not at the end, increment it
     if (streamIndex < stream.length - 1) {
       const newIndex = streamIndex + 1;
-      setStreamIndex(newIndex);
-
-      const newMixtape = stream[newIndex];
-      newMixtape.play();
-    } else {
+      handleClickNavigation(newIndex);
       // else start from the beginning
+    } else {
       const newIndex = 0;
-      setStreamIndex(newIndex);
-      const newMixtape = stream[newIndex];
-      newMixtape.play();
+      handleClickNavigation(newIndex);
     }
   };
 
   const handlePreviousClick = (event: MouseEvent<HTMLButtonElement>) => {
-    console.log('Previous clicked');
-    event.stopPropagation();
-
-    // stop the current one
     const currentMixtape = stream[streamIndex];
     currentMixtape.stop();
 
     //if streamIndex is greater or equal than 1, decrement it
     if (streamIndex >= 1) {
       const newIndex = streamIndex - 1;
-      setStreamIndex(newIndex);
-      const newMixTape = stream[newIndex];
-      newMixTape.play();
+      handleClickNavigation(newIndex);
       // else go to the end
     } else {
       const newIndex = stream.length - 1;
-      setStreamIndex(newIndex);
-
-      const newMixtape = stream[newIndex];
-      newMixtape.play();
+      handleClickNavigation(newIndex);
     }
   };
 
@@ -168,13 +139,13 @@ const TestPlayer = () => {
         <p ref={totalDurationRef}></p>
       </div>
       <div className="player-controls">
-        <button type="button" onClick={handlePlayClick}>
+        <button type="button" onClick={(e) => handleClick(e, 'play')}>
           Play
         </button>
-        <button type="button" onClick={handlePauseClick}>
+        <button type="button" onClick={(e) => handleClick(e, 'pause')}>
           Pause
         </button>
-        <button type="button" onClick={handleStopClick}>
+        <button type="button" onClick={(e) => handleClick(e, 'stop')}>
           Stop
         </button>
         <button type="button" onClick={handlePreviousClick}>
