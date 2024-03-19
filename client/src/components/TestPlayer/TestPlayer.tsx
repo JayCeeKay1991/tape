@@ -1,6 +1,9 @@
 import { MouseEvent, useEffect, useState, useRef } from 'react';
 import { Howl } from 'howler';
-
+import { IoMdPlay } from 'react-icons/io';
+import { IoMdPause } from 'react-icons/io';
+import { MdSkipNext } from 'react-icons/md';
+import { MdSkipPrevious } from 'react-icons/md';
 import './TestPlayer.css';
 /* So actually the main error I'm getting with this is that the html5 audiopool is exhausted, and just found a stack overflow thread that talks
 about this error with Howler and suggested the solution is to do it using the native html audio tag, so could maybe try that unless someone else finds a solution */
@@ -20,6 +23,8 @@ const TestPlayer = () => {
 
   // not sure if i need this
   const [audioDuration, setAudioDuration] = useState<number>(0);
+
+  const [playing, setPlaying] = useState(false);
 
   // lets see if we need this
   const progressBarRef = useRef<HTMLInputElement>(null);
@@ -84,10 +89,10 @@ const TestPlayer = () => {
 
     if (action === 'play' && !currentMixtape.playing()) {
       currentMixtape.play();
-
-      console.log(currentMixtape);
+      setPlaying(true);
     } else if (action === 'pause' && currentMixtape.playing()) {
       currentMixtape.pause();
+      setPlaying(false);
     } else if (action === 'stop' && currentMixtape.playing()) {
       currentMixtape.stop();
     }
@@ -98,6 +103,7 @@ const TestPlayer = () => {
     setStreamIndex(newIndex);
     const newMixtape = stream[newIndex];
     newMixtape.play();
+    setPlaying(true);
   };
 
   const handleNextClick = (event: MouseEvent<HTMLButtonElement>) => {
@@ -166,10 +172,38 @@ const TestPlayer = () => {
   };
 
   return (
-    <div className="player">
-      <h1>Channel #1</h1>
-      <div className="progress-bar-container">
-        <span id="current-time" ref={durationRef}></span>
+    <div id="player" className="w-full flex flex-row justify-center">
+      <div
+        id="progress-bar"
+        className="w-2/3 flex flex-row justify-center items-center"
+      >
+        <div id="btn-playPause">
+          {/* if playing false, render play button, else render pause button */}
+          {playing ? (
+            <button
+              type="button"
+              onClick={(e) => handleClick(e, 'pause')}
+              className="text-tapeWhite me-5"
+              id="play-icon"
+            >
+              <IoMdPause />
+            </button>
+          ) : (
+            <button
+              type="button"
+              className="text-tapeWhite me-5"
+              onClick={(e) => handleClick(e, 'play')}
+            >
+              <IoMdPlay />
+            </button>
+          )}
+        </div>
+        {/* <span
+          id="current-time"
+          ref={durationRef}
+          className="text-tapeWhite"
+        ></span> */}
+
         <input
           type="range"
           id="seek-slider"
@@ -177,34 +211,34 @@ const TestPlayer = () => {
           defaultValue="0"
           max={audioDuration.toString()}
           onChange={handleProgressBarChange}
+          className="w-[697px] me-5 border-tapePink text-tapePink"
         />
-        <span id="duration" ref={totalDurationRef}></span>
-      </div>
-      <div className="player-controls">
-        <button
-          type="button"
-          id="play-icon"
-          onClick={(e) => handleClick(e, 'play')}
-        >
-          Play
-        </button>
-        <button type="button" onClick={(e) => handleClick(e, 'pause')}>
-          Pause
-        </button>
-        <button type="button" onClick={(e) => handleClick(e, 'stop')}>
-          Stop
-        </button>
-        <button type="button" onClick={handlePreviousClick}>
-          Previous
-        </button>
-        <button type="button" onClick={handleNextClick}>
-          Next
-        </button>
-      </div>
-      <div className="volume-controls">
-        <button type="button" onClick={handleToggleMute}>
-          Mute
-        </button>
+        <span
+          id="duration"
+          ref={totalDurationRef}
+          className="text-tapeWhite me-5"
+        ></span>
+        <div id="player-controls">
+          <button
+            type="button"
+            onClick={handlePreviousClick}
+            className="text-tapeWhite me-2"
+          >
+            <MdSkipPrevious />
+          </button>
+          <button
+            type="button"
+            onClick={handleNextClick}
+            className="text-tapeWhite"
+          >
+            <MdSkipNext />
+          </button>
+        </div>
+        <div className="volume-controls">
+          <button type="button" onClick={handleToggleMute}>
+            Mute
+          </button>
+        </div>
       </div>
     </div>
   );
