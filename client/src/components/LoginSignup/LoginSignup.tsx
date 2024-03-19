@@ -29,7 +29,7 @@ export function LoginSignup({ formValue, toggleShowLogin }: propsType) {
     >
       <div
         id="loginSignup"
-        className="w-[500px] rounded-[20px] bg-tapeBlack flex flex-col items-center justify-between border-tapeDarkGrey border-[2px]"
+        className="w-[540px] h-[800px] rounded-[20px] bg-tapeBlack flex flex-col items-center justify-between border-tapeDarkGrey border-[2px]"
       >
         <div id="buttonWrap" className="w-full">
           <button
@@ -46,8 +46,8 @@ export function LoginSignup({ formValue, toggleShowLogin }: propsType) {
               Welcome back
             </p>
             <div className="w-[180px] flex flex-row justify-between text-[27px] font-medium text-tapeDarkGrey mb-[40px]">
-              <a className="text-tapeWhite" onClick={()=> setFormState('login')}>Login</a>
-              <a className="text-tapeDarkGrey hover:text-tapeWhite" onClick={()=> setFormState('signUp')}>Sign up</a>
+              <a className="text-tapeWhite cursor-pointer" onClick={()=> setFormState('login')}>Login</a>
+              <a className="text-tapeDarkGrey hover:text-tapeWhite cursor-pointer" onClick={()=> setFormState('signUp')}>Sign up</a>
             </div>
             <LoginForm />
           </>
@@ -57,8 +57,8 @@ export function LoginSignup({ formValue, toggleShowLogin }: propsType) {
               Sign up
             </p>
             <div className="w-[180px] flex flex-row justify-between text-[27px] font-medium text-tapeWhite mb-[40px]">
-              <a onClick={()=> setFormState('login')} className="text-tapeDarkGrey hover:text-tapeWhite">Login</a>
-              <a onClick={()=> setFormState('signUp')} className="text-tapeWhite">Sign up</a>
+              <a onClick={()=> setFormState('login')} className="text-tapeDarkGrey hover:text-tapeWhite cursor-pointer">Login</a>
+              <a onClick={()=> setFormState('signUp')} className="text-tapeWhite cursor-pointer">Sign up</a>
             </div>
             <SignupForm />
           </>
