@@ -70,6 +70,7 @@ function LoginForm() {
           onChange={changeHandler}
           placeholder="email"
           required={true}
+          data-testid="input-email"
         ></input>
         <input
           name="password"
@@ -79,7 +80,7 @@ function LoginForm() {
           placeholder="password"
           required={true}
         ></input>
-        <button className="login-button" type="submit">
+        <button className="login-button" type="submit" data-testid="login-button" >
           login
         </button>
       </form>
