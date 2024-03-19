@@ -1,22 +1,31 @@
-import { apiClient } from './ApiClient';
-import { User } from '../types/User';
-import { FormValuesUser } from '../components/SignupForm/SignupForm';
-import { FormValuesUserLogin } from '../components/LoginForm/LoginForm';
+import { apiClient } from "./ApiClient";
+import { User } from "../types/User";
+import { FormValuesUser } from "../components/SignupForm/SignupForm";
+import { FormValuesUserLogin } from "../components/LoginForm/LoginForm";
+import FormValuesUserProfile from "../components/UserDetails/UserDetails";
 
 // Sign up new user
-export const signup = async (body: FormValuesUser) => {
+export async function signup(body: FormValuesUser) {
   try {
-    return await apiClient<User>('users', 'POST', body);
+    return await apiClient<User>("users", "POST", body);
   } catch (error) {
     console.error(error);
   }
-};
+}
 
 // log in existing user
-export const login = async (body: FormValuesUserLogin) => {
+export async function login(body: FormValuesUserLogin) {
   try {
-    return await apiClient<User>('users/login', 'POST', body);
+    return await apiClient<User>("users/login", "POST", body);
   } catch (error) {
     console.error(error);
   }
-};
+}
+
+export async function updateUser(body: Omit<User, "channels" | "mixTapes">) {
+  try {
+    return await apiClient<User>(`users/${body._id}`, "PUT", body);
+  } catch (error) {
+    console.error(error);
+  }
+}

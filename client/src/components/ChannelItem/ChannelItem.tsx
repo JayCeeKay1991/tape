@@ -1,7 +1,5 @@
 import { Channel } from "../../types/Channel"
 import { useNavigate } from "react-router"
-import './ChannelItem.css';
-
 
 type ChannelItemProps = {
   channel: Channel
@@ -12,21 +10,17 @@ const ChannelItem = ({channel}:ChannelItemProps) => {
   const navigate = useNavigate();
 
   const navigateToChannel = () => {
-    const id = channel._id;
-    navigate(`/channels/${id}`);
+    navigate(`/channels/${channel._id}`, {state: {channel}});
   }
 
   return (
-    <div id="channel-item-wrap" >
-      <button onClick={navigateToChannel} >To Channel</button>
-      <img id="channel-thumbnail" src={channel.picture}/>
-      <h3>{channel.name}</h3>
-      <div id="channel-item-footer" >
-        <div id="channel-member-prev" >
-          <img></img>
-          <img></img>
-          <img></img>
-        </div>
+    <div id="channel-item-wrap" className="w-60 h-96 bg-gradient-to-b from-tapePink to-tapeYellow rounded-3xl overflow-hidden text-tapeWhite" >
+      <button onClick={navigateToChannel} className="rounded-t-3xl border-none">
+        <img id="channel-thumbnail" src={channel.picture} className="rounded-full h-48 w-48 object-cover my-6 mx-6" />
+      </button>
+      <h1 className="mx-2 leading-10" >{channel.name}</h1>
+      <div id="channel-item-footer" className="flex justify-between mx-2" >
+        <p>{`${channel.members.length} members`}</p>
         <p>duration</p>
       </div>
     </div>
