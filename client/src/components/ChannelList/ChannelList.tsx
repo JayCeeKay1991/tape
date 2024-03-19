@@ -20,7 +20,7 @@ const ChannelList = () => {
   }
 
   return (
-    <div id="channel-list-wrap" className='bg-tapeOffBlack flex-col w-3/5 my-5 px-10 rounded-3xl'>
+    <div id="channel-list-wrap" className='bg-tapeOffBlack flex-col w-3/4 my-5 px-10 rounded-3xl'>
       <div id="channel-list-header" className='flex justify-between items-center h-1/6'>
         <h1>Your channels</h1>
         <div id="channel-list-controls" >
