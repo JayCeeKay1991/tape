@@ -10,7 +10,7 @@ type propsType = {
   setChannelList: Dispatch<SetStateAction<Channel[]>>;
 };
 
-const AddChannelForm = ({setChannelList, setShowForm}:propsType) => {
+export default function AddChannelForm ({setChannelList, setShowForm}:propsType) {
   const { user } = useMainContext();
 
   const initialState = {
@@ -73,4 +73,3 @@ const AddChannelForm = ({setChannelList, setShowForm}:propsType) => {
 
 }
 
-export default AddChannelForm;

@@ -22,7 +22,9 @@ export async function login(body: FormValuesUserLogin) {
   }
 }
 
-export async function updateUser(body: Omit<User, "channels" | "mixTapes">) {
+export async function updateUser(
+  body: Omit<User, "channels" | "mixTapes" | "password">
+) {
   try {
     return await apiClient<User>(`users/${body._id}`, "PUT", body);
   } catch (error) {
