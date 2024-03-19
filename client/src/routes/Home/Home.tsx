@@ -31,7 +31,10 @@ const Home = () => {
       <Nav toggleShowLogin={toggleShowLogin} />
 
       {loginVisible && (
-        <LoginSignup formValue={formValue} toggleShowLogin={toggleShowLogin} />
+        <LoginSignup
+          formValue={formValue}
+          toggleShowLogin={toggleShowLogin}
+        />
       )}
 
       <div id="wrapper" className="w-full h-full bg-tapeGreen flex flex-col">

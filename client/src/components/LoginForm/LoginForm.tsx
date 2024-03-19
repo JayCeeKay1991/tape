@@ -65,28 +65,31 @@ function LoginForm() {
       <form
         id="login-form"
         onSubmit={handleLogin}
-        className="w-full h-[420px] flex flex-col"
+        className="flex flex-col w-[400px] pb-[50px]"
       >
         <input
           name="email"
           type="text"
           value={formValuesUserLogin.email}
           onChange={changeHandler}
-          placeholder="email"
+          placeholder="Email"
           required={true}
-          className="h-[90px] mb-[20px] p-[30px]"
+          className="h-[90px] mb-[50px] p-[30px]  border-tapeDarkGrey bg-tapeBlack border-[2px] text-[25px] text-tapeWhite font-medium outline-none"
         ></input>
         <input
           name="password"
           type="password"
           value={formValuesUserLogin.password}
           onChange={changeHandler}
-          placeholder="password"
+          placeholder="Password"
           required={true}
-          className="h-[90px] mb-[20px] p-[30px]"
+          className="h-[90px] mb-[50px] p-[30px] border-tapeDarkGrey bg-tapeBlack border-[2px] text-[25px] text-tapeWhite font-medium outline-none"
         ></input>
-        <button className="h-[90px] bg-tapeYellow border-none rounded-[10px]" type="submit">
-          login
+        <button
+          className="h-[90px] bg-tapeYellow border-none rounded-[10px] text-[30px] font-semibold"
+          type="submit"
+        >
+          Login
         </button>
       </form>
     </>
