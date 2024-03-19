@@ -1,5 +1,6 @@
 import { MouseEvent, useEffect, useState, useRef } from 'react';
 import { Howl } from 'howler';
+import { Buttons } from '@testing-library/user-event/dist/types/system/pointer/buttons';
 
 /* So actually the main error I'm getting with this is that the html5 audiopool is exhausted, and just found a stack overflow thread that talks
 about this error with Howler and suggested the solution is to do it using the native html audio tag, so could maybe try that unless someone else finds a solution */
@@ -35,14 +36,7 @@ const TestPlayer = () => {
                 Math.round(this.duration())
               );
             }
-            if (volumeRef.current) {
-              // renders default 100% volume
 
-              const roundedVolume = Math.round(this.volume() * 100)
-                .toFixed(2)
-                .toString();
-              volumeRef.current.textContent = roundedVolume;
-            }
             const timerId = setInterval(() => {
               // handles the rendering of the currently elapsed time by updating every second
               if (this.playing()) {
@@ -67,6 +61,14 @@ const TestPlayer = () => {
   }, []);
 
   // this all needs refactoring, was more to test and illustrate functionality, not DRY
+  // const handClick = (event: MouseEvent<HTMLButtonElement>) => {
+  //   const currentMixtape = stream[streamIndex];
+  //   if (button.className === 'lay')
+  //     if (!currentMixtape.playing()) {
+  //       currentMixtape.play();
+  //     }
+  // };
+
   const handlePlayClick = (event: MouseEvent<HTMLButtonElement>) => {
     console.log('play clicked');
     const currentMixtape = stream[streamIndex];
@@ -96,11 +98,6 @@ const TestPlayer = () => {
     console.log('next clicked');
     // tried to do this with a currentMixtape state but didnt work as well
     const currentMixtape = stream[streamIndex];
-    const currentVolume = currentMixtape.volume();
-    console.log(currentVolume);
-    const currentRoundedVolume = Math.round(currentMixtape.volume() * 100)
-      .toFixed(2)
-      .toString();
 
     currentMixtape.stop();
 
@@ -152,33 +149,6 @@ const TestPlayer = () => {
     );
   };
 
-  // const handleVolumeUp = (event: MouseEvent<HTMLButtonElement>) => {
-  //   const currentMixtape = stream[streamIndex];
-  //   const newVolume = Math.min(currentMixtape.volume() + 0.05, 1);
-  //   currentMixtape.volume(newVolume);
-  //   if (volumeRef.current) {
-  //     // renders new volume
-  //     const roundedVolume = Math.round(currentMixtape.volume() * 100)
-  //       .toFixed(2)
-  //       .toString();
-  //     volumeRef.current.textContent = roundedVolume;
-  //   }
-  // };
-
-  // const handleVolumeDown = (event: MouseEvent<HTMLButtonElement>) => {
-  //   const currentMixtape = stream[streamIndex];
-  //   const newVolume = Math.max(currentMixtape.volume() - 0.05, 0);
-  //   currentMixtape.volume(newVolume);
-  //   if (volumeRef.current) {
-  //     // renders new volume
-  //     const roundedVolume = Math.round(currentMixtape.volume() * 100)
-  //       .toFixed(2)
-  //       .toString();
-
-  //     volumeRef.current.textContent = roundedVolume;
-  //   }
-  // };
-
   const handleToggleMute = (event: MouseEvent<HTMLButtonElement>) => {
     const currentMixtape = stream[streamIndex];
     if (muted === true) {
@@ -215,16 +185,9 @@ const TestPlayer = () => {
         </button>
       </div>
       <div className="volume-controls">
-        <p ref={volumeRef}></p>
         <button type="button" onClick={handleToggleMute}>
           Mute
         </button>
-        {/* <button type="button" onClick={handleVolumeUp}> */}
-        {/* Volume Up */}
-        {/* </button> */}
-        {/* <button type="button" onClick={handleVolumeDown}>
-          Volume Down
-        </button> */}
       </div>
     </div>
   );
