@@ -62,13 +62,14 @@ export const login = async (req: Request, res: Response) => {
     }
     // Find user by email
     const user = await UserModel.findOne({ email: email })
-    .populate({
-      path: 'channels',
-      populate: {
-        path: 'mixTapes',
-        model: 'MixTape'
-      }
-    }).exec();
+      .populate({
+        path: "channels",
+        populate: {
+          path: "mixTapes",
+          model: "MixTape",
+        },
+      })
+      .exec();
 
     // Check if user exists
     if (!user) {
@@ -99,23 +100,21 @@ export const editUser = async (req: Request, res: Response) => {
     const id = req.params.id;
     const { userName, email, password, profilePic, channels, mixTapes } =
       req.body;
-    if (password) {
-      const hash = await bcrypt.hash(password, 10);
-      req.body.password = hash;
-    }
     if (!email || !password || !userName) {
       return res.status(400).json({
         error: "400",
         message: "Please provide email and password",
       });
     }
+    const hash = await bcrypt.hash(password, 10);
+    const hashedPassword = hash;
     const updatedUser = await UserModel.findOneAndUpdate(
       { _id: id },
       {
         $set: {
           userName: userName,
           email: email,
-          password: password,
+          password: hashedPassword,
           profilePic: profilePic,
           channels: channels,
           mixTapes: mixTapes,
