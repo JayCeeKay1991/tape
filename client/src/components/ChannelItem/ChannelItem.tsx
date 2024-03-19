@@ -14,7 +14,7 @@ const ChannelItem = ({channel}:ChannelItemProps) => {
   }
 
   return (
-    <div id="channel-item-wrap" className="w-60 h-96 bg-gradient-to-b from-tapePink tapeYellow rounded-3xl overflow-hidden text-tapeBlack" >
+    <div id="channel-item-wrap" className="w-60 h-96 bg-gradient-to-b from-tapePink to-tapeYellow rounded-3xl overflow-hidden text-tapeWhite" >
       <button onClick={navigateToChannel} className="rounded-t-3xl border-none">
         <img id="channel-thumbnail" src={channel.picture} className="rounded-full h-48 w-48 object-cover my-6 mx-6" />
       </button>

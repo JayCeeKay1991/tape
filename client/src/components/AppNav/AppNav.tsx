@@ -16,7 +16,7 @@ const AppNav = () => {
     return (
         <nav className="w-full h-20 bg-tapeBlack fixed top-0 left-0 flex flex-row items-center justify-between pr-5 pl-5">
             <div className="flex flex-row align-middle">
-                <Link to={`/home`} >
+                <Link to={`/dash`} >
                     <button className=" text-tapeWhite"><MdHome size={30} /></button>
                 </Link>
                 <input className="bg-tapeBlack text-tapeWhite mx-8 focus:outline none" type='text' placeholder='Search...' />
