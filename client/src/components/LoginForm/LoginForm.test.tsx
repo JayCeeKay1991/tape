@@ -30,6 +30,5 @@ describe('User inputs are calling change handlers', async () => {
     await userEvent.type(emailInput, user.email);
     expect(emailInput.value).toBe(user.email);
   })
-
 });
 
