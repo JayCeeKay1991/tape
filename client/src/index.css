@@ -7,12 +7,12 @@
         @apply text-xl;
     }
 
-    /* button {
+    .white-button {
         @apply bg-tapeWhite rounded-full p-4 text-tapeBlack;
-    } */
+    }
 
     input {
-        @apply bg-tapeWhite border-tapeBlack;
+        @apply bg-tapeWhite border-tapeBlack text-tapeBlack rounded-xl p-1;
     }
 
 }
@@ -27,6 +27,7 @@ body {
     font-style: normal;
     margin: 0;
     padding: 100px 0;
+    background-color: var(--tapeBlack);
 }
 
 html {
@@ -44,9 +45,9 @@ html {
 :root {
     /* COLORS */
     --tapeBlack: #151515;
-    --tapeBlack: #1B1B1B;
-    --tapeGreen: #00A97C;
-    --tapePink: #EE87B5;
+    --tapeOffBlack: #1B1B1B;
+    /* --tapeGreen: #BBF771;
+    --tapePink: #FF65AA; */
     --tapeOrange: #FE7B27;
     --darkGrey: #87888A;
     --mediumGrey: #BCBDC0;
