@@ -126,9 +126,9 @@ const Channel = () => {
     <div id="channel-element" className="text-tapeWhite h-72 bg-gradient-to-r from-tapePink tapeYellow flex justify-between p-10 w-11/12 m-12 rounded-2xl" >
       <div id="channel-info" >
         <h1 className="flex items-center" ><MdPlayArrow size={35}/>{channel.name}</h1>
-        <p>{`${channel.mixtapes ? channel.mixtapes.length : 0} mixtapes`}</p>
+        <p className="pl-3" >{`${channel.mixtapes ? channel.mixtapes.length : 0} mixtapes`}</p>
       </div>
-      <img src={channel.picture} className="w-48 rounded-2xl" />
+      <img src={channel.picture} className="w-48 rounded-2xl object-cover" />
     </div>
     <form className="text-tapeWhite flex flex-col w-72 gap-2" >
       <h2>Add a mixtape</h2>
