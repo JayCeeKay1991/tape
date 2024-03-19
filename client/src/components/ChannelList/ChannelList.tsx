@@ -24,7 +24,7 @@ const ChannelList = () => {
       <div id="channel-list-header" className='flex justify-between items-center h-1/6'>
         <h1>Your channels</h1>
         <div id="channel-list-controls" >
-          <button onClick={toggleAddForm} className='bg-tapeWhite rounded-full p-4 text-tapeBlack' >Add channel</button>
+          <button onClick={toggleAddForm} className='white-button' >Add channel</button>
         </div>
       </div>
       <div id="channel-list" className='flex gap-x-10' >
