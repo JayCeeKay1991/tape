@@ -6,19 +6,13 @@ import bcrypt from "bcrypt";
 // get all users
 export const getAllUsers = async(req: Request, res: Response) => {
   try {
-    const users = UserModel.find({});
-    if (users) {
-      res.status(200).json(users)
-    }
-    else {
-      res.status(400).json('No users!')
-    }
+    const users = await UserModel.find();
+    res.status(200).json(users)
   } catch (error) {
     res.status(500).json("Error getting users");
     console.error(error);
   }
 }
-
 
 export const createUser = async (req: Request, res: Response) => {
   try {

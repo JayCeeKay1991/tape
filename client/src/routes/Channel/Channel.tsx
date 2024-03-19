@@ -8,6 +8,7 @@ import { MixTape } from "../../types/Mixtape";
 import { User } from "../../types/User";
 import { MdPlayArrow } from "react-icons/md";
 import { getAllUsers } from "../../services/UserClientService";
+import AddMembersSelect from "../../components/AddMembersSelect/AddMembersSelect";
 
 type FormValues = Omit<MixTape, '_id'>;
 
@@ -180,13 +181,14 @@ const Channel = () => {
       }
       {
       showMemberForm ? (
-      <form className="text-tapeWhite flex flex-col w-72 gap-2">
-        <select name="members select">
-          {users.map(user => (
-            <option key={user._id} value={user.userName}>{user.userName}</option>
-          ))}
-        </select>
-      </form>) : (<></>)
+      // <form className="text-tapeWhite flex flex-col w-72 gap-2">
+      //   <select name="members select">
+      //     {users.map(user => (
+      //       <option key={user._id} value={user.userName}>{user.userName}</option>
+      //     ))}
+      //   </select>
+      // </form>)
+      <AddMembersSelect />) : (<></>)
       }
       <TestPlayer />
     </div>
