@@ -28,7 +28,14 @@ const mockUser2 = {
 
 const mockUser3 = {
   userName: "mock3",
-  email: "test@example.com",
+  email: "test3@example.com",
+  password: "123",
+  profilePic: "",
+};
+
+const mockUser4 = {
+  userName: "mock4",
+  email: "test4@example.com",
   password: "123",
   profilePic: "",
 };
@@ -64,7 +71,7 @@ describe("User Controller", () => {
     );
   });
 
-  it("should not created User without email", async () => {
+  it("should not created User without an email", async () => {
     await request
       .post("/users")
       .send(mockUser2)
@@ -95,7 +102,7 @@ describe("User Controller", () => {
       });
   });
 
-  it("should update user", async () => {
+  it("should update a user", async () => {
     const mockWithId = await request.post("/users").send(mockUser);
     return await request
       .put(`/users/${mockWithId.body._id}`)
@@ -105,7 +112,7 @@ describe("User Controller", () => {
       });
   });
 
-  it("should not update user if the ine of the required filed is missing", async () => {
+  it("should not update user if the one of the required fields is missing", async () => {
     const mockWithId = await request.post("/users").send(mockUser);
     return await request
       .put(`/users/${mockWithId.body._id}`)
@@ -114,4 +121,16 @@ describe("User Controller", () => {
         expect(response?.status).toBe(400);
       });
   });
+
+  it("should retrieve all users", async () => {
+    await request.post("/users").send(mockUser);
+    await request.post("/users").send(mockUser4);
+
+    return await request.get('/users')
+      .then((response) => {
+        expect(response.status).toBe(200);
+        expect(response.body.length).toEqual(2);
+      })
+
+  })
 });
