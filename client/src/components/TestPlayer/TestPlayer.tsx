@@ -1,7 +1,7 @@
 import { MouseEvent, useEffect, useState, useRef } from 'react';
 import { Howl } from 'howler';
-import { Buttons } from '@testing-library/user-event/dist/types/system/pointer/buttons';
 
+import './TestPlayer.css';
 /* So actually the main error I'm getting with this is that the html5 audiopool is exhausted, and just found a stack overflow thread that talks
 about this error with Howler and suggested the solution is to do it using the native html audio tag, so could maybe try that unless someone else finds a solution */
 
@@ -18,6 +18,12 @@ const TestPlayer = () => {
   const durationRef = useRef<HTMLParagraphElement>(null); // ref to duration p element that will change
   const totalDurationRef = useRef<HTMLParagraphElement>(null); // ref to duration p that will show mixtapes total length
 
+  // not sure if i need this
+  const [audioDuration, setAudioDuration] = useState<number>(0);
+
+  // lets see if we need this
+  const progressBarRef = useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     // create stream array from mixTapes
     const generateStream = () => {
@@ -28,17 +34,26 @@ const TestPlayer = () => {
           html5: true, // html 5 is better for large files
           onplay: function (this: Howl) {
             // defines callback function that runs onplay, must be function needs explicit this
+
             if (totalDurationRef.current) {
               // renders total duration in p element
               totalDurationRef.current.textContent = formatTime(
                 Math.round(this.duration())
               );
+              // Update the total audio duration state when the audio is loaded
+              setAudioDuration(Math.round(this.duration()));
             }
 
             // handles the rendering of the currently elapsed time by updating every second
             const timerId = setInterval(() => {
               if (this.playing()) {
                 const currentTime = this.seek();
+
+                // Update the value of the progress bar
+                if (progressBarRef.current) {
+                  progressBarRef.current.value = String(currentTime);
+                }
+
                 // seek is property of howl, finds current point
                 if (durationRef.current) {
                   durationRef.current.textContent = formatTime(
@@ -53,12 +68,14 @@ const TestPlayer = () => {
       });
       return mixtapes;
     };
+
     const generatedStream = generateStream();
     // set the state to the stream produced by above function
     setStream(generatedStream);
   }, []);
 
   // handle click event for play,pause and stop
+
   const handleClick = (
     event: MouseEvent<HTMLButtonElement>,
     action: string
@@ -67,6 +84,8 @@ const TestPlayer = () => {
 
     if (action === 'play' && !currentMixtape.playing()) {
       currentMixtape.play();
+
+      console.log(currentMixtape);
     } else if (action === 'pause' && currentMixtape.playing()) {
       currentMixtape.pause();
     } else if (action === 'stop' && currentMixtape.playing()) {
@@ -131,15 +150,42 @@ const TestPlayer = () => {
     }
   };
 
+  const handleProgressBarChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const currentTimeState = parseFloat(event.target.value);
+    const currentMixtape = stream[streamIndex];
+    currentMixtape.seek(currentTimeState);
+
+    // Update the current time displayed
+    if (durationRef.current) {
+      durationRef.current.textContent = formatTime(
+        Math.round(currentTimeState)
+      );
+    }
+  };
+
   return (
     <div className="player">
       <h1>Channel #1</h1>
-      <div className="progress-bar">
-        <p ref={durationRef}></p>
-        <p ref={totalDurationRef}></p>
+      <div className="progress-bar-container">
+        <span id="current-time" ref={durationRef}></span>
+        <input
+          type="range"
+          id="seek-slider"
+          ref={progressBarRef}
+          defaultValue="0"
+          max={audioDuration.toString()}
+          onChange={handleProgressBarChange}
+        />
+        <span id="duration" ref={totalDurationRef}></span>
       </div>
       <div className="player-controls">
-        <button type="button" onClick={(e) => handleClick(e, 'play')}>
+        <button
+          type="button"
+          id="play-icon"
+          onClick={(e) => handleClick(e, 'play')}
+        >
           Play
         </button>
         <button type="button" onClick={(e) => handleClick(e, 'pause')}>
