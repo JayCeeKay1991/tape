@@ -3,11 +3,12 @@ import { getAllUsers } from '../../services/UserClientService'
 import { User } from '../../types/User'
 import johnMartin from '../../components/AppNav/johnmartin.jpg'
 import { addUserToChannel } from '../../services/ChannelClientService';
-import { Channel } from '../../types/Channel';
+import { ChannelType } from '../../types/Channel';
+
 
 interface AddMembersSelectProps {
   channelId: string
-  setChannel: Dispatch<SetStateAction<Channel>>
+  setChannel: Dispatch<SetStateAction<ChannelType>>
 }
 
 const AddMembersSelect = ({channelId, setChannel}:AddMembersSelectProps) => {
@@ -32,7 +33,8 @@ const AddMembersSelect = ({channelId, setChannel}:AddMembersSelectProps) => {
     if (user) {
       setSelectedMembers(prevSelectedMembers => [...prevSelectedMembers, user]);
       // add new user to channel on back end
-      await addUserToChannel(channelId, { userId: user._id})
+      const updatedChannel = await addUserToChannel(channelId, { "userId": user._id})
+      setChannel(updatedChannel);
     }
   };
 
@@ -72,24 +74,5 @@ const AddMembersSelect = ({channelId, setChannel}:AddMembersSelectProps) => {
     </div>
   );
 };
-
-
-//   return (
-//     <div>
-//       <ul className='align-middle text-tapeWhite flex flex-col w-72 gap-2 rounded-2xl'>
-//         {
-//           users.map(user => (
-//             <li className='flex flex-row hover:bg-tapePink' key={user._id} onClick={() => handleMemberSelect(user._id)}  >
-//               <div className="overflow-hidden rounded-full w-[50px] h-[50px]">
-//                 <img src={user.profilePic ? user.profilePic : johnMartin} alt={user.userName} className='w-16 h-16 object-cover' style={{ objectPosition: 'center-center' }} />
-//               </div>
-//               <p className='text-tapeWhite '>{user.userName}</p>
-//             </li>
-//           ))
-//         }
-//       </ul>
-//     </div>
-//   )
-// }
 
 export default AddMembersSelect

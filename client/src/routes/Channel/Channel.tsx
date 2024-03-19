@@ -9,6 +9,7 @@ import { User } from "../../types/User";
 import { MdPlayArrow } from "react-icons/md";
 import { getAllUsers } from "../../services/UserClientService";
 import AddMembersSelect from "../../components/AddMembersSelect/AddMembersSelect";
+import { ChannelType } from "../../types/Channel";
 
 type FormValues = Omit<MixTape, '_id'>;
 
@@ -16,7 +17,7 @@ type FormValues = Omit<MixTape, '_id'>;
 const Channel = () => {
   const { user } = useMainContext();
   const location = useLocation();
-  const [channel, setChannel] = useState(location.state.channel);
+  const [channel, setChannel] = useState<ChannelType>(location.state.channel);
   const [showMixForm, setShowMixForm] = useState(false);
   const [showMemberForm, setShowMemberForm] = useState(false);
 
@@ -181,7 +182,7 @@ const Channel = () => {
       }
       {
         showMemberForm ? (
-          <AddMembersSelect />) : (<></>)
+          <AddMembersSelect channelId={channel._id} setChannel={setChannel} />) : (<></>)
       }
       <TestPlayer />
     </div>
