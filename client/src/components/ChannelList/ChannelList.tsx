@@ -3,7 +3,6 @@ import { useMainContext } from '../Context/Context';
 import ChannelItem from '../ChannelItem/ChannelItem';
 import AddChannelForm from '../AddChannelForm/AddChannelForm';
 import { Channel } from '../../types/Channel';
-import './ChannelList.css';
 
 
 const ChannelList = () => {
@@ -21,14 +20,14 @@ const ChannelList = () => {
   }
 
   return (
-    <div id="channel-list-wrap" >
-      <div id="channel-list-header" >
-        <h3>Your streams</h3>
+    <div id="channel-list-wrap" className='bg-tapeOffBlack flex-col w-3/5 my-5 px-10 rounded-3xl'>
+      <div id="channel-list-header" className='flex justify-between items-center h-1/6'>
+        <h1>Your channels</h1>
         <div id="channel-list-controls" >
-          <button onClick={toggleAddForm} >Add channel</button>
+          <button onClick={toggleAddForm} className='bg-tapeWhite rounded-full p-4 text-tapeBlack' >Add channel</button>
         </div>
       </div>
-      <div id="channel-list" >
+      <div id="channel-list" className='flex gap-x-10' >
         {channelList.length ? channelList.map(channel => <ChannelItem key={channel._id} channel={channel}/>) : 'No channels yet.'}
       </div>
       {

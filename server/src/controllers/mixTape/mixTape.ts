@@ -6,7 +6,6 @@ import ChannelModel from "../../models/channel";
 export const createMixTape = async (req: Request, res: Response) => {
   try {
     const {name, url, duration, channels, creator, parentChannel } = req.body;
-    console.log('💚' ,req.body);
     const creatorId = creator._id.toString();
     const parentChannelId = parentChannel._id.toString();
     const newMixTape = new MixTapeModel({

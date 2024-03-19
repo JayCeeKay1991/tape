@@ -109,7 +109,6 @@ const Channel = () => {
               newMixTape
             ]
           })
-          console.log('💚', newMixTape);
       } else throw new Error('No uploaded file to add.');
       setFormValues(initialState);
       setFile(null);

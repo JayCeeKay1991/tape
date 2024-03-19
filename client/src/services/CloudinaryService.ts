@@ -20,6 +20,7 @@ export type CloudinaryRes = {
   placeholder: boolean;
   url: string;
   secure_url: string;
+  duration: number;
 }
 
 // post the image of a channel or user to cloudinary

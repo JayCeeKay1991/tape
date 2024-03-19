@@ -6,7 +6,7 @@ import { MdHome } from "react-icons/md";
 import { FiLogOut } from "react-icons/fi";
 
 const AppNav = () => {
-    const { setUser } = useMainContext()
+    const { user, setUser } = useMainContext()
     const navigate = useNavigate();
 
     const handleLogout = async () => {
@@ -22,11 +22,11 @@ const AppNav = () => {
                     <a className=" text-tapeWhite"><MdHome size={30} /></a>
                 </Link>
                 <input className="bg-tapeBlack text-tapeWhite mx-8 focus:outline none" type='text' placeholder='Search...' />
-            </div>     
+            </div>
             <div className="flex flex-row text-tapeWhite">
                     <Link to={'/user'}>
                         <div className="overflow-hidden rounded-full w-[50px] h-[50px]">
-                            <img src={johnMartin} className='w-16 h-16 object-cover' style={{ objectPosition: 'center-center' }} />
+                            <img src={user ? user.profilePic : johnMartin} className='w-16 h-16 object-cover' style={{ objectPosition: 'center-center' }} />
                         </div>
                     </Link>
                 <div className="flex flex-row align-middle">
