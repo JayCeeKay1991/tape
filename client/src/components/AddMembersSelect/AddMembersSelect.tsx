@@ -21,20 +21,22 @@ const AddMembersSelect = () => {
   }, [])
 
 
-  const options = users.map(user => ({
-    value: user,
-    label: (
-      <div className="overflow-hidden rounded-full w-[50px] h-[50px]" >
-        <img src={user.profilePic ? user.profilePic : johnMartin} className='w-16 h-16 object-cover' style={{ objectPosition: 'center-center' }} />
-        <p>{user.userName}</p>
-      </div>
-    )
-  }))
-
   return (
-    <Select options={options} className='w-[300px] ' />
+    <div>
+      <ul className='align-middle'>
+        {
+          users.map(user => (
+            <li className='flex flex-row' key={user._id}>
+              <div className="overflow-hidden rounded-full w-[50px] h-[50px]">
+                <img src={user.profilePic ? user.profilePic : johnMartin} alt={user.userName} className='w-16 h-16 object-cover' style={{ objectPosition: 'center-center' }} />
+              </div>
+              <p className='text-tapeWhite '>{user.userName}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
   )
-
 }
 
 export default AddMembersSelect
