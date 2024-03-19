@@ -96,6 +96,12 @@ const TestPlayer = () => {
     console.log('next clicked');
     // tried to do this with a currentMixtape state but didnt work as well
     const currentMixtape = stream[streamIndex];
+    const currentVolume = currentMixtape.volume();
+    console.log(currentVolume);
+    const currentRoundedVolume = Math.round(currentMixtape.volume() * 100)
+      .toFixed(2)
+      .toString();
+
     currentMixtape.stop();
 
     if (streamIndex < stream.length - 1) {
@@ -146,32 +152,32 @@ const TestPlayer = () => {
     );
   };
 
-  const handleVolumeUp = (event: MouseEvent<HTMLButtonElement>) => {
-    const currentMixtape = stream[streamIndex];
-    const newVolume = Math.min(currentMixtape.volume() + 0.05, 1);
-    currentMixtape.volume(newVolume);
-    if (volumeRef.current) {
-      // renders new volume
-      const roundedVolume = Math.round(currentMixtape.volume() * 100)
-        .toFixed(2)
-        .toString();
-      volumeRef.current.textContent = roundedVolume;
-    }
-  };
+  // const handleVolumeUp = (event: MouseEvent<HTMLButtonElement>) => {
+  //   const currentMixtape = stream[streamIndex];
+  //   const newVolume = Math.min(currentMixtape.volume() + 0.05, 1);
+  //   currentMixtape.volume(newVolume);
+  //   if (volumeRef.current) {
+  //     // renders new volume
+  //     const roundedVolume = Math.round(currentMixtape.volume() * 100)
+  //       .toFixed(2)
+  //       .toString();
+  //     volumeRef.current.textContent = roundedVolume;
+  //   }
+  // };
 
-  const handleVolumeDown = (event: MouseEvent<HTMLButtonElement>) => {
-    const currentMixtape = stream[streamIndex];
-    const newVolume = Math.max(currentMixtape.volume() - 0.05, 0);
-    currentMixtape.volume(newVolume);
-    if (volumeRef.current) {
-      // renders new volume
-      const roundedVolume = Math.round(currentMixtape.volume() * 100)
-        .toFixed(2)
-        .toString();
+  // const handleVolumeDown = (event: MouseEvent<HTMLButtonElement>) => {
+  //   const currentMixtape = stream[streamIndex];
+  //   const newVolume = Math.max(currentMixtape.volume() - 0.05, 0);
+  //   currentMixtape.volume(newVolume);
+  //   if (volumeRef.current) {
+  //     // renders new volume
+  //     const roundedVolume = Math.round(currentMixtape.volume() * 100)
+  //       .toFixed(2)
+  //       .toString();
 
-      volumeRef.current.textContent = roundedVolume;
-    }
-  };
+  //     volumeRef.current.textContent = roundedVolume;
+  //   }
+  // };
 
   const handleToggleMute = (event: MouseEvent<HTMLButtonElement>) => {
     const currentMixtape = stream[streamIndex];
@@ -213,12 +219,12 @@ const TestPlayer = () => {
         <button type="button" onClick={handleToggleMute}>
           Mute
         </button>
-        <button type="button" onClick={handleVolumeUp}>
-          Volume Up
-        </button>
-        <button type="button" onClick={handleVolumeDown}>
+        {/* <button type="button" onClick={handleVolumeUp}> */}
+        {/* Volume Up */}
+        {/* </button> */}
+        {/* <button type="button" onClick={handleVolumeDown}>
           Volume Down
-        </button>
+        </button> */}
       </div>
     </div>
   );
