@@ -13,7 +13,6 @@ export type FormValuesUserProfile = {
 };
 
 
-
 export default function UserDetails() {
   const { user, setUser } = useMainContext();
   const initialFormState = {
