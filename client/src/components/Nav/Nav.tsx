@@ -22,6 +22,7 @@ export function Nav({ toggleShowLogin }: propsType) {
         <li
           onClick={toggleShowLogin}
           className="p-[50px] text-[28px] font-medium  text-tapeWhite hover:bg-tapeWhite hover:text-tapeBlack rounded-full cursor-pointer"
+          data-testid="login-toggle"
         >Login
         </li>
       </ul>
