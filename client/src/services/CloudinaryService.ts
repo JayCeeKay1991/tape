@@ -39,6 +39,7 @@ export async function postImageToCloudinary(body: {
     });
     const data = await response.json();
     if (data.secure_url) {
+      console.log('🚀', data );
       return data.secure_url;
     } else {
       throw new Error('secure_url not found in response.');

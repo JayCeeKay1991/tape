@@ -17,6 +17,7 @@ const Channel = () => {
   const initialState = {
     name: '',
     url: '',
+    duration: 0,
     creator: user,
     parentChannel: channel,
     channels: []
@@ -83,7 +84,6 @@ const Channel = () => {
     };
 
     uploadNextChunk(0, Math.min(chunkSize, file.size));
-
   };
 
 
@@ -94,9 +94,11 @@ const Channel = () => {
       try {
         if (cldResponse) {
           const fileUrl = cldResponse.secure_url;
+          const duration = cldResponse.duration;
           const newMixtapeData = {
             ...formValues,
             url:fileUrl,
+            duration: duration,
             parentChannel: channel
           };
           const newMixTape = await createMixTape(newMixtapeData);
@@ -107,6 +109,7 @@ const Channel = () => {
               newMixTape
             ]
           })
+          console.log('💚', newMixTape);
       } else throw new Error('No uploaded file to add.');
       setFormValues(initialState);
       setFile(null);
@@ -127,7 +130,9 @@ const Channel = () => {
       <input name="name" type="text" onChange={changeHandler} placeholder="mixtape name"></input>
       <input name="file" type="file" onChange={changeHandler} ></input>
       <button onClick={uploadFile} disabled={uploading} >{uploading ? "Uploading..." : "Upload"}</button>
-      <button onClick={submitHandler} >Add new Mixtape</button>
+      {
+        !uploading ? <button onClick={submitHandler} >Add Mixtape</button> : <></>
+      }
       </form>
       {uploadComplete && cldResponse && (
         <div>
