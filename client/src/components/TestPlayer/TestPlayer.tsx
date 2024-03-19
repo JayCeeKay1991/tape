@@ -1,10 +1,12 @@
 import { MouseEvent, useEffect, useState, useRef } from 'react';
 import { Howl } from 'howler';
+
 import { IoMdPlay } from 'react-icons/io';
 import { IoMdPause } from 'react-icons/io';
 import { MdSkipNext } from 'react-icons/md';
 import { MdSkipPrevious } from 'react-icons/md';
-import './TestPlayer.css';
+
+
 /* So actually the main error I'm getting with this is that the html5 audiopool is exhausted, and just found a stack overflow thread that talks
 about this error with Howler and suggested the solution is to do it using the native html audio tag, so could maybe try that unless someone else finds a solution */
 
