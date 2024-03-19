@@ -1,7 +1,7 @@
 import { Dispatch, useState, SetStateAction } from "react";
 import { Channel } from "../../types/Channel";
 import { useMainContext } from "../Context/Context";
-import { createChannel } from "../../services/ChannelService";
+import { createChannel } from "../../services/ChannelClientService";
 import { postImageToCloudinary } from "../../services/CloudinaryService";
 
 type FormValues = Omit<Channel, '_id'>;
@@ -24,13 +24,12 @@ const AddChannelForm = ({setChannelList, setShowForm}:propsType) => {
   const [formValues, setFormValues] = useState<FormValues>(initialState);
   const [pictureFile, setPictureFile] = useState<File | null>(null);
 
-  function changeHandler(e: React.ChangeEvent<HTMLInputElement>) {
+  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, files } = e.target;
     if (type === 'file' && files) {
       setPictureFile(files[0]); // Set the image file
     } else setFormValues({ ...formValues, [name]: value });
   }
-
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -39,8 +38,7 @@ const AddChannelForm = ({setChannelList, setShowForm}:propsType) => {
     if (pictureFile) {
       try {
         pictureUrl = await postImageToCloudinary({
-          file: pictureFile,
-          upload_preset: 'nwjjpdw',
+          file: pictureFile
         });
       } catch (error) {
         console.error(error);
@@ -64,12 +62,11 @@ const AddChannelForm = ({setChannelList, setShowForm}:propsType) => {
   }
 
   return (
-    <form>
-      <h2>Create a new channel</h2>
+    <form className="flex flex-col w-72 absolute right-32 top-60" >
+      <h1>Create a new channel</h1>
       <input name="name" value={formValues.name} type="text" onChange={changeHandler} placeholder="name" ></input>
       <input name="picture" value={formValues.picture} type="file" onChange={changeHandler}></input>
-      <input name="owner" value={user.userName} type="text" readOnly={true} ></input>
-      <button onClick={handleSubmit} >Create</button>
+      <button onClick={handleSubmit} className="white-button" >Create</button>
     </form>
   )
 

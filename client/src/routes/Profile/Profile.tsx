@@ -1,8 +1,12 @@
 import React from "react";
+import UserDetails from "../../components/UserDetails/UserDetails";
 const Profile = () => {
 
   return (
-    <h1>User Profile</h1>
+    <div>
+      <h1>User Profile</h1>
+      <UserDetails/>
+    </div>
   )
 }
 

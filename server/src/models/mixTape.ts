@@ -7,20 +7,21 @@ export type mixTapeType = InferSchemaType<typeof MixTape>;
 const MixTape = new mongoose.Schema({
   name: String,
   url: String,
+  duration: Number,
   channels: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "channels",
+      ref: "Channel",
     },
   ],
   creator: [
     {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "users",
+      ref: "User",
     },
   ],
 });
 
-const MixTapeModel = mongoose.model("mixTapes", MixTape);
+const MixTapeModel = mongoose.model("MixTape", MixTape);
 
 export default MixTapeModel;
