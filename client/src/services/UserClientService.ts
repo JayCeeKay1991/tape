@@ -20,6 +20,15 @@ export async function login(body: FormValuesUserLogin) {
   } catch (error) {
     console.error(error);
   }
+
+};
+
+
+// get all users
+export const getAllUsers = async () => {
+  return await apiClient<User[]>('users')
+}
+
 }
 
 export async function updateUser(
@@ -31,3 +40,4 @@ export async function updateUser(
     console.error(error);
   }
 }
+

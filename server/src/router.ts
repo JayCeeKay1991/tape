@@ -1,13 +1,19 @@
 import express from "express";
-import { login, createUser, editUser } from "./controllers/user/user";
-import { createChannel } from "./controllers/channel/channel";
+import { login, createUser, editUser, getAllUsers } from "./controllers/user/user";
+import { createChannel, addUserToChannel } from "./controllers/channel/channel";
 import { createMixTape } from "./controllers/mixTape/mixTape";
 const router = express.Router();
 
+
+router.get("/users", getAllUsers);
 router.post("/users/login", login);
 router.post("/users", createUser);
 router.put("/users/:id", editUser);
 
 router.post("/channels", createChannel);
+router.post("/channels/:channelId/:userId", addUserToChannel)
+
 router.post("/mixtapes", createMixTape);
+
+
 export default router;
