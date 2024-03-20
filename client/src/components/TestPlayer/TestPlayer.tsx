@@ -1,8 +1,6 @@
 import { MouseEvent, useEffect, useState, useRef } from 'react';
 import { Howl } from 'howler';
 
-const testUrl1 = 'https://res.cloudinary.com/ddj3xjxrc/video/upload/v1710529539/D.J._Poizen_Visits_Kool_Kyle_Side_A_ncjkhb.mp3'
-const testUrl2 = `https://res.cloudinary.com/ddj3xjxrc/video/upload/v1710529445/podcast_mark-mendoza-podcast_1988-mixtape_1000413811719_ts9qep.mp3`
 
 import { IoMdPlay } from 'react-icons/io';
 import { IoMdPause } from 'react-icons/io';
