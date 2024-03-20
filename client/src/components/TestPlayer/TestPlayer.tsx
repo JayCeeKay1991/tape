@@ -4,6 +4,7 @@ import { IoMdPlay } from 'react-icons/io';
 import { IoMdPause } from 'react-icons/io';
 import { MdSkipNext } from 'react-icons/md';
 import { MdSkipPrevious } from 'react-icons/md';
+import { BiSolidVolumeMute } from 'react-icons/bi';
 import './TestPlayer.css';
 /* So actually the main error I'm getting with this is that the html5 audiopool is exhausted, and just found a stack overflow thread that talks
 about this error with Howler and suggested the solution is to do it using the native html audio tag, so could maybe try that unless someone else finds a solution */
@@ -21,7 +22,6 @@ const TestPlayer = () => {
   const durationRef = useRef<HTMLParagraphElement>(null); // ref to duration p element that will change
   const totalDurationRef = useRef<HTMLParagraphElement>(null); // ref to duration p that will show mixtapes total length
 
-  // not sure if i need this
   const [audioDuration, setAudioDuration] = useState<number>(0);
 
   const [playing, setPlaying] = useState(false);
@@ -45,27 +45,37 @@ const TestPlayer = () => {
               totalDurationRef.current.textContent = formatTime(
                 Math.round(this.duration())
               );
+              console.log(this.duration());
               // Update the total audio duration state when the audio is loaded
+              // somehow doesnt work, it gives 0 for the audio duration
               setAudioDuration(Math.round(this.duration()));
+              console.log(audioDuration);
             }
 
             // handles the rendering of the currently elapsed time by updating every second
             const timerId = setInterval(() => {
               if (this.playing()) {
                 const currentTime = this.seek();
-
                 // Update the value of the progress bar
                 if (progressBarRef.current) {
                   progressBarRef.current.value = String(currentTime);
+                  console.log(this.duration());
+                  updateRangeValue(currentTime, this.duration());
                 }
-
                 // seek is property of howl, finds current point
+                // calculating the duration that has been played
                 if (durationRef.current) {
                   durationRef.current.textContent = formatTime(
                     Math.round(currentTime)
                   );
                 }
               }
+              // if (this.playing() && progressBarRef.current) {
+              //   const currentTime = this.seek();
+              //   progressBarRef.current.value = String(currentTime);
+
+              //   updateRangeValue(currentTime);
+              // }
             }, 1000);
             return () => clearInterval(timerId);
           },
@@ -156,6 +166,33 @@ const TestPlayer = () => {
     }
   };
 
+  // const handleProgressBarChange = (
+  //   event: React.ChangeEvent<HTMLInputElement>
+  // ) => {
+  //   const currentTimeState = parseFloat(event.target.value);
+  //   const currentMixtape = stream[streamIndex];
+  //   currentMixtape.seek(currentTimeState);
+
+  //   // Calculate the percentage of the seek bar filled
+
+  //   const percentage = (currentTimeState / audioDuration) * 100;
+
+  //   // Set the --range-value CSS variable to update the gradient stop position
+  //   if (progressBarRef.current) {
+  //     progressBarRef.current.style.setProperty(
+  //       '--range-value',
+  //       percentage + '%'
+  //     );
+  //   }
+
+  //   // Update the current time displayed
+  //   if (durationRef.current) {
+  //     durationRef.current.textContent = formatTime(
+  //       Math.round(currentTimeState)
+  //     );
+  //   }
+  // };
+
   const handleProgressBarChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -163,19 +200,45 @@ const TestPlayer = () => {
     const currentMixtape = stream[streamIndex];
     currentMixtape.seek(currentTimeState);
 
-    // Update the current time displayed
+    const percentage = (currentTimeState / audioDuration) * 100;
+
     if (durationRef.current) {
       durationRef.current.textContent = formatTime(
         Math.round(currentTimeState)
       );
     }
+    if (progressBarRef.current) {
+      progressBarRef.current.style.setProperty(
+        '--range-value',
+        percentage + '%'
+      );
+    }
+  };
+
+  // console.log(audioDuration);
+  const updateRangeValue = (
+    currentTimeState: number,
+    audioDuration: number
+  ) => {
+    const percentage = (currentTimeState / audioDuration) * 100;
+    console.log(percentage);
+
+    if (progressBarRef.current) {
+      progressBarRef.current.style.setProperty(
+        '--range-value',
+        percentage + '%'
+      );
+    }
   };
 
   return (
-    <div id="player" className="w-full flex flex-row justify-center">
+    <div
+      id="player"
+      className="w-full h-[100px] flex  fixed bottom-0 flex-row justify-center items-center"
+    >
       <div
         id="progress-bar"
-        className="w-2/3 flex flex-row justify-center items-center size-25"
+        className="w-[1000px] flex flex-row justify-center items-center "
       >
         <div id="btn-playPause">
           {/* if playing false, render play button, else render pause button */}
@@ -183,7 +246,7 @@ const TestPlayer = () => {
             <button
               type="button"
               onClick={(e) => handleClick(e, 'pause')}
-              className="text-tapeWhite me-5 size-25"
+              className="text-tapeWhite me-5"
               id="play-icon"
             >
               <IoMdPause size="25" />
@@ -191,18 +254,18 @@ const TestPlayer = () => {
           ) : (
             <button
               type="button"
-              className="text-tapeWhite me-5 size-25"
+              className="text-tapeWhite me-5 border-none "
               onClick={(e) => handleClick(e, 'play')}
             >
               <IoMdPlay size="25" />
             </button>
           )}
         </div>
-        {/* <span
+        <span
           id="current-time"
           ref={durationRef}
-          className="text-tapeWhite"
-        ></span> */}
+          className="text-tapeWhite hidden"
+        ></span>
 
         <input
           type="range"
@@ -211,32 +274,34 @@ const TestPlayer = () => {
           defaultValue="0"
           max={audioDuration.toString()}
           onChange={handleProgressBarChange}
-          className=" w-2/3 appearance-none bg-transparent [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:bg-black/25 [&::-webkit-slider-thumb]:bg-tapeOffBlack [&::-webkit-slider-thumb]:h-[15px] [&::-webkit-slider-thumb]:w-[50px] [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-black-500 "
+          className="me-2"
         />
         <span
           id="duration"
           ref={totalDurationRef}
           className="text-tapeWhite me-5"
         ></span>
-        <div id="player-controls">
+        <div id="fastforward-rewind" className=" flex flex-row ">
           <button
             type="button"
             onClick={handlePreviousClick}
-            className="text-tapeWhite me-2"
+            className="text-tapeWhite me-2 border-none"
           >
-            <MdSkipPrevious size="25" />
+            <MdSkipPrevious size="35" />
           </button>
           <button
             type="button"
             onClick={handleNextClick}
-            className="text-tapeWhite"
+            className="text-tapeWhite me-2 border-none"
           >
-            <MdSkipNext size="25" />
+            <MdSkipNext size="35" />
           </button>
-        </div>
-        <div className="volume-controls">
-          <button type="button" onClick={handleToggleMute}>
-            Mute
+          <button
+            type="button"
+            onClick={handleToggleMute}
+            className="text-tapeWhite me-2 border-none"
+          >
+            <BiSolidVolumeMute size="25" />
           </button>
         </div>
       </div>
