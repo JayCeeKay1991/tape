@@ -82,7 +82,11 @@ export default function UserDetails() {
         channels: user.channels,
         mixTapes: user.mixTapes ? [...user.mixTapes] : [],
       }
-      updateUser(newUser);
+       const updatedUser = await updateUser(newUser);
+       if (updatedUser) {
+         setUser(updatedUser);
+       }
+
     } else {
         const newUser: Omit<User, "password">  = {
           _id: user._id,
@@ -115,6 +119,28 @@ export default function UserDetails() {
   }
   return (
     <div>
+         <form id="profilePicForm" onSubmit={submitHandler}>
+            <div id='allProfilePic'>
+              {changeProfilePic ? (
+                <div>
+                   <input
+                   name="profilePic"
+                   type="file"
+                   onChange={changeHandler}
+                    />
+                    <button className='submitButton' type="submit">
+                    save
+                    </button>
+                  </div>
+              ) : (
+                <div>
+                 <img src={user.profilePic ? user.profilePic : johnMartin} className='w-16 h-16 object-cover' style={{ objectPosition: 'center-center' }} />
+                 <button onClick={handleEdit} id='profilePic'> edit pic
+                 </button>
+                </div>
+              )}
+            </div>
+            </form>
       <form id="usernameForm" onSubmit={submitHandler}>
         <div id='allUsername'>
         <label>username:</label>
@@ -127,6 +153,9 @@ export default function UserDetails() {
                    value={formValuesProfile.username}
                    required={true}
                  />
+                 <button className='submitButton' onClick={handleEdit} id='username'>
+                   cancel
+                 </button>
                  <button className='submitButton' type="submit">
                  save
                </button>
@@ -149,6 +178,9 @@ export default function UserDetails() {
                    value={formValuesProfile.email}
                    required={true}
                  />
+                 <button className='submitButton' onClick={handleEdit} id='email'>
+                   cancel
+                 </button>
                   <button className='submitButton' type="submit">
                     save
                   </button>
@@ -171,31 +203,15 @@ export default function UserDetails() {
                   onChange={changeHandler}
                   value={formValuesProfile.password}
                 />
+                 <button className='submitButton' onClick={handleEdit} id='password'>
+                   cancel
+                 </button>
                 <button className='submitButton' type="submit">
                     save
                   </button>
                 </div>
               ) : (
                  <button onClick={handleEdit} id='password'>set new password</button>
-              )}
-            </div>
-            </form>
-            <form id="profilePicForm" onSubmit={submitHandler}>
-            <div id='allProfilePic'>
-              {changeProfilePic ? (
-                <div>
-                   <input
-                   name="profilePic"
-                   type="file"
-                   onChange={changeHandler}
-                    />
-                    <button className='submitButton' type="submit">
-                    save
-                    </button>
-                  </div>
-              ) : (
-                 <button onClick={handleEdit} id='profilePic'><img src={user.profilePic ? user.profilePic : johnMartin} className='w-16 h-16 object-cover' style={{ objectPosition: 'center-center' }} />
-                 </button>
               )}
             </div>
             </form>
