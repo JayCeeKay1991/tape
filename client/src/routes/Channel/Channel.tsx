@@ -52,7 +52,6 @@ const Channel = () => {
   }, [channel])
 
 
-  console.log(users)
 
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {

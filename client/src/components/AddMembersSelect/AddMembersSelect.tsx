@@ -28,12 +28,15 @@ const AddMembersSelect = ({channelId, setChannel}:AddMembersSelectProps) => {
     retrieveAllUsers();
   }, [])
 
+  console.log(channelId)
+
   const handleMemberSelect = async (userId: string) => {
     const user = users.find(user => user._id === userId);
     if (user) {
       setSelectedMembers(prevSelectedMembers => [...prevSelectedMembers, user]);
       // add new user to channel on back end
-      const updatedChannel = await addUserToChannel(channelId, { "userId": user._id})
+      const ID = channelId;
+      const updatedChannel = await addUserToChannel(ID, user._id)
       setChannel(updatedChannel);
     }
   };

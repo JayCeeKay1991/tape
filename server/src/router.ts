@@ -11,7 +11,9 @@ router.post("/users", createUser);
 router.put("/users/:id", editUser);
 
 router.post("/channels", createChannel);
-router.post("/channels/:channelId", addUserToChannel)
+router.post("/channels/:channelId/:userId", addUserToChannel)
 
 router.post("/mixtapes", createMixTape);
+
+
 export default router;

@@ -1,12 +1,12 @@
 import { Request, Response } from "express";
 import ChannelModel from "../../models/channel";
 import UserModel from "../../models/user";
-import { ServerStreamFileResponseOptionsWithError } from "http2";
 
 
 export const createChannel = async (req: Request, res: Response) => {
   try {
     const { name, picture, owner, members, mixTapes } = req.body;
+
     const ownerId = owner._id.toString();
     const newChannel = new ChannelModel({
       name: name,
@@ -34,9 +34,12 @@ export const createChannel = async (req: Request, res: Response) => {
 }
 
 export const addUserToChannel = async (req: Request, res: Response) => {
+  console.log(`TRYING TO ADD USER ${req.params}`)
   try {
-    const channelId = req.params.channelId
-    const userId = req.body.userId;
+    const channelId = req.params.channelId;
+    const userId = req.params.userId;
+
+    const newMember = await UserModel.findById(userId);
 
     if (!userId) {
       res.status(400).json('UserId required')
@@ -48,12 +51,12 @@ export const addUserToChannel = async (req: Request, res: Response) => {
     }
 
     else {
-      if (channel.members.includes(userId)) {
+      if (channel.members.includes(newMember!._id)) {
         res.status(400).json('User is already a member of this channel')
       }
 
       // user not already a member, add and save
-      channel.members.push(userId);
+      channel.members.push(newMember!._id);
       await channel.save();
       const updatedChannel = await ChannelModel.findById(channelId).populate('members');
       res.status(201).json(updatedChannel);
