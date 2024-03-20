@@ -18,7 +18,6 @@ export function LoginSignup({ formValue, toggleShowLogin }: propsType) {
         } else {
             setFormState("login");
         }
-        console.log(formState);
     },[])
 
   return (
@@ -41,7 +40,7 @@ export function LoginSignup({ formValue, toggleShowLogin }: propsType) {
 
         {formState === "login" ? (
           <>
-            <p className="text-[70px] text-tapeWhite w-full font-semibold text-center mb-[30px]">
+            <p data-testid="login-header" className="text-[70px] text-tapeWhite w-full font-semibold text-center mb-[30px]">
               Welcome back
             </p>
             <div className="w-[180px] flex flex-row justify-between text-[27px] font-medium text-tapeDarkGrey mb-[40px]">
@@ -52,7 +51,7 @@ export function LoginSignup({ formValue, toggleShowLogin }: propsType) {
           </>
         ) : (
           <>
-            <p className="text-[60px] text-tapeWhite w-full font-semibold text-center mb-[30px]">
+            <p data-testid="signup-header" className="text-[60px] text-tapeWhite w-full font-semibold text-center mb-[30px]">
               Sign up
             </p>
             <div className="w-[180px] flex flex-row justify-between text-[27px] font-medium text-tapeWhite mb-[40px]">
