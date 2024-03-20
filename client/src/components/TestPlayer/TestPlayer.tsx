@@ -12,10 +12,11 @@ about this error with Howler and suggested the solution is to do it using the na
 const testUrl1 =
   'https://res.cloudinary.com/ddj3xjxrc/video/upload/v1710529539/D.J._Poizen_Visits_Kool_Kyle_Side_A_ncjkhb.mp3';
 const testUrl2 = `https://res.cloudinary.com/ddj3xjxrc/video/upload/v1710529445/podcast_mark-mendoza-podcast_1988-mixtape_1000413811719_ts9qep.mp3`;
+const testUrl3 = `https://cf-media.sndcdn.com/aCq8wQO1sBZZ.128.mp3?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiKjovL2NmLW1lZGlhLnNuZGNkbi5jb20vYUNxOHdRTzFzQlpaLjEyOC5tcDMqIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzEwOTM2NTk3fX19XX0_&Signature=VmqqSPU8vYMUQILYeHVSJRTWadm0~IJ4bKpr5T5g5sTM5ZYVbZkIv8qRD2jx5Sjsn7WO1EjOAAZDOjc0rbAvW3con~fwEjzuYqYIkQADh-8lwgUzY8Ou4~wEgRR82BrmFqzCWggfRDNeS7VFBr2TERPbH14Phmmdt~PjOB4IfrTIYHfOXT~bg-IGpzJ195x51-Ge5vM4guPk7JCxpYAO0vVpgD1~uSrd25pgv2KocGKLSPtGs9afVKuhZnd4ErPeK3t2d8TRuYQtokSb0sAwcWwSerfWDsJGIXT-P9bKRlOdinjN4uGVNby2W~L~vLFjSh9Hq4XQbqJejagCU-Mxtg__&Key-Pair-Id=APKAI6TU7MMXM5DG6EPQ`;
 
 // Define the component
 const TestPlayer = () => {
-  const channelMixtapes = [testUrl1, testUrl2]; // urls of audio files
+  const channelMixtapes = [testUrl1, testUrl2, testUrl3]; // urls of audio files
   const [stream, setStream] = useState<Howl[]>([]); // current stream, array of howls created in useeffect
   const [streamIndex, setStreamIndex] = useState<number>(0); // stores the index of current mixTape in stream
   const [muted, setMuted] = useState<boolean>(false); // flag for if player is muted
@@ -26,7 +27,6 @@ const TestPlayer = () => {
 
   const [playing, setPlaying] = useState(false);
 
-  // lets see if we need this
   const progressBarRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
@@ -36,7 +36,7 @@ const TestPlayer = () => {
         // maps through urls and creates new howl obj for each mixtape url
         return new Howl({
           src: [mixtape],
-          html5: true, // html 5 is better for large files
+          html5: true,
           onplay: function (this: Howl) {
             // defines callback function that runs onplay, must be function needs explicit this
 
@@ -45,24 +45,21 @@ const TestPlayer = () => {
               totalDurationRef.current.textContent = formatTime(
                 Math.round(this.duration())
               );
-              console.log(this.duration());
-              // Update the total audio duration state when the audio is loaded
-              // somehow doesnt work, it gives 0 for the audio duration
+
+              // setAudioDuration to the duration of the total duration of the mix
               setAudioDuration(Math.round(this.duration()));
-              console.log(audioDuration);
             }
 
             // handles the rendering of the currently elapsed time by updating every second
             const timerId = setInterval(() => {
               if (this.playing()) {
+                // seek is property of howl, finds current point
                 const currentTime = this.seek();
                 // Update the value of the progress bar
                 if (progressBarRef.current) {
                   progressBarRef.current.value = String(currentTime);
-                  console.log(this.duration());
                   updateRangeValue(currentTime, this.duration());
                 }
-                // seek is property of howl, finds current point
                 // calculating the duration that has been played
                 if (durationRef.current) {
                   durationRef.current.textContent = formatTime(
@@ -70,12 +67,6 @@ const TestPlayer = () => {
                   );
                 }
               }
-              // if (this.playing() && progressBarRef.current) {
-              //   const currentTime = this.seek();
-              //   progressBarRef.current.value = String(currentTime);
-
-              //   updateRangeValue(currentTime);
-              // }
             }, 1000);
             return () => clearInterval(timerId);
           },
@@ -89,23 +80,16 @@ const TestPlayer = () => {
     setStream(generatedStream);
   }, []);
 
-  // handle click event for play,pause and stop
-
-  const handleClick = (
-    event: MouseEvent<HTMLButtonElement>,
-    action: string
-  ) => {
+  const handlePlayClick = (event: MouseEvent<HTMLButtonElement>) => {
     const currentMixtape = stream[streamIndex];
+    currentMixtape.play();
+    setPlaying(true);
+  };
 
-    if (action === 'play' && !currentMixtape.playing()) {
-      currentMixtape.play();
-      setPlaying(true);
-    } else if (action === 'pause' && currentMixtape.playing()) {
-      currentMixtape.pause();
-      setPlaying(false);
-    } else if (action === 'stop' && currentMixtape.playing()) {
-      currentMixtape.stop();
-    }
+  const handlePauseClick = (event: MouseEvent<HTMLButtonElement>) => {
+    const currentMixtape = stream[streamIndex];
+    currentMixtape.pause();
+    setPlaying(false);
   };
 
   // Handle click Navigation parent function for next and previous
@@ -146,7 +130,7 @@ const TestPlayer = () => {
     }
   };
 
-  // super simple time formatting util function
+  // Time Format
   const formatTime = (seconds: number) => {
     return (
       Math.floor(seconds / 60) +
@@ -155,6 +139,7 @@ const TestPlayer = () => {
     );
   };
 
+  // Mute function
   const handleToggleMute = (event: MouseEvent<HTMLButtonElement>) => {
     const currentMixtape = stream[streamIndex];
     if (muted === true) {
@@ -166,33 +151,7 @@ const TestPlayer = () => {
     }
   };
 
-  // const handleProgressBarChange = (
-  //   event: React.ChangeEvent<HTMLInputElement>
-  // ) => {
-  //   const currentTimeState = parseFloat(event.target.value);
-  //   const currentMixtape = stream[streamIndex];
-  //   currentMixtape.seek(currentTimeState);
-
-  //   // Calculate the percentage of the seek bar filled
-
-  //   const percentage = (currentTimeState / audioDuration) * 100;
-
-  //   // Set the --range-value CSS variable to update the gradient stop position
-  //   if (progressBarRef.current) {
-  //     progressBarRef.current.style.setProperty(
-  //       '--range-value',
-  //       percentage + '%'
-  //     );
-  //   }
-
-  //   // Update the current time displayed
-  //   if (durationRef.current) {
-  //     durationRef.current.textContent = formatTime(
-  //       Math.round(currentTimeState)
-  //     );
-  //   }
-  // };
-
+  // event for user initiated progress bar change
   const handleProgressBarChange = (
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
@@ -200,28 +159,21 @@ const TestPlayer = () => {
     const currentMixtape = stream[streamIndex];
     currentMixtape.seek(currentTimeState);
 
-    const percentage = (currentTimeState / audioDuration) * 100;
+    updateRangeValue(currentTimeState, audioDuration);
 
     if (durationRef.current) {
       durationRef.current.textContent = formatTime(
         Math.round(currentTimeState)
       );
     }
-    if (progressBarRef.current) {
-      progressBarRef.current.style.setProperty(
-        '--range-value',
-        percentage + '%'
-      );
-    }
   };
 
-  // console.log(audioDuration);
+  // Updates the value of the bar, so that it tracks the played time
   const updateRangeValue = (
     currentTimeState: number,
     audioDuration: number
   ) => {
     const percentage = (currentTimeState / audioDuration) * 100;
-    console.log(percentage);
 
     if (progressBarRef.current) {
       progressBarRef.current.style.setProperty(
@@ -245,9 +197,8 @@ const TestPlayer = () => {
           {playing ? (
             <button
               type="button"
-              onClick={(e) => handleClick(e, 'pause')}
               className="text-tapeWhite me-5"
-              id="play-icon"
+              onClick={handlePauseClick}
             >
               <IoMdPause size="25" />
             </button>
@@ -255,7 +206,7 @@ const TestPlayer = () => {
             <button
               type="button"
               className="text-tapeWhite me-5 border-none "
-              onClick={(e) => handleClick(e, 'play')}
+              onClick={handlePlayClick}
             >
               <IoMdPlay size="25" />
             </button>
