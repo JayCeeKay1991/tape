@@ -20,12 +20,23 @@ export async function login(body: FormValuesUserLogin) {
   } catch (error) {
     console.error(error);
   }
+
+};
+
+
+// get all users
+export const getAllUsers = async () => {
+  return await apiClient<User[]>('users')
 }
 
-export async function updateUser(body: Omit<User, "channels" | "mixTapes">) {
+
+export async function updateUser(
+  body: Omit<User, "channels" | "mixTapes" | "password">
+) {
   try {
     return await apiClient<User>(`users/${body._id}`, "PUT", body);
   } catch (error) {
     console.error(error);
   }
 }
+

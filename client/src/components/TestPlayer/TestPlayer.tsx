@@ -1,6 +1,9 @@
 import { MouseEvent, useEffect, useState, useRef } from 'react';
 import { Howl } from 'howler';
 
+const testUrl1 = 'https://res.cloudinary.com/ddj3xjxrc/video/upload/v1710529539/D.J._Poizen_Visits_Kool_Kyle_Side_A_ncjkhb.mp3'
+const testUrl2 = `https://res.cloudinary.com/ddj3xjxrc/video/upload/v1710529445/podcast_mark-mendoza-podcast_1988-mixtape_1000413811719_ts9qep.mp3`
+
 import { IoMdPlay } from 'react-icons/io';
 import { IoMdPause } from 'react-icons/io';
 import { MdSkipNext } from 'react-icons/md';
@@ -13,10 +16,12 @@ import './TestPlayer.css';
 /* So actually the main error I'm getting with this is that the html5 audiopool is exhausted, and just found a stack overflow thread that talks
 about this error with Howler and suggested the solution is to do it using the native html audio tag, so could maybe try that unless someone else finds a solution */
 
+
 const testUrl1 =
   'https://res.cloudinary.com/ddj3xjxrc/video/upload/v1710529539/D.J._Poizen_Visits_Kool_Kyle_Side_A_ncjkhb.mp3';
 const testUrl2 = `https://res.cloudinary.com/ddj3xjxrc/video/upload/v1710529445/podcast_mark-mendoza-podcast_1988-mixtape_1000413811719_ts9qep.mp3`;
 const testUrl3 = `https://cf-media.sndcdn.com/aCq8wQO1sBZZ.128.mp3?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiKjovL2NmLW1lZGlhLnNuZGNkbi5jb20vYUNxOHdRTzFzQlpaLjEyOC5tcDMqIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzEwOTM2NTk3fX19XX0_&Signature=VmqqSPU8vYMUQILYeHVSJRTWadm0~IJ4bKpr5T5g5sTM5ZYVbZkIv8qRD2jx5Sjsn7WO1EjOAAZDOjc0rbAvW3con~fwEjzuYqYIkQADh-8lwgUzY8Ou4~wEgRR82BrmFqzCWggfRDNeS7VFBr2TERPbH14Phmmdt~PjOB4IfrTIYHfOXT~bg-IGpzJ195x51-Ge5vM4guPk7JCxpYAO0vVpgD1~uSrd25pgv2KocGKLSPtGs9afVKuhZnd4ErPeK3t2d8TRuYQtokSb0sAwcWwSerfWDsJGIXT-P9bKRlOdinjN4uGVNby2W~L~vLFjSh9Hq4XQbqJejagCU-Mxtg__&Key-Pair-Id=APKAI6TU7MMXM5DG6EPQ`;
+
 
 // Define the component
 const TestPlayer = () => {

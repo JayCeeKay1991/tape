@@ -8,7 +8,7 @@ type propsType = {
 
 export function Nav({ toggleShowLogin }: propsType) {
   return (
-    <nav className="w-full h-[90px] bg-tapeBlack fixed top-0 left-0 flex flex-row items-center justify-between pr-[40px] pl-[40px] z-50">
+    <nav className="w-full h-[90px] bg-tapeBlack fixed top-0 left-0 flex flex-row items-center justify-between pr-[40px] pl-[40px] z-40">
       <a className=" text-tapeWhite text-[28px] font-semibold">
         <img id="icon" className="w-[70px]" src={icon}></img>
       </a>
@@ -22,6 +22,7 @@ export function Nav({ toggleShowLogin }: propsType) {
         <li
           onClick={toggleShowLogin}
           className="p-[50px] text-[28px] font-medium  text-tapeWhite hover:bg-tapeWhite hover:text-tapeBlack rounded-full cursor-pointer"
+          data-testid="login-toggle"
         >Login
         </li>
       </ul>

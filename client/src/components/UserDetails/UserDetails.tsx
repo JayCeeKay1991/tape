@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import "./UserDetails.css"
 import { useMainContext } from '../Context/Context';
 import { updateUser } from '../../services/UserClientService';
 import { User } from '../../types/User';
+import { postImageToCloudinary } from '../../services/CloudinaryService';
+import johnMartin from '../AppNav/johnmartin.jpg'
 
 
 export type FormValuesUserProfile = {
@@ -18,91 +20,188 @@ export default function UserDetails() {
   const initialFormState = {
     username: user.userName,
     email: user.email,
-    password: user.password,
+    password: "",
     profilePic: user.profilePic,
   };
   const [ formValuesProfile , setFormValuesProfile] = useState<FormValuesUserProfile>(initialFormState);
+  
+  const [ changeUsername, setChangeUsername ] = useState(false);
+  const [ changeEmail, setChangeEmail ] = useState(false);
   const [ changePassword, setChangePassword ] = useState(false);
+  const [ changeProfilePic, setChangeProfilePic ] = useState(false);
+  const [formPictureFile, setFormPictureFile] = useState<File | null>(null);
 
-  function handlePasswordChange(e: React.MouseEvent) {
+  function handleEdit(e: React.MouseEvent) {
     e.preventDefault();
-    setChangePassword(!changePassword);
-  }
+     switch (e.target) {
+       case document.getElementById("username"):
+         setChangeUsername(!changeUsername);
+         break;
+       case document.getElementById("email"):
+         setChangeEmail(!changeEmail);
+         break;
+       case document.getElementById("password"):
+         setChangePassword(!changePassword);
+         break;
+       case document.getElementById("profilePic"):
+         setChangeProfilePic(!changeProfilePic);
+         break;
+       default:
+         break;
+     }
+   }
 
   function changeHandler(e: React.ChangeEvent<HTMLInputElement>) {
-    const { name, value } = e.target;
-    setFormValuesProfile({...formValuesProfile, [name]: value });
+    const { name, value, type, files } = e.target;
+    if (type === 'file' && files) {
+      setFormPictureFile(files[0]); 
+    } else setFormValuesProfile({ ...formValuesProfile, [name]: value });
   }
 
-  function submitHandler(e: React.FormEvent<HTMLFormElement>) {
+  async function submitHandler(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const newUser: User = {
-      _id: user._id,
-      userName: formValuesProfile.username,
-      email: formValuesProfile.email,
-      password: formValuesProfile.password,
-      profilePic: formValuesProfile.profilePic,
-      channels: user.channels,
-      mixTapes: user.mixTapes ? [...user.mixTapes] : [],
-    };
-    updateUser(newUser);
-    setChangePassword(false);
-  }
 
+    let pictureUrl = user.profilePic;
+    if (formPictureFile) {
+      try {
+        pictureUrl = await postImageToCloudinary({
+          file: formPictureFile
+        });
+        console.log("picture: " ,pictureUrl)
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    if (formValuesProfile.password !== user.password) {
+      const newUser: User = {
+        _id: user._id,
+        userName: formValuesProfile.username,
+        email: formValuesProfile.email,
+        password: formValuesProfile.password,
+        profilePic: pictureUrl,
+        channels: user.channels,
+        mixTapes: user.mixTapes ? [...user.mixTapes] : [],
+      }
+      updateUser(newUser);
+    } else {
+        const newUser: Omit<User, "password">  = {
+          _id: user._id,
+          userName: formValuesProfile.username,
+          email: formValuesProfile.email,
+          profilePic: pictureUrl,
+          channels: user.channels,
+          mixTapes: user.mixTapes ? [...user.mixTapes] : [],
+      };
+      updateUser(newUser);
+    }
+         ///////////////////////////////////////////////
+         switch (e.target) {
+          case document.getElementById("usernameForm"):
+            setChangeUsername(!changeUsername);
+            break;
+          case document.getElementById("emailForm"):
+            setChangeEmail(!changeEmail);
+            break;
+          case document.getElementById("passwordForm"):
+            setChangePassword(!changePassword);
+            break;
+          case document.getElementById("profilePicForm"):
+            setChangeProfilePic(!changeProfilePic);
+            break;
+          default:
+            break;
+        }
+         ////////////////////////////////////////////////
+  }
   return (
     <div>
-      <form id="userDetailsForm" onSubmit={submitHandler}>
-        <div>
+      <form id="usernameForm" onSubmit={submitHandler}>
+        <div id='allUsername'>
+        <label>username:</label>
+              {changeUsername ? (
+                <div>
+                 <input
+                   name="username"
+                   type="text"
+                   onChange={changeHandler}
+                   value={formValuesProfile.username}
+                   required={true}
+                 />
+                 <button className='submitButton' type="submit">
+                 save
+               </button>
+               </div>
+              ) : (
+                 <button onClick={handleEdit} id='username'>{user.userName}</button>
+              )}
+            </div>
+            </form>
           <div>
-            <div id='username'>
-              <label>username:</label>
-              <input
-                name="username"
-                type="text"
-                onChange={changeHandler}
-                value={formValuesProfile.username}
-                required={true}
-              />
+            <form id="emailForm" onSubmit={submitHandler}>
+          <div id='allEmail'>
+          <label>email:</label>
+              {changeEmail ? (
+                <div>  
+                 <input
+                   name="email"
+                   type="text"
+                   onChange={changeHandler}
+                   value={formValuesProfile.email}
+                   required={true}
+                 />
+                  <button className='submitButton' type="submit">
+                    save
+                  </button>
+                </div>
+              ) : (
+                 <button onClick={handleEdit} id='email'>{user.email}</button>
+              )}
             </div>
-            <div id='email'>
-              <label>email:</label>
-              <input
-                name="email"
-                type="text"
-                onChange={changeHandler}
-                value={formValuesProfile.email}
-                required={true}
-              />
-            </div>
-            <div id='password'>
+            </form>
+          
+          <form id="passwordForm" onSubmit={submitHandler}>
+
+            <div id='allPassword'>
               <label>password:</label>
               {changePassword ? (
+                <div>
                 <input
                   name="password"
                   type="password"
                   onChange={changeHandler}
                   value={formValuesProfile.password}
-                  required={true}
                 />
+                <button className='submitButton' type="submit">
+                    save
+                  </button>
+                </div>
               ) : (
-                 <button onClick={handlePasswordChange}>set new password</button>
+                 <button onClick={handleEdit} id='password'>set new password</button>
               )}
             </div>
-            <div id='profilePic'>
-              <label>profilePic:</label>
-              <input
-                name="profilePic"
-                type="text"
-                onChange={changeHandler}
-                value={formValuesProfile.profilePic}
-              />
+            </form>
+            <form id="profilePicForm" onSubmit={submitHandler}>
+            <div id='allProfilePic'>
+              {changeProfilePic ? (
+                <div>
+                   <input
+                   name="profilePic"
+                   type="file"
+                   onChange={changeHandler}
+                    />
+                    <button className='submitButton' type="submit">
+                    save
+                    </button>
+                  </div>
+              ) : (
+                 <button onClick={handleEdit} id='profilePic'><img src={user.profilePic ? user.profilePic : johnMartin} className='w-16 h-16 object-cover' style={{ objectPosition: 'center-center' }} />
+                 </button>
+              )}
             </div>
-          </div>
+            </form>
         </div>
-        <button className='submitButton' type="submit">
-          update details
-        </button>
-      </form>
+      
+     
 
       <div>
         <div>
@@ -133,3 +232,47 @@ export default function UserDetails() {
     </div>
   );
 }
+///////////////////////////////////////////////////////////////
+/*
+
+function UserDetails() {
+
+  const [fileName, setFileName] = useState('');
+
+  const fileInputRef = useRef(null);
+
+  function handleFileChange(e) {
+    setFileName(e.target.files[0].name);
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    
+    // can access file directly from ref
+    const file = fileInputRef.current.files[0];
+    
+    // submit form
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input 
+        type="text"
+        value={fileName} 
+        readOnly
+      />
+
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleFileChange} 
+      />
+
+      <button type="submit">Submit</button>
+    </form>
+  )
+
+}
+
+
+*/

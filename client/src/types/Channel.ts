@@ -1,7 +1,7 @@
 import { User } from './User';
-import { MixTape } from './MixTape';
+import { MixTape } from './Mixtape';
 
-export type Channel = {
+export type ChannelType = {
   _id: string;
   name: string;
   picture: string;

@@ -11,18 +11,25 @@ vi.mock('../Context/Context', () => ({
   })
 }));
 
-beforeEach(() => {
-    render(
-        <Router>
-            <AppNav/>
-        </Router>
-      );
-    })
 
 describe('Element renders correctly', async () => {
+
+  beforeEach(() => {
+    render(
+      <Router>
+          <AppNav/>
+      </Router>
+    );
+  })
 
   it('should render a logout button', async () => {
     const logoutButton = screen.getByTestId('logout-button') as HTMLButtonElement;
     expect(logoutButton).toBeVisible();
+  })
+
+  it('should render the user\'s profile image', async () => {
+    const profileImage = screen.getByTestId('profile-image') as HTMLImageElement;
+    expect(profileImage).toBeVisible();
+    expect(profileImage.src).toBe(user.profilePic);
   })
 })
