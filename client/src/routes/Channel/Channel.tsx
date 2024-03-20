@@ -12,6 +12,7 @@ import AddMembersSelect from "../../components/AddMembersSelect/AddMembersSelect
 import AddMixtapeForm from "../../components/AddMixtapeForm/AddMixtapeForm";
 // styling
 import { MdPlayArrow } from "react-icons/md";
+import AudioWave from "../../components/AudioWave/AudioWave";
 
 const Channel = () => {
   const { user } = useMainContext();
@@ -78,6 +79,7 @@ const Channel = () => {
           <AddMembersSelect channelId={channel._id} setChannel={setChannel} />) : (<></>)
       }
       <TestPlayer />
+      <AudioWave/>
     </div>
   )
 
