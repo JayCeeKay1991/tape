@@ -3,6 +3,29 @@ import ChannelModel from "../../models/channel";
 import UserModel from "../../models/user";
 
 
+export const getChannel = async (req: Request, res: Response) => {
+  console.log('TRYING TO GET CHANNEL')
+  const channelId = req.params.channelId;
+  try {
+    const channel = await ChannelModel.findById(channelId).populate({
+      path: "members",
+      model: "User"
+    })
+    .populate({
+      path: "mixTapes",
+      model: "MixTape"
+    })
+    if (!channel) {
+      res.status(400).json('No channel with that id!')
+    }
+    res.status(200).json(channel)
+  } catch (error) {
+    console.error(error);
+    res.status(500);
+    res.json(`Error retrieving channel`);
+  }
+}
+
 export const createChannel = async (req: Request, res: Response) => {
   try {
     const { name, picture, owner, members, mixTapes } = req.body;
@@ -34,7 +57,6 @@ export const createChannel = async (req: Request, res: Response) => {
 }
 
 export const addUserToChannel = async (req: Request, res: Response) => {
-  console.log(`TRYING TO ADD USER ${req.params}`)
   try {
     const channelId = req.params.channelId;
     const userId = req.params.userId;

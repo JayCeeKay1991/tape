@@ -7,7 +7,7 @@ import { MixTape } from "../../types/Mixtape";
 
 
 interface AddMixtapeFormProps {
-    channel: ChannelType
+    channelId: string
     user: User
     setChannel: Dispatch<SetStateAction<ChannelType>>
     setShowMixForm: Dispatch<SetStateAction<boolean>>
@@ -37,7 +37,7 @@ const initCloudinaryResState = {
   }
 
 
-const AddMixtapeForm = ({ channel, user, setChannel, setShowMixForm }: AddMixtapeFormProps) => {
+const AddMixtapeForm = ({ channelId, user, setChannel, setShowMixForm }: AddMixtapeFormProps) => {
 
     const initialState = {
         name: '',

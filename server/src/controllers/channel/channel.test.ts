@@ -50,10 +50,13 @@ describe("Channel Controller", () => {
       await mongoose.connection.close();
     });
 
+    it("Should retrieve on channel", async () => {
+      
+    })
+
     it("Should add a user to a channel", async () => {
         await request.post("/users").send(mockUser)
         const testUser = await UserModel.findOne({email: mockUser.email})
-
 
         const newMockChannel = new ChannelModel({
             name: 'NewMockChannel',
@@ -67,9 +70,9 @@ describe("Channel Controller", () => {
         await request.post("/channels").send(newMockChannel)
         const testChannel = await ChannelModel.findOne({name: newMockChannel.name})
         const testChannelId = testChannel?._id;
-        const testBody = { "userId": testUser!._id}
+        const testUserId = testUser!._id
 
-        await request.post(`/channels:${testChannelId}`).send(testBody)
+        await request.post(`/channels/:${testChannelId}/:${testUserId}`)
             .then(response => {
                 expect(response.status).toBe(201)
                 expect(response.body.members.length).toEqual(1);
