@@ -8,14 +8,36 @@ import { MixTape } from "../../types/Mixtape";
 
 interface AddMixtapeFormProps {
     channel: ChannelType
-    setChannel: Dispatch<SetStateAction<ChannelType>>
     user: User
+    setChannel: Dispatch<SetStateAction<ChannelType>>
+    setShowMixForm: Dispatch<SetStateAction<boolean>>
 }
 
 type FormValues = Omit<MixTape, '_id'>;
 
 
-const AddMixtapeForm = ({ channel, user, setChannel }: AddMixtapeFormProps) => {
+
+const initCloudinaryResState = {
+    public_id: '',
+    version: 0,
+    signature: '',
+    width: 0,
+    height: 0,
+    format: '',
+    resource_type: '',
+    created_at: '',
+    tags: [],
+    bytes: 0,
+    type: '',
+    etag: '',
+    placeholder: false,
+    url: '',
+    secure_url: '',
+    duration: 0,
+  }
+
+
+const AddMixtapeForm = ({ channel, user, setChannel, setShowMixForm }: AddMixtapeFormProps) => {
 
     const initialState = {
         name: '',
@@ -31,7 +53,7 @@ const AddMixtapeForm = ({ channel, user, setChannel }: AddMixtapeFormProps) => {
     const [file, setFile] = useState<File | null>(null);
     const [uploading, setUploading] = useState(false);
     const [uploadComplete, setUploadComplete] = useState(false);
-    const [cldResponse, setCldResponse] = useState<any>(null);
+    const [cldResponse, setCldResponse] = useState<CloudinaryRes>(initCloudinaryResState);
     const [formValues, setFormValues] = useState<FormValues>(initialState);
 
 
@@ -41,7 +63,6 @@ const AddMixtapeForm = ({ channel, user, setChannel }: AddMixtapeFormProps) => {
             setFile(files[0]); // Set the image file
         } else setFormValues({ ...formValues, [name]: value });
     };
-
 
     // upload file to cloudinary
     const uploadFile = async (e: React.MouseEvent<HTMLButtonElement>) => {
