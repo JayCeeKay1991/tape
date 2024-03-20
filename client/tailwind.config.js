@@ -8,14 +8,13 @@ export default {
       tapeBlack: "#151515",
       tapeOffBlack: "#181818",
       tapeWhite: "#FFFFFF",
+      tapeDarkGrey: "#909090"
     },
     fontFamily: {
       sans: ["Darker Grotesque"],
     },
     extend: {
-      gradient: {
-
-      },
+      gradient: {},
       animation: {
         marquee: "marquee 25s linear infinite",
       },

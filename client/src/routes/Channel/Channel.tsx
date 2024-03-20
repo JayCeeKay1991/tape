@@ -156,6 +156,7 @@ const Channel = () => {
 
 
   return (
+
     <div id="channel">
       <div id="channel-element" className="text-tapeWhite h-72 bg-gradient-to-r from-tapePink tapeYellow flex justify-between p-10 w-11/12 m-12 rounded-2xl" >
         <div id="channel-info" >
@@ -164,6 +165,7 @@ const Channel = () => {
           <p className="pl-3">{channel.members ? channel.members.length : 'no members'}</p>
         </div>
         <img src={channel.picture} className="w-48 rounded-2xl object-cover" />
+
       </div>
       <button onClick={toggleMixForm} className="white-button ml-12" >Add Mixtape</button>
       <button onClick={toggleMemberForm} className="white-button" >Add Members</button>

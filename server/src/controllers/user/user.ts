@@ -73,13 +73,14 @@ export const login = async (req: Request, res: Response) => {
     }
     // Find user by email
     const user = await UserModel.findOne({ email: email })
-    .populate({
-      path: 'channels',
-      populate: {
-        path: 'mixTapes',
-        model: 'MixTape'
-      }
-    }).exec();
+      .populate({
+        path: "channels",
+        populate: {
+          path: "mixTapes",
+          model: "MixTape",
+        },
+      })
+      .exec();
 
     // Check if user exists
     if (!user) {
@@ -110,35 +111,50 @@ export const editUser = async (req: Request, res: Response) => {
     const id = req.params.id;
     const { userName, email, password, profilePic, channels, mixTapes } =
       req.body;
-    if (password) {
-      const hash = await bcrypt.hash(password, 10);
-      req.body.password = hash;
-    }
-    if (!email || !password || !userName) {
+    if (!email || !userName) {
       return res.status(400).json({
         error: "400",
-        message: "Please provide email and password",
+        message: "Please provide email and username",
       });
     }
-    const updatedUser = await UserModel.findOneAndUpdate(
-      { _id: id },
-      {
-        $set: {
-          userName: userName,
-          email: email,
-          password: password,
-          profilePic: profilePic,
-          channels: channels,
-          mixTapes: mixTapes,
+    if (!password) {
+      const updatedUser = await UserModel.findOneAndUpdate(
+        { _id: id },
+        {
+          $set: {
+            userName: userName,
+            email: email,
+            profilePic: profilePic,
+            channels: channels,
+            mixTapes: mixTapes,
+          },
         },
-      },
-      { new: true }
-    );
-    res.status(201).send(updatedUser);
+        { new: true }
+      );
+      res.status(201).send(updatedUser);
+    } else {
+      const hash = await bcrypt.hash(password, 10);
+      const hashedPassword = hash;
+      const updatedUser = await UserModel.findOneAndUpdate(
+        { _id: id },
+        {
+          $set: {
+            userName: userName,
+            email: email,
+            password: hashedPassword,
+            profilePic: profilePic,
+            channels: channels,
+            mixTapes: mixTapes,
+          },
+        },
+        { new: true }
+      );
+      res.status(201).send(updatedUser);
+    }
   } catch (error) {
     console.error(error);
     res.status(500);
-    res.send({
+    res.json({
       message:
         "An unexpected error occurred while editing the user. Please try again later.",
     });

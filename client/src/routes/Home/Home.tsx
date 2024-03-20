@@ -1,6 +1,5 @@
 //import Nav from '../../components/Nav/Nav';
 import { useState } from 'react';
-import LoginForm from '../../components/LoginForm/LoginForm';
 import Nav from '../../components/Nav/Nav';
 import hero from "../../assets/svg/hero-bg.svg";
 import logo from "../../assets/svg/logo.svg";
@@ -9,10 +8,13 @@ import bigVis from "../../assets/svg/big-vis.svg";
 import img1 from '../../assets/img/pexels-anastasia-shuraeva-5704849.jpg';
 import img2 from '../../assets/img/pexels-juan-gomez-2589650.jpg';
 import "./Home.css";
+import LoginSignup from '../../components/LoginSignup/LoginSignup';
 
 const Home = () => {
   const [loginVisible, setLoginVisible] = useState(false);
+  const [formValue, setFormValue] = useState('login');
 
+  // Toggles the visibilty of the login/signup form
   function toggleShowLogin() {
     if (!loginVisible) {
       setLoginVisible(true)
@@ -21,18 +23,21 @@ const Home = () => {
       setLoginVisible(false)
       console.log(loginVisible);
     }
+     setFormValue("login");
   }
 
   return (
     <>
       <Nav toggleShowLogin={toggleShowLogin} />
 
-      {loginVisible && <LoginForm />}
+      {loginVisible && (
+        <LoginSignup
+          formValue={formValue}
+          toggleShowLogin={toggleShowLogin}
+        />
+      )}
 
-      <div
-        id="wrapper"
-        className="w-full h-full bg-tapeGreen flex flex-col"
-      >
+      <div id="wrapper" className="w-full h-full bg-tapeGreen flex flex-col">
         <section
           id="feature0"
           className="w-full h-screen bg-tapeOffBlack flex flex-col justify-center"
@@ -45,7 +50,10 @@ const Home = () => {
               Tape FM lets you upload mixes and share them in groups of your
               friends
             </p>
-            <button className="pl-[40px] pr-[50px] pt-[20px] pb-[20px] text-2xl font-medium rounded-[15px] bg-tapeWhite">
+            <button
+              onClick={() => setFormValue("signUp")}
+              className="pl-[40px] pr-[50px] pt-[20px] pb-[20px] text-2xl font-medium rounded-[15px] bg-tapeWhite"
+            >
               Join now
             </button>
           </div>
@@ -74,10 +82,10 @@ const Home = () => {
               </h1>
             </div>
             <div id="img-crop1" className="">
-              <img src={img1} id="img1" className='absolute '></img>
+              <img src={img1} id="img1" className="absolute "></img>
             </div>
             <div id="img-crop2" className="">
-              <img src={img2} id="img2" className='absolute '></img>
+              <img src={img2} id="img2" className="absolute "></img>
             </div>
           </div>
         </section>
