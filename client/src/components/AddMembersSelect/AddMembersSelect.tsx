@@ -28,8 +28,6 @@ const AddMembersSelect = ({channelId, setChannel}:AddMembersSelectProps) => {
     retrieveAllUsers();
   }, [])
 
-  console.log(channelId)
-
   const handleMemberSelect = async (userId: string) => {
     const user = users.find(user => user._id === userId);
     if (user) {

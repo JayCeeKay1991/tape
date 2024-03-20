@@ -71,7 +71,7 @@ const Channel = () => {
       <button onClick={toggleMemberForm} className="white-button" >Add Members</button>
       {
         showMixForm ? (
-         <AddMixtapeForm  channel={channel} setChannel={setChannel} user={user}/> ) : (<></>)
+         <AddMixtapeForm  channel={channel} setChannel={setChannel} user={user} setShowMixForm={setShowMixForm}/> ) : (<></>)
       }
       {
         showMemberForm ? (
