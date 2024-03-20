@@ -2,17 +2,18 @@ import { useState, useEffect, Dispatch, SetStateAction } from 'react'
 import { getAllUsers } from '../../services/UserClientService'
 import { User } from '../../types/User'
 import johnMartin from '../../components/AppNav/johnmartin.jpg'
-import { addUserToChannel } from '../../services/ChannelClientService';
+import { addUserToChannel, getChannel } from '../../services/ChannelClientService';
 import { ChannelType } from '../../types/Channel';
 
 
 interface AddMembersSelectProps {
-  channel: ChannelType
+  channelId: string
   setChannel: Dispatch<SetStateAction<ChannelType>>
 }
 
-const AddMembersSelect = ({channel, setChannel}:AddMembersSelectProps) => {
+const AddMembersSelect = ({channelId, setChannel}:AddMembersSelectProps) => {
   const [users, setUsers] = useState<User[]>([])
+  const [thisChannel, setThisChannel] = useState<ChannelType>({})
   const [selectedMembers, setSelectedMembers]  = useState<User[]>([])
 
   useEffect(() => {
@@ -25,7 +26,19 @@ const AddMembersSelect = ({channel, setChannel}:AddMembersSelectProps) => {
         console.error('error getting all users')
       }
     }
+    async function retrieveChannel() {
+      try {
+        const channel = await getChannel(channelId)
+        console.log(channel)
+        setThisChannel(channel)
+      } catch (error) {
+        console.error('error getting channel')
+      }
+    }
     retrieveAllUsers();
+    retrieveChannel();
+    setSelectedMembers(channel.members)
+
   }, [])
 
   const handleMemberSelect = async (userId: string) => {

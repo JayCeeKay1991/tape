@@ -4,7 +4,7 @@ import { ChannelType } from "../types/Channel";
 
 // Get channel by id GET
 export const getChannel = async (channelId: string) => {
-  return await apiClient<ChannelType>(`/channels/:${channelId}`);
+  return await apiClient<ChannelType>(`channels/${channelId}`);
 }
 
 // Get channels for the logged in user GET

@@ -1,6 +1,6 @@
 import express from "express";
-import { login, createUser, editUser, getAllUsers, getChannel } from "./controllers/user/user";
-import { createChannel, addUserToChannel } from "./controllers/channel/channel";
+import { login, createUser, editUser, getAllUsers } from "./controllers/user/user";
+import { createChannel, addUserToChannel, getChannel } from "./controllers/channel/channel";
 import { createMixTape } from "./controllers/mixTape/mixTape";
 const router = express.Router();
 
@@ -11,7 +11,7 @@ router.post("/users", createUser);
 router.put("/users/:id", editUser);
 
 
-router.get('/channels/:channeId', getChannel)
+router.get('/channels/:channelId', getChannel)
 router.post("/channels", createChannel);
 router.post("/channels/:channelId/:userId", addUserToChannel)
 

@@ -4,8 +4,21 @@ import UserModel from "../../models/user";
 
 
 export const getChannel = async (req: Request, res: Response) => {
+  console.log('TRYING TO GET CHANNEL')
+  const channelId = req.params.channelId;
   try {
-    
+    const channel = await ChannelModel.findById(channelId).populate({
+      path: "members",
+      model: "User"
+    })
+    .populate({
+      path: "mixTapes",
+      model: "MixTape"
+    })
+    if (!channel) {
+      res.status(400).json('No channel with that id!')
+    }
+    res.status(200).json(channel)
   } catch (error) {
     console.error(error);
     res.status(500);
