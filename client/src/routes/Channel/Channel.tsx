@@ -10,6 +10,7 @@ import TestPlayer from "../../components/TestPlayer/TestPlayer";
 import { useMainContext } from "../../components/Context/Context";
 import AddMembersSelect from "../../components/AddMembersSelect/AddMembersSelect";
 import AddMixtapeForm from "../../components/AddMixtapeForm/AddMixtapeForm";
+import CommentList  from "../../components/CommentList/CommentList"
 // styling
 import { MdPlayArrow } from "react-icons/md";
 
@@ -78,6 +79,7 @@ const Channel = () => {
           <AddMembersSelect channelId={channel._id} setChannel={setChannel} />) : (<></>)
       }
       <TestPlayer />
+      <CommentList channel={channel} />
     </div>
   )
 

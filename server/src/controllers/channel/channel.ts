@@ -89,3 +89,28 @@ export const addUserToChannel = async (req: Request, res: Response) => {
     res.json(`Error adding user to channel`);
   }
 }
+
+
+export const addComment = async (req: Request, res: Response) => {
+  try {
+    const channelId = req.params.channelId;
+    const {owner, message, date} = req.body;
+    console.log(req.body)
+    // find channel and update comments property array
+    const updatedChannel = await ChannelModel.findOneAndUpdate(
+      { _id: channelId },
+      { $push: { comments: {owner, message, date}} },
+      { new: true }
+    ).populate("comments");
+
+    if (!updatedChannel) {
+      res.status(400).json("Channel not found");
+    }
+      res.status(201).json(updatedChannel);
+    }
+  catch (error) {
+    console.error(error);
+    res.status(500);
+    res.json(`Error adding comment`);
+  }
+};

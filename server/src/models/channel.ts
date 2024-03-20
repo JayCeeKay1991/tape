@@ -23,6 +23,12 @@ const Channel = new mongoose.Schema({
       ref: "MixTape",
     },
   ],
+  comments: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Comments",
+    },
+  ],
 });
 
 const ChannelModel = mongoose.model("Channel", Channel);
