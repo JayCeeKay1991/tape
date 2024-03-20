@@ -53,30 +53,32 @@ function LoginForm() {
   };
 
   return (
-
-      <form id="login-form" onSubmit={handleLogin} className='w-[400px] fixed z-50 bg-tapePink left-[200px] top-[200px]' >
-        <input
-          name="email"
-          type="text"
-          value={formValuesUserLogin.email}
-          onChange={changeHandler}
-          placeholder="email"
-          required={true}
-          data-testid="input-email"
-        ></input>
-        <input
-          name="password"
-          type="password"
-          value={formValuesUserLogin.password}
-          onChange={changeHandler}
-          placeholder="password"
-          required={true}
-        ></input>
-        <button className="login-button" type="submit" data-testid="login-button" >
-          login
-        </button>
-      </form>
-
+    <form
+      id="login-form"
+      onSubmit={handleLogin}
+      className="w-[400px] fixed z-50 bg-tapePink left-[200px] top-[200px]"
+    >
+      <input
+        name="email"
+        type="text"
+        value={formValuesUserLogin.email}
+        onChange={changeHandler}
+        placeholder="email"
+        required={true}
+        data-testid="input-email"
+      ></input>
+      <input
+        name="password"
+        type="password"
+        value={formValuesUserLogin.password}
+        onChange={changeHandler}
+        placeholder="password"
+        required={true}
+      ></input>
+      <button className="login-button" type="submit" data-testid="login-button">
+        login
+      </button>
+    </form>
   );
 }
 
