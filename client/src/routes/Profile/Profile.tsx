@@ -1,6 +1,6 @@
 import React from "react";
 import UserDetails from "../../components/UserDetails/UserDetails";
-const Profile = () => {
+export default function Profile(){
 
   return (
     <div>
@@ -8,5 +8,3 @@ const Profile = () => {
     </div>
   )
 }
-
-export default Profile;

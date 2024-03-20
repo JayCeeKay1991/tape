@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, MouseEventHandler } from 'react';
 import "./UserDetails.css"
 import { useMainContext } from '../Context/Context';
 import { updateUser } from '../../services/UserClientService';
 import { User } from '../../types/User';
 import { postImageToCloudinary } from '../../services/CloudinaryService';
 import johnMartin from '../AppNav/johnmartin.jpg'
+import { HiPlus } from "react-icons/hi2";
 
 
 export type FormValuesUserProfile = {
@@ -31,23 +32,24 @@ export default function UserDetails() {
   const [ changeProfilePic, setChangeProfilePic ] = useState(false);
   const [formPictureFile, setFormPictureFile] = useState<File | null>(null);
 
-  function handleEdit(e: React.MouseEvent) {
-    e.preventDefault();
-     switch (e.target) {
-       case document.getElementById("username"):
-         setChangeUsername(!changeUsername);
-         break;
-       case document.getElementById("email"):
-         setChangeEmail(!changeEmail);
-         break;
-       case document.getElementById("password"):
-         setChangePassword(!changePassword);
-         break;
-       case document.getElementById("profilePic"):
-         setChangeProfilePic(!changeProfilePic);
-         break;
-       default:
-         break;
+  function handleEdit(e: React.MouseEvent<HTMLButtonElement>) {
+    const target = e.currentTarget;
+    switch (target.id) {
+      case "username":
+        setChangeUsername(!changeUsername);
+        break;
+        case "email":
+          setChangeEmail(!changeEmail);
+          break;
+          case "password":
+            setChangePassword(!changePassword);
+            break;
+            case "profilePic":
+              setChangeProfilePic(!changeProfilePic);
+              console.log("here!!!!!!!")
+              break;
+              default:
+              break;
      }
    }
 
@@ -99,8 +101,9 @@ export default function UserDetails() {
       updateUser(newUser);
     }
          ///////////////////////////////////////////////
+         
          switch (e.target) {
-          case document.getElementById("usernameForm"):
+           case document.getElementById("usernameForm"):
             setChangeUsername(!changeUsername);
             break;
           case document.getElementById("emailForm"):
@@ -112,17 +115,25 @@ export default function UserDetails() {
           case document.getElementById("profilePicForm"):
             setChangeProfilePic(!changeProfilePic);
             break;
-          default:
-            break;
+            default:
+              break;
         }
          ////////////////////////////////////////////////
   }
+  // console.log("the change profile pic: ", changeProfilePic)
   return (
-    <div>
-         <form id="profilePicForm" onSubmit={submitHandler}>
-            <div id='allProfilePic'>
-              {changeProfilePic ? (
+    <div className='flex flex-col justify-center items-center'>
+         <form id="profilePicForm" onSubmit={submitHandler} className="flex bg-tapeBlack rounded-full justify-center  w-[180px] h-[180px]">
+            <div id='allProfilePic' className=' relative w-[180px] h-[180px] rounded-full flex justify-center items-center'>
                 <div>
+                <div className='relative overflow-hidden w-[180px] h-[180px] rounded-full'>
+                 <img src={user.profilePic ? user.profilePic : johnMartin} className='w-[180px] h-[210px] object-cover'/>
+                </div>
+                 <button type='button' onClick={handleEdit} id='profilePic' className='bg-gradient-to-t from-tapePink to-tapeYellow text-4xl absolute bottom-4 right-3 w-[40px] h-[40px] rounded-full'>
+                    <HiPlus />
+                 </button>
+                 <div className='absulote bottom-1 right-1 w-[40px] h-[40px] rounded-full'>
+                 {changeProfilePic ? <div>
                    <input
                    name="profilePic"
                    type="file"
@@ -131,19 +142,23 @@ export default function UserDetails() {
                     <button className='submitButton' type="submit">
                     save
                     </button>
-                  </div>
-              ) : (
-                <div>
-                 <img src={user.profilePic ? user.profilePic : johnMartin} className='w-16 h-16 object-cover' style={{ objectPosition: 'center-center' }} />
-                 <button onClick={handleEdit} id='profilePic'> edit pic
-                 </button>
+                  </div> : null}
+                 </div>
+                 {/* {   <div>
+                   <input
+                   name="profilePic"
+                   type="file"
+                   onChange={changeHandler}
+                    />
+                    <button className='submitButton' type="submit">
+                    save
+                    </button>
+                  </div>} */}
                 </div>
-              )}
             </div>
             </form>
-      <form id="usernameForm" onSubmit={submitHandler}>
+            <form id="usernameForm" onSubmit={submitHandler}>
         <div id='allUsername'>
-        <label>username:</label>
               {changeUsername ? (
                 <div>
                  <input
@@ -165,10 +180,21 @@ export default function UserDetails() {
               )}
             </div>
             </form>
+
+            <div className='flex flex-row'>
+      <div className='p-2'>
+          <div>{user.mixTapes.length}</div>
+          <div>Mixs:</div> 
+        </div>
+        <div className='p-2'>
+          <div>{user.channels.length }</div> 
+          <div>Channels:</div>
+        </div>
+      </div>
           <div>
             <form id="emailForm" onSubmit={submitHandler}>
           <div id='allEmail'>
-          <label>email:</label>
+          <label className='block'>email:</label>
               {changeEmail ? (
                 <div>  
                  <input
@@ -194,7 +220,7 @@ export default function UserDetails() {
           <form id="passwordForm" onSubmit={submitHandler}>
 
             <div id='allPassword'>
-              <label>password:</label>
+              <label className='block'>password:</label>
               {changePassword ? (
                 <div>
                 <input
@@ -216,35 +242,6 @@ export default function UserDetails() {
             </div>
             </form>
         </div>
-      
-     
-
-      <div>
-        <div>
-          Channels:
-          {user.channels.length > 0 ? (
-            user.channels!.map((channel) => (
-              <div>
-                <div>Channel name: {channel.name}</div>
-              </div>
-            ))
-            ) : (
-            <div>No channels yet</div>
-          )}
-        </div>
-        <div>
-          Tapes:
-          {user.mixTapes.length > 0 ? (
-          user.mixTapes.map((tape) => (
-            <div>
-              <div>Tape name: {tape.name}</div>
-            </div>
-          ))
-            ) : (
-            <div>No tapes yet</div>
-          )}
-        </div>
-      </div>
     </div>
   );
 }
