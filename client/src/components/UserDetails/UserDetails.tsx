@@ -119,10 +119,9 @@ export default function UserDetails() {
             default:
               break;
         }
-         ////////////////////////////////////////////////
   }
   return (
-    <div className='flex flex-col justify-center items-center w-full h-full'>
+    <div className='flex flex-col bg-tapeDarkBlack justify-center items-center w-[350px] h-[600px] rounded-[20px] border-[1px] '>
          <form id="profilePicForm" onSubmit={submitHandler} className="flex bg-tapeBlack rounded-full justify-center  w-[180px] h-[180px]">
             <div id='allProfilePic' className=' relative w-[180px] h-[180px] rounded-full flex justify-center items-center'>
                 <div>
@@ -162,7 +161,7 @@ export default function UserDetails() {
                  <button className='rounded-full h-5 w-10 flex  p-1 pb-2 items-center ml-12 mr-5' onClick={handleEdit} id='username'>
                    cancel
                  </button>
-                 <button className='rounded-full h-5 w-10 flex p-1 pb-2 items-center' type="submit">
+                 <button className='rounded-full h-5 w-10 flex p-1 pb-2 items-center bg-tapeGray' type="submit">
                  save
                </button>
                  </div>
@@ -192,7 +191,7 @@ export default function UserDetails() {
                  <input
                    name="email"
                    type="text"
-                  className=' border border-tapeGray rounded-md bg-blackTape'
+                   className=' border border-tapeGray rounded-md bg-tapeBlack  text-tapeDarkGrey'
                    onChange={changeHandler}
                    value={formValuesProfile.email}
                    required={true}
@@ -201,7 +200,7 @@ export default function UserDetails() {
                  <button className='rounded-full h-5 w-10 flex  p-1 pb-2 items-center ml-12 mr-5' onClick={handleEdit} id='email'>
                    cancel
                  </button>
-                  <button className='rounded-full h-5 w-10 flex p-1 pb-2 items-center ' type="submit">
+                  <button className='rounded-full h-5 w-10 flex p-1 pb-2 items-center bg-tapeGray ' type="submit">
                     save
                   </button>
                  </div>
@@ -231,7 +230,7 @@ export default function UserDetails() {
                  <button className='rounded-full h-5 w-10 flex  p-1 pb-2 items-center ml-12 mr-5' onClick={handleEdit} id='password'>
                    cancel
                  </button>
-                <button className='rounded-full h-5 w-10 flex p-1 pb-2 items-center ' type="submit">
+                <button className='rounded-full h-5 w-10 flex p-1 pb-2 items-center bg-tapeGray' type="submit">
                     save
                   </button>
                 </div>
