@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 // types
 import { User } from "../../types/User";
@@ -78,8 +78,8 @@ const Channel = () => {
         showMemberForm ? (
           <AddMembersSelect channelId={channel._id} setChannel={setChannel} />) : (<></>)
       }
-      <TestPlayer />
       <AudioWave/>
+      <TestPlayer />
     </div>
   )
 

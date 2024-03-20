@@ -1,54 +1,276 @@
-import { useMemo, useState, useCallback, useRef } from 'react';
+import React, { useMemo, useState, useRef, useCallback, useEffect, MouseEvent } from 'react';
 import { useWavesurfer } from '@wavesurfer/react'
 import Timeline from 'wavesurfer.js/dist/plugins/timeline.esm.js'
+import { IoMdPlay } from 'react-icons/io';
+import { IoMdPause } from 'react-icons/io';
+import { MdSkipNext } from 'react-icons/md';
+import { MdSkipPrevious } from 'react-icons/md';
+import { BiSolidVolumeMute } from 'react-icons/bi';
+import { GoUnmute } from 'react-icons/go';
 
 
-const audioUrls = [
-  'https://res.cloudinary.com/dkvrbsh2c/video/upload/v1710844740/tfrrnc9hei0kswxkezxi.mp3'
-]
 
-const formatTime = (seconds:number) => [seconds / 60, seconds % 60].map((v) => `0${Math.floor(v)}`.slice(-2)).join(':')
+const testUrl1 =
+  'https://res.cloudinary.com/ddj3xjxrc/video/upload/v1710529539/D.J._Poizen_Visits_Kool_Kyle_Side_A_ncjkhb.mp3';
+const testUrl2 = `https://res.cloudinary.com/ddj3xjxrc/video/upload/v1710529445/podcast_mark-mendoza-podcast_1988-mixtape_1000413811719_ts9qep.mp3`;
+const testUrl3 = `https://cf-media.sndcdn.com/aCq8wQO1sBZZ.128.mp3?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiKjovL2NmLW1lZGlhLnNuZGNkbi5jb20vYUNxOHdRTzFzQlpaLjEyOC5tcDMqIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzEwOTM2NTk3fX19XX0_&Signature=VmqqSPU8vYMUQILYeHVSJRTWadm0~IJ4bKpr5T5g5sTM5ZYVbZkIv8qRD2jx5Sjsn7WO1EjOAAZDOjc0rbAvW3con~fwEjzuYqYIkQADh-8lwgUzY8Ou4~wEgRR82BrmFqzCWggfRDNeS7VFBr2TERPbH14Phmmdt~PjOB4IfrTIYHfOXT~bg-IGpzJ195x51-Ge5vM4guPk7JCxpYAO0vVpgD1~uSrd25pgv2KocGKLSPtGs9afVKuhZnd4ErPeK3t2d8TRuYQtokSb0sAwcWwSerfWDsJGIXT-P9bKRlOdinjN4uGVNby2W~L~vLFjSh9Hq4XQbqJejagCU-Mxtg__&Key-Pair-Id=APKAI6TU7MMXM5DG6EPQ`;
+
 
 // A React component that will render wavesurfer
 const AudioWave = () => {
-  const containerRef = useRef(null)
-  const [urlIndex, setUrlIndex] = useState(0)
+  const channelMixtapes = [testUrl1, testUrl2, testUrl3];
+  const [stream, setStream] = useState<Howl[]>([]);
+  const [streamIndex, setStreamIndex] = useState<number>(0);
+  const [muted, setMuted] = useState<boolean>(false);
+  const durationRef = useRef<HTMLParagraphElement>(null);
+  const totalDurationRef = useRef<HTMLParagraphElement>(null);
+  const [audioDuration, setAudioDuration] = useState<number>(0);
+  const [playing, setPlaying] = useState(false);
+  const progressBarRef = useRef<HTMLInputElement>(null);
 
   const { wavesurfer, isPlaying, currentTime } = useWavesurfer({
-    container: containerRef,
-    height: 50,
+    container: progressBarRef,
+    height: 70,
     waveColor: '#FF65AA',
     progressColor: '#909090',
-    url: audioUrls[urlIndex],
-    barWidth: 2,
+    barGap: 5,
+    barRadius: 10,
+    barWidth: 10,
+    url: channelMixtapes[streamIndex],
     plugins: useMemo(() => [Timeline.create()], []),
   })
 
-  const onUrlChange = useCallback(() => {
-    setUrlIndex((index) => (index + 1) % audioUrls.length)
-  }, [])
+  useEffect(() => {
+    // create stream array from mixTapes
+    const generateStream = () => {
+      const mixtapes: Howl[] = channelMixtapes.map((mixtape) => {
+        // maps through urls and creates new howl obj for each mixtape url
+        return new Howl({
+          src: [mixtape],
+          html5: true,
+          onplay: function (this: Howl) {
+            // defines callback function that runs onplay, must be function needs explicit this
 
-  const onPlayPause = useCallback(() => {
-    wavesurfer && wavesurfer.playPause()
-  }, [wavesurfer])
+            if (totalDurationRef.current) {
+              // renders total duration in p element
+              totalDurationRef.current.textContent = formatTime(
+                Math.round(this.duration())
+              );
 
+              // setAudioDuration to the duration of the total duration of the mix
+              setAudioDuration(Math.round(this.duration()));
+            }
+
+            // handles the rendering of the currently elapsed time by updating every second
+            const timerId = setInterval(() => {
+              if (this.playing()) {
+                // seek is property of howl, finds current point
+                const currentTime = this.seek();
+                // Update the value of the progress bar
+                if (progressBarRef.current) {
+                  progressBarRef.current.value = String(currentTime);
+                  updateRangeValue(currentTime, this.duration());
+                }
+                // calculating the duration that has been played
+                if (durationRef.current) {
+                  durationRef.current.textContent = formatTime(
+                    Math.round(currentTime)
+                  );
+                }
+              }
+            }, 1000);
+            return () => clearInterval(timerId);
+          },
+        });
+      });
+      return mixtapes;
+    };
+
+    const generatedStream = generateStream();
+    // set the state to the stream produced by above function
+    setStream(generatedStream);
+  }, []);
+
+
+
+  const handlePlayClick = (event: MouseEvent<HTMLButtonElement>) => {
+    const currentMixtape = stream[streamIndex];
+    currentMixtape.play();
+    setPlaying(true);
+  };
+
+  const handlePauseClick = (event: MouseEvent<HTMLButtonElement>) => {
+    const currentMixtape = stream[streamIndex];
+    currentMixtape.pause();
+    setPlaying(false);
+  };
+
+
+    // Handle click Navigation parent function for next and previous
+    const handleClickNavigation = (newIndex: number) => {
+      setStreamIndex(newIndex);
+      const newMixtape = stream[newIndex];
+      newMixtape.play();
+      setPlaying(true);
+    };
+
+    const handleNextClick = (event: MouseEvent<HTMLButtonElement>) => {
+      const currentMixtape = stream[streamIndex];
+      currentMixtape.stop();
+
+      // if the stream is not at the end, increment it
+      if (streamIndex < stream.length - 1) {
+        const newIndex = streamIndex + 1;
+        handleClickNavigation(newIndex);
+        // else start from the beginning
+      } else {
+        const newIndex = 0;
+        handleClickNavigation(newIndex);
+      }
+    };
+
+    const handlePreviousClick = (event: MouseEvent<HTMLButtonElement>) => {
+      const currentMixtape = stream[streamIndex];
+      currentMixtape.stop();
+
+      //if streamIndex is greater or equal than 1, decrement it
+      if (streamIndex >= 1) {
+        const newIndex = streamIndex - 1;
+        handleClickNavigation(newIndex);
+        // else go to the end
+      } else {
+        const newIndex = stream.length - 1;
+        handleClickNavigation(newIndex);
+      }
+    };
+
+    const handleToggleMute = (event: MouseEvent<HTMLButtonElement>) => {
+      const currentMixtape = stream[streamIndex];
+      if (muted === true) {
+        currentMixtape.volume(1);
+        setMuted(false);
+      } else {
+        currentMixtape.volume(0);
+        setMuted(true);
+      }
+    };
+
+
+
+  // Time Format
+  const formatTime = (seconds: number) => {
+    return (
+      Math.floor(seconds / 60) +
+      ':' +
+      ('0' + Math.floor(seconds % 60)).slice(-2)
+    );
+  };
+
+  const handleProgressBarChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const currentTimeState = parseFloat(event.target.value);
+    const currentMixtape = stream[streamIndex];
+    currentMixtape.seek(currentTimeState);
+
+    updateRangeValue(currentTimeState, audioDuration);
+
+    if (durationRef.current) {
+      durationRef.current.textContent = formatTime(
+        Math.round(currentTimeState)
+      );
+    }
+  };
+
+
+  const updateRangeValue = (
+    currentTimeState: number,
+    audioDuration: number
+  ) => {
+    const percentage = (currentTimeState / audioDuration) * 100;
+
+    if (progressBarRef.current) {
+      progressBarRef.current.style.setProperty(
+        '--range-value',
+        percentage + '%'
+      );
+    }
+  };
 
   return (
-    <>
-      <div ref={containerRef} />
+    <div id="wave"
+    className="w-[800px]  h-[100px] flex flex-row fixed bottom-40 justify-center items-center " >
 
-      <p>Current audio: {audioUrls[urlIndex]}</p>
-
-      <p>Current time: {formatTime(currentTime)}</p>
-
-      <div style={{ margin: '1em 0', display: 'flex', gap: '1em' }}>
-        <button onClick={onUrlChange}>Change audio</button>
-
-        <button onClick={onPlayPause} style={{ minWidth: '5em' }}>
-          {isPlaying ? 'Pause' : 'Play'}
-        </button>
+      <div id="btn-playPause">
+          {/* if playing false, render play button, else render pause button */}
+          {playing ? (
+            <button
+            type="button"
+            className="text-tapeWhite me-5"
+            onClick={handlePauseClick}
+            >
+              <IoMdPause size="25" />
+            </button>
+          ) : (
+            <button
+            type="button"
+            className="text-tapeWhite me-5 border-none "
+            onClick={handlePlayClick}
+            >
+              <IoMdPlay size="25" />
+            </button>
+          )}
       </div>
-    </>
+
+      <div className='w-[500px]' ref={progressBarRef} onChange={handleProgressBarChange} />
+
+      <span
+          id="current-time"
+          ref={durationRef}
+          className="text-tapeWhite hidden"
+        ></span>
+      <span
+          id="duration"
+          ref={totalDurationRef}
+          className="text-tapeWhite me-5"
+        ></span>
+
+
+
+        <div id="fastforward-rewind" className=" flex flex-row ">
+          <button
+            type="button"
+            onClick={handlePreviousClick}
+            className="text-tapeWhite me-2 border-none"
+            >
+            <MdSkipPrevious size="35" />
+          </button>
+          <button
+            type="button"
+            onClick={handleNextClick}
+            className="text-tapeWhite me-2 border-none"
+            >
+            <MdSkipNext size="35" />
+          </button>
+          {muted ? (
+            <button
+            type="button"
+            onClick={handleToggleMute}
+            className="text-tapeWhite me-2 border-none"
+            >
+              <BiSolidVolumeMute size="25" />
+            </button>
+          ) : (
+            <button
+            type="button"
+            onClick={handleToggleMute}
+            className=" text-tapeWhite me-2 border-none "
+            >
+              <GoUnmute size="30" />
+            </button>
+          )}
+          </div>
+        </div>
   )
 }
 

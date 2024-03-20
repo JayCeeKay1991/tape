@@ -1,16 +1,11 @@
-import { MouseEvent, useEffect, useState, useRef } from 'react';
+import React, { MouseEvent, useEffect, useState, useRef, useCallback } from 'react';
 import { Howl } from 'howler';
-
-const testUrl1 = 'https://res.cloudinary.com/ddj3xjxrc/video/upload/v1710529539/D.J._Poizen_Visits_Kool_Kyle_Side_A_ncjkhb.mp3'
-const testUrl2 = `https://res.cloudinary.com/ddj3xjxrc/video/upload/v1710529445/podcast_mark-mendoza-podcast_1988-mixtape_1000413811719_ts9qep.mp3`
-
 import { IoMdPlay } from 'react-icons/io';
 import { IoMdPause } from 'react-icons/io';
 import { MdSkipNext } from 'react-icons/md';
 import { MdSkipPrevious } from 'react-icons/md';
 import { BiSolidVolumeMute } from 'react-icons/bi';
 import { GoUnmute } from 'react-icons/go';
-
 import './TestPlayer.css';
 
 /* So actually the main error I'm getting with this is that the html5 audiopool is exhausted, and just found a stack overflow thread that talks
@@ -37,6 +32,7 @@ const TestPlayer = () => {
   const [playing, setPlaying] = useState(false);
 
   const progressBarRef = useRef<HTMLInputElement>(null);
+
 
   useEffect(() => {
     // create stream array from mixTapes
@@ -195,7 +191,7 @@ const TestPlayer = () => {
   return (
     <div
       id="player"
-      className="w-full h-[100px] flex  fixed bottom-0 flex-row justify-center items-center"
+      className="w-full h-[100px] flex flex-col fixed bottom-0 flex-row justify-center items-center"
     >
       <div
         id="progress-bar"
