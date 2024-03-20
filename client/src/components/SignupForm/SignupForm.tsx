@@ -67,6 +67,7 @@ const SignupForm = () => {
         placeholder="username"
         onChange={changeHandler}
         required={true}
+        data-testid="input-name"
       />
       <input
         name="email"
@@ -84,7 +85,7 @@ const SignupForm = () => {
         onChange={changeHandler}
         required={true}
       />
-      <button className="signup-button" type="submit">
+      <button className="signup-button" type="submit" data-testid="signup-button">
         Sign Up
       </button>
     </form>
