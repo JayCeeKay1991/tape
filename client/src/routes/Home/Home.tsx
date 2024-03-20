@@ -18,17 +18,14 @@ const Home = () => {
   function toggleShowLogin() {
     if (!loginVisible) {
       setLoginVisible(true)
-      console.log(loginVisible)
     } else {
       setLoginVisible(false)
-      console.log(loginVisible);
     }
-     setFormValue("login");
   }
 
   return (
     <>
-      <Nav toggleShowLogin={toggleShowLogin} />
+      <Nav toggleShowLogin={toggleShowLogin} setFormValue={setFormValue} />
 
       {loginVisible && (
         <LoginSignup
@@ -37,10 +34,10 @@ const Home = () => {
         />
       )}
 
-      <div id="wrapper" className="w-full h-full bg-tapeGreen flex flex-col">
+      <div id="wrapper" className="w-full h-full bg-tapeBlack flex flex-col">
         <section
           id="feature0"
-          className="w-full h-screen bg-tapeOffBlack flex flex-col justify-center"
+          className="w-full h-screen bg-tapeOffBlack flex flex-col justify-center top-0"
         >
           <div id="cta" className="w-[700px] z-10 ml-[50px]">
             <h1 className="text-[130px] leading-[110px] mb-[40px] text-tapeWhite font-semibold ">
@@ -51,8 +48,11 @@ const Home = () => {
               friends
             </p>
             <button
-              onClick={() => setFormValue("signUp")}
-              className="pl-[40px] pr-[50px] pt-[20px] pb-[20px] text-2xl font-medium rounded-[15px] bg-tapeWhite"
+              onClick={() => {
+                setFormValue("signUp");
+                toggleShowLogin();
+              }}
+              className="pl-[40px] pr-[50px] pt-[20px] pb-[20px] text-2xl font-medium rounded-[15px] bg-tapeWhite text-tapeBlack border-none"
             >
               Join now
             </button>
@@ -61,7 +61,7 @@ const Home = () => {
             id="img-crop"
             className="w-full h-screen absolute overflow-hidden"
           >
-            <img src={hero} id="hero-bg" className="absolute -top-[50px]"></img>
+            <img src={hero} id="hero-bg" className=" w-full absolute -top-[50px]"></img>
           </div>
         </section>
 
@@ -71,13 +71,13 @@ const Home = () => {
         >
           <div
             id="feature-body1"
-            className="w-full flex flex-col align-middle p-[40px] text-center"
+            className="w-full h-full flex flex-col align-middle p-[40px] text-center "
           >
             <div className="mt-[100px] h-1/2  flex flex-col justify-between">
-              <h3 className="text-[25px] font-medium mt-[20px] text-tapeWhite">
+              <h3 className="text-[25px] font-medium mt-[10px] text-tapeWhite">
                 Tape channels
               </h3>
-              <h1 className="text-[160px] font-semibold leading-[130px] text-tapeWhite">
+              <h1 className="text-[130px] font-semibold leading-[120px] text-tapeWhite">
                 Create channels <br></br>and share music
               </h1>
             </div>
@@ -94,9 +94,9 @@ const Home = () => {
           id="feature2"
           className="h-screen w-full bg-tapeWhite flex flex-col text-center justify-between"
         >
-          <h3 className="text-[30px] font-medium mt-[20px]">How it works</h3>
+          <h3 className="text-[30px] text-tapeBlack font-medium mt-[20px]">How it works</h3>
           <img src={keyImage} id="key-image"></img>
-          <h2 className="text-[50px] mb-[40px] font-medium">
+          <h2 className="text-[50px] mb-[40px] font-medium text-tapeBlack">
             Add your mixtape to the stream for endless playback
           </h2>
         </section>
