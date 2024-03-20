@@ -161,6 +161,7 @@ const Channel = () => {
         <div id="channel-info" >
           <h1 className="flex items-center" ><MdPlayArrow size={35} />{channel.name}</h1>
           <p className="pl-3" >{`${channel.mixTapes ? channel.mixTapes.length : 0} mixtape${channel.mixTapes.length > 1 ? 's' : ''}`}</p>
+          <p className="pl-3">{channel.members ? channel.members.length : 'no members'}</p>
         </div>
         <img src={channel.picture} className="w-48 rounded-2xl object-cover" />
       </div>

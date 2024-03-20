@@ -18,5 +18,5 @@ export const editChannel = async (channelId: string, body: ChannelType) => {
 
 // Add user to channel
 export const addUserToChannel = async (channelId: string, userId: string) => {
-  return await apiClient<ChannelType>(`channels/addUser/${channelId}/${userId}`, 'POST')
+  return await apiClient<ChannelType>(`channels/${channelId}/${userId}`,'POST')
 }
