@@ -23,12 +23,33 @@ export default function UserDetails() {
     profilePic: user.profilePic,
   };
   const [ formValuesProfile , setFormValuesProfile] = useState<FormValuesUserProfile>(initialFormState);
-  const [ changePassword, setChangePassword ] = useState(false);
+  
+  const [ changeusername, setChangeusername ] = useState(false);
+  const [ changeemail, setChangeemail ] = useState(false);
+  const [ changepassword, setChangepassword ] = useState(false);
   const [formPictureFile, setFormPictureFile] = useState<File | null>(null);
 
-  function handlePasswordChange(e: React.MouseEvent) {
+  function handleEdit(e: React.MouseEvent) {
     e.preventDefault();
-    setChangePassword(!changePassword);
+     switch (e.target) {
+       case document.getElementById("username"):
+         setChangeusername(!changeusername);
+         break;
+       case document.getElementById("email"):
+         setChangeemail(!changeemail);
+         break;
+       case document.getElementById("password"):
+         setChangepassword(!changepassword);
+         break;
+       case document.getElementById("profilePic"):
+         setFormPictureFile(null);
+         break;
+       default:
+         break;
+     }
+    
+    console.log("e.target: ", document.getElementById("username"));
+    // setChangePassword(!changePassword);
   }
 
   function changeHandler(e: React.ChangeEvent<HTMLInputElement>) {
@@ -74,36 +95,42 @@ export default function UserDetails() {
       };
       updateUser(newUser);
     }
-    setChangePassword(false);
+    setChangepassword(false);
   }
   return (
     <div>
       <form id="userDetailsForm" onSubmit={submitHandler}>
-        <div>
+        <div id='allUsername'>
+              {changeusername ? (
+                 <input
+                   name="username"
+                   type="text"
+                   onChange={changeHandler}
+                   value={formValuesProfile.username}
+                   required={true}
+                 />
+              ) : (
+                 <button onClick={handleEdit} id='username'>{user.userName}</button>
+              )}
+            </div>
           <div>
-            <div id='username'>
-              <label>username:</label>
-              <input
-                name="username"
-                type="text"
-                onChange={changeHandler}
-                value={formValuesProfile.username}
-                required={true}
-              />
+          <div id='allEmail'>
+              {changeemail ? (
+                 <input
+                   name="email"
+                   type="text"
+                   onChange={changeHandler}
+                   value={formValuesProfile.email}
+                   required={true}
+                 />
+              ) : (
+                 <button onClick={handleEdit} id='email'>{user.email}</button>
+              )}
             </div>
-            <div id='email'>
-              <label>email:</label>
-              <input
-                name="email"
-                type="text"
-                onChange={changeHandler}
-                value={formValuesProfile.email}
-                required={true}
-              />
-            </div>
-            <div id='password'>
+          <div>
+            <div id='allPassword'>
               <label>password:</label>
-              {changePassword ? (
+              {changepassword ? (
                 <input
                   name="password"
                   type="password"
@@ -112,7 +139,7 @@ export default function UserDetails() {
                   required={true}
                 />
               ) : (
-                 <button onClick={handlePasswordChange}>set new password</button>
+                 <button onClick={handleEdit} id='password'>set new password</button>
               )}
             </div>
             <div id='profilePic'>
