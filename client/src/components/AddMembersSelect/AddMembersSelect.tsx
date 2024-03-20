@@ -5,6 +5,7 @@ import johnMartin from '../../components/AppNav/johnmartin.jpg'
 import { addUserToChannel } from '../../services/ChannelClientService';
 import { ChannelType } from '../../types/Channel';
 import { HiPlus } from "react-icons/hi";
+import { useMainContext } from '../Context/Context';
 
 
 interface AddMembersSelectProps {
@@ -14,39 +15,34 @@ interface AddMembersSelectProps {
 
 const AddMembersSelect = ({ channel, setChannel }: AddMembersSelectProps) => {
   const [users, setUsers] = useState<User[]>([])
-  const [selectedMembers, setSelectedMembers] = useState<User[]>([])
   const [matchedUsers, setMatchedUsers] = useState<User[]>([])
   const [searchQuery, setSearchQuery] = useState<string>('')
+  const { user: loggedInUser } = useMainContext()
 
   useEffect(() => {
     // get all users to populate dropdown
     async function retrieveAllUsers() {
       try {
         const allUsers = await getAllUsers();
-
-        setUsers(allUsers)
+        const filteredUsers = allUsers.filter( user => user._id !== loggedInUser._id)
+        setUsers(filteredUsers)
       } catch (error) {
         console.error('error getting all users')
       }
     }
     retrieveAllUsers();
-  }, [users])
+  }, [])
 
   const handleMemberSelect = async (userId: string) => {
+    setMatchedUsers([])
     const user = users.find(user => user._id === userId);
     if (user) {
-      if (selectedMembers.includes(user)) {
-        // already member
-        return
-      }
-      setSelectedMembers(prevSelectedMembers => [...prevSelectedMembers, user]);
       // add new user to channel on back end
       const id = channel._id;
       const updatedChannel = await addUserToChannel(id, user._id)
       setChannel(updatedChannel);
     }
   };
-
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchQuery(e.target.value)
@@ -75,7 +71,7 @@ const AddMembersSelect = ({ channel, setChannel }: AddMembersSelectProps) => {
               />
             </div>
             <p className='text-tapeWhite mx-8'>{user.userName}</p>
-            <HiPlus onClick={() => handleMemberSelect(user._id)} className='mx-8 bg-gradient-to-t from-tapePink to-tapeYellow rounded-full ml-40'/>
+            <HiPlus onClick={() => handleMemberSelect(user._id)} className='mx-8  rounded-full ml-40'/>
           </li>
         )) : <></>}
       </ul>
