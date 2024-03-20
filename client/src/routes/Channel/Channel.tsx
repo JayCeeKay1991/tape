@@ -158,7 +158,7 @@ const Channel = () => {
   return (
 
     <div id="channel">
-      <div id="channel-element" className="text-tapeWhite h-72 bg-gradient-to-r from-tapePink tapeYellow flex justify-between p-10 w-11/12 m-12 rounded-2xl" >
+      <div id="channel-element" className="text-tapeWhite h-72 bg-gradient-to-r from-tapePink to-tapeYellow flex justify-between p-10 w-11/12 m-12 rounded-2xl" >
         <div id="channel-info" >
           <h1 className="flex items-center" ><MdPlayArrow size={35} />{channel.name}</h1>
           <p className="pl-3" >{`${channel.mixTapes ? channel.mixTapes.length : 0} mixtape${channel.mixTapes.length > 1 ? 's' : ''}`}</p>

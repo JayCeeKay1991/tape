@@ -50,15 +50,7 @@ function LoginForm() {
     navigate('/dash');
   };
 
-  // logout function redirects to homepage, will be moved to nav bar
 
-  const handleLogout = async () => {
-    setUser(initialStateUser);
-    setFormValuesUserLogin(initialStateUserLogin);
-    localStorage.clear();
-    //SET navigation to Homepage("/")
-    navigate('/home');
-  };
 
   return (
     <>
@@ -75,6 +67,7 @@ function LoginForm() {
           placeholder="Email"
           required={true}
           className="h-[90px] mb-[50px] p-[30px]  border-tapeDarkGrey bg-tapeBlack border-[2px] text-[25px] text-tapeWhite font-medium outline-none"
+          data-testid="input-email"
         ></input>
         <input
           name="password"
@@ -86,8 +79,9 @@ function LoginForm() {
           className="h-[90px] mb-[50px] p-[30px] border-tapeDarkGrey bg-tapeBlack border-[2px] text-[25px] text-tapeWhite font-medium outline-none"
         ></input>
         <button
-          className="h-[90px] bg-tapeYellow border-none rounded-[10px] text-[30px] font-semibold"
+          className="login-button h-[90px] bg-tapeYellow border-none rounded-[10px] text-[30px] font-semibold"
           type="submit"
+          data-testid="login-button"
         >
           Login
         </button>
