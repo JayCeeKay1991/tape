@@ -6,7 +6,7 @@ import { User } from '../../types/User';
 import { postImageToCloudinary } from '../../services/CloudinaryService';
 import johnMartin from '../AppNav/johnmartin.jpg'
 import { HiPlus } from "react-icons/hi2";
-
+import { GoPencil } from "react-icons/go";
 
 export type FormValuesUserProfile = {
   username: string;
@@ -33,6 +33,7 @@ export default function UserDetails() {
   const [formPictureFile, setFormPictureFile] = useState<File | null>(null);
 
   function handleEdit(e: React.MouseEvent<HTMLButtonElement>) {
+    e.preventDefault();
     const target = e.currentTarget;
     switch (target.id) {
       case "username":
@@ -120,9 +121,8 @@ export default function UserDetails() {
         }
          ////////////////////////////////////////////////
   }
-  // console.log("the change profile pic: ", changeProfilePic)
   return (
-    <div className='flex flex-col justify-center items-center'>
+    <div className='flex flex-col justify-center items-center w-full h-full'>
          <form id="profilePicForm" onSubmit={submitHandler} className="flex bg-tapeBlack rounded-full justify-center  w-[180px] h-[180px]">
             <div id='allProfilePic' className=' relative w-[180px] h-[180px] rounded-full flex justify-center items-center'>
                 <div>
@@ -144,16 +144,6 @@ export default function UserDetails() {
                     </button>
                   </div> : null}
                  </div>
-                 {/* {   <div>
-                   <input
-                   name="profilePic"
-                   type="file"
-                   onChange={changeHandler}
-                    />
-                    <button className='submitButton' type="submit">
-                    save
-                    </button>
-                  </div>} */}
                 </div>
             </div>
             </form>
@@ -176,25 +166,25 @@ export default function UserDetails() {
                </button>
                </div>
               ) : (
-                 <button onClick={handleEdit} id='username'>{user.userName}</button>
+                  <button onClick={handleEdit} id='username' className='border-0 fontFamily-sans text-3xl'><b>{user.userName}</b></button>
               )}
             </div>
             </form>
 
             <div className='flex flex-row'>
-      <div className='p-2'>
+      <div className='flex flex-col p-2 justify-center items-center'>
           <div>{user.mixTapes.length}</div>
-          <div>Mixs:</div> 
+          <div>Mixes</div> 
         </div>
-        <div className='p-2'>
+        <div className='flex flex-col p-2 justify-center items-center'>
           <div>{user.channels.length }</div> 
-          <div>Channels:</div>
+          <div>Channels</div>
         </div>
       </div>
-          <div>
+          <div id='emailAndPassword' className='flex flex-col'>
             <form id="emailForm" onSubmit={submitHandler}>
-          <div id='allEmail'>
-          <label className='block'>email:</label>
+          <div id='allEmail' className='flex flex-col mb-10'>
+          <label className='block'><b>Email</b></label>
               {changeEmail ? (
                 <div>  
                  <input
@@ -212,7 +202,10 @@ export default function UserDetails() {
                   </button>
                 </div>
               ) : (
-                 <button onClick={handleEdit} id='email'>{user.email}</button>
+                <div className='flex flex-row space-x-10'>
+                  <p>{user.email}</p>
+                  <button onClick={handleEdit} id='email' className='border-0'><GoPencil /></button>
+                </div>
               )}
             </div>
             </form>
@@ -220,7 +213,7 @@ export default function UserDetails() {
           <form id="passwordForm" onSubmit={submitHandler}>
 
             <div id='allPassword'>
-              <label className='block'>password:</label>
+              <label className='block'><b>Password</b></label>
               {changePassword ? (
                 <div>
                 <input
@@ -237,7 +230,10 @@ export default function UserDetails() {
                   </button>
                 </div>
               ) : (
-                 <button onClick={handleEdit} id='password'>set new password</button>
+                <div className='flex flex-row justify-between'>
+                <h2 className='text-3xl'>.........</h2>
+                <button onClick={handleEdit} id='password' className='border-0'><GoPencil /></button>
+              </div>
               )}
             </div>
             </form>
