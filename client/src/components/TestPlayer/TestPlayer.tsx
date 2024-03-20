@@ -6,6 +6,8 @@ import { IoMdPause } from 'react-icons/io';
 import { MdSkipNext } from 'react-icons/md';
 import { MdSkipPrevious } from 'react-icons/md';
 import { BiSolidVolumeMute } from 'react-icons/bi';
+import { GoUnmute } from 'react-icons/go';
+
 import './TestPlayer.css';
 
 /* So actually the main error I'm getting with this is that the html5 audiopool is exhausted, and just found a stack overflow thread that talks
@@ -249,13 +251,23 @@ const TestPlayer = () => {
           >
             <MdSkipNext size="35" />
           </button>
-          <button
-            type="button"
-            onClick={handleToggleMute}
-            className="text-tapeWhite me-2 border-none"
-          >
-            <BiSolidVolumeMute size="25" />
-          </button>
+          {muted ? (
+            <button
+              type="button"
+              onClick={handleToggleMute}
+              className="text-tapeWhite me-2 border-none"
+            >
+              <BiSolidVolumeMute size="25" />
+            </button>
+          ) : (
+            <button
+              type="button"
+              onClick={handleToggleMute}
+              className=" text-tapeWhite me-2 border-none "
+            >
+              <GoUnmute size="30" />
+            </button>
+          )}
         </div>
       </div>
     </div>
