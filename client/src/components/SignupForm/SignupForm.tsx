@@ -67,6 +67,7 @@ const SignupForm = () => {
         onChange={changeHandler}
         required={true}
         className="h-[90px] mb-[20px] p-[30px]  border-tapeDarkGrey bg-tapeBlack border-[2px] text-[25px] text-tapeWhite font-medium outline-none"
+        data-testid="input-name"
       />
       <input
         name="email"
@@ -87,8 +88,9 @@ const SignupForm = () => {
         className="h-[90px] mb-[50px] p-[30px]  border-tapeDarkGrey bg-tapeBlack border-[2px] text-[25px] text-tapeWhite font-medium outline-none"
       />
       <button
-        className="h-[90px] bg-tapeYellow border-none rounded-[10px] text-[30px] font-semibold"
+        className="signup-button h-[90px] bg-tapeYellow border-none rounded-[10px] text-[30px] font-semibold"
         type="submit"
+        data-testid="signup-button"
       >
         Sign Up
       </button>
