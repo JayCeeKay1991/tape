@@ -3,6 +3,7 @@ import "./UserDetails.css"
 import { useMainContext } from '../Context/Context';
 import { updateUser } from '../../services/UserClientService';
 import { User } from '../../types/User';
+import { postImageToCloudinary } from '../../services/CloudinaryService';
 
 
 export type FormValuesUserProfile = {
@@ -23,6 +24,7 @@ export default function UserDetails() {
   };
   const [ formValuesProfile , setFormValuesProfile] = useState<FormValuesUserProfile>(initialFormState);
   const [ changePassword, setChangePassword ] = useState(false);
+  const [formPictureFile, setFormPictureFile] = useState<File | null>(null);
 
   function handlePasswordChange(e: React.MouseEvent) {
     e.preventDefault();
@@ -30,25 +32,50 @@ export default function UserDetails() {
   }
 
   function changeHandler(e: React.ChangeEvent<HTMLInputElement>) {
-    const { name, value } = e.target;
-    setFormValuesProfile({...formValuesProfile, [name]: value });
+    const { name, value, type, files } = e.target;
+    if (type === 'file' && files) {
+      setFormPictureFile(files[0]); 
+    } else setFormValuesProfile({ ...formValuesProfile, [name]: value });
   }
 
-  function submitHandler(e: React.FormEvent<HTMLFormElement>) {
+  async function submitHandler(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    const newUser: User = {
-      _id: user._id,
-      userName: formValuesProfile.username,
-      email: formValuesProfile.email,
-      password: formValuesProfile.password,
-      profilePic: formValuesProfile.profilePic,
-      channels: user.channels,
-      mixTapes: user.mixTapes ? [...user.mixTapes] : [],
-    };
-    updateUser(newUser);
+
+    let pictureUrl = user.profilePic;
+    if (formPictureFile) {
+      try {
+        pictureUrl = await postImageToCloudinary({
+          file: formPictureFile
+        });
+        console.log("picture: " ,pictureUrl)
+      } catch (error) {
+        console.error(error);
+      }
+    }
+    if (formValuesProfile.password !== user.password) {
+      const newUser: User = {
+        _id: user._id,
+        userName: formValuesProfile.username,
+        email: formValuesProfile.email,
+        password: formValuesProfile.password,
+        profilePic: pictureUrl,
+        channels: user.channels,
+        mixTapes: user.mixTapes ? [...user.mixTapes] : [],
+      }
+      updateUser(newUser);
+    } else {
+        const newUser: Omit<User, "password">  = {
+          _id: user._id,
+          userName: formValuesProfile.username,
+          email: formValuesProfile.email,
+          profilePic: pictureUrl,
+          channels: user.channels,
+          mixTapes: user.mixTapes ? [...user.mixTapes] : [],
+      };
+      updateUser(newUser);
+    }
     setChangePassword(false);
   }
-
   return (
     <div>
       <form id="userDetailsForm" onSubmit={submitHandler}>
@@ -91,12 +118,12 @@ export default function UserDetails() {
             <div id='profilePic'>
               <label>profilePic:</label>
               <input
-                name="profilePic"
-                type="text"
-                onChange={changeHandler}
-                value={formValuesProfile.profilePic}
-              />
+               name="profilePic"
+               type="file"
+               onChange={changeHandler}
+                />
             </div>
+
           </div>
         </div>
         <button className='submitButton' type="submit">
@@ -133,3 +160,47 @@ export default function UserDetails() {
     </div>
   );
 }
+///////////////////////////////////////////////////////////////
+/*
+
+function UserDetails() {
+
+  const [fileName, setFileName] = useState('');
+
+  const fileInputRef = useRef(null);
+
+  function handleFileChange(e) {
+    setFileName(e.target.files[0].name);
+  }
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    
+    // can access file directly from ref
+    const file = fileInputRef.current.files[0];
+    
+    // submit form
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <input 
+        type="text"
+        value={fileName} 
+        readOnly
+      />
+
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleFileChange} 
+      />
+
+      <button type="submit">Submit</button>
+    </form>
+  )
+
+}
+
+
+*/
