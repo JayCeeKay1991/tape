@@ -158,12 +158,14 @@ export default function UserDetails() {
                    value={formValuesProfile.username}
                    required={true}
                  />
-                 <button className='submitButton' onClick={handleEdit} id='username'>
+                 <div>
+                 <button className='rounded-full h-5 w-10 flex  p-1 pb-2 items-center ml-12 mr-5' onClick={handleEdit} id='username'>
                    cancel
                  </button>
-                 <button className='submitButton' type="submit">
+                 <button className='rounded-full h-5 w-10 flex p-1 pb-2 items-center' type="submit">
                  save
                </button>
+                 </div>
                </div>
               ) : (
                   <button onClick={handleEdit} id='username' className='border-0 fontFamily-sans text-3xl'><b>{user.userName}</b></button>
@@ -186,20 +188,23 @@ export default function UserDetails() {
           <div id='allEmail' className='flex flex-col mb-10'>
           <label className='block'><b>Email</b></label>
               {changeEmail ? (
-                <div>  
+                <div className='flex flex-col mb-10'>  
                  <input
                    name="email"
                    type="text"
+                  className=' border border-tapeGray rounded-md bg-blackTape'
                    onChange={changeHandler}
                    value={formValuesProfile.email}
                    required={true}
                  />
-                 <button className='submitButton' onClick={handleEdit} id='email'>
+                 <div className='flex flex-row'>
+                 <button className='rounded-full h-5 w-10 flex  p-1 pb-2 items-center ml-12 mr-5' onClick={handleEdit} id='email'>
                    cancel
                  </button>
-                  <button className='submitButton' type="submit">
+                  <button className='rounded-full h-5 w-10 flex p-1 pb-2 items-center ' type="submit">
                     save
                   </button>
+                 </div>
                 </div>
               ) : (
                 <div className='flex flex-row space-x-10'>
@@ -222,12 +227,14 @@ export default function UserDetails() {
                   onChange={changeHandler}
                   value={formValuesProfile.password}
                 />
-                 <button className='submitButton' onClick={handleEdit} id='password'>
+                <div className='flex flex-row'>
+                 <button className='rounded-full h-5 w-10 flex  p-1 pb-2 items-center ml-12 mr-5' onClick={handleEdit} id='password'>
                    cancel
                  </button>
-                <button className='submitButton' type="submit">
+                <button className='rounded-full h-5 w-10 flex p-1 pb-2 items-center ' type="submit">
                     save
                   </button>
+                </div>
                 </div>
               ) : (
                 <div className='flex flex-row justify-between'>
