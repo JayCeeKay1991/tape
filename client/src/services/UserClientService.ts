@@ -29,7 +29,6 @@ export const getAllUsers = async () => {
   return await apiClient<User[]>('users')
 }
 
-}
 
 export async function updateUser(
   body: Omit<User, "channels" | "mixTapes" | "password">
