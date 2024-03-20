@@ -75,7 +75,7 @@ const Channel = () => {
       }
       {
         showMemberForm ? (
-          <AddMembersSelect channelId={channel._id} setChannel={setChannel} />) : (<></>)
+          <AddMembersSelect channel={channel} setChannel={setChannel} />) : (<></>)
       }
       <TestPlayer />
     </div>

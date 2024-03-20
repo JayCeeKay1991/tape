@@ -7,11 +7,11 @@ import { ChannelType } from '../../types/Channel';
 
 
 interface AddMembersSelectProps {
-  channelId: string
+  channel: ChannelType
   setChannel: Dispatch<SetStateAction<ChannelType>>
 }
 
-const AddMembersSelect = ({channelId, setChannel}:AddMembersSelectProps) => {
+const AddMembersSelect = ({channel, setChannel}:AddMembersSelectProps) => {
   const [users, setUsers] = useState<User[]>([])
   const [selectedMembers, setSelectedMembers]  = useState<User[]>([])
 
@@ -31,10 +31,14 @@ const AddMembersSelect = ({channelId, setChannel}:AddMembersSelectProps) => {
   const handleMemberSelect = async (userId: string) => {
     const user = users.find(user => user._id === userId);
     if (user) {
+      if (selectedMembers.includes(user)) {
+        // already member
+        return
+      }
       setSelectedMembers(prevSelectedMembers => [...prevSelectedMembers, user]);
       // add new user to channel on back end
-      const ID = channelId;
-      const updatedChannel = await addUserToChannel(ID, user._id)
+      const id = channel._id;
+      const updatedChannel = await addUserToChannel(id, user._id)
       setChannel(updatedChannel);
     }
   };
