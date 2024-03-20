@@ -1,10 +1,10 @@
 import { User } from './User';
-import { Channel } from './Channel';
+import { ChannelType } from './Channel';
 
 export type MixTape = {
   _id: string;
   name: string;
   url: string;
-  channels: Channel[];
+  channels: ChannelType[];
   creator: User;
 };
