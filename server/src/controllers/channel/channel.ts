@@ -4,7 +4,6 @@ import UserModel from "../../models/user";
 
 
 export const getChannel = async (req: Request, res: Response) => {
-  console.log('TRYING TO GET CHANNEL')
   const channelId = req.params.channelId;
   try {
     const channel = await ChannelModel.findById(channelId).populate({
@@ -63,8 +62,8 @@ export const addUserToChannel = async (req: Request, res: Response) => {
 
     const newMember = await UserModel.findById(userId);
 
-    if (!userId) {
-      res.status(400).json('UserId required')
+    if (!newMember) {
+      res.status(400).json('User not found')
     }
 
     const channel = await ChannelModel.findById(channelId);
