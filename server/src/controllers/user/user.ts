@@ -2,6 +2,18 @@ import { Request, Response } from "express";
 import UserModel from "../../models/user";
 import bcrypt from "bcrypt";
 
+
+// get all users
+export const getAllUsers = async(req: Request, res: Response) => {
+  try {
+    const users = await UserModel.find();
+    res.status(200).json(users)
+  } catch (error) {
+    res.status(500).json("Error getting users");
+    console.error(error);
+  }
+}
+
 export const createUser = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
@@ -43,11 +55,10 @@ export const createUser = async (req: Request, res: Response) => {
     res.status(201).json(user);
   } catch (error) {
     // Handle any errors
-    // console.error('Error creating user:', error);
+    console.error('Error creating user:', error);
     res.status(500).json("Error creating user");
   }
 };
-
 // getting the logged in user
 export const login = async (req: Request, res: Response) => {
   try {
@@ -100,33 +111,50 @@ export const editUser = async (req: Request, res: Response) => {
     const id = req.params.id;
     const { userName, email, password, profilePic, channels, mixTapes } =
       req.body;
-    if (!email || !password || !userName) {
+    if (!email || !userName) {
       return res.status(400).json({
         error: "400",
-        message: "Please provide email and password",
+        message: "Please provide email and username",
       });
     }
-    const hash = await bcrypt.hash(password, 10);
-    const hashedPassword = hash;
-    const updatedUser = await UserModel.findOneAndUpdate(
-      { _id: id },
-      {
-        $set: {
-          userName: userName,
-          email: email,
-          password: hashedPassword,
-          profilePic: profilePic,
-          channels: channels,
-          mixTapes: mixTapes,
+    if (!password) {
+      const updatedUser = await UserModel.findOneAndUpdate(
+        { _id: id },
+        {
+          $set: {
+            userName: userName,
+            email: email,
+            profilePic: profilePic,
+            channels: channels,
+            mixTapes: mixTapes,
+          },
         },
-      },
-      { new: true }
-    );
-    res.status(201).send(updatedUser);
+        { new: true }
+      );
+      res.status(201).send(updatedUser);
+    } else {
+      const hash = await bcrypt.hash(password, 10);
+      const hashedPassword = hash;
+      const updatedUser = await UserModel.findOneAndUpdate(
+        { _id: id },
+        {
+          $set: {
+            userName: userName,
+            email: email,
+            password: hashedPassword,
+            profilePic: profilePic,
+            channels: channels,
+            mixTapes: mixTapes,
+          },
+        },
+        { new: true }
+      );
+      res.status(201).send(updatedUser);
+    }
   } catch (error) {
     console.error(error);
     res.status(500);
-    res.send({
+    res.json({
       message:
         "An unexpected error occurred while editing the user. Please try again later.",
     });

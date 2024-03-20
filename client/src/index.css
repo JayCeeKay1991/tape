@@ -14,7 +14,7 @@
     }
 }
 
-/* || Reset styles */
+/* || For vanilla css */
 
 body {
     width: 100%;
@@ -43,9 +43,8 @@ html {
     /* COLORS */
     --tapeBlack: #151515;
     --tapeOffBlack: #1B1B1B;
-    /* --tapeGreen: #BBF771;
-    --tapePink: #FF65AA; */
-    --tapeOrange: #FE7B27;
+    --tapeGreen: #BBF771;
+    --tapePink: #FF65AA;
     --darkGrey: #87888A;
     --mediumGrey: #BCBDC0;
     --mediumLight: #E5E7EB;
