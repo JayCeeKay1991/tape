@@ -1,20 +1,20 @@
-import { useState, useEffect, Dispatch, SetStateAction } from 'react'
+import { useState, useEffect, Dispatch, SetStateAction, ChangeEvent} from 'react'
 import { getAllUsers } from '../../services/UserClientService'
 import { User } from '../../types/User'
 import johnMartin from '../../components/AppNav/johnmartin.jpg'
-import { addUserToChannel, getChannel } from '../../services/ChannelClientService';
+import { addUserToChannel } from '../../services/ChannelClientService';
 import { ChannelType } from '../../types/Channel';
 
 
 interface AddMembersSelectProps {
-  channelId: string
+  channel: ChannelType
   setChannel: Dispatch<SetStateAction<ChannelType>>
 }
 
-const AddMembersSelect = ({channelId, setChannel}:AddMembersSelectProps) => {
+const AddMembersSelect = ({ channel, setChannel }: AddMembersSelectProps) => {
   const [users, setUsers] = useState<User[]>([])
-  const [thisChannel, setThisChannel] = useState<ChannelType>({})
-  const [selectedMembers, setSelectedMembers]  = useState<User[]>([])
+  const [selectedMembers, setSelectedMembers] = useState<User[]>(channel.members)
+  const [matchedUsers, setMatchedUsers] = useState<User[]>([])
 
   useEffect(() => {
     // get all users to populate dropdown
@@ -26,20 +26,8 @@ const AddMembersSelect = ({channelId, setChannel}:AddMembersSelectProps) => {
         console.error('error getting all users')
       }
     }
-    async function retrieveChannel() {
-      try {
-        const channel = await getChannel(channelId)
-        console.log(channel)
-        setThisChannel(channel)
-      } catch (error) {
-        console.error('error getting channel')
-      }
-    }
     retrieveAllUsers();
-    retrieveChannel();
-    setSelectedMembers(channel.members)
-
-  }, [])
+  }, [users])
 
   const handleMemberSelect = async (userId: string) => {
     const user = users.find(user => user._id === userId);
@@ -56,10 +44,15 @@ const AddMembersSelect = ({channelId, setChannel}:AddMembersSelectProps) => {
     }
   };
 
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setMatchedUsers(users.filter(user => user.userName.toLowerCase().includes(e.target.value.toLowerCase())))
+  }
+
+
   return (
-    <div className='flex flex-column'>
-      <div id='selected-members' className=''>
-        {selectedMembers.map(user => (
+    <div className='flex flex-row'>
+      <div id='selected-members'>
+        {selectedMembers && selectedMembers.length && selectedMembers.map(user => (
           <div key={user._id} className="flex items-center">
             <img
               src={user.profilePic ? user.profilePic : johnMartin}
@@ -70,8 +63,9 @@ const AddMembersSelect = ({channelId, setChannel}:AddMembersSelectProps) => {
           </div>
         ))}
       </div>
+      <input type='text' placeholder='Search for a friend...' onChange={handleChange}></input>
       <ul className='align-middle text-tapeWhite flex flex-col w-72 gap-2 bg-tapeOffBlack'>
-        {users.map(user => (
+        {matchedUsers.length && matchedUsers.map(user => (
           <li
             key={user._id}
             className='flex flex-row hover:bg-tapePink cursor-pointer'

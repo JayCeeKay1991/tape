@@ -71,11 +71,11 @@ const Channel = () => {
       <button onClick={toggleMemberForm} className="white-button" >Add Members</button>
       {
         showMixForm ? (
-         <AddMixtapeForm  channelId={channel._id} setChannel={setChannel} user={user} setShowMixForm={setShowMixForm}/> ) : (<></>)
+         <AddMixtapeForm  channel={channel} setChannel={setChannel} user={user} setShowMixForm={setShowMixForm}/> ) : (<></>)
       }
       {
         showMemberForm ? (
-          <AddMembersSelect channelId={channel._id} setChannel={setChannel} />) : (<></>)
+          <AddMembersSelect channel={channel} setChannel={setChannel} />) : (<></>)
       }
       <TestPlayer />
     </div>

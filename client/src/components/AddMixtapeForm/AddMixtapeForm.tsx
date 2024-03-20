@@ -7,7 +7,7 @@ import { MixTape } from "../../types/Mixtape";
 
 
 interface AddMixtapeFormProps {
-    channelId: string
+    channel: ChannelType
     user: User
     setChannel: Dispatch<SetStateAction<ChannelType>>
     setShowMixForm: Dispatch<SetStateAction<boolean>>
@@ -34,10 +34,10 @@ const initCloudinaryResState = {
     url: '',
     secure_url: '',
     duration: 0,
-  }
+}
 
 
-const AddMixtapeForm = ({ channelId, user, setChannel, setShowMixForm }: AddMixtapeFormProps) => {
+const AddMixtapeForm = ({ channel, user, setChannel, setShowMixForm }: AddMixtapeFormProps) => {
 
     const initialState = {
         name: '',
@@ -87,78 +87,78 @@ const AddMixtapeForm = ({ channelId, user, setChannel, setShowMixForm }: AddMixt
                 uploadNextChunk(nextStart, nextEnd);
             } else {
                 setUploadComplete(true);
+                setUploading(false)
+
+            };
+
+            const onError = (error: Error | string): void => {
+                if (error instanceof Error) console.error("Error uploading chunk:", error.message);
+                else if (typeof error === 'string') console.error("Error uploading chunk:", error);
+                else console.error("Error uploading chunk: An unknown error occurred");
                 setUploading(false);
-                console.info("File upload complete.");
-            }
+            };
+
+            const onComplete = (response: CloudinaryRes) => {
+                setCldResponse(response);
+                console.log("Upload complete response:", response);
+                setUploading(false);
+            };
+
+            const uploadNextChunk = (start: number, end: number) => {
+                postMusicToCloudinary(file, uniqueUploadId, start, end, onProgress, onError, onComplete);
+            };
+
+            uploadNextChunk(0, Math.min(chunkSize, file.size));
         };
 
-        const onError = (error: Error | string): void => {
-            if (error instanceof Error) console.error("Error uploading chunk:", error.message);
-            else if (typeof error === 'string') console.error("Error uploading chunk:", error);
-            else console.error("Error uploading chunk: An unknown error occurred");
-            setUploading(false);
-        };
 
-        const onComplete = (response: CloudinaryRes) => {
-            setCldResponse(response);
-            console.log("Upload complete response:", response);
-            setUploading(false);
-        };
+        // add the image to database together with the other form values
+        const submitHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+            e.preventDefault();
+            const addMixtape = async () => {
+                try {
+                    if (cldResponse) {
+                        const fileUrl = cldResponse.secure_url;
+                        const duration = cldResponse.duration;
+                        const newMixtapeData = {
+                            ...formValues,
+                            url: fileUrl,
+                            duration: duration,
+                            parentChannel: channel
+                        };
+                        const newMixTape = await createMixTape(newMixtapeData);
+                        setChannel({
+                            ...channel,
+                            mixTapes: [
+                                ...channel.mixTapes,
+                                newMixTape
+                            ]
+                        })
+                    } else throw new Error('No uploaded file to add.');
+                    setFormValues(initialState);
+                    setFile(null);
+                    setShowMixForm(false);
+                } catch (error) {
+                    console.error(error)
+                }
+            };
+            addMixtape();
+        }
 
-        const uploadNextChunk = (start: number, end: number) => {
-            postMusicToCloudinary(file, uniqueUploadId, start, end, onProgress, onError, onComplete);
-        };
+        return (
+            <form className="text-tapeWhite flex flex-col w-72 gap-2" >
+                <input name="name" type="text" onChange={changeHandler} placeholder="mixtape name"></input>
+                <div className="flex" >
+                    <input name="file" type="file" onChange={changeHandler} ></input>
+                    <button className="white-button" onClick={uploadFile} disabled={uploading} >{uploading ? "Uploading..." : "Upload"}</button>
+                </div>
+                {
+                    uploading ? <></> : <button className="white-button" onClick={submitHandler} >Add Mixtape</button>
+                }
+            </form>
+        )
 
-        uploadNextChunk(0, Math.min(chunkSize, file.size));
-    };
-
-
-    // add the image to database together with the other form values
-    const submitHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault();
-        const addMixtape = async () => {
-            try {
-                if (cldResponse) {
-                    const fileUrl = cldResponse.secure_url;
-                    const duration = cldResponse.duration;
-                    const newMixtapeData = {
-                        ...formValues,
-                        url: fileUrl,
-                        duration: duration,
-                        parentChannel: channel
-                    };
-                    const newMixTape = await createMixTape(newMixtapeData);
-                    setChannel({
-                        ...channel,
-                        mixTapes: [
-                            ...channel.mixTapes,
-                            newMixTape
-                        ]
-                    })
-                } else throw new Error('No uploaded file to add.');
-                setFormValues(initialState);
-                setFile(null);
-                setShowMixForm(false);
-            } catch (error) {
-                console.error(error)
-            }
-        };
-        addMixtape();
     }
-
-    return (
-        <form className="text-tapeWhite flex flex-col w-72 gap-2" >
-            <input name="name" type="text" onChange={changeHandler} placeholder="mixtape name"></input>
-            <div className="flex" >
-                <input name="file" type="file" onChange={changeHandler} ></input>
-                <button className="white-button" onClick={uploadFile} disabled={uploading} >{uploading ? "Uploading..." : "Upload"}</button>
-            </div>
-            {
-                uploading ? <></> : <button className="white-button" onClick={submitHandler} >Add Mixtape</button>
-            }
-        </form>
-    )
-
-};
+}
 
 export default AddMixtapeForm
