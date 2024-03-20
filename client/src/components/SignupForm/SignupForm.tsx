@@ -58,8 +58,7 @@ const SignupForm = () => {
 
   // do we need conditional below?
   return (
-    <form className="signup-Form" onSubmit={handleSignup}>
-      <h2>Sign up</h2>
+    <form onSubmit={handleSignup} className="flex flex-col w-[400px] pb-[50px]">
       <input
         name="userName"
         value={formValuesUser.userName}
@@ -67,6 +66,8 @@ const SignupForm = () => {
         placeholder="username"
         onChange={changeHandler}
         required={true}
+        className="h-[90px] mb-[20px] p-[30px]  border-tapeDarkGrey bg-tapeBlack border-[2px] text-[25px] text-tapeWhite font-medium outline-none"
+        data-testid="input-name"
       />
       <input
         name="email"
@@ -75,6 +76,7 @@ const SignupForm = () => {
         placeholder="email"
         onChange={changeHandler}
         required={true}
+        className="h-[90px] mb-[20px] p-[30px]  border-tapeDarkGrey bg-tapeBlack border-[2px] text-[25px] text-tapeWhite font-medium outline-none"
       />
       <input
         name="password"
@@ -83,8 +85,13 @@ const SignupForm = () => {
         placeholder="password"
         onChange={changeHandler}
         required={true}
+        className="h-[90px] mb-[50px] p-[30px]  border-tapeDarkGrey bg-tapeBlack border-[2px] text-[25px] text-tapeWhite font-medium outline-none"
       />
-      <button className="signup-button" type="submit">
+      <button
+        className="signup-button h-[90px] bg-tapeYellow border-none rounded-[10px] text-[30px] font-semibold"
+        type="submit"
+        data-testid="signup-button"
+      >
         Sign Up
       </button>
     </form>

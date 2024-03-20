@@ -24,11 +24,11 @@ const AppNav = () => {
             <div className="flex flex-row text-tapeWhite">
                 <Link to={'/user'}>
                     <div className="overflow-hidden rounded-full w-[50px] h-[50px]">
-                        <img src={user.profilePic ? user.profilePic : johnMartin} className='w-16 h-16 object-cover' style={{ objectPosition: 'center-center' }} />
+                        <img src={user.profilePic ? user.profilePic : johnMartin} className='w-16 h-16 object-cover' style={{ objectPosition: 'center-center' }} data-testid="profile-image"  />
                     </div>
                 </Link>
                 <div className="flex flex-row align-middle">
-                    <button className="bg-none text-tapeWhite mx-8" onClick={handleLogout}><FiLogOut size={30} /></button>
+                    <button className="bg-none text-tapeWhite mx-8" onClick={handleLogout} data-testid="logout-button" ><FiLogOut size={30} /></button>
                 </div>
             </div>
         </nav>

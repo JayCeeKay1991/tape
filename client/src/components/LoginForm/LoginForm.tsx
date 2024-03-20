@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useMainContext, initialStateUser } from '../Context/Context';
+import { useMainContext } from '../Context/Context';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../../services/UserClientService';
 import './LoginForm.css';
@@ -44,45 +44,46 @@ function LoginForm() {
     // set the localstorage to the logged in user id
     if (loggedinUser) {
       localStorage.setItem('loggedinUser', loggedinUser._id);
-      navigate('/dash');
-    } else {
-      alert('Invalid credentials');
     }
 
     // SET navigation to Dashboard
+    navigate('/dash');
   };
 
-  // logout function redirects to homepage, will be moved to nav bar
 
-  const handleLogout = async () => {
-    setUser(initialStateUser);
-    setFormValuesUserLogin(initialStateUserLogin);
-    localStorage.clear();
-    //SET navigation to Homepage("/")
-    navigate('/home');
-  };
 
   return (
     <>
-      <form id="login-form" onSubmit={handleLogin} className='w-[400px] fixed z-50 bg-tapePink left-[200px] top-[200px]'>
+      <form
+        id="login-form"
+        onSubmit={handleLogin}
+        className="flex flex-col w-[400px] pb-[50px]"
+      >
         <input
           name="email"
           type="text"
           value={formValuesUserLogin.email}
           onChange={changeHandler}
-          placeholder="email"
+          placeholder="Email"
           required={true}
+          className="h-[90px] mb-[50px] p-[30px]  border-tapeDarkGrey bg-tapeBlack border-[2px] text-[25px] text-tapeWhite font-medium outline-none"
+          data-testid="input-email"
         ></input>
         <input
           name="password"
           type="password"
           value={formValuesUserLogin.password}
           onChange={changeHandler}
-          placeholder="password"
+          placeholder="Password"
           required={true}
+          className="h-[90px] mb-[50px] p-[30px] border-tapeDarkGrey bg-tapeBlack border-[2px] text-[25px] text-tapeWhite font-medium outline-none"
         ></input>
-        <button className="login-button" type="submit">
-          login
+        <button
+          className="login-button h-[90px] bg-tapeYellow border-none rounded-[10px] text-[30px] font-semibold"
+          type="submit"
+          data-testid="login-button"
+        >
+          Login
         </button>
       </form>
     </>
