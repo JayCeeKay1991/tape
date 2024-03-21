@@ -1,12 +1,13 @@
+
 import React from "react";
-import UserDetails from "../../components/UserDetails/UserDetails";
+import UserDetails from "@/components/UserDetails/UserDetails";
 const Profile = () => {
 
   return (
-    <div>
+    <div className="w-full h-full bg-tapeBlack flex justify-center items-center">
       <UserDetails/>
     </div>
   )
 }
-
-export default Profile;
+  
+ export default Profile;

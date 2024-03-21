@@ -5,6 +5,6 @@ export type MixTape = {
   _id: string;
   name: string;
   url: string;
-  channels: ChannelType[];
+  channel: ChannelType;
   creator: User;
 };
