@@ -1,6 +1,7 @@
 
-import React, { useState } from 'react';
-import './UserDetails.css';
+import React, { useState, MouseEventHandler, useEffect } from 'react';
+import "./UserDetails.css"
+
 import { useMainContext } from '../Context/Context';
 import { updateUser } from '@/services/UserClientService';
 import { User } from '@/types/User';
@@ -38,52 +39,67 @@ export default function UserDetails() {
   function handleEdit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     switch (e.target) {
-      case document.getElementById('username'):
+      case "username":
         setChangeUsername(!changeUsername);
         break;
-      case document.getElementById('email'):
-        setChangeEmail(!changeEmail);
-        break;
-      case document.getElementById('password'):
-        setChangePassword(!changePassword);
-        break;
-      case document.getElementById('profilePic'):
-        setChangeProfilePic(!changeProfilePic);
-        break;
-      default:
-        break;
-    }
-  }
+        case "email":
+          setChangeEmail(!changeEmail);
+          break;
+          case "password":
+            setChangePassword(!changePassword);
+            break;
+            case "profilePic":
+              setChangeProfilePic(!changeProfilePic);
+              break;
+              default:
+              break;
+     }
+   }
 
 
-  function changeHandler(e: React.ChangeEvent<HTMLInputElement>) {
+  async function changeHandler(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value, type, files } = e.target;
     if (type === 'file' && files) {
       setFormPictureFile(files[0]);
-    } else setFormValuesProfile({ ...formValuesProfile, [name]: value });
+      let pictureUrl = user.profilePic;
+      if (formPictureFile) {
+        try {
+          pictureUrl = await postImageToCloudinary({
+            file: formPictureFile
+          });
+          ///////////////////////////////////////////////
+           const newUser: Omit<User, "password"> = {
+            _id: user._id,
+            userName: user.userName,
+            email: user.email,
+            profilePic: pictureUrl,
+            channels: user.channels,
+            mixTapes: user.mixTapes ? [...user.mixTapes] : [],
+          }
+       const updatedUser = await updateUser(newUser);
+       if (updatedUser) {
+         setUser(updatedUser);
+       }
+          ///////////////////////////////////////////////
+          setChangeProfilePic(!changeProfilePic);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+      } else setFormValuesProfile({ ...formValuesProfile, [name]: value });
   }
+
+
 
   async function submitHandler(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-
-    let pictureUrl = user.profilePic;
-    if (formPictureFile) {
-      try {
-        pictureUrl = await postImageToCloudinary({
-          file: formPictureFile,
-        });
-        console.log('picture: ', pictureUrl);
-      } catch (error) {
-        console.error(error);
-      }
-    }
     if (formValuesProfile.password !== user.password) {
       const newUser: User = {
         _id: user._id,
         userName: formValuesProfile.username,
         email: formValuesProfile.email,
         password: formValuesProfile.password,
-        profilePic: pictureUrl,
+        profilePic: user.profilePic,
         channels: user.channels,
         mixTapes: user.mixTapes ? [...user.mixTapes] : [],
       };
@@ -92,58 +108,80 @@ export default function UserDetails() {
         setUser(updatedUser);
       }
     } else {
-      const newUser: Omit<User, 'password'> = {
-        _id: user._id,
-        userName: formValuesProfile.username,
-        email: formValuesProfile.email,
-        profilePic: pictureUrl,
-        channels: user.channels,
-        mixTapes: user.mixTapes ? [...user.mixTapes] : [],
+        const newUser: Omit<User, "password">  = {
+          _id: user._id,
+          userName: formValuesProfile.username,
+          email: formValuesProfile.email,
+          profilePic: user.profilePic,
+          channels: user.channels,
+          mixTapes: user.mixTapes ? [...user.mixTapes] : [],
       };
       updateUser(newUser);
     }
-
-    ///////////////////////////////////////////////
-    switch (e.target) {
-      case document.getElementById('usernameForm'):
-        setChangeUsername(!changeUsername);
-        break;
-      case document.getElementById('emailForm'):
-        setChangeEmail(!changeEmail);
-        break;
-      case document.getElementById('passwordForm'):
-        setChangePassword(!changePassword);
-        break;
-      case document.getElementById('profilePicForm'):
-        setChangeProfilePic(!changeProfilePic);
-        break;
-      default:
-        break;
-    }
-    ////////////////////////////////////////////////
+         ///////////////////////////////////////////////
+         
+         switch (e.target) {
+           case document.getElementById("usernameForm"):
+            setChangeUsername(!changeUsername);
+            break;
+          case document.getElementById("emailForm"):
+            setChangeEmail(!changeEmail);
+            break;
+          case document.getElementById("passwordForm"):
+            setChangePassword(!changePassword);
+            break;
+            default:
+              break;
+        }
   }
   return (
-    <div>
-      <form id='profilePicForm' onSubmit={submitHandler}>
-        <div id='allProfilePic'>
-          {changeProfilePic ? (
-            <div>
-              <input name='profilePic' type='file' onChange={changeHandler} />
-              <button className='submitButton' type='submit'>
-                save
-              </button>
+    <div className='flex flex-col bg-tapeDarkBlack justify-center items-center w-[350px] h-[600px] rounded-[20px] border-[1px] '>
+         <form id="profilePicForm" onSubmit={submitHandler} className="relative rounded-full justify-center  w-[180px] h-[180px]">
+            <div id='allProfilePic' className=' relative w-[180px] h-[180px] rounded-full flex justify-center items-center'>
+                <div>
+                <div className='relative overflow-hidden w-[180px] h-[180px] rounded-full'>
+                 <img src={user.profilePic ? user.profilePic : johnMartin} className='w-[180px] h-[200px] object-cover'/>
+                </div>
+                 <button type='button' onClick={handleEdit} id='profilePic' className='bg-gradient-to-t from-tapePink to-tapeYellow text-4xl absolute bottom-4 right-3 w-[40px] h-[40px] rounded-full'>
+                    <HiPlus />
+                 </button>
+                 <div className='bottom-1 right-1 w-[40px] h-[40px] rounded-full'>
+                 {changeProfilePic ? <div>
+                   <input
+                   name="profilePic"
+                   type="file"
+                   className=' border w-[90px] border-tapeGray rounded-md bg-tapeBlack  text-tapeDarkGrey'
+                   onChange={changeHandler}
+                    />
+                  </div> : null}
+                 </div>
+                </div>
             </div>
-          ) : (
-            <div>
-              <img
-                src={user.profilePic ? user.profilePic : johnMartin}
-                className='w-16 h-16 object-cover'
-                style={{ objectPosition: 'center-center' }}
-              />
-              <button onClick={handleEdit} id='profilePic'>
-                {' '}
-                edit pic
-              </button>
+            </form>
+            <form id="usernameForm" onSubmit={submitHandler}>
+        <div id='allUsername'>
+              {changeUsername ? (
+                <div>
+                 <input
+                   name="username"
+                   type="text"
+                   className=' border border-tapeGray rounded-md bg-tapeBlack  text-tapeDarkGrey'
+                   onChange={changeHandler}
+                   value={formValuesProfile.username}
+                   required={true}
+                 />
+                 <div>
+                 <button className='rounded-full h-5 w-10 flex  p-1 pb-2 items-center ml-12 mr-5' onClick={handleEdit} id='username'>
+                   cancel
+                 </button>
+                 <button className='rounded-full h-5 w-10 flex p-1 pb-2 items-center bg-tapeGray' type="submit">
+                 save
+               </button>
+                 </div>
+               </div>
+              ) : (
+                  <button onClick={handleEdit} id='username' className='border-0 fontFamily-sans text-3xl'><b>{user.userName}</b></button>
+              )}
             </div>
           )}
         </div>
@@ -215,8 +253,10 @@ export default function UserDetails() {
               <div>
 
                 <input
-                  name='password'
-                  type='password'
+                  name="password"
+                  type="password"
+                  className=' border border-tapeGray rounded-md bg-tapeBlack  text-tapeDarkGrey'
+
                   onChange={changeHandler}
                   value={formValuesProfile.password}
                 />
@@ -268,47 +308,4 @@ export default function UserDetails() {
     </div>
   );
 }
-///////////////////////////////////////////////////////////////
-/*
 
-function UserDetails() {
-
-  const [fileName, setFileName] = useState('');
-
-  const fileInputRef = useRef(null);
-
-  function handleFileChange(e) {
-    setFileName(e.target.files[0].name);
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    
-    // can access file directly from ref
-    const file = fileInputRef.current.files[0];
-    
-    // submit form
-  }
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <input 
-        type="text"
-        value={fileName} 
-        readOnly
-      />
-
-      <input
-        type="file"
-        ref={fileInputRef}
-        onChange={handleFileChange} 
-      />
-
-      <button type="submit">Submit</button>
-    </form>
-  )
-
-}
-
-
-*/
