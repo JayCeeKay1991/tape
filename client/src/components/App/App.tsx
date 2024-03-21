@@ -1,13 +1,17 @@
 import { Outlet } from 'react-router-dom';
 import AppNav from '../AppNav/AppNav';
-import ContextProvider from '@/components/Context/Context';
+import TestPlayer from '../TestPlayer/TestPlayer';
+import ContextProvider, { useMainContext } from '@/components/Context/Context';
+
 
 const App = () => {
+  const { currentStreamUrls } = useMainContext()
   return (
 <ContextProvider>
 
     <div className='App'>
       <AppNav />
+      <TestPlayer/>
       <Outlet />
     </div>
 </ContextProvider>
