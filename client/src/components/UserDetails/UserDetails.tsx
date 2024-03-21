@@ -65,13 +65,13 @@ export default function UserDetails() {
           });
           ///////////////////////////////////////////////
            const newUser: Omit<User, "password"> = {
-        _id: user._id,
-        userName: user.userName,
-        email: user.email,
-        profilePic: pictureUrl,
-        channels: user.channels,
-        mixTapes: user.mixTapes ? [...user.mixTapes] : [],
-      }
+            _id: user._id,
+            userName: user.userName,
+            email: user.email,
+            profilePic: pictureUrl,
+            channels: user.channels,
+            mixTapes: user.mixTapes ? [...user.mixTapes] : [],
+          }
        const updatedUser = await updateUser(newUser);
        if (updatedUser) {
          setUser(updatedUser);
@@ -81,8 +81,8 @@ export default function UserDetails() {
         } catch (error) {
           console.error(error);
         }
-      } else setFormValuesProfile({ ...formValuesProfile, [name]: value });
       }
+      } else setFormValuesProfile({ ...formValuesProfile, [name]: value });
   }
 
 
@@ -259,47 +259,3 @@ export default function UserDetails() {
     </div>
   );
 }
-///////////////////////////////////////////////////////////////
-/*
-
-function UserDetails() {
-
-  const [fileName, setFileName] = useState('');
-
-  const fileInputRef = useRef(null);
-
-  function handleFileChange(e) {
-    setFileName(e.target.files[0].name);
-  }
-
-  function handleSubmit(e) {
-    e.preventDefault();
-    
-    // can access file directly from ref
-    const file = fileInputRef.current.files[0];
-    
-    // submit form
-  }
-
-  return (
-    <form onSubmit={handleSubmit}>
-      <input 
-        type="text"
-        value={fileName} 
-        readOnly
-      />
-
-      <input
-        type="file"
-        ref={fileInputRef}
-        onChange={handleFileChange} 
-      />
-
-      <button type="submit">Submit</button>
-    </form>
-  )
-
-}
-
-
-*/
