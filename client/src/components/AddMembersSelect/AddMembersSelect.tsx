@@ -5,6 +5,7 @@ import johnMartin from '@/components/AppNav/johnmartin.jpg';
 import { addUserToChannel } from '@/services/ChannelClientService';
 import { ChannelType } from '@/types/Channel';
 import { useMainContext } from '../Context/Context';
+import { HiPlus } from 'react-icons/hi2';
 
 
 interface AddMembersSelectProps {
