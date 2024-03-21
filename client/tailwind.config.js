@@ -8,7 +8,9 @@ export default {
       tapeBlack: "#151515",
       tapeOffBlack: "#181818",
       tapeWhite: "#FFFFFF",
-      tapeDarkGrey: "#909090"
+      tapeGray: "#767676",
+      tapeDarkGrey: "#909090",
+      tapeDarkBlack: "#0F0F0F",
     },
     fontFamily: {
       sans: ["Darker Grotesque"],
@@ -32,4 +34,3 @@ export default {
   },
   plugins: [],
 };
-
