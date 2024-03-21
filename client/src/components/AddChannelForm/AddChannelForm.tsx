@@ -65,23 +65,27 @@ export default function AddChannelForm({
   };
 
   return (
-    <form className='flex flex-col w-72 absolute right-32 top-60'>
-      <h1>Create a new channel</h1>
+    <form className='flex flex-col w-72 absolute right-32 top-60 border-tapeDarkGrey bg-tapeBlack border-[2px] rounded-[20px] w-[300px] h-[380px] p-[20px]'>
+      <h1 className='text-2xl mb-5 text-center' >Create a new channel</h1>
+      <label>Name</label>
       <input
         name='name'
         value={formValues.name}
         type='text'
         onChange={changeHandler}
-        placeholder='name'
+        className='h-[30px] mt-[5px] mb-[20px] p-[20px] text-sm border-tapeDarkGrey bg-tapeBlack border-[2px] text-[25px] text-tapeWhite font-small outline-none'
         data-testid='input-channel-name'></input>
       <input
         name='picture'
         value={formValues.picture}
         type='file'
-        onChange={changeHandler}></input>
+        onChange={changeHandler}
+        className='border-tapeDarkGrey bg-tapeBlack  mt-[5px] mb-[20px]'
+        >
+        </input>
       <button
         onClick={handleSubmit}
-        className='white-button'
+        className='border-tapeDarkGrey bg-tapeBlack w-[90px]'
         data-testid='create-button'>
         Create
       </button>
