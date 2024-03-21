@@ -83,7 +83,7 @@ const Channel = () => {
 
         </div>
           <AudioWave/>
-        <img src={channel.picture} className="w-48 rounded-2xl object-cover" /
+        <img src={channel.picture} className="w-48 rounded-2xl object-cover" />
 
       </div>
       <button onClick={toggleMixForm} className='white-button ml-12'>
@@ -95,9 +95,9 @@ const Channel = () => {
       </button>
       {showMixForm ? (
         <AddMixtapeForm
+        channelId={channel._id}
           channel={channel}
           setChannel={setChannel}
-          user={user}
           setShowMixForm={setShowMixForm}
         />
       ) : (
