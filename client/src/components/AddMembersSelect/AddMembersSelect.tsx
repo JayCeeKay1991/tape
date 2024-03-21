@@ -24,7 +24,13 @@ const AddMembersSelect = ({ channel, setChannel }: AddMembersSelectProps) => {
     async function retrieveAllUsers() {
       try {
         const allUsers = await getAllUsers();
-        const filteredUsers = allUsers.filter( user => user._id !== loggedInUser._id)
+        // remove the logged in user
+        const usersWithoutLoggedInUser = allUsers.filter( user => user._id !== loggedInUser._id)
+        // remove users already members of groups
+        const filteredUsers = allUsers.reduce((acc, curr)=>{
+          if ((curr._id !== loggedInUser._id) && !channel.members.map(member => member._id).includes(curr._id)) acc.push(curr)
+          return acc
+        },[] as User[])
         setUsers(filteredUsers)
       } catch (error) {
         console.error('error getting all users')
@@ -32,6 +38,8 @@ const AddMembersSelect = ({ channel, setChannel }: AddMembersSelectProps) => {
     }
     retrieveAllUsers();
   }, [])
+
+  console.log(channel.members)
 
   const handleMemberSelect = async (userId: string) => {
     setMatchedUsers([])
@@ -61,7 +69,7 @@ const AddMembersSelect = ({ channel, setChannel }: AddMembersSelectProps) => {
         {matchedUsers.length ? matchedUsers.map(user => (
           <li
             key={user._id}
-            className='flex items-center bg-tapeBlack p-[10px] text-[25px] text-tapeWhite font-medium hover:bg-tapeOffBlack rounded cursor-pointer'> {/* Changed here */}
+            className='flex items-center bg-tapeBlack p-[10px] text-[25px] text-tapeWhite font-medium hover:bg-tapeOffBlack rounded cursor-pointer'>
             <div id='profile-pic-mask' className="overflow-hidden rounded-full w-[50px] h-[50px]">
               <img
                 src={user.profilePic ? user.profilePic : johnMartin}
