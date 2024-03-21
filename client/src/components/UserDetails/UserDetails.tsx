@@ -1,4 +1,4 @@
-import React, { useState, MouseEventHandler, useEffect } from 'react';
+import React, { useState, useRef} from 'react';
 import "./UserDetails.css"
 import { useMainContext } from '../Context/Context';
 import { updateUser } from '../../services/UserClientService';
@@ -21,12 +21,12 @@ export default function UserDetails() {
     password: "",
     profilePic: user.profilePic,
   };
-  const [ formValuesProfile , setFormValuesProfile] = useState<FormValuesUserProfile>(initialFormState);
-  const [ changeUsername, setChangeUsername ] = useState(false);
-  const [ changeEmail, setChangeEmail ] = useState(false);
-  const [ changePassword, setChangePassword ] = useState(false);
-  const [ changeProfilePic, setChangeProfilePic ] = useState(false);
-  const [formPictureFile, setFormPictureFile] = useState<File | null>(null);
+  const [formValuesProfile, setFormValuesProfile] = useState<FormValuesUserProfile>(initialFormState);
+  const [changeUsername, setChangeUsername] = useState(false);
+  const [changeEmail, setChangeEmail] = useState(false);
+  const [changePassword, setChangePassword] = useState(false);
+  const [changeProfilePic, setChangeProfilePic] = useState(false);
+  const fileInputRef = useRef<HTMLInputElement> (null);
 
   function handleEdit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
@@ -35,49 +35,50 @@ export default function UserDetails() {
       case "username":
         setChangeUsername(!changeUsername);
         break;
-        case "email":
-          setChangeEmail(!changeEmail);
-          break;
-          case "password":
-            setChangePassword(!changePassword);
-            break;
-            case "profilePic":
-              setChangeProfilePic(!changeProfilePic);
-              break;
-              default:
-              break;
-     }
-   }
-   
-   async function changeHandler(e: React.ChangeEvent<HTMLInputElement>) {
+      case "email":
+        setChangeEmail(!changeEmail);
+        break;
+      case "password":
+        setChangePassword(!changePassword);
+        break;
+      case "profilePic":
+        if(fileInputRef.current) {
+          fileInputRef.current.click();
+        }
+        setChangeProfilePic(!changeProfilePic);
+        break;
+      default:
+        break;
+    }
+  }
+
+  async function changeHandler(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value, type, files } = e.target;
     if (type === 'file' && files?.length) {
-        const file = files[0]; // Use the file directly from the input event
-        try {
-            const pictureUrl = await postImageToCloudinary({ file });
-            const newUser: Omit<User, "password"> = {
-                _id: user._id,
-                userName: user.userName,
-                email: user.email,
-                profilePic: pictureUrl,
-                channels: user.channels,
-                mixTapes: user.mixTapes ? [...user.mixTapes] : [],
-            };
-            const updatedUser = await updateUser(newUser);
-            if (updatedUser) {
-                setUser(updatedUser);
-                setChangeProfilePic(!changeProfilePic); // Optionally toggle UI elements if needed
-            }
-        } catch (error) {
-            console.error(error);
+      const file = files[0]; // Use the file directly from the input event
+      try {
+        const pictureUrl = await postImageToCloudinary({ file });
+        const newUser: Omit<User, "password"> = {
+          _id: user._id,
+          userName: user.userName,
+          email: user.email,
+          profilePic: pictureUrl,
+          channels: user.channels,
+          mixTapes: user.mixTapes ? [...user.mixTapes] : [],
+        };
+        const updatedUser = await updateUser(newUser);
+        if (updatedUser) {
+          setUser(updatedUser);
+          setChangeProfilePic(!changeProfilePic); // Optionally toggle UI elements if needed
         }
+      } catch (error) {
+        console.error(error);
+      }
     } else {
-        setFormValuesProfile({ ...formValuesProfile, [name]: value });
+      setFormValuesProfile({ ...formValuesProfile, [name]: value });
     }
-}
-///////////////////////////////////////////////////////////////////////////////
+  }
 
-  ////////////////////////////////////////////////////////////////////////////////
   async function submitHandler(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (formValuesProfile.password !== user.password) {
@@ -90,132 +91,132 @@ export default function UserDetails() {
         channels: user.channels,
         mixTapes: user.mixTapes ? [...user.mixTapes] : [],
       }
-       const updatedUser = await updateUser(newUser);
-       if (updatedUser) {
-         setUser(updatedUser);
-       }
+      const updatedUser = await updateUser(newUser);
+      if (updatedUser) {
+        setUser(updatedUser);
+      }
     } else {
-        const newUser: Omit<User, "password">  = {
-          _id: user._id,
-          userName: formValuesProfile.username,
-          email: formValuesProfile.email,
-          profilePic: user.profilePic,
-          channels: user.channels,
-          mixTapes: user.mixTapes ? [...user.mixTapes] : [],
+      const newUser: Omit<User, "password"> = {
+        _id: user._id,
+        userName: formValuesProfile.username,
+        email: formValuesProfile.email,
+        profilePic: user.profilePic,
+        channels: user.channels,
+        mixTapes: user.mixTapes ? [...user.mixTapes] : [],
       };
       updateUser(newUser);
     }
-         ///////////////////////////////////////////////
-         switch (e.target) {
-           case document.getElementById("usernameForm"):
-            setChangeUsername(!changeUsername);
-            break;
-          case document.getElementById("emailForm"):
-            setChangeEmail(!changeEmail);
-            break;
-          case document.getElementById("passwordForm"):
-            setChangePassword(!changePassword);
-            break;
-            default:
-              break;
-        }
+    switch (e.target) {
+      case document.getElementById("usernameForm"):
+        setChangeUsername(!changeUsername);
+        break;
+      case document.getElementById("emailForm"):
+        setChangeEmail(!changeEmail);
+        break;
+      case document.getElementById("passwordForm"):
+        setChangePassword(!changePassword);
+        break;
+      default:
+        break;
+    }
   }
   return (
     <div className='flex flex-col bg-tapeDarkBlack ml-[770px] justify-center items-center w-[350px] h-[600px] rounded-[20px] border-[1px] '>
-         <form id="profilePicForm" onSubmit={submitHandler} className="relative rounded-full justify-center  w-[180px] h-[180px]">
-            <div id='allProfilePic' className=' relative w-[180px] h-[180px] rounded-full flex justify-center items-center'>
-                <div>
-                <div className='relative overflow-hidden w-[180px] h-[180px] rounded-full'>
-                 <img src={user.profilePic ? user.profilePic : johnMartin} className='w-[180px] h-[200px] object-cover'/>
-                </div>
-                 <button type='button' onClick={handleEdit} id='profilePic' className='bg-gradient-to-t from-tapePink to-tapeYellow text-4xl absolute bottom-4 right-3 w-[40px] h-[40px] rounded-full'>
-                    <HiPlus />
-                 </button>
-                 <div className='bottom-1 right-1 w-[40px] h-[40px] rounded-full'>
-                 {changeProfilePic ? <div>
-                   <input
-                   name="profilePic"
-                   type="file"
-                   className=' border w-[90px] border-tapeGray rounded-md bg-tapeBlack  text-tapeDarkGrey'
-                   onChange={changeHandler}
-                    />
-                  </div> : null}
-                 </div>
-                </div>
+      <form id="profilePicForm" onSubmit={submitHandler} className="relative rounded-full justify-center  w-[180px] h-[180px]">
+        <div id='allProfilePic' className=' relative w-[180px] h-[180px] rounded-full flex justify-center items-center'>
+          <div>
+            <div className='relative overflow-hidden w-[180px] h-[180px] rounded-full flex items-center' id="profile-pic-mask">
+             <div>
+                <input
+                  name="profilePic"
+                  type="file"
+                  ref={fileInputRef}
+                  className='hidden'
+                  onChange={changeHandler}
+                />
+              </div> 
+              <img src={user.profilePic ? user.profilePic : johnMartin} className='w-[180px] h-[200px] object-cover' />
             </div>
-            </form>
-            <form id="usernameForm" onSubmit={submitHandler}>
+            <button type='button' onClick={handleEdit} id='profilePic' className='bg-gradient-to-t from-tapePink to-tapeYellow text-4xl absolute bottom-4 right-3 w-[40px] h-[40px] rounded-full'>
+              <HiPlus />
+            </button>
+            <div className='bottom-1 right-1 w-[40px] h-[40px] rounded-full'>
+            </div>
+          </div>
+        </div>
+      </form>
+      <form id="usernameForm" onSubmit={submitHandler}>
         <div id='allUsername'>
-              {changeUsername ? (
-                <div>
-                 <input
-                   name="username"
-                   type="text"
-                   className=' border border-tapeGray rounded-md bg-tapeBlack  text-tapeDarkGrey'
-                   onChange={changeHandler}
-                   value={formValuesProfile.username}
-                   required={true}
-                 />
-                 <div>
-                 <button className='rounded-full h-5 w-10 flex  p-1 pb-2 items-center ml-12 mr-5' onClick={handleEdit} id='username'>
-                   cancel
-                 </button>
-                 <button className='rounded-full h-5 w-10 flex p-1 pb-2 items-center bg-tapeGray' type="submit">
-                 save
-               </button>
-                 </div>
-               </div>
-              ) : (
-                  <button onClick={handleEdit} id='username' className='border-0 fontFamily-sans text-3xl'><b>{user.userName}</b></button>
-              )}
+          {changeUsername ? (
+            <div>
+              <input
+                name="username"
+                type="text"
+                className=' border border-tapeGray rounded-md bg-tapeBlack  text-tapeDarkGrey'
+                onChange={changeHandler}
+                value={formValuesProfile.username}
+                required={true}
+              />
+              <div>
+                <button className='rounded-full h-5 w-10 flex  p-1 pb-2 items-center ml-12 mr-5' onClick={handleEdit} id='username'>
+                  cancel
+                </button>
+                <button className='rounded-full h-5 w-10 flex p-1 pb-2 items-center bg-tapeGray' type="submit">
+                  save
+                </button>
+              </div>
             </div>
-            </form>
-            <div className='flex flex-row'>
-      <div className='flex flex-col p-2 justify-center items-center'>
+          ) : (
+            <button onClick={handleEdit} id='username' className='border-0 fontFamily-sans text-3xl'><b>{user.userName}</b></button>
+          )}
+        </div>
+      </form>
+      <div className='flex flex-row'>
+        <div className='flex flex-col p-2 justify-center items-center'>
           <div>{user.mixTapes.length}</div>
           <div>Mixes</div>
         </div>
         <div className='flex flex-col p-2 justify-center items-center'>
-          <div>{user.channels.length }</div>
+          <div>{user.channels.length}</div>
           <div>Channels</div>
         </div>
       </div>
-          <div id='emailAndPassword' className='flex flex-col'>
-            <form id="emailForm" onSubmit={submitHandler}>
+      <div id='emailAndPassword' className='flex flex-col'>
+        <form id="emailForm" onSubmit={submitHandler}>
           <div id='allEmail' className='flex flex-col mb-10'>
-          <label className='block'><b>Email</b></label>
-              {changeEmail ? (
-                <div className='flex flex-col mb-10'>
-                 <input
-                   name="email"
-                   type="text"
-                   className=' border border-tapeGray rounded-md bg-tapeBlack  text-tapeDarkGrey'
-                   onChange={changeHandler}
-                   value={formValuesProfile.email}
-                   required={true}
-                 />
-                 <div className='flex flex-row'>
-                 <button className='rounded-full h-5 w-10 flex  p-1 pb-2 items-center ml-12 mr-5' onClick={handleEdit} id='email'>
-                   cancel
-                 </button>
+            <label className='block'><b>Email</b></label>
+            {changeEmail ? (
+              <div className='flex flex-col mb-10'>
+                <input
+                  name="email"
+                  type="text"
+                  className=' border border-tapeGray rounded-md bg-tapeBlack  text-tapeDarkGrey'
+                  onChange={changeHandler}
+                  value={formValuesProfile.email}
+                  required={true}
+                />
+                <div className='flex flex-row'>
+                  <button className='rounded-full h-5 w-10 flex  p-1 pb-2 items-center ml-12 mr-5' onClick={handleEdit} id='email'>
+                    cancel
+                  </button>
                   <button className='rounded-full h-5 w-10 flex p-1 pb-2 items-center bg-tapeGray ' type="submit">
                     save
                   </button>
-                 </div>
                 </div>
-              ) : (
-                <div className='flex flex-row space-x-10'>
-                  <p>{user.email}</p>
-                  <button onClick={handleEdit} id='email' className='border-0'><GoPencil /></button>
-                </div>
-              )}
-            </div>
-            </form>
-          <form id="passwordForm" onSubmit={submitHandler}>
-            <div id='allPassword'>
-              <label className='block'><b>Password</b></label>
-              {changePassword ? (
-                <div>
+              </div>
+            ) : (
+              <div className='flex flex-row space-x-10'>
+                <p>{user.email}</p>
+                <button onClick={handleEdit} id='email' className='border-0'><GoPencil /></button>
+              </div>
+            )}
+          </div>
+        </form>
+        <form id="passwordForm" onSubmit={submitHandler}>
+          <div id='allPassword'>
+            <label className='block'><b>Password</b></label>
+            {changePassword ? (
+              <div>
                 <input
                   name="password"
                   type="password"
@@ -224,23 +225,23 @@ export default function UserDetails() {
                   value={formValuesProfile.password}
                 />
                 <div className='flex flex-row'>
-                 <button className='rounded-full h-5 w-10 flex  p-1 pb-2 items-center ml-12 mr-5' onClick={handleEdit} id='password'>
-                   cancel
-                 </button>
-                <button className='rounded-full h-5 w-10 flex p-1 pb-2 items-center bg-tapeGray' type="submit">
+                  <button className='rounded-full h-5 w-10 flex  p-1 pb-2 items-center ml-12 mr-5' onClick={handleEdit} id='password'>
+                    cancel
+                  </button>
+                  <button className='rounded-full h-5 w-10 flex p-1 pb-2 items-center bg-tapeGray' type="submit">
                     save
                   </button>
                 </div>
-                </div>
-              ) : (
-                <div className='flex flex-row justify-between'>
+              </div>
+            ) : (
+              <div className='flex flex-row justify-between'>
                 <h2 className='text-3xl'>.........</h2>
                 <button onClick={handleEdit} id='password' className='border-0'><GoPencil /></button>
               </div>
-              )}
-            </div>
-            </form>
-        </div>
+            )}
+          </div>
+        </form>
+      </div>
     </div>
   );
 }
