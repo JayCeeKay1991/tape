@@ -28,6 +28,7 @@ export const addUserToChannel = async (channelId: string, userId: string) => {
   return await apiClient<ChannelType>(`channels/${channelId}/${userId}`,'POST')
 }
 
+// Add message to channel
 export const addComment = async (channelId: string, body: CommentsType) => {
   console.log(body)
   return await apiClient<ChannelType>(`channels/${channelId}`, 'POST', body);

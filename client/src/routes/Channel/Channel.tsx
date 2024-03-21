@@ -47,6 +47,7 @@ const Channel = () => {
   }, [channel])
 
 
+
   const toggleMixForm = () => {
     setShowMixForm(!showMixForm)
     setShowMemberForm(false)
@@ -59,29 +60,50 @@ const Channel = () => {
 
   return (
     <div id="channel">
-      <div id="channel-element" className="text-tapeWhite h-72 bg-gradient-to-r from-tapePink to-tapeYellow flex justify-between p-10 w-11/12 m-12 rounded-2xl" >
-        <div id="channel-info" >
-          <h1 className="flex items-center" ><MdPlayArrow size={35} />{channel.name}</h1>
-          <p className="pl-3" >{`${channel.mixTapes ? channel.mixTapes.length : 0} mixtape${channel.mixTapes.length > 1 ? 's' : ''}`}</p>
-          <p className="pl-3">{channel.members ? channel.members.length : 'no members'}</p>
+      <div
+        id="channel-element"
+        className="text-tapeWhite h-72 bg-gradient-to-r from-tapePink to-tapeYellow flex justify-between p-10 w-11/12 m-12 rounded-2xl"
+      >
+        <div id="channel-info">
+          <h1 className="flex items-center">
+            <MdPlayArrow size={35} />
+            {channel.name}
+          </h1>
+          <p className="pl-3">{`${
+            channel.mixTapes ? channel.mixTapes.length : 0
+          } mixtape${channel.mixTapes.length > 1 ? "s" : ""}`}</p>
+          <p className="pl-3">
+            {channel.members ? channel.members.length : "no members"}
+          </p>
         </div>
         <img src={channel.picture} className="w-48 rounded-2xl object-cover" />
-
       </div>
-      <button onClick={toggleMixForm} className="white-button ml-12" >Add Mixtape</button>
-      <button onClick={toggleMemberForm} className="white-button" >Add Members</button>
-      {
-        showMixForm ? (
-         <AddMixtapeForm  channelId={channel._id} setChannel={setChannel} user={user} setShowMixForm={setShowMixForm}/> ) : (<></>)
-      }
-      {
-        showMemberForm ? (
-          <AddMembersSelect channelId={channel._id} setChannel={setChannel} />) : (<></>)
-      }
+      <button onClick={toggleMixForm} className="white-button ml-12">
+        Add Mixtape
+      </button>
+      <button onClick={toggleMemberForm} className="white-button">
+        Add Members
+      </button>
+      {showMixForm ? (
+        <AddMixtapeForm
+          channelId={channel._id}
+          setChannel={setChannel}
+          user={user}
+          setShowMixForm={setShowMixForm}
+        />
+      ) : (
+        <></>
+      )}
+      {showMemberForm ? (
+        <AddMembersSelect channelId={channel._id} setChannel={setChannel} />
+      ) : (
+        <></>
+      )}
       <TestPlayer />
+
       <CommentList channel={channel} />
     </div>
-  )
+  );
 
 }
 
