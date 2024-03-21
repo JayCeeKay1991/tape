@@ -11,7 +11,7 @@ const App = () => {
 
     <div className='App'>
       <AppNav />
-      <TestPlayer urls={currentStreamUrls} />
+      <TestPlayer/>
       <Outlet />
     </div>
 </ContextProvider>

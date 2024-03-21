@@ -68,6 +68,7 @@ const Channel = () => {
 
 
   const handlePlayClick = () => {
+    console.log('play channel clicked')
     const channelUrls = extractStreamUrls(channel.mixTapes)
     setCurrentStreamUrls(channelUrls);
   }
@@ -87,7 +88,7 @@ const Channel = () => {
     <div id="channel">
       <div id="channel-element" className="text-tapeWhite h-72 bg-gradient-to-r from-tapePink to-tapeYellow flex justify-between p-10 w-11/12 m-12 rounded-2xl" >
         <div id="channel-info" className="w-2/5 text-xl" >
-          <h1 className="flex items-stretch text-3xl font-bold my-3" ><MdPlayArrow size={35}  />{channel.name}</h1>
+          <h1 className="flex items-stretch text-3xl font-bold my-3" ><MdPlayArrow size={35} onClick={handlePlayClick} className="cursor-pointer" />{channel.name}</h1>
           <p className="pl-3" >{channel.mixTapes.length ? `${channel.mixTapes.length} mixtape${channel.mixTapes.length === 1 ? '' : 's'}` : 'No mixtapes'}</p>
           <p className="pl-3">{channel.members.length ? `${channel.members.length} member${channel.members.length === 1 ? '' : 's'}` : 'No members'}</p>
 
