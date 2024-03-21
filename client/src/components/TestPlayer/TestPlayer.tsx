@@ -8,30 +8,29 @@ import { MdSkipPrevious } from 'react-icons/md';
 import { BiSolidVolumeMute } from 'react-icons/bi';
 import { GoUnmute } from 'react-icons/go';
 import './TestPlayer.css';
-
-/* So actually the main error I'm getting with this is that the html5 audiopool is exhausted, and just found a stack overflow thread that talks
-about this error with Howler and suggested the solution is to do it using the native html audio tag, so could maybe try that unless someone else finds a solution */
-
+import { useMainContext } from '../Context/Context';
 
 interface playerProps {
   urls: string[];
 }
 
-
 const TestPlayer = ({ urls }: playerProps) => {
+  const { currentStream, setCurrentStream } = useMainContext()  
+
+  // states
   const [stream, setStream] = useState<Howl[]>([]); // current stream, array of howls created in useeffect
   const [streamIndex, setStreamIndex] = useState<number>(0); // stores the index of current mixTape in stream
   const [muted, setMuted] = useState<boolean>(false); // flag for if player is muted
+  const [audioDuration, setAudioDuration] = useState<number>(0);
+  const [playing, setPlaying] = useState(false);
+  
+  // refs
   const durationRef = useRef<HTMLParagraphElement>(null); // ref to duration p element that will change
   const totalDurationRef = useRef<HTMLParagraphElement>(null); // ref to duration p that will show mixtapes total length
-
-  const [audioDuration, setAudioDuration] = useState<number>(0);
-
-  const [playing, setPlaying] = useState(false);
-
   const progressBarRef = useRef<HTMLInputElement>(null);
 
-  console.log(urls)
+  // utils 
+
   useEffect(() => {
     // create stream array from mixTapes
     const generateStream = (urls: string[]) => {
@@ -81,14 +80,13 @@ const TestPlayer = ({ urls }: playerProps) => {
 
     const generatedStream = generateStream(urls);
     // set the state to the stream produced by above function
+    // setCurrentStream(generatedStream)
     setStream(generatedStream);
   }, [urls]);
 
-  // console.log(stream);
 
   const handlePlayClick = (event: MouseEvent<HTMLButtonElement>) => {
     const currentMixtape = stream[streamIndex];
-    console.log(currentMixtape)
     currentMixtape.play();
     setPlaying(true);
   };
@@ -198,7 +196,7 @@ const TestPlayer = ({ urls }: playerProps) => {
     >
       <div
         id="progress-bar"
-        className="w-[1000px] flex flex-row justify-center items-center "
+        className="w-full flex flex-row justify-center items-center "
       >
         <div id="btn-playPause">
           {/* if playing false, render play button, else render pause button */}
