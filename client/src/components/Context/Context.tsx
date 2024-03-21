@@ -78,7 +78,7 @@ export default function ContextProvider({ children }: PropsWithChildren) {
   return (
     <MainContext.Provider
       value={{
-        user: { ...user, channels, mixTapes },
+        user,
         currentStreamUrls,
         setUser,
         setChannels,

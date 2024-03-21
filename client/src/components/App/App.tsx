@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom';
 import AppNav from '../AppNav/AppNav';
 import TestPlayer from '../TestPlayer/TestPlayer';
-import ContextProvider, { useMainContext } from '@/components/Context/Context';
+import ContextProvider from '@/components/Context/Context';
 
 
 const App = () => {
@@ -11,8 +11,7 @@ const App = () => {
     <div className='App'>
       <AppNav />
       {userId ? (
-              <TestPlayer/>
-
+        <TestPlayer/>
       ) : <></>}
       <Outlet />
     </div>

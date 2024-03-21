@@ -2,16 +2,13 @@ import { useState, useEffect } from 'react';
 import { useMainContext } from '@/components/Context/Context';
 import AddChannelForm from '@/components/AddChannelForm/AddChannelForm';
 import ChannelItem from '@/components/ChannelItem/ChannelItem';
-import { ChannelType } from '@/types/Channel';
 
 const Dash = () => {
-  const { user } = useMainContext();
-  const [channelList, setChannelList] = useState<ChannelType[]>([]);
+  const { user, setChannels : setChannelList } = useMainContext();
+  const channelList = user.channels;
+ 
   const [showForm, setShowForm] = useState(false);
 
-  useEffect(() => {
-    if (user) setChannelList(user.channels);
-  }, [user, channelList]);
 
   const toggleAddForm = () => {
     setShowForm(!showForm);
