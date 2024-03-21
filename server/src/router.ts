@@ -12,6 +12,7 @@ import {
   createChannel,
   addUserToChannel,
   getChannel,
+  addComment
 } from './controllers/channel/channel';
 import { createMixTape } from './controllers/mixTape/mixTape';
 
