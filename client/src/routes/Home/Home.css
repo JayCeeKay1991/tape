@@ -1,9 +1,5 @@
 /* || Home styles */
 
-#hero-bg {
-    width: 100%;
-}
-
 #blur1 {
     width: 650px;
     height: 200px;
@@ -29,12 +25,12 @@
 }
 
 #img-crop1 {
-    width: 180px;
-    height:180px;
+    width: 150px;
+    height:150px;
     overflow: hidden;
     position: relative;
     border-radius: 20px;
-    border:4px solid #BBF771;
+    border:3px solid #BBF771;
     left: 100px;
 }
 
@@ -48,12 +44,12 @@
     right: 0;
 }
 #img-crop2 {
-    width: 180px;
-    height:180px;
+    width: 150px;
+    height:150px;
     overflow: hidden;
     position: absolute;
     border-radius: 20px;
-    border:4px solid #FF65AA;
+    border:3px solid #FF65AA;
     right: 200px;
     top: 100px;
 }
