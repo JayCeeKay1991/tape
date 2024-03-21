@@ -6,15 +6,16 @@ import { User } from '@/types/User';
 import { ChannelType } from '@/types/Channel';
 // services
 import { getAllUsers } from '@/services/UserClientService';
+import { getChannel } from "@/services/ChannelClientService";
 // components
 import TestPlayer from '@/components/TestPlayer/TestPlayer';
 import { useMainContext } from '@/components/Context/Context';
 import AddMembersSelect from '@/components/AddMembersSelect/AddMembersSelect';
 import AddMixtapeForm from '@/components/AddMixtapeForm/AddMixtapeForm';
 // styling
-
 import { MdPlayArrow } from "react-icons/md";
 import AudioWave from "@/components/AudioWave/AudioWave";
+
 
 
 const Channel = () => {
@@ -45,9 +46,17 @@ const Channel = () => {
         console.error('error getting all users');
       }
     }
-    setChannel(channel);
+    async function retrieveChannel() {
+      try {
+        const channel = await getChannel(initialState.parentChannel._id)
+        setChannel(channel);
+      } catch (error) {
+        console.error('error getting channel');
+      }
+    }
+    retrieveChannel()
     retrieveAllUsers();
-  }, [channel]);
+  }, []);
 
   const toggleMixForm = () => {
     setShowMixForm(!showMixForm);
@@ -80,7 +89,7 @@ const Channel = () => {
       </button>
       {showMixForm ? (
         <AddMixtapeForm
-          channelId={channel._id}
+          channel={channel}
           setChannel={setChannel}
           user={user}
           setShowMixForm={setShowMixForm}
@@ -89,7 +98,7 @@ const Channel = () => {
         <></>
       )}
       {showMemberForm ? (
-        <AddMembersSelect channelId={channel._id} setChannel={setChannel} />
+        <AddMembersSelect channel={channel} setChannel={setChannel} />
       ) : (
         <></>
       )}
