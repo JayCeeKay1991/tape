@@ -14,6 +14,7 @@ import {
   getChannel,
 } from './controllers/channel/channel';
 import { createMixTape } from './controllers/mixTape/mixTape';
+
 const router = express.Router();
 
 router.get('/users', getAllUsers);
@@ -28,6 +29,11 @@ router.get('/channels/:channelId', getChannel);
 router.post('/channels', createChannel);
 router.post('/channels/:channelId/:userId', addUserToChannel);
 
+
+router.get('/channels/:channelId', getChannel)
+router.post("/channels", createChannel);
+router.post("/channels/:channelId/:userId", addUserToChannel)
+router.post("/channels/:channelId/", addComment);
 
 router.post('/mixtape', createMixTape);
 

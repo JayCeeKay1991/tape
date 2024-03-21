@@ -12,6 +12,7 @@ import TestPlayer from '@/components/TestPlayer/TestPlayer';
 import { useMainContext } from '@/components/Context/Context';
 import AddMembersSelect from '@/components/AddMembersSelect/AddMembersSelect';
 import AddMixtapeForm from '@/components/AddMixtapeForm/AddMixtapeForm';
+
 // styling
 import { MdPlayArrow } from "react-icons/md";
 import AudioWave from "@/components/AudioWave/AudioWave";
@@ -84,7 +85,6 @@ const Channel = () => {
         </div>
           <AudioWave/>
         <img src={channel.picture} className="w-48 rounded-2xl object-cover" />
-
       </div>
       <button onClick={toggleMixForm} className='white-button ml-12'>
         Add Mixtape
@@ -111,8 +111,11 @@ const Channel = () => {
         <></>
       )}
       <TestPlayer />
+
+      <CommentList channel={channel} />
     </div>
   );
+
 };
 
 export default Channel;

@@ -1,5 +1,6 @@
 import { User } from './User';
 import { MixTape } from './Mixtape';
+import { CommentsType } from './Comments';
 
 export type ChannelType = {
   _id: string;
@@ -8,4 +9,5 @@ export type ChannelType = {
   owner: User;
   members: User[];
   mixTapes: MixTape[];
+  comments: CommentsType[];
 };
