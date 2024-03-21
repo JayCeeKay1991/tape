@@ -25,15 +25,11 @@ const TestPlayer = () => {
   const totalDurationRef = useRef<HTMLParagraphElement>(null); // ref to duration p that will show mixtapes total length
   const progressBarRef = useRef<HTMLInputElement>(null);
 
-  // utils 
-
   useEffect(() => {
     const generatedStream = generateStream(currentStreamUrls);
     // setCurrentStream(generatedStream)
     setStream(generatedStream);
   }, [currentStreamUrls]);
-
-  console.log(`current streamurls ${currentStreamUrls}`)
 
   // create stream array from mixTapes
   const generateStream = (urls: string[]) => {
