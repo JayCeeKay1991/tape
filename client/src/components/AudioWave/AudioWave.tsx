@@ -1,12 +1,5 @@
-import React, { useMemo, useState, useRef, useCallback, useEffect, MouseEvent } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useWavesurfer } from '@wavesurfer/react'
-import Timeline from 'wavesurfer.js/dist/plugins/timeline.esm.js'
-import { IoMdPlay } from 'react-icons/io';
-import { IoMdPause } from 'react-icons/io';
-import { MdSkipNext } from 'react-icons/md';
-import { MdSkipPrevious } from 'react-icons/md';
-import { BiSolidVolumeMute } from 'react-icons/bi';
-import { GoUnmute } from 'react-icons/go';
 
 
 
@@ -30,15 +23,22 @@ const AudioWave = () => {
 
   const { wavesurfer, isPlaying, currentTime } = useWavesurfer({
     container: progressBarRef,
-    height: 70,
-    waveColor: '#FF65AA',
+    height: 90,
+    waveColor: 'white',
     progressColor: '#909090',
     barGap: 5,
     barRadius: 10,
-    barWidth: 10,
+    barWidth: 6,
     url: channelMixtapes[streamIndex],
-    plugins: useMemo(() => [Timeline.create()], []),
   })
+
+  const formatTime = (seconds: number) => {
+    return (
+      Math.floor(seconds / 60) +
+      ':' +
+      ('0' + Math.floor(seconds % 60)).slice(-2)
+    );
+  };
 
   useEffect(() => {
     // create stream array from mixTapes
@@ -93,78 +93,6 @@ const AudioWave = () => {
 
 
 
-  const handlePlayClick = (event: MouseEvent<HTMLButtonElement>) => {
-    const currentMixtape = stream[streamIndex];
-    currentMixtape.play();
-    setPlaying(true);
-  };
-
-  const handlePauseClick = (event: MouseEvent<HTMLButtonElement>) => {
-    const currentMixtape = stream[streamIndex];
-    currentMixtape.pause();
-    setPlaying(false);
-  };
-
-
-    // Handle click Navigation parent function for next and previous
-    const handleClickNavigation = (newIndex: number) => {
-      setStreamIndex(newIndex);
-      const newMixtape = stream[newIndex];
-      newMixtape.play();
-      setPlaying(true);
-    };
-
-    const handleNextClick = (event: MouseEvent<HTMLButtonElement>) => {
-      const currentMixtape = stream[streamIndex];
-      currentMixtape.stop();
-
-      // if the stream is not at the end, increment it
-      if (streamIndex < stream.length - 1) {
-        const newIndex = streamIndex + 1;
-        handleClickNavigation(newIndex);
-        // else start from the beginning
-      } else {
-        const newIndex = 0;
-        handleClickNavigation(newIndex);
-      }
-    };
-
-    const handlePreviousClick = (event: MouseEvent<HTMLButtonElement>) => {
-      const currentMixtape = stream[streamIndex];
-      currentMixtape.stop();
-
-      //if streamIndex is greater or equal than 1, decrement it
-      if (streamIndex >= 1) {
-        const newIndex = streamIndex - 1;
-        handleClickNavigation(newIndex);
-        // else go to the end
-      } else {
-        const newIndex = stream.length - 1;
-        handleClickNavigation(newIndex);
-      }
-    };
-
-    const handleToggleMute = (event: MouseEvent<HTMLButtonElement>) => {
-      const currentMixtape = stream[streamIndex];
-      if (muted === true) {
-        currentMixtape.volume(1);
-        setMuted(false);
-      } else {
-        currentMixtape.volume(0);
-        setMuted(true);
-      }
-    };
-
-
-
-  // Time Format
-  const formatTime = (seconds: number) => {
-    return (
-      Math.floor(seconds / 60) +
-      ':' +
-      ('0' + Math.floor(seconds % 60)).slice(-2)
-    );
-  };
 
   const handleProgressBarChange = (
     event: React.ChangeEvent<HTMLInputElement>
@@ -198,79 +126,13 @@ const AudioWave = () => {
   };
 
   return (
-    <div id="wave"
-    className="w-[800px]  h-[100px] flex flex-row fixed bottom-40 justify-center items-center " >
-
-      <div id="btn-playPause">
-          {/* if playing false, render play button, else render pause button */}
-          {playing ? (
-            <button
-            type="button"
-            className="text-tapeWhite me-5"
-            onClick={handlePauseClick}
-            >
-              <IoMdPause size="25" />
-            </button>
-          ) : (
-            <button
-            type="button"
-            className="text-tapeWhite me-5 border-none "
-            onClick={handlePlayClick}
-            >
-              <IoMdPlay size="25" />
-            </button>
-          )}
+    <div id="wave" className="w-full h-[100px] relative top-[50px]" >
+      <div
+      className='w-[600px]'
+      ref={progressBarRef}
+      onChange={handleProgressBarChange}>
       </div>
-
-      <div className='w-[500px]' ref={progressBarRef} onChange={handleProgressBarChange} />
-
-      <span
-          id="current-time"
-          ref={durationRef}
-          className="text-tapeWhite hidden"
-        ></span>
-      <span
-          id="duration"
-          ref={totalDurationRef}
-          className="text-tapeWhite me-5"
-        ></span>
-
-
-
-        <div id="fastforward-rewind" className=" flex flex-row ">
-          <button
-            type="button"
-            onClick={handlePreviousClick}
-            className="text-tapeWhite me-2 border-none"
-            >
-            <MdSkipPrevious size="35" />
-          </button>
-          <button
-            type="button"
-            onClick={handleNextClick}
-            className="text-tapeWhite me-2 border-none"
-            >
-            <MdSkipNext size="35" />
-          </button>
-          {muted ? (
-            <button
-            type="button"
-            onClick={handleToggleMute}
-            className="text-tapeWhite me-2 border-none"
-            >
-              <BiSolidVolumeMute size="25" />
-            </button>
-          ) : (
-            <button
-            type="button"
-            onClick={handleToggleMute}
-            className=" text-tapeWhite me-2 border-none "
-            >
-              <GoUnmute size="30" />
-            </button>
-          )}
-          </div>
-        </div>
+    </div>
   )
 }
 

@@ -9,6 +9,7 @@ import { MdSkipPrevious } from 'react-icons/md';
 import { BiSolidVolumeMute } from 'react-icons/bi';
 import { GoUnmute } from 'react-icons/go';
 import './TestPlayer.css';
+import AudioWave from '../AudioWave/AudioWave';
 
 /* So actually the main error I'm getting with this is that the html5 audiopool is exhausted, and just found a stack overflow thread that talks
 about this error with Howler and suggested the solution is to do it using the native html audio tag, so could maybe try that unless someone else finds a solution */
@@ -191,6 +192,7 @@ const TestPlayer = () => {
   };
 
   return (
+    <>
     <div
       id="player"
       className="w-full h-[100px] flex flex-col fixed bottom-0 flex-row justify-center items-center"
@@ -274,6 +276,8 @@ const TestPlayer = () => {
         </div>
       </div>
     </div>
+    </>
+
   );
 };
 
