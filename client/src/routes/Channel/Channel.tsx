@@ -68,7 +68,6 @@ const Channel = () => {
 
 
   const handlePlayClick = () => {
-    console.log('play channel clicked')
     const channelUrls = extractStreamUrls(channel.mixTapes)
     setCurrentStreamUrls(channelUrls);
   }

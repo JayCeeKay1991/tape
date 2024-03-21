@@ -5,13 +5,15 @@ import ContextProvider, { useMainContext } from '@/components/Context/Context';
 
 
 const App = () => {
-  const { currentStreamUrls } = useMainContext()
+  const userId = localStorage.getItem('loggedinUser');
   return (
 <ContextProvider>
-
     <div className='App'>
       <AppNav />
-      <TestPlayer/>
+      {userId ? (
+              <TestPlayer/>
+
+      ) : <></>}
       <Outlet />
     </div>
 </ContextProvider>

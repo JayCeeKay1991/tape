@@ -2,16 +2,16 @@ import { useState, useEffect } from 'react';
 import { useMainContext } from '@/components/Context/Context';
 import AddChannelForm from '@/components/AddChannelForm/AddChannelForm';
 import ChannelItem from '@/components/ChannelItem/ChannelItem';
-import { Channel } from '@/types/Channel';
+import { ChannelType } from '@/types/Channel';
 
 const Dash = () => {
   const { user } = useMainContext();
-  const [channelList, setChannelList] = useState<Channel[]>([]);
+  const [channelList, setChannelList] = useState<ChannelType[]>([]);
   const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     if (user) setChannelList(user.channels);
-  }, [user]);
+  }, [user, channelList]);
 
   const toggleAddForm = () => {
     setShowForm(!showForm);
@@ -34,8 +34,8 @@ const Dash = () => {
       <div id='channel-list' className='flex gap-x-10 py-12'>
         {channelList.length
           ? channelList.map((channel) => (
-              <ChannelItem key={channel._id} channel={channel} />
-            ))
+            <ChannelItem key={channel._id} channel={channel} />
+          ))
           : 'No channels yet.'}
       </div>
       {showForm ? (
