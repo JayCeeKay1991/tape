@@ -132,16 +132,13 @@ export default function UserDetails() {
               break;
         }
   }
-  useEffect(() => {
-    formPictureFile
-  },[user]);
   return (
     <div className='flex flex-col bg-tapeDarkBlack justify-center items-center w-[350px] h-[600px] rounded-[20px] border-[1px] '>
          <form id="profilePicForm" onSubmit={submitHandler} className="relative rounded-full justify-center  w-[180px] h-[180px]">
             <div id='allProfilePic' className=' relative w-[180px] h-[180px] rounded-full flex justify-center items-center'>
                 <div>
                 <div className='relative overflow-hidden w-[180px] h-[180px] rounded-full'>
-                 <img src={user.profilePic ? user.profilePic : johnMartin} className='w-[180px] h-[210px] object-cover'/>
+                 <img src={user.profilePic ? user.profilePic : johnMartin} className='w-[180px] h-[200px] object-cover'/>
                 </div>
                  <button type='button' onClick={handleEdit} id='profilePic' className='bg-gradient-to-t from-tapePink to-tapeYellow text-4xl absolute bottom-4 right-3 w-[40px] h-[40px] rounded-full'>
                     <HiPlus />
