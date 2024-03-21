@@ -1,13 +1,13 @@
 import { Dispatch, useState, SetStateAction } from 'react';
-import { Channel } from '@/types/Channel';
+import { ChannelType } from '@/types/Channel';
 import { useMainContext } from '../Context/Context';
 import { createChannel } from '@/services/ChannelClientService';
 import { postImageToCloudinary } from '@/services/CloudinaryService';
 
-type FormValues = Omit<Channel, '_id'>;
+type FormValues = Omit<ChannelType, '_id'>;
 type propsType = {
   setShowForm: Dispatch<SetStateAction<boolean>>;
-  setChannelList: Dispatch<SetStateAction<Channel[]>>;
+  setChannelList: Dispatch<SetStateAction<ChannelType[]>>;
 };
 
 export default function AddChannelForm({
@@ -48,14 +48,14 @@ export default function AddChannelForm({
       }
     }
 
-    const newChannelData: Omit<Channel, '_id'> = {
+    const newChannelData: Omit<ChannelType, '_id'> = {
       ...formValues,
       picture: pictureUrl,
     };
 
     try {
       const newChannel = await createChannel(newChannelData);
-      setChannelList((prevList: Channel[]) => [...prevList, newChannel]);
+      setChannelList((prevList: ChannelType[]) => [...prevList, newChannel]);
       setFormValues(initialState);
       setShowForm(false);
       setPictureFile(null);
