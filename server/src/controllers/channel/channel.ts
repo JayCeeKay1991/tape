@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import ChannelModel from "../../models/channel";
 import UserModel from "../../models/user";
-
+import CommentsModel from "../../models/comments";
 
 export const getChannel = async (req: Request, res: Response) => {
   console.log('TRYING TO GET CHANNEL')
@@ -89,3 +89,28 @@ export const addUserToChannel = async (req: Request, res: Response) => {
     res.json(`Error adding user to channel`);
   }
 }
+
+
+export const addComment = async (req: Request, res: Response) => {
+  try {
+    const channelId = req.params.channelId;
+    const { owner, message, date } = req.body;
+
+    const newComment = await CommentsModel.create({ owner, message, date });
+
+    const updatedChannel = await ChannelModel.findByIdAndUpdate(
+      channelId,
+      { $push: { comments: newComment._id } },
+      { new: true }
+    ).populate("comments");
+
+    if (!updatedChannel) {
+      return res.status(400).json("Channel not found");
+    }
+
+    res.status(201).json(updatedChannel);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json(`Error adding comment`);
+  }
+};

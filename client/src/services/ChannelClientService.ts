@@ -1,5 +1,8 @@
 import { apiClient } from './ApiClient';
 import { ChannelType } from '@/types/Channel';
+import { CommentsType } from "../types/Comments";
+
+
 
 // Get channel by id GET
 export const getChannel = async (channelId: string) => {
@@ -28,3 +31,10 @@ export const addUserToChannel = async (channelId: string, userId: string) => {
     'POST'
   );
 };
+
+// Add message to channel
+export const addComment = async (channelId: string, body: CommentsType) => {
+  console.log(body)
+  return await apiClient<ChannelType>(`channels/${channelId}`, 'POST', body);
+};
+

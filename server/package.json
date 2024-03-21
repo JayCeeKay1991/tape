@@ -6,7 +6,7 @@
   "scripts": {
     "test": "jest",
     "compile": "tsc",
-    "start": "npm run compile && concurrently \"tsc-w\" \"nodemon ./dist/index.js\"",
+    "start": "npm run compile && concurrently \"tsc -w\" \"nodemon ./dist/index.js\"",
     "lint": "eslint . --ext .ts"
   },
   "author": "",
