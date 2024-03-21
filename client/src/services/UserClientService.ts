@@ -1,8 +1,7 @@
 import { apiClient } from './ApiClient';
-import { User } from '../types/User';
-import { FormValuesUser } from '../components/SignupForm/SignupForm';
-import { FormValuesUserLogin } from '../components/LoginForm/LoginForm';
-import FormValuesUserProfile from '../components/UserDetails/UserDetails';
+import { User } from '@/types/User';
+import { FormValuesUser } from '@/components/SignupForm/SignupForm';
+import { FormValuesUserLogin } from '@/components/LoginForm/LoginForm';
 
 // Sign up new user
 export async function signup(body: FormValuesUser) {

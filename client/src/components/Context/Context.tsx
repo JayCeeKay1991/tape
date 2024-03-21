@@ -1,4 +1,4 @@
-import {
+import React, {
   createContext,
   useContext,
   useState,
@@ -8,10 +8,11 @@ import {
   useEffect,
 } from 'react';
 
-import { User } from '../../types/User';
-import { ChannelType } from '../../types/Channel';
-import { MixTape } from '../../types/Mixtape';
-import { getUserById } from '../../services/UserClientService';
+import { User } from '@/types/User';
+import { ChannelType } from '@/types/Channel';
+import { MixTape } from '@/types/Mixtape';
+import { getUserById } from '@/services/UserClientService';
+import { useNavigate } from 'react-router-dom';
 
 type MainContext = {
   user: User;
@@ -40,6 +41,9 @@ const initialContext = {
 const MainContext = createContext<MainContext>(initialContext);
 
 export default function ContextProvider({ children }: PropsWithChildren) {
+
+
+  const navigate = useNavigate();
   const [user, setUser] = useState<User>(initialStateUser);
   const [channels, setChannels] = useState<ChannelType[]>([]);
   const [mixTapes, setMixTapes] = useState<MixTape[]>([]);
@@ -55,6 +59,8 @@ export default function ContextProvider({ children }: PropsWithChildren) {
             setChannels(foundUser.channels);
             setMixTapes(foundUser.mixTapes);
           }
+        } else {
+          navigate('/home');
         }
       } catch (error) {
         console.error(error);
