@@ -13,13 +13,15 @@
   },
   "dependencies": {
     "@types/howler": "^2.2.11",
+    "@wavesurfer/react": "^1.0.4",
     "howler": "^2.2.4",
     "navigate": "^0.3.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^5.0.1",
     "react-select": "^5.8.0",
-    "vitest": "^1.4.0"
+    "vitest": "^1.4.0",
+    "wavesurfer.js": "^7.7.5"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.4.2",

@@ -1,9 +1,11 @@
+
 import { Channel } from '@/types/Channel';
 import { useNavigate } from 'react-router';
 
 type ChannelItemProps = {
   channel: Channel;
 };
+
 
 const ChannelItem = ({ channel }: ChannelItemProps) => {
   const navigate = useNavigate();
@@ -24,12 +26,13 @@ const ChannelItem = ({ channel }: ChannelItemProps) => {
           data-testid='channel-picture'
         />
       </button>
-      <h1 className='mx-2 leading-10' data-testid='channel-name'>
-        {channel.name}
-      </h1>
-      <div id='channel-item-footer' className='flex justify-between mx-2'>
-        <p>{`${channel.members.length} members`}</p>
-        <p>duration</p>
+
+      <h1 className="mx-2 leading-10" data-testid="channel-name">{channel.name}</h1>
+      <div id="channel-item-footer" className="flex justify-between mx-2" >
+        <div>
+          <p>{channel.mixTapes.length ? `${channel.mixTapes.length} mixtape${channel.mixTapes.length === 1 ? '' : 's'}` : 'No mixtapes'}</p>
+          <p>{channel.members.length ? `${channel.members.length} member${channel.members.length === 1 ? '' : 's'}` : 'No members'}</p>
+        </div>
       </div>
     </div>
   );

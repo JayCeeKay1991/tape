@@ -1,10 +1,15 @@
+
 import React, { useState } from 'react';
 import './UserDetails.css';
 import { useMainContext } from '../Context/Context';
 import { updateUser } from '@/services/UserClientService';
 import { User } from '@/types/User';
 import { postImageToCloudinary } from '@/services/CloudinaryService';
-import johnMartin from '../AppNav/johnmartin.jpg';
+
+import johnMartin from '../AppNav/johnmartin.jpg'
+import { HiPlus } from "react-icons/hi2";
+import { GoPencil } from "react-icons/go";
+
 
 export type FormValuesUserProfile = {
   username: string;
@@ -30,7 +35,7 @@ export default function UserDetails() {
   const [changeProfilePic, setChangeProfilePic] = useState(false);
   const [formPictureFile, setFormPictureFile] = useState<File | null>(null);
 
-  function handleEdit(e: React.MouseEvent) {
+  function handleEdit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     switch (e.target) {
       case document.getElementById('username'):
@@ -49,6 +54,7 @@ export default function UserDetails() {
         break;
     }
   }
+
 
   function changeHandler(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value, type, files } = e.target;
@@ -96,6 +102,7 @@ export default function UserDetails() {
       };
       updateUser(newUser);
     }
+
     ///////////////////////////////////////////////
     switch (e.target) {
       case document.getElementById('usernameForm'):
@@ -206,6 +213,7 @@ export default function UserDetails() {
             <label>password:</label>
             {changePassword ? (
               <div>
+
                 <input
                   name='password'
                   type='password'
