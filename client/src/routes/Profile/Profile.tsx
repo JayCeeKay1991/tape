@@ -1,12 +1,11 @@
-import React from "react";
-import UserDetails from "../../components/UserDetails/UserDetails";
+import React from 'react';
+import UserDetails from '@/components/UserDetails/UserDetails';
 const Profile = () => {
-
   return (
     <div>
-      <UserDetails/>
+      <UserDetails />
     </div>
-  )
-}
+  );
+};
 
 export default Profile;

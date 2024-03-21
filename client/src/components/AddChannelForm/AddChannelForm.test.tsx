@@ -1,10 +1,10 @@
 import AddChannelForm from './AddChannelForm';
-import { render, screen, userEvent } from '../../test/testConfig';
+import { render, screen, userEvent } from '@/test/testConfig';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { channels } from '../../test/mocks';
+import { channels } from '@/test/mocks';
 
 vi.mock('../contextComponent', () => ({
-  useMainContext: () => ({})
+  useMainContext: () => ({}),
 }));
 
 describe('User inputs are calling change handlers', async () => {
@@ -18,19 +18,19 @@ describe('User inputs are calling change handlers', async () => {
         setShowForm={setShowForm}
         setChannelList={setChannelList}
       />
-      );
-      nameInput = screen.getByTestId('input-channel-name') as HTMLInputElement;
-    })
+    );
+    nameInput = screen.getByTestId('input-channel-name') as HTMLInputElement;
+  });
 
   it('should render a submit button', async () => {
-    const submitButton = screen.getByTestId('create-button') as HTMLButtonElement;
+    const submitButton = screen.getByTestId(
+      'create-button'
+    ) as HTMLButtonElement;
     expect(submitButton).toHaveClass('white-button');
-  })
-
+  });
 
   it('should handle changes when filling in form', async () => {
     await userEvent.type(nameInput, channels[0].name);
     expect(nameInput.value).toBe(channels[0].name);
-  })
-
-  })
+  });
+});
