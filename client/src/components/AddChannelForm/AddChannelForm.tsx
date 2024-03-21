@@ -30,6 +30,7 @@ export default function AddChannelForm({
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, files } = e.target;
     if (type === 'file' && files) {
+      console.log('Click File');
       setPictureFile(files[0]); // Set the image file
     } else setFormValues({ ...formValues, [name]: value });
   };
@@ -65,7 +66,9 @@ export default function AddChannelForm({
   };
 
   return (
-    <form className='flex flex-col w-72 absolute right-32 top-60 border-tapeDarkGrey bg-tapeBlack border-[2px] rounded-[20px] w-[300px] h-[380px] p-[20px]'>
+    <form
+    className='flex flex-col w-72 absolute right-32 top-60 border-tapeDarkGrey bg-tapeBlack border-[2px] rounded-[20px] w-[300px] h-[380px] p-[20px]'
+    >
       <h1 className='text-2xl mb-5 text-center' >Create a new channel</h1>
       <label>Name</label>
       <input
@@ -74,7 +77,9 @@ export default function AddChannelForm({
         type='text'
         onChange={changeHandler}
         className='h-[30px] mt-[5px] mb-[20px] p-[20px] text-sm border-tapeDarkGrey bg-tapeBlack border-[2px] text-[25px] text-tapeWhite font-small outline-none'
-        data-testid='input-channel-name'></input>
+        data-testid='input-channel-name'>
+      </input>
+      <label>Image</label>
       <input
         name='picture'
         value={formValues.picture}
@@ -85,7 +90,7 @@ export default function AddChannelForm({
         </input>
       <button
         onClick={handleSubmit}
-        className='border-tapeDarkGrey bg-tapeBlack w-[90px]'
+        className='border-tapeDarkGrey bg-tapeBlack w-[90px] self-center rounded-[20px] p-1 mt-3'
         data-testid='create-button'>
         Create
       </button>
