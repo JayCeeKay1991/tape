@@ -27,6 +27,7 @@ export default function UserDetails() {
   const [ changePassword, setChangePassword ] = useState(false);
   const [ changeProfilePic, setChangeProfilePic ] = useState(false);
   const [formPictureFile, setFormPictureFile] = useState<File | null>(null);
+
   function handleEdit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
     const target = e.currentTarget;
@@ -47,37 +48,36 @@ export default function UserDetails() {
               break;
      }
    }
-  async function changeHandler(e: React.ChangeEvent<HTMLInputElement>) {
+   
+   async function changeHandler(e: React.ChangeEvent<HTMLInputElement>) {
     const { name, value, type, files } = e.target;
-    if (type === 'file' && files) {
-      setFormPictureFile(files[0]);
-      let pictureUrl = user.profilePic;
-      if (formPictureFile) {
+    if (type === 'file' && files?.length) {
+        const file = files[0]; // Use the file directly from the input event
         try {
-          pictureUrl = await postImageToCloudinary({
-            file: formPictureFile
-          });
-          ///////////////////////////////////////////////
-           const newUser: Omit<User, "password"> = {
-            _id: user._id,
-            userName: user.userName,
-            email: user.email,
-            profilePic: pictureUrl,
-            channels: user.channels,
-            mixTapes: user.mixTapes ? [...user.mixTapes] : [],
-          }
-       const updatedUser = await updateUser(newUser);
-       if (updatedUser) {
-         setUser(updatedUser);
-       }
-          ///////////////////////////////////////////////
-          setChangeProfilePic(!changeProfilePic);
+            const pictureUrl = await postImageToCloudinary({ file });
+            const newUser: Omit<User, "password"> = {
+                _id: user._id,
+                userName: user.userName,
+                email: user.email,
+                profilePic: pictureUrl,
+                channels: user.channels,
+                mixTapes: user.mixTapes ? [...user.mixTapes] : [],
+            };
+            const updatedUser = await updateUser(newUser);
+            if (updatedUser) {
+                setUser(updatedUser);
+                setChangeProfilePic(!changeProfilePic); // Optionally toggle UI elements if needed
+            }
         } catch (error) {
-          console.error(error);
+            console.error(error);
         }
-      }
-      } else setFormValuesProfile({ ...formValuesProfile, [name]: value });
-  }
+    } else {
+        setFormValuesProfile({ ...formValuesProfile, [name]: value });
+    }
+}
+///////////////////////////////////////////////////////////////////////////////
+
+  ////////////////////////////////////////////////////////////////////////////////
   async function submitHandler(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     if (formValuesProfile.password !== user.password) {
@@ -121,7 +121,7 @@ export default function UserDetails() {
         }
   }
   return (
-    <div className='flex flex-col bg-tapeDarkBlack justify-center items-center w-[350px] h-[600px] rounded-[20px] border-[1px] '>
+    <div className='flex flex-col bg-tapeDarkBlack ml-[770px] justify-center items-center w-[350px] h-[600px] rounded-[20px] border-[1px] '>
          <form id="profilePicForm" onSubmit={submitHandler} className="relative rounded-full justify-center  w-[180px] h-[180px]">
             <div id='allProfilePic' className=' relative w-[180px] h-[180px] rounded-full flex justify-center items-center'>
                 <div>
