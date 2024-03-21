@@ -1,21 +1,28 @@
 import { useState, Dispatch, SetStateAction } from 'react';
-import { User } from '@/types/User';
 import {
   CloudinaryRes,
   postMusicToCloudinary,
-} from '@/services/CloudinaryService';
-import { createMixTape } from '@/services/MixtapeClientService';
-import { ChannelType } from '@/types/Channel';
-import { MixTape } from '@/types/Mixtape';
+} from '../../services/CloudinaryService';
+import { createMixTape } from '../../services/MixtapeClientService';
+import { ChannelType } from '../../types/Channel';
+import { useMainContext } from '../Context/Context';
 
-interface AddMixtapeFormProps {
+type AddMixtapeFormProps = {
   channelId: string;
-  user: User;
+  channel: ChannelType;
   setChannel: Dispatch<SetStateAction<ChannelType>>;
   setShowMixForm: Dispatch<SetStateAction<boolean>>;
-}
+};
 
-type FormValues = Omit<MixTape, '_id'>;
+// Form for add mixtape
+type FormValuesMixTape = {
+  name: string;
+  file: File | null;
+};
+const initialStateFormValuesMixTape = {
+  name: '',
+  file: null,
+};
 
 const initCloudinaryResState = {
   public_id: '',
@@ -38,33 +45,33 @@ const initCloudinaryResState = {
 
 const AddMixtapeForm = ({
   channelId,
-  user,
+  channel,
   setChannel,
   setShowMixForm,
 }: AddMixtapeFormProps) => {
-  const initialState = {
-    name: '',
-    url: '',
-    duration: 0,
-    creator: user,
-    parentChannel: channel,
-    channels: [],
-    users: [],
-  };
-
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [uploadComplete, setUploadComplete] = useState(false);
   const [cldResponse, setCldResponse] = useState<CloudinaryRes>(
     initCloudinaryResState
   );
-  const [formValues, setFormValues] = useState<FormValues>(initialState);
 
+  const [formValuesMixTape, setFormValuesMixTape] = useState<FormValuesMixTape>(
+    initialStateFormValuesMixTape
+  );
+
+  const { user } = useMainContext();
+  //Change handler function keeps track of the upload form
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, files } = e.target;
+
     if (type === 'file' && files) {
       setFile(files[0]); // Set the image file
-    } else setFormValues({ ...formValues, [name]: value });
+    } else
+      setFormValuesMixTape((prevFormData) => ({
+        ...prevFormData,
+        [name]: value,
+      }));
   };
 
   // upload file to cloudinary
@@ -126,28 +133,34 @@ const AddMixtapeForm = ({
   };
 
   // add the image to database together with the other form values
-  const submitHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const submitHandler = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const addMixtape = async () => {
       try {
         if (cldResponse) {
           const fileUrl = cldResponse.secure_url;
           const duration = cldResponse.duration;
+          const { name, file } = formValuesMixTape;
           const newMixtapeData = {
-            ...formValues,
+            name,
             url: fileUrl,
             duration: duration,
-            parentChannel: channel,
+            channel: channelId,
+            creator: user._id,
           };
+
           const newMixTape = await createMixTape(newMixtapeData);
-          setChannel({
+
+          const updatedChannel = {
             ...channel,
             mixTapes: [...channel.mixTapes, newMixTape],
-          });
+          };
+          setChannel(updatedChannel);
+
+          setFormValuesMixTape(initialStateFormValuesMixTape);
+          setFile(null);
+          setShowMixForm(false);
         } else throw new Error('No uploaded file to add.');
-        setFormValues(initialState);
-        setFile(null);
-        setShowMixForm(false);
       } catch (error) {
         console.error(error);
       }
@@ -156,25 +169,31 @@ const AddMixtapeForm = ({
   };
 
   return (
-    <form className='text-tapeWhite flex flex-col w-72 gap-2'>
+    <form
+      className="text-tapeWhite flex flex-col w-72 gap-5 m-10"
+      onSubmit={submitHandler}
+    >
       <input
-        name='name'
-        type='text'
+        name="name"
+        type="text"
+        value={formValuesMixTape.name}
         onChange={changeHandler}
-        placeholder='mixtape name'></input>
-      <div className='flex'>
-        <input name='file' type='file' onChange={changeHandler}></input>
+        placeholder="mixtape name"
+      ></input>
+      <div className="flex flex-row gap-3">
+        <input name="file" type="file" onChange={changeHandler}></input>
         <button
-          className='white-button'
+          className="white-button"
           onClick={uploadFile}
-          disabled={uploading}>
+          disabled={uploading}
+        >
           {uploading ? 'Uploading...' : 'Upload'}
         </button>
       </div>
       {uploading ? (
         <></>
       ) : (
-        <button className='white-button' onClick={submitHandler}>
+        <button type="submit" className="white-button">
           Add Mixtape
         </button>
       )}
