@@ -13,10 +13,11 @@ import { useMainContext } from '@/components/Context/Context';
 import AddMembersSelect from '@/components/AddMembersSelect/AddMembersSelect';
 import AddMixtapeForm from '@/components/AddMixtapeForm/AddMixtapeForm';
 import CommentList from "@/components/CommentList/CommentList";
-
 // styling
 import { MdPlayArrow } from "react-icons/md";
-import AudioWave from "@/components/AudioWave/AudioWave";
+// import AudioWave from "@/components/AudioWave/AudioWave";
+// utils
+import { extractStreamUrls } from "@/utils/extractStreamUrls";
 
 
 
@@ -61,9 +62,10 @@ const Channel = () => {
     }
     retrieveChannel()
     retrieveAllUsers();
-
   }, []);
 
+  // Generate stream from mixtape urls
+  const currentStream = extractStreamUrls(channel.mixTapes)
 
   const toggleMixForm = () => {
     setShowMixForm(!showMixForm);
@@ -84,7 +86,7 @@ const Channel = () => {
           <p className="pl-3">{channel.members.length ? `${channel.members.length} member${channel.members.length === 1 ? '' : 's'}` : 'No members'}</p>
 
         </div>
-          <AudioWave/>
+          {/* <AudioWave/> */}
         <img src={channel.picture} className="w-48 rounded-2xl object-cover" />
       </div>
       <button onClick={toggleMixForm} className='white-button ml-12'>
@@ -111,7 +113,7 @@ const Channel = () => {
       ) : (
         <></>
       )}
-      <TestPlayer />
+      <TestPlayer urls={currentStream} />
 
       <CommentList channel={channel} />
     </div>

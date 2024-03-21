@@ -1,7 +1,6 @@
-import React, { MouseEvent, useEffect, useState, useRef, useCallback } from 'react';
+import React, { MouseEvent, useEffect, useState, useRef } from 'react';
 import { Howl } from 'howler';
-
-
+// styling
 import { IoMdPlay } from 'react-icons/io';
 import { IoMdPause } from 'react-icons/io';
 import { MdSkipNext } from 'react-icons/md';
@@ -9,21 +8,17 @@ import { MdSkipPrevious } from 'react-icons/md';
 import { BiSolidVolumeMute } from 'react-icons/bi';
 import { GoUnmute } from 'react-icons/go';
 import './TestPlayer.css';
-import AudioWave from '../AudioWave/AudioWave';
 
 /* So actually the main error I'm getting with this is that the html5 audiopool is exhausted, and just found a stack overflow thread that talks
 about this error with Howler and suggested the solution is to do it using the native html audio tag, so could maybe try that unless someone else finds a solution */
 
 
-const testUrl1 =
-  'https://res.cloudinary.com/ddj3xjxrc/video/upload/v1710529539/D.J._Poizen_Visits_Kool_Kyle_Side_A_ncjkhb.mp3';
-const testUrl2 = `https://res.cloudinary.com/ddj3xjxrc/video/upload/v1710529445/podcast_mark-mendoza-podcast_1988-mixtape_1000413811719_ts9qep.mp3`;
-const testUrl3 = `https://cf-media.sndcdn.com/aCq8wQO1sBZZ.128.mp3?Policy=eyJTdGF0ZW1lbnQiOlt7IlJlc291cmNlIjoiKjovL2NmLW1lZGlhLnNuZGNkbi5jb20vYUNxOHdRTzFzQlpaLjEyOC5tcDMqIiwiQ29uZGl0aW9uIjp7IkRhdGVMZXNzVGhhbiI6eyJBV1M6RXBvY2hUaW1lIjoxNzEwOTM2NTk3fX19XX0_&Signature=VmqqSPU8vYMUQILYeHVSJRTWadm0~IJ4bKpr5T5g5sTM5ZYVbZkIv8qRD2jx5Sjsn7WO1EjOAAZDOjc0rbAvW3con~fwEjzuYqYIkQADh-8lwgUzY8Ou4~wEgRR82BrmFqzCWggfRDNeS7VFBr2TERPbH14Phmmdt~PjOB4IfrTIYHfOXT~bg-IGpzJ195x51-Ge5vM4guPk7JCxpYAO0vVpgD1~uSrd25pgv2KocGKLSPtGs9afVKuhZnd4ErPeK3t2d8TRuYQtokSb0sAwcWwSerfWDsJGIXT-P9bKRlOdinjN4uGVNby2W~L~vLFjSh9Hq4XQbqJejagCU-Mxtg__&Key-Pair-Id=APKAI6TU7MMXM5DG6EPQ`;
+interface playerProps {
+  urls: string[];
+}
 
 
-// Define the component
-const TestPlayer = () => {
-  const channelMixtapes = [testUrl1, testUrl2, testUrl3]; // urls of audio files
+const TestPlayer = ({ urls }: playerProps) => {
   const [stream, setStream] = useState<Howl[]>([]); // current stream, array of howls created in useeffect
   const [streamIndex, setStreamIndex] = useState<number>(0); // stores the index of current mixTape in stream
   const [muted, setMuted] = useState<boolean>(false); // flag for if player is muted
@@ -36,11 +31,12 @@ const TestPlayer = () => {
 
   const progressBarRef = useRef<HTMLInputElement>(null);
 
-
+  console.log(urls)
   useEffect(() => {
     // create stream array from mixTapes
-    const generateStream = () => {
-      const mixtapes: Howl[] = channelMixtapes.map((mixtape) => {
+    const generateStream = (urls: string[]) => {
+      console.log(`urls in useeffect ${urls}`)
+      const mixtapes: Howl[] = urls.map((mixtape) => {
         // maps through urls and creates new howl obj for each mixtape url
         return new Howl({
           src: [mixtape],
@@ -83,13 +79,16 @@ const TestPlayer = () => {
       return mixtapes;
     };
 
-    const generatedStream = generateStream();
+    const generatedStream = generateStream(urls);
     // set the state to the stream produced by above function
     setStream(generatedStream);
-  }, []);
+  }, [urls]);
+
+  // console.log(stream);
 
   const handlePlayClick = (event: MouseEvent<HTMLButtonElement>) => {
     const currentMixtape = stream[streamIndex];
+    console.log(currentMixtape)
     currentMixtape.play();
     setPlaying(true);
   };
