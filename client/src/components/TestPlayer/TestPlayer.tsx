@@ -1,4 +1,4 @@
-import { MouseEvent, useEffect, useState, useRef } from 'react';
+import React, { MouseEvent, useEffect, useState, useRef, useCallback } from 'react';
 import { Howl } from 'howler';
 
 
@@ -8,8 +8,8 @@ import { MdSkipNext } from 'react-icons/md';
 import { MdSkipPrevious } from 'react-icons/md';
 import { BiSolidVolumeMute } from 'react-icons/bi';
 import { GoUnmute } from 'react-icons/go';
-
 import './TestPlayer.css';
+import AudioWave from '../AudioWave/AudioWave';
 
 /* So actually the main error I'm getting with this is that the html5 audiopool is exhausted, and just found a stack overflow thread that talks
 about this error with Howler and suggested the solution is to do it using the native html audio tag, so could maybe try that unless someone else finds a solution */
@@ -35,6 +35,7 @@ const TestPlayer = () => {
   const [playing, setPlaying] = useState(false);
 
   const progressBarRef = useRef<HTMLInputElement>(null);
+
 
   useEffect(() => {
     // create stream array from mixTapes
@@ -191,9 +192,10 @@ const TestPlayer = () => {
   };
 
   return (
+    <>
     <div
       id="player"
-      className="w-full h-[100px] flex  fixed bottom-0 flex-row justify-center items-center"
+      className="w-full h-[100px] flex flex-col fixed bottom-0 flex-row justify-center items-center"
     >
       <div
         id="progress-bar"
@@ -274,6 +276,8 @@ const TestPlayer = () => {
         </div>
       </div>
     </div>
+    </>
+
   );
 };
 
