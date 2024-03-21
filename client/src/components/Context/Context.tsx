@@ -16,9 +16,11 @@ import { useNavigate } from 'react-router-dom';
 
 type MainContext = {
   user: User;
+  currentStream: string[];
   setUser: Dispatch<SetStateAction<User>>;
   setChannels: Dispatch<SetStateAction<ChannelType[]>>;
   setMixTapes: Dispatch<SetStateAction<MixTape[]>>;
+  setCurrentStream: Dispatch<SetStateAction<string[]>>;
 };
 
 export const initialStateUser = {
@@ -33,9 +35,11 @@ export const initialStateUser = {
 
 const initialContext = {
   user: initialStateUser,
+  currentStream: [],
   setUser: () => {},
   setChannels: () => {},
   setMixTapes: () => {},
+  setCurrentStream: () => {}
 };
 
 const MainContext = createContext<MainContext>(initialContext);
@@ -47,6 +51,7 @@ export default function ContextProvider({ children }: PropsWithChildren) {
   const [user, setUser] = useState<User>(initialStateUser);
   const [channels, setChannels] = useState<ChannelType[]>([]);
   const [mixTapes, setMixTapes] = useState<MixTape[]>([]);
+  const [currentStream, setCurrentStream] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -73,9 +78,11 @@ export default function ContextProvider({ children }: PropsWithChildren) {
     <MainContext.Provider
       value={{
         user: { ...user, channels, mixTapes },
+        currentStream,
         setUser,
         setChannels,
         setMixTapes,
+        setCurrentStream
       }}>
       {children}
     </MainContext.Provider>
