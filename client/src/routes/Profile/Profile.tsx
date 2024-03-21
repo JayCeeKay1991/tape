@@ -1,6 +1,7 @@
+
 import React from "react";
-import UserDetails from "../../components/UserDetails/UserDetails";
-export default function Profile(){
+import UserDetails from "@/components/UserDetails/UserDetails";
+const Profile = () => {
 
   return (
     <div className="w-full h-full bg-tapeBlack flex justify-center items-center">
@@ -8,3 +9,5 @@ export default function Profile(){
     </div>
   )
 }
+  
+ export default Profile;

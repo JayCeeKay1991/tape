@@ -8,10 +8,10 @@ import React, {
   useEffect,
 } from 'react';
 
-import { User } from '../../types/User';
-import { ChannelType } from '../../types/Channel';
-import { MixTape } from '../../types/Mixtape';
-import { getUserById } from '../../services/UserClientService';
+import { User } from '@/types/User';
+import { ChannelType } from '@/types/Channel';
+import { MixTape } from '@/types/Mixtape';
+import { getUserById } from '@/services/UserClientService';
 
 type MainContext = {
   user: User;
