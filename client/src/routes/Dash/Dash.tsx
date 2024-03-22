@@ -4,11 +4,15 @@ import AddChannelForm from '@/components/AddChannelForm/AddChannelForm';
 import ChannelItem from '@/components/ChannelItem/ChannelItem';
 import { getChannelsUserMemberOf } from '@/services/ChannelClientService';
 import { ChannelType } from '@/types/Channel';
+
+
 export default function Dash() {
   const { user, setChannels : setChannelList } = useMainContext();
   const channelList = user.channels;
   const [showForm, setShowForm] = useState(false);
   const [channels, setChannels] = useState<ChannelType[]>([]);
+
+
   useEffect(() => {
     // get all users to populate dropdown
     async function getAllChannels() {
@@ -20,6 +24,8 @@ export default function Dash() {
   const toggleAddForm = () => {
     setShowForm(!showForm);
   };
+
+
   return (
     <div
       id='channel-list-wrap'

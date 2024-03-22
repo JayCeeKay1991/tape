@@ -1,9 +1,9 @@
 
-import { Channel } from '@/types/Channel';
+import { ChannelType } from '@/types/Channel';
 import { useNavigate } from 'react-router';
 
 type ChannelItemProps = {
-  channel: Channel;
+  channel: ChannelType;
 };
 
 
