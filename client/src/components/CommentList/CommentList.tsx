@@ -40,10 +40,9 @@ function CommentList({ channel }: propsType) {
   //Sort comments based on select value
   const sortComments = (e: React.FormEvent<HTMLSelectElement>) => {
     const selectVal = (e.target as HTMLSelectElement).value;
-    const sortedComments = [...channel.comments].sort((a, b) => {
-      const dateA = a.date?.toString() || "";
-      const dateB = b.date?.toString() || "";
-
+    const sortedComments = [...comments].sort((a, b) => {
+      const dateA = a.date.toString();
+      const dateB = b.date.toString();
       if (selectVal === "latest") {
         return dateB.localeCompare(dateA);
       } else {
