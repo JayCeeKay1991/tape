@@ -19,12 +19,14 @@ type MainContext = {
   currentStreamUrls: string[];
   streamIndex: number;
   playing: boolean;
+  currentPlaybackTime: number;
   setUser: Dispatch<SetStateAction<User>>;
   setChannels: Dispatch<SetStateAction<ChannelType[]>>;
   setMixTapes: Dispatch<SetStateAction<MixTape[]>>;
   setCurrentStreamUrls: Dispatch<SetStateAction<string[]>>;
   setStreamIndex: Dispatch<SetStateAction<number>>;
   setPlaying: Dispatch<SetStateAction<boolean>>;
+  setCurrentPlaybackTime: Dispatch<SetStateAction<number>>;
 };
 
 export const initialStateUser = {
@@ -42,12 +44,14 @@ const initialContext = {
   currentStreamUrls: [],
   playing: false,
   streamIndex: 0,
+  currentPlaybackTime: 0,
   setUser: () => {},
   setChannels: () => {},
   setMixTapes: () => {},
   setCurrentStreamUrls: () => {},
   setPlaying: () => false,
-  setStreamIndex: () => 0
+  setStreamIndex: () => 0,
+  setCurrentPlaybackTime: () => 0
 };
 
 const MainContext = createContext<MainContext>(initialContext);
@@ -61,6 +65,8 @@ export default function ContextProvider({ children }: PropsWithChildren) {
   const [currentStreamUrls, setCurrentStreamUrls] = useState<string[]>([]);
   const [streamIndex, setStreamIndex] = useState<number>(0);
   const [playing, setPlaying] = useState<boolean>(false);
+  const [currentPlaybackTime, setCurrentPlaybackTime] = useState<number>(0);
+
 
 
   useEffect(() => {
@@ -96,7 +102,9 @@ export default function ContextProvider({ children }: PropsWithChildren) {
         streamIndex,
         setStreamIndex,
         playing,
-        setPlaying
+        setPlaying,
+        currentPlaybackTime,
+        setCurrentPlaybackTime
       }}>
       {children}
     </MainContext.Provider>

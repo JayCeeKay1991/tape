@@ -12,13 +12,11 @@ import { useMainContext } from '../Context/Context';
 
 
 const TestPlayer = () => {
-  const { currentStreamUrls, streamIndex, playing, setPlaying, setStreamIndex} = useMainContext()
+  const { currentStreamUrls, streamIndex, playing, setPlaying, setStreamIndex, setCurrentPlaybackTime} = useMainContext()
   // states
   const [stream, setStream] = useState<Howl[]>([]); // current stream, array of howls created in useeffect
-  //const [streamIndex, setStreamIndex] = useState<number>(0); // stores the index of current mixTape in stream
   const [muted, setMuted] = useState<boolean>(false); // flag for if player is muted
   const [audioDuration, setAudioDuration] = useState<number>(0);
-  //const [playing, setPlaying] = useState(false);
 
   // refs
   const durationRef = useRef<HTMLParagraphElement>(null); // ref to duration p element that will change
@@ -156,6 +154,7 @@ const TestPlayer = () => {
     const currentMixtape = stream[streamIndex];
     currentMixtape.seek(currentTimeState);
 
+    setCurrentPlaybackTime(currentTimeState);
     updateRangeValue(currentTimeState, audioDuration);
 
     if (durationRef.current) {
