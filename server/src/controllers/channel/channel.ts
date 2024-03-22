@@ -14,6 +14,14 @@ export const getChannel = async (req: Request, res: Response) => {
     .populate({
       path: "mixTapes",
       model: "MixTape"
+    }).populate({
+      path: "comments",
+      model: "Comments",
+      populate: [
+        {
+          path: "owner"
+        }
+      ]
     })
     if (!channel) {
       res.status(400).json('No channel with that id!')
