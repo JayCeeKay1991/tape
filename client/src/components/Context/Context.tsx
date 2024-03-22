@@ -13,17 +13,18 @@ import { ChannelType } from '@/types/Channel';
 import { MixTape } from '@/types/Mixtape';
 import { getUserById } from '@/services/UserClientService';
 import { useNavigate } from 'react-router-dom';
-import { Howl } from 'howler';
 
 type MainContext = {
   user: User;
   currentStreamUrls: string[];
   streamIndex: number;
+  playing: boolean;
   setUser: Dispatch<SetStateAction<User>>;
   setChannels: Dispatch<SetStateAction<ChannelType[]>>;
   setMixTapes: Dispatch<SetStateAction<MixTape[]>>;
   setCurrentStreamUrls: Dispatch<SetStateAction<string[]>>;
   setStreamIndex: Dispatch<SetStateAction<number>>;
+  setPlaying: Dispatch<SetStateAction<boolean>>;
 };
 
 export const initialStateUser = {
@@ -39,10 +40,14 @@ export const initialStateUser = {
 const initialContext = {
   user: initialStateUser,
   currentStreamUrls: [],
+  playing: false,
+  streamIndex: 0,
   setUser: () => {},
   setChannels: () => {},
   setMixTapes: () => {},
-  setCurrentStreamUrls: () => {}
+  setCurrentStreamUrls: () => {},
+  setPlaying: () => false,
+  setStreamIndex: () => 0
 };
 
 const MainContext = createContext<MainContext>(initialContext);
@@ -55,6 +60,7 @@ export default function ContextProvider({ children }: PropsWithChildren) {
   const [mixTapes, setMixTapes] = useState<MixTape[]>([]);
   const [currentStreamUrls, setCurrentStreamUrls] = useState<string[]>([]);
   const [streamIndex, setStreamIndex] = useState<number>(0);
+  const [playing, setPlaying] = useState<boolean>(false);
 
 
   useEffect(() => {
@@ -88,7 +94,9 @@ export default function ContextProvider({ children }: PropsWithChildren) {
         setMixTapes,
         setCurrentStreamUrls,
         streamIndex,
-        setStreamIndex
+        setStreamIndex,
+        playing,
+        setPlaying
       }}>
       {children}
     </MainContext.Provider>

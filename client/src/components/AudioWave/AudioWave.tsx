@@ -1,54 +1,67 @@
 import { useState, useRef, useEffect } from 'react';
-import { useWavesurfer } from '@wavesurfer/react'
 import { useMainContext } from '../Context/Context';
-
+import WaveSurfer from 'wavesurfer.js';
 
 
 // A React component that will render wavesurfer
 const AudioWave = () => {
-  const {currentStreamUrls, streamIndex} = useMainContext();
-  const [stream, setStream] = useState<Howl[]>([]);
-  //const [streamIndex, setStreamIndex] = useState<number>(0);
+  const { currentStreamUrls, streamIndex, playing } = useMainContext();
+  const waveContainerRef = useRef<HTMLDivElement | null>(null);
+  const [wavesurfer, setWavesurfer] = useState<WaveSurfer | null>(null);
 
-  const [playing, setPlaying] = useState(false);
-  const progressBarRef = useRef<HTMLInputElement>(null);
-
-  const { wavesurfer } = useWavesurfer({
-    container: progressBarRef,
-    height: 90,
-    waveColor: 'white',
-    progressColor: '#909090',
-    barGap: 5,
-    barRadius: 10,
-    barWidth: 6,
-    url: currentStreamUrls[streamIndex],
-  })
-
-
+  // Initialize Wavesurfer
   useEffect(() => {
-    // create stream array from mixTapes
-    const generateStream = () => {
-      const mixtapes: Howl[] = currentStreamUrls.map((mixtape) => {
-        // maps through urls and creates new howl obj for each mixtape url
-        return new Howl({
-          src: [mixtape],
-          html5: true
-        });
+    if (waveContainerRef.current) {
+      const ws = WaveSurfer.create({
+        container: waveContainerRef.current,
+        height: 110,
+        waveColor: 'white',
+        progressColor: '#909090',
+        barGap: 1,
       });
-      return mixtapes;
-    };
 
-    const generatedStream = generateStream();
-    // set the state to the stream produced by above function
-    setStream(generatedStream);
+      setWavesurfer(ws);
+
+      // Cleanup on component unmount
+      return () => {
+        ws.destroy();
+      };
+    }
   }, []);
 
+  // Load new track when the index or URLs change
+  useEffect(() => {
+    if (wavesurfer && currentStreamUrls[streamIndex]) {
+      wavesurfer.load(currentStreamUrls[streamIndex]);
+
+      const handleWaveReady = () => {
+        if (playing) {
+          wavesurfer.play();
+        }
+      };
+
+      // Play when ready
+      wavesurfer.on('ready', handleWaveReady);
+
+      // Cleanup event listener
+      return () => {
+        wavesurfer.un('ready', handleWaveReady);
+      };
+    }
+  }, [wavesurfer, currentStreamUrls, streamIndex, playing]);
+
+  // Play or pause based on playing state
+  useEffect(() => {
+    if (wavesurfer) {
+      playing ? wavesurfer.play() : wavesurfer.pause();
+    }
+  }, [playing, wavesurfer]);
 
   return (
-    <div id="wave" className="w-full h-[100px] absolute top-[250px] left-[300px] z-49" >
+    <div id="wave" className="w-full h-[100px] relative bottom-[100px] left-[300px] z-49" >
       <div
-      className='w-[600px] bg-tapePink'
-      ref={progressBarRef}>
+      className='w-[600px]'
+      ref={waveContainerRef}>
       </div>
     </div>
   )

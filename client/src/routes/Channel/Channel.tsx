@@ -63,7 +63,7 @@ const Channel = () => {
     retrieveChannel();
     retrieveAllUsers();
   }, []);
- 
+
 
   const handlePlayClick = () => {
     console.log('play clicked')
@@ -131,6 +131,7 @@ const Channel = () => {
               <GoPlus className="text-tapeWhite" size={30} />
             </button>
           </div>
+          <AudioWave></AudioWave>
         </div>
         {showMemberForm && (
           <AddMembersSelect channel={channel} setChannel={setChannel} />
