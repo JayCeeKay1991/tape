@@ -26,7 +26,7 @@ export function Nav({ toggleShowLogin, setFormValue }: propsType) {
             setFormValue('login');
           }}
           className='w-[130px] h-[60px] text-center ml-[100px] text-[24px] font-medium  text-tapeWhite hover:bg-tapeWhite hover:text-tapeBlack rounded-[10px] cursor-pointer flex flex-col justify-center'
-          id='login-toggle'>
+          data-testid='login-toggle'>
           Login
         </li>
       </ul>
