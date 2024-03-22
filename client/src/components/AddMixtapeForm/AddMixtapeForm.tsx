@@ -1,8 +1,9 @@
-import { useState, Dispatch, SetStateAction, useRef, MouseEvent, useEffect } from 'react';
+import { useState, Dispatch, SetStateAction, useRef, MouseEvent, useCallback } from 'react';
 import { CloudinaryRes, postMusicToCloudinary } from '../../services/CloudinaryService';
 import { createMixTape } from '../../services/MixtapeClientService';
 import { useMainContext } from '../Context/Context';
 import { ChannelType } from '../../types/Channel';
+import { useDropzone } from 'react-dropzone';
 import { PiUploadSimple } from "react-icons/pi";
 
 type AddMixtapeFormProps = {
@@ -12,15 +13,27 @@ type AddMixtapeFormProps = {
   setShowMixForm: Dispatch<SetStateAction<boolean>>;
 };
 
-const AddMixtapeForm = ({
-  channelId,
-  channel,
-  setChannel,
-  setShowMixForm,
-}: AddMixtapeFormProps) => {
+const AddMixtapeForm = ({ channelId, channel, setChannel, setShowMixForm, }: AddMixtapeFormProps) => {
   const { user } = useMainContext();
   const [uploading, setUploading] = useState(false);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+
+  const { getRootProps } = useDropzone({
+    maxFiles: 1,
+    onDrop: async (acceptedFiles) => {
+      if (acceptedFiles.length > 0) {
+        setSelectedFile(acceptedFiles[0]);
+        console.log(`File "${acceptedFiles[0].name}" dropped.`);
+        try {
+          await uploadMixTapeCloudinary(acceptedFiles[0]);
+        } catch (error) {
+          console.error("Error uploading mixtape:", error);
+        }
+      }
+    },
+  });
 
   // Handle choose file click
   const handleChooseFilesClick = (e: MouseEvent<HTMLButtonElement>) => {
@@ -32,18 +45,17 @@ const AddMixtapeForm = ({
   // Change handler for file selection
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      const mixTapeFile: File = e.target.files[0];
-      const name = mixTapeFile.name;
+      setSelectedFile(e.target.files[0])
       try {
-       await uploadMixTapeCloudinary(mixTapeFile, name); 
+        await uploadMixTapeCloudinary(selectedFile!);
       } catch (error) {
         console.error("Error uploading mixtape:", error);
       }
     }
   };
 
- // upload mixtape to Cloudinary
-  const  uploadMixTapeCloudinary = async (file: File, name: string) => {
+  // upload mixtape to Cloudinary
+  const uploadMixTapeCloudinary = async (file: File) => {
     if (!file) {
       console.error('Please select a file.');
       return;
@@ -79,7 +91,7 @@ const AddMixtapeForm = ({
     const onComplete = (response: CloudinaryRes) => {
       console.log('Upload complete response:', response);
       setUploading(false);
-      return addMixtape(response, name)
+      return addMixtape(response, selectedFile!.name)
     };
 
     const uploadNextChunk = (start: number, end: number) => {
@@ -96,8 +108,8 @@ const AddMixtapeForm = ({
     uploadNextChunk(0, Math.min(chunkSize, file.size));
   };
 
-   // add mixtape to db
-   const addMixtape = async (response: CloudinaryRes, name: string) => {
+  // add mixtape to db
+  const addMixtape = async (response: CloudinaryRes, name: string) => {
     try {
       const newMixtapeData = {
         name,
@@ -119,12 +131,17 @@ const AddMixtapeForm = ({
     }
   };
 
+
   return (
     <form
       className="inset-y-1/4 inset-x-1/3 z-50 text-tapeWhite flex flex-col w-72 gap-5 m-8 border-dashed border-tapeDarkGrey bg-tapeBlack border-[2px] rounded-[20px] w-[900px] h-[300px] p-[20px]"
     >
-      <div className='flex flex-col items-center'>
-        <PiUploadSimple size={120} className='text-tapeDarkGrey m-5' />
+      <div {...getRootProps()} className='flex flex-col items-center' >
+        <div>
+          <div>
+            <PiUploadSimple size={120} className='text-tapeDarkGrey m-5' />
+          </div>
+        </div>
         <p>Or</p>
         <button type='button' className='rounded-full border-[2px] border-tapeDarkGrey w-[150px] p-[5px] m-8' onClick={handleChooseFilesClick}>Choose files</button>
       </div>
@@ -133,6 +150,7 @@ const AddMixtapeForm = ({
       </input>
     </form>
   );
+
 };
 
 export default AddMixtapeForm;
