@@ -1,41 +1,44 @@
-import { useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // types
-import { User } from "@/types/User";
-import { ChannelType } from "@/types/Channel";
+import { User } from '@/types/User';
+import { ChannelType } from '@/types/Channel';
 // services
-import { getAllUsers } from "@/services/UserClientService";
-import { getChannel } from "@/services/ChannelClientService";
+import { getAllUsers } from '@/services/UserClientService';
+import { getChannel, deleteChannel } from '@/services/ChannelClientService';
 // components
-import TestPlayer from "@/components/TestPlayer/TestPlayer";
-import { useMainContext } from "@/components/Context/Context";
-import AddMembersSelect from "@/components/AddMembersSelect/AddMembersSelect";
-import AddMixtapeForm from "@/components/AddMixtapeForm/AddMixtapeForm";
-import CommentList from "@/components/CommentList/CommentList";
+import TestPlayer from '@/components/TestPlayer/TestPlayer';
+import { useMainContext } from '@/components/Context/Context';
+import AddMembersSelect from '@/components/AddMembersSelect/AddMembersSelect';
+import AddMixtapeForm from '@/components/AddMixtapeForm/AddMixtapeForm';
+import CommentList from '@/components/CommentList/CommentList';
 // styling
-import { MdPlayArrow } from "react-icons/md";
+import { MdPlayArrow } from 'react-icons/md';
 
-import AudioWave from "@/components/AudioWave/AudioWave";
+import AudioWave from '@/components/AudioWave/AudioWave';
 
-import { GoPlus } from "react-icons/go";
+import { GoPlus } from 'react-icons/go';
 // import AudioWave from "@/components/AudioWave/AudioWave";
 
 // utils
-import { extractStreamUrls } from "@/utils/extractStreamUrls";
-
+import { extractStreamUrls } from '@/utils/extractStreamUrls';
+import { response } from 'express';
+import { channels } from '@/test/mocks';
 
 const Channel = () => {
-  const { user, setCurrentStreamUrls } = useMainContext();
+  const { user, setCurrentStreamUrls, setUser } = useMainContext();
   const location = useLocation();
   const [channel, setChannel] = useState<ChannelType>(location.state.channel);
   const [showMixForm, setShowMixForm] = useState(false);
   const [showMemberForm, setShowMemberForm] = useState(false);
   const [isCommentsOpen, setIsCommentsOpen] = useState(true);
 
+  const navigateTo = useNavigate();
 
   const initialState = {
-    name: "",
-    url: "",
+    name: '',
+    url: '',
     duration: 0,
     creator: user,
     parentChannel: channel,
@@ -43,13 +46,14 @@ const Channel = () => {
     users: [],
   };
   const [users, setUsers] = useState<User[]>(initialState.users);
+
   useEffect(() => {
     async function retrieveAllUsers() {
       try {
         const allUsers = await getAllUsers();
         setUsers(allUsers);
       } catch (error) {
-        console.error("error getting all users");
+        console.error('error getting all users');
       }
     }
     async function retrieveChannel() {
@@ -57,20 +61,19 @@ const Channel = () => {
         const channel = await getChannel(initialState.parentChannel._id);
         setChannel(channel);
       } catch (error) {
-        console.error("error getting channel");
+        console.error('error getting channel');
       }
     }
     retrieveChannel();
     retrieveAllUsers();
   }, []);
 
-
   const handlePlayClick = () => {
-    console.log('play clicked')
-    const channelUrls = extractStreamUrls(channel.mixTapes)
+    console.log('play clicked');
+    const channelUrls = extractStreamUrls(channel.mixTapes);
     setCurrentStreamUrls(channelUrls);
-    console.log(channelUrls)
-  }
+    console.log(channelUrls);
+  };
 
   const toggleMemberForm = () => {
     setShowMemberForm(!showMemberForm);
@@ -79,10 +82,22 @@ const Channel = () => {
 
   const toggleComments = () => {
     if (isCommentsOpen === true) {
-      setIsCommentsOpen(false)
+      setIsCommentsOpen(false);
     } else {
-      setIsCommentsOpen(true)
+      setIsCommentsOpen(true);
     }
+  };
+
+  const handleDelete = async () => {
+    await deleteChannel(channel._id);
+
+    // update the dashboard
+    setUser((prevList) => ({
+      ...prevList,
+      channels: prevList.channels.filter((el) => el._id !== channel._id),
+    }));
+
+    navigateTo('/dash');
   };
 
   return (
@@ -93,7 +108,11 @@ const Channel = () => {
       >
         <div id="channel-info" className="w-2/5 text-xl">
           <div className="flex flex-row">
-            <MdPlayArrow size={70} onClick={handlePlayClick} className="cursor-pointer"/>
+            <MdPlayArrow
+              size={70}
+              onClick={handlePlayClick}
+              className="cursor-pointer"
+            />
             <div className="flex flex-col">
               <h1 className="text-[55px] font-medium mb-[20px]">
                 {channel.name}
@@ -102,16 +121,16 @@ const Channel = () => {
                 <p className="mr-[20px] font-medium">
                   {channel.mixTapes.length
                     ? `${channel.mixTapes.length} mixtape${
-                        channel.mixTapes.length === 1 ? "" : "s"
+                        channel.mixTapes.length === 1 ? '' : 's'
                       }`
-                    : "0 mixtapes"}
+                    : '0 mixtapes'}
                 </p>
                 <p className="font-medium">
                   {channel.members.length
                     ? `${channel.members.length} member${
-                        channel.members.length === 1 ? "" : "s"
+                        channel.members.length === 1 ? '' : 's'
                       }`
-                    : "0 members"}
+                    : '0 members'}
                 </p>
               </div>
             </div>
@@ -127,7 +146,10 @@ const Channel = () => {
                 </div>
               );
             })}
-            <button className="w-[80px] h-[80px] flex flex-row justify-center items-center bg-tapeBlack rounded-full border-tapePink border-[2px] -ml-[30px]" onClick={toggleMemberForm}>
+            <button
+              className="w-[80px] h-[80px] flex flex-row justify-center items-center bg-tapeBlack rounded-full border-tapePink border-[2px] -ml-[30px]"
+              onClick={toggleMemberForm}
+            >
               <GoPlus className="text-tapeWhite" size={30} />
             </button>
           </div>
@@ -154,6 +176,12 @@ const Channel = () => {
                 onClick={toggleComments}
               >
                 Uploads
+              </button>
+              <button
+                className="border-none mr-[40px] text-[20px] text-tapeDarkGrey hover:text-tapeWhite"
+                onClick={handleDelete}
+              >
+                Delete Channel
               </button>
             </>
           ) : (

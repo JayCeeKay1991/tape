@@ -21,6 +21,7 @@ export const getChannel = async (req: Request, res: Response) => {
   try {
     const channel = await ChannelModel.findById(channelId)
       .populate({
+
         path: "members",
         model: "User",
       })
@@ -34,6 +35,7 @@ export const getChannel = async (req: Request, res: Response) => {
         populate: [
           {
             path: "owner",
+
           },
         ],
       });
@@ -130,14 +132,19 @@ export const deleteChannel = async (req: Request, res: Response) => {
     if (!deletedChannel) {
       return res.status(404).json({ error: "Channel not found" });
     }
-    await mongoose
-      .model("User")
-      .updateOne(
-        { _id: deletedChannel.owner },
-        { $pull: { channels: channelId } }
-      );
 
-    res.status(204).json({ msg: "success, the item deleted" });
+    if (deletedChannel) {
+      await mongoose
+        .model('User')
+        .updateOne(
+          { _id: deletedChannel.owner },
+          { $pull: { channels: channelId } }
+        );
+    }
+
+    res.status(204).json({ msg: 'Channel deleted' });
+    return;
+
   } catch (error) {
     res.status(500).json({
       error: "An unexpected error occurred while deleting the channel",
