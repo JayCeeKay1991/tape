@@ -8,10 +8,10 @@ import { ChannelType } from '@/types/Channel';
 import { getAllUsers } from '@/services/UserClientService';
 import { getChannel, deleteChannel } from '@/services/ChannelClientService';
 // components
-import { useMainContext } from "@/components/Context/Context";
-import AddMembersSelect from "@/components/AddMembersSelect/AddMembersSelect";
-import AddMixtapeForm from "@/components/AddMixtapeForm/AddMixtapeForm";
-import CommentList from "@/components/CommentList/CommentList";
+import { useMainContext } from '@/components/Context/Context';
+import AddMembersSelect from '@/components/AddMembersSelect/AddMembersSelect';
+import AddMixtapeForm from '@/components/AddMixtapeForm/AddMixtapeForm';
+import CommentList from '@/components/CommentList/CommentList';
 
 // styling
 import { MdPlayArrow } from 'react-icons/md';
@@ -19,6 +19,8 @@ import AudioWave from '@/components/AudioWave/AudioWave';
 import { GoPlus } from 'react-icons/go';
 // utils
 import { extractStreamUrls } from '@/utils/extractStreamUrls';
+
+import ConfirmationDialog from '@/utils/ConfirmationDialog';
 
 const Channel = () => {
   const { user, setCurrentStreamUrls, setUser } = useMainContext();
@@ -28,6 +30,8 @@ const Channel = () => {
   const [showMemberForm, setShowMemberForm] = useState(false);
   const [isCommentsOpen, setIsCommentsOpen] = useState(true);
   const [users, setUsers] = useState<User[]>([]);
+  const [showConfirmation, setShowConfirmation] = useState(false);
+
   const navigateTo = useNavigate();
 
   useEffect(() => {
@@ -52,12 +56,11 @@ const Channel = () => {
   }, []);
 
   const handlePlayClick = () => {
-    console.log('play clicked')
+    console.log('play clicked');
     const channelUrls = extractStreamUrls(channel.mixTapes);
     setCurrentStreamUrls(channelUrls);
     console.log(channelUrls);
-  }
-
+  };
 
   const toggleMemberForm = () => {
     setShowMemberForm(!showMemberForm);
@@ -72,7 +75,14 @@ const Channel = () => {
     }
   };
 
-  const handleDelete = async () => {
+  // Asks for a confirmation
+  const handleDelete = () => {
+    // Show confirmation dialog when delete button is clicked
+    setShowConfirmation(true);
+  };
+
+  // Deleting after confirmation
+  const handleConfirmDelete = async () => {
     await deleteChannel(channel._id);
 
     // update the dashboard
@@ -164,8 +174,15 @@ const Channel = () => {
                 className="border-none mr-[40px] text-[20px] text-tapeDarkGrey hover:text-tapeWhite"
                 onClick={handleDelete}
               >
-                Delete Channel
+                Delete
               </button>
+              {showConfirmation && (
+                <ConfirmationDialog
+                  isOpen={showConfirmation}
+                  onCancel={() => setShowConfirmation(false)}
+                  onConfirm={handleConfirmDelete}
+                />
+              )}
             </>
           ) : (
             <>
