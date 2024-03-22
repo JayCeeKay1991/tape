@@ -18,20 +18,13 @@ import { GoPlus } from "react-icons/go";
 // import AudioWave from "@/components/AudioWave/AudioWave";
 // utils
 import { extractStreamUrls } from "@/utils/extractStreamUrls";
-
 const Channel = () => {
-  const { user, setCurrentStreamUrls, currentStreamUrls } = useMainContext();
+  const { user } = useMainContext();
   const location = useLocation();
   const [channel, setChannel] = useState<ChannelType>(location.state.channel);
   const [showMixForm, setShowMixForm] = useState(false);
   const [showMemberForm, setShowMemberForm] = useState(false);
-
   const [isCommentsOpen, setIsCommentsOpen] = useState(true);
-
-  const [currentUrls, setCurrentUrls] = useState<string[]>([])
-
-
-
   const initialState = {
     name: "",
     url: "",
@@ -41,9 +34,7 @@ const Channel = () => {
     channels: [],
     users: [],
   };
-
   const [users, setUsers] = useState<User[]>(initialState.users);
-
   useEffect(() => {
     async function retrieveAllUsers() {
       try {
@@ -64,33 +55,24 @@ const Channel = () => {
     retrieveChannel();
     retrieveAllUsers();
   }, []);
-
-
-
-  const handlePlayClick = () => {
-    const channelUrls = extractStreamUrls(channel.mixTapes)
-    setCurrentStreamUrls(channelUrls);
-  }
-
-
-
+  // Generate stream from mixtape urls
+  const currentStream = extractStreamUrls(channel.mixTapes);
   const toggleMixForm = () => {
     setShowMixForm(!showMixForm);
     setShowMemberForm(false);
-	};
-
+  };
   const toggleMemberForm = () => {
     setShowMemberForm(!showMemberForm);
     setShowMixForm(false);
   };
-
-	const toggleComments = () => {
-		if (isCommentsOpen === true) {
-			setIsCommentsOpen(false)
-		} else {
-			setIsCommentsOpen(true)
-		}
-	};
+  const toggleComments = () => {
+    if (isCommentsOpen === true) {
+      setIsCommentsOpen(false)
+    } else {
+      setIsCommentsOpen(true)
+    }
+  };
+  console.log(channel.members)
   return (
     <div id="channel" className="flex flex-col items-center">
       <div
@@ -135,19 +117,15 @@ const Channel = () => {
             })}
             <button className="w-[80px] h-[80px] flex flex-row justify-center items-center bg-tapeBlack rounded-full border-tapePink border-[2px] -ml-[30px]" onClick={toggleMemberForm}>
               <GoPlus className="text-tapeWhite" size={30} />
-
             </button>
           </div>
         </div>
-
         {showMemberForm && (
           <AddMembersSelect channel={channel} setChannel={setChannel} />
         )}
         {/* <AudioWave/> */}
         <img src={channel.picture} className="w-48 rounded-2xl object-cover" />
       </div>
-
-
       <div className="w-full h-[100px] pl-[50px] pr-[50px] flex flex-col items-start">
         <div className="flex flex-row">
           {isCommentsOpen ? (
@@ -184,11 +162,9 @@ const Channel = () => {
         </div>
         <hr className="w-full mt-[20px] border-tapeDarkGrey"></hr>
       </div>
-
       {isCommentsOpen ? (
         <CommentList channel={channel} setChannel={setChannel} />
       ) : (
-
         <AddMixtapeForm
           channelId={channel._id}
           channel={channel}
@@ -196,11 +172,8 @@ const Channel = () => {
           setShowMixForm={setShowMixForm}
         />
       )}
-
       <TestPlayer urls={currentStream} />
-
     </div>
   );
 };
-
 export default Channel;
