@@ -58,7 +58,6 @@ function CommentList({ channel }: propsType) {
     setComments(sortedComments);
   };
 
-
   return (
     <div className="flex flex-col items-center w-full">
       <div
@@ -89,7 +88,7 @@ function CommentList({ channel }: propsType) {
         <form className="w-[200px]">
           <select
             id="underline_select"
-            className="block px-0 w-full text-[20px] text-tapeDarkGrey bg-tapeBlack border-0 border-b-2 border-tapeDarkGrey appearance-none dark:text-tapeDarkGrey dark:border-tapeGrey focus:outline-none focus:ring-0 focus:border-tapeGrey peer"
+            className="block px-0 w-full text-[20px] text-tapeDarkGrey bg-tapeBlack border-0 border-b-[1px] border-tapeDarkGrey appearance-none dark:text-tapeDarkGrey dark:border-tapeGrey focus:outline-none focus:ring-0 focus:border-tapeGrey peer"
             defaultValue="latest"
             onChange={sortComments}
           >

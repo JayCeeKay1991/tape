@@ -59,7 +59,7 @@ const Channel = () => {
     retrieveChannel();
     retrieveAllUsers();
   }, []);
- 
+
 
   const handlePlayClick = () => {
     console.log('play clicked')
@@ -171,7 +171,7 @@ const Channel = () => {
         <hr className="w-full mt-[20px] border-tapeDarkGrey"></hr>
       </div>
       {isCommentsOpen ? (
-        <CommentList channel={channel} setChannel={setChannel} />
+        <CommentList channel={channel} />
       ) : (
         <AddMixtapeForm
           channelId={channel._id}
