@@ -7,23 +7,24 @@ import mongoose from 'mongoose';
 export const getChannel = async (req: Request, res: Response) => {
   const channelId = req.params.channelId;
   try {
-
-    const channel = await ChannelModel.findById(channelId).populate({
-      path: "members",
-      model: "User"
-    })
-    .populate({
-      path: "mixTapes",
-      model: "MixTape"
-    }).populate({
-      path: "comments",
-      model: "Comments",
-      populate: [
-        {
-          path: "owner"
-        }
-      ]
-    })
+    const channel = await ChannelModel.findById(channelId)
+      .populate({
+        path: 'members',
+        model: 'User',
+      })
+      .populate({
+        path: 'mixTapes',
+        model: 'MixTape',
+      })
+      .populate({
+        path: 'comments',
+        model: 'Comments',
+        populate: [
+          {
+            path: 'owner',
+          },
+        ],
+      });
 
     if (!channel) {
       res.status(400).json('No channel with that id!');
@@ -117,14 +118,18 @@ export const deleteChannel = async (req: Request, res: Response) => {
     if (!deletedChannel) {
       return res.status(404).json({ error: 'Channel not found' });
     }
-    await mongoose
-      .model('User')
-      .updateOne(
-        { _id: deletedChannel.owner },
-        { $pull: { channels: channelId } }
-      );
 
-    res.status(204).json({ msg: 'success, the item deleted' });
+    if (deletedChannel) {
+      await mongoose
+        .model('User')
+        .updateOne(
+          { _id: deletedChannel.owner },
+          { $pull: { channels: channelId } }
+        );
+    }
+
+    res.status(204).json({ msg: 'Channel deleted' });
+    return;
   } catch (error) {
     res.status(500).json({
       error: 'An unexpected error occurred while deleting the channel',
