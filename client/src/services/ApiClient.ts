@@ -3,7 +3,7 @@ const BASEURL = import.meta.env.VITE_SERVER || 'http://localhost:3001';
 export async function apiClient<T>(
   endpoint: string,
   method: string = 'GET', // Defaults to GET method
-  body?: Record<string, string | number> // optional param for body currently only accepts, string or number as value
+  body?: Record<string, string | number> | { [key: string]: any }
 ): Promise<T> {
   const options: RequestInit = {
     method,
