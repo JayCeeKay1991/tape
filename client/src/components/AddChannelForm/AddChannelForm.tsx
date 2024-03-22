@@ -5,6 +5,21 @@ import { createChannel } from '@/services/ChannelClientService';
 import { postImageToCloudinary } from '@/services/CloudinaryService';
 
 type FormValues = Omit<ChannelType, '_id'>;
+
+type FormValuesAddChannel = {
+  name: string;
+  // file: File | null;
+  picture: string;
+};
+
+const initialStateFormValuesAddChannel = {
+  name: '',
+  // file: null,
+  picture: '',
+};
+
+type ChannelData = Omit<ChannelType, '_id'>;
+
 type propsType = {
   setShowForm: Dispatch<SetStateAction<boolean>>;
   setChannelList: Dispatch<SetStateAction<ChannelType[]>>;
@@ -27,12 +42,15 @@ export default function AddChannelForm({
 
   const [formValues, setFormValues] = useState<FormValues>(initialState);
   const [pictureFile, setPictureFile] = useState<File | null>(null);
+  const [FormValuesAddChannel, setFormValuesAddChannel] =
+    useState<FormValuesAddChannel>(initialStateFormValuesAddChannel);
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, files } = e.target;
     if (type === 'file' && files) {
       setPictureFile(files[0]); // Set the image file
-    } else setFormValues({ ...formValues, [name]: value });
+      // } else setFormValues({ ...formValues, [name]: value });
+    } else setFormValuesAddChannel({ ...FormValuesAddChannel, [name]: value });
   };
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -49,20 +67,33 @@ export default function AddChannelForm({
       }
     }
 
-    console.log(formValues);
+    console.log(FormValuesAddChannel);
 
-    const newChannelData: Omit<ChannelType, '_id'> = {
-      ...formValues,
+    // const newChannelData: Omit<ChannelType, '_id'> = {
+    //   ...formValues,
+    //   picture: pictureUrl,
+    //   //member:1, as the owner or user herself
+    //   members: [user],
+    // };
+
+    const newChannelData: ChannelData = {
+      // ...formValues,
+      ...FormValuesAddChannel,
+      owner: user,
       picture: pictureUrl,
-      //member:1, as the owner or user herself
       members: [user],
+      mixTapes: [],
+      comments: [],
     };
+
+    console.log(newChannelData);
 
     try {
       const newChannel = await createChannel(newChannelData);
       console.log(newChannel);
       setChannelList((prevList: ChannelType[]) => [...prevList, newChannel]);
-      setFormValues(initialState);
+      // setFormValues(initialState);
+      setFormValuesAddChannel(initialStateFormValuesAddChannel);
       setShowForm(false);
       setPictureFile(null);
     } catch (error) {
@@ -75,7 +106,7 @@ export default function AddChannelForm({
       <h1>Create a new channel</h1>
       <input
         name="name"
-        value={formValues.name}
+        value={FormValuesAddChannel.name}
         type="text"
         onChange={changeHandler}
         placeholder="name"
@@ -83,7 +114,7 @@ export default function AddChannelForm({
       ></input>
       <input
         name="picture"
-        value={formValues.picture}
+        value={FormValuesAddChannel.picture}
         type="file"
         onChange={changeHandler}
       ></input>

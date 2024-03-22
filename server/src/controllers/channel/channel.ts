@@ -1,10 +1,10 @@
 import { Request, Response } from 'express';
-import ChannelModel from '../../models/channel';
+import ChannelModel, { ChannelType } from '../../models/channel';
 import UserModel from '../../models/user';
 import CommentsModel from '../../models/comments';
+import mongoose from 'mongoose';
 
 export const getChannel = async (req: Request, res: Response) => {
-  console.log('TRYING TO GET CHANNEL');
   const channelId = req.params.channelId;
   try {
     const channel = await ChannelModel.findById(channelId)
@@ -29,31 +29,14 @@ export const getChannel = async (req: Request, res: Response) => {
 
 export const createChannel = async (req: Request, res: Response) => {
   try {
-    const { name, picture, owner, members, mixTapes } = req.body;
-
-    const ownerId = owner._id.toString();
-    const newChannel = new ChannelModel({
-      name: name,
-      picture: picture || '',
-      owner: ownerId || '',
-      members: members || [],
-      mixTapes: mixTapes || [],
-    });
+    console.log(req.body);
+    const newChannel = new ChannelModel<ChannelType>(req.body);
+    console.log(newChannel);
     const savedChannel = await newChannel.save();
-
-    // update the user
-    const user = await UserModel.findOneAndUpdate(
-      { _id: ownerId },
-      { $push: { channels: savedChannel._id } },
-      { new: true }
-    ).orFail(new Error('User not found in db'));
-
-    res.send(savedChannel);
-    res.status(201);
+    res.status(201).json(savedChannel);
   } catch (error) {
     console.error(error);
-    res.status(500);
-    res.send({ message: 'Could not create channel.' });
+    res.status(500).json({ error: 'Could not create channel.' });
   }
 };
 
@@ -112,5 +95,32 @@ export const addComment = async (req: Request, res: Response) => {
   } catch (error) {
     console.error(error);
     res.status(500).json(`Error adding comment`);
+  }
+};
+
+// DELETE CHANNEL
+export const deleteChannel = async (req: Request, res: Response) => {
+  try {
+    const channelId = req.params.channelId;
+
+    const deletedChannel = await ChannelModel.findOneAndDelete({
+      _id: channelId,
+    });
+
+    if (!deletedChannel) {
+      return res.status(404).json({ error: 'Channel not found' });
+    }
+    await mongoose
+      .model('User')
+      .updateOne(
+        { _id: deletedChannel.owner },
+        { $pull: { channels: channelId } }
+      );
+
+    res.status(204).json({ msg: 'success, the item deleted' });
+  } catch (error) {
+    res.status(500).json({
+      error: 'An unexpected error occurred while deleting the channel',
+    });
   }
 };
