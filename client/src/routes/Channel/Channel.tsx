@@ -26,6 +26,8 @@ import { extractStreamUrls } from '@/utils/extractStreamUrls';
 import { response } from 'express';
 import { channels } from '@/test/mocks';
 
+import ConfirmationDialog from '@/utils/ConfirmationDialog';
+
 const Channel = () => {
   const { user, setCurrentStreamUrls, setUser } = useMainContext();
   const location = useLocation();
@@ -33,6 +35,7 @@ const Channel = () => {
   const [showMixForm, setShowMixForm] = useState(false);
   const [showMemberForm, setShowMemberForm] = useState(false);
   const [isCommentsOpen, setIsCommentsOpen] = useState(true);
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
   const navigateTo = useNavigate();
 
@@ -88,7 +91,14 @@ const Channel = () => {
     }
   };
 
-  const handleDelete = async () => {
+  // Asks for a confirmation
+  const handleDelete = () => {
+    // Show confirmation dialog when delete button is clicked
+    setShowConfirmation(true);
+  };
+
+  // Deleting after confirmation
+  const handleConfirmDelete = async () => {
     await deleteChannel(channel._id);
 
     // update the dashboard
@@ -181,8 +191,15 @@ const Channel = () => {
                 className="border-none mr-[40px] text-[20px] text-tapeDarkGrey hover:text-tapeWhite"
                 onClick={handleDelete}
               >
-                Delete Channel
+                Delete
               </button>
+              {showConfirmation && (
+                <ConfirmationDialog
+                  isOpen={showConfirmation}
+                  onCancel={() => setShowConfirmation(false)}
+                  onConfirm={handleConfirmDelete}
+                />
+              )}
             </>
           ) : (
             <>
