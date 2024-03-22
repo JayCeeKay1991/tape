@@ -17,8 +17,6 @@ const AudioWave = () => {
         waveColor: 'white',
         progressColor: '#909090',
         barGap: 1,
-
-
       });
       setWavesurfer(ws);
     }
@@ -34,16 +32,11 @@ const AudioWave = () => {
     }
   }, [wavesurfer, currentStreamUrls, streamIndex]);
 
-  useEffect(() => {
-    if (wavesurfer) {
-      playing ? wavesurfer.play() : wavesurfer.pause();
-    }
-  }, [playing, wavesurfer]);
 
   useEffect(() => {
     if (wavesurfer && typeof currentPlaybackTime === 'number') {
       const duration = wavesurfer.getDuration();
-      if (duration > 0) { // Ensure duration is greater than 0
+      if (duration > 0) {
         const seekTo = currentPlaybackTime / duration;
         wavesurfer.seekTo(seekTo);
       }
@@ -51,7 +44,7 @@ const AudioWave = () => {
   }, [currentPlaybackTime, wavesurfer]);
 
   return (
-    <div id="wave" className="w-full h-[100px] relative bottom-[200px] left-[300px] z-49" >
+    <div id="wave" className="w-full h-[100px] relative bottom-[200px] left-[300px] z-49" style={{pointerEvents: 'none'}}>
       <div
       className='w-[600px]'
       ref={waveContainerRef}>

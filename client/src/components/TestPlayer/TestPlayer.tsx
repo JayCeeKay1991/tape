@@ -12,7 +12,7 @@ import { useMainContext } from '../Context/Context';
 
 
 const TestPlayer = () => {
-  const { currentStreamUrls, streamIndex, playing, setPlaying, setStreamIndex, setCurrentPlaybackTime} = useMainContext()
+  const { currentStreamUrls, playing, setPlaying, streamIndex, setStreamIndex, setCurrentPlaybackTime} = useMainContext()
   // states
   const [stream, setStream] = useState<Howl[]>([]); // current stream, array of howls created in useeffect
   const [muted, setMuted] = useState<boolean>(false); // flag for if player is muted
@@ -25,17 +25,34 @@ const TestPlayer = () => {
 
   useEffect(() => {
     const generatedStream = generateStream(currentStreamUrls);
-    // setCurrentStream(generatedStream)
     setStream(generatedStream);
   }, [currentStreamUrls]);
 
+  useEffect(() => {
+    // Play the current track whenever streamIndex changes
+    if (stream[streamIndex]) {
+      stream[streamIndex].play();
+      setPlaying(true); // Ensure global playing state is set to true
+    }
+  }, [streamIndex]);
+
+
   // create stream array from mixTapes
   const generateStream = (urls: string[]) => {
-    const mixtapes: Howl[] = urls.map((mixtape) => {
+    const mixtapes: Howl[] = urls.map((mixtape, index) => {
       // maps through urls and creates new howl obj for each mixtape url
       return new Howl({
         src: [mixtape],
         html5: true,
+        onend: function (this: Howl) {
+          console.log("Song ended");
+          let nextIndex = index + 1;
+          if (nextIndex >= urls.length) {
+            nextIndex = 0; // Loop back to the first song
+          }
+          // Update state to trigger the next song to play
+          setStreamIndex(nextIndex);
+        },
         onplay: function (this: Howl) {
           // defines callback function that runs onplay, must be function needs explicit this
 
@@ -75,6 +92,7 @@ const TestPlayer = () => {
   };
 
 
+
   const handlePlayClick = () => {
     const currentMixtape = stream[streamIndex];
     currentMixtape.play();
@@ -90,6 +108,7 @@ const TestPlayer = () => {
   // Handle click Navigation parent function for next and previous
   const handleClickNavigation = (newIndex: number) => {
     setStreamIndex(newIndex);
+    setCurrentPlaybackTime(0);
     const newMixtape = stream[newIndex];
     newMixtape.play();
     setPlaying(true);
@@ -153,7 +172,6 @@ const TestPlayer = () => {
     const currentTimeState = parseFloat(event.target.value);
     const currentMixtape = stream[streamIndex];
     currentMixtape.seek(currentTimeState);
-
     setCurrentPlaybackTime(currentTimeState);
     updateRangeValue(currentTimeState, audioDuration);
 

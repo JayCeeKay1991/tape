@@ -8,23 +8,17 @@ import { ChannelType } from '@/types/Channel';
 import { getAllUsers } from '@/services/UserClientService';
 import { getChannel, deleteChannel } from '@/services/ChannelClientService';
 // components
-import TestPlayer from '@/components/TestPlayer/TestPlayer';
 import { useMainContext } from '@/components/Context/Context';
 import AddMembersSelect from '@/components/AddMembersSelect/AddMembersSelect';
 import AddMixtapeForm from '@/components/AddMixtapeForm/AddMixtapeForm';
 import CommentList from '@/components/CommentList/CommentList';
+
 // styling
 import { MdPlayArrow } from 'react-icons/md';
-
 import AudioWave from '@/components/AudioWave/AudioWave';
-
 import { GoPlus } from 'react-icons/go';
-// import AudioWave from "@/components/AudioWave/AudioWave";
-
 // utils
 import { extractStreamUrls } from '@/utils/extractStreamUrls';
-import { response } from 'express';
-import { channels } from '@/test/mocks';
 
 import ConfirmationDialog from '@/utils/ConfirmationDialog';
 
@@ -35,20 +29,10 @@ const Channel = () => {
   const [showMixForm, setShowMixForm] = useState(false);
   const [showMemberForm, setShowMemberForm] = useState(false);
   const [isCommentsOpen, setIsCommentsOpen] = useState(true);
+  const [users, setUsers] = useState<User[]>([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   const navigateTo = useNavigate();
-
-  const initialState = {
-    name: '',
-    url: '',
-    duration: 0,
-    creator: user,
-    parentChannel: channel,
-    channels: [],
-    users: [],
-  };
-  const [users, setUsers] = useState<User[]>(initialState.users);
 
   useEffect(() => {
     async function retrieveAllUsers() {
@@ -61,8 +45,8 @@ const Channel = () => {
     }
     async function retrieveChannel() {
       try {
-        const channel = await getChannel(initialState.parentChannel._id);
-        setChannel(channel);
+        const channelData = await getChannel(channel._id);
+        setChannel(channelData);
       } catch (error) {
         console.error('error getting channel');
       }
@@ -168,7 +152,6 @@ const Channel = () => {
         {showMemberForm && (
           <AddMembersSelect channel={channel} setChannel={setChannel} />
         )}
-        {/* <AudioWave/> */}
         <img src={channel.picture} className="w-48 rounded-2xl object-cover" />
       </div>
       <div className="w-full h-[100px] pl-[50px] pr-[50px] flex flex-col items-start">
