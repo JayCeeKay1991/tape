@@ -4,26 +4,21 @@ import { ChannelType } from "../../types/Channel";
 import { CommentsType } from "@/types/Comments";
 import { addComment } from "../../services/ChannelClientService";
 import { FiSend } from "react-icons/fi";
+import { useMainContext } from "../Context/Context";
 
 type propsType = {
   channel: ChannelType;
 };
 
 function CommentList({ channel }: propsType) {
-  // Form state
+  const { user, setUser } = useMainContext();
   const [formValue, setFormValue] = useState<string>("");
-  // Local comments state
-  const [comments, setComments] = useState<CommentsType[]>([]);
+  const [comments, setComments] = useState<CommentsType[]>(channel.comments);
 
+  // Set and sort comments
   useEffect(() => {
-    if (channel.comments) {
-      setComments(channel.comments);
-      const sortedComments = [...channel.comments].sort((a, b) =>
-        (b.date?.toString() || "").localeCompare(a.date?.toString() || "")
-      );
-      setComments(sortedComments);
-    }
-  }, [channel.comments]);
+    setComments(channel.comments);
+  }, [channel]);
 
   // Handle comments form change
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -38,7 +33,7 @@ function CommentList({ channel }: propsType) {
     const message = formValue;
     const newComment = { owner, message, date };
     await addComment(channel._id, newComment);
-    setComments([...comments, newComment])
+    setComments([...comments, { ...newComment, owner: user }]);
     setFormValue("");
   };
 
@@ -106,7 +101,7 @@ function CommentList({ channel }: propsType) {
             </p>
           </div>
           {comments.map((comment, index) => (
-            <Comment key={index} comment={comment} />
+            <Comment key={index} comment={comment} user={user} />
           ))}
         </div>
       ) : (
