@@ -22,6 +22,7 @@ export default function AddChannelForm({
     owner: user,
     members: [],
     mixTapes: [],
+    comments: [],
   };
 
   const [formValues, setFormValues] = useState<FormValues>(initialState);
@@ -48,13 +49,18 @@ export default function AddChannelForm({
       }
     }
 
+    console.log(formValues);
+
     const newChannelData: Omit<ChannelType, '_id'> = {
       ...formValues,
       picture: pictureUrl,
+      //member:1, as the owner or user herself
+      members: [user],
     };
 
     try {
       const newChannel = await createChannel(newChannelData);
+      console.log(newChannel);
       setChannelList((prevList: ChannelType[]) => [...prevList, newChannel]);
       setFormValues(initialState);
       setShowForm(false);
@@ -65,24 +71,27 @@ export default function AddChannelForm({
   };
 
   return (
-    <form className='flex flex-col w-72 absolute right-32 top-60'>
+    <form className="flex flex-col w-72 absolute right-32 top-60">
       <h1>Create a new channel</h1>
       <input
-        name='name'
+        name="name"
         value={formValues.name}
-        type='text'
+        type="text"
         onChange={changeHandler}
-        placeholder='name'
-        data-testid='input-channel-name'></input>
+        placeholder="name"
+        data-testid="input-channel-name"
+      ></input>
       <input
-        name='picture'
+        name="picture"
         value={formValues.picture}
-        type='file'
-        onChange={changeHandler}></input>
+        type="file"
+        onChange={changeHandler}
+      ></input>
       <button
         onClick={handleSubmit}
-        className='white-button'
-        data-testid='create-button'>
+        className="white-button"
+        data-testid="create-button"
+      >
         Create
       </button>
     </form>

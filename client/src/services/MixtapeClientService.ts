@@ -1,7 +1,6 @@
 import { apiClient } from './ApiClient';
 import { MixTape } from '../types/MixTape';
 
-
 export type CreateMixTapeArgs = {
   name: string;
   url: string;
@@ -18,5 +17,4 @@ export const createMixTape = async (body: CreateMixTapeArgs) => {
     console.error(error);
     throw new Error('Could not create mixtape');
   }
-
 };
