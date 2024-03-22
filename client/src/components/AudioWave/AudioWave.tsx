@@ -32,11 +32,6 @@ const AudioWave = () => {
     }
   }, [wavesurfer, currentStreamUrls, streamIndex]);
 
-  useEffect(() => {
-    if (wavesurfer) {
-      playing ? wavesurfer.play() : wavesurfer.pause();
-    }
-  }, [playing, wavesurfer]);
 
   useEffect(() => {
     if (wavesurfer && typeof currentPlaybackTime === 'number') {

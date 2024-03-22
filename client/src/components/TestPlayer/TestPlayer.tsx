@@ -28,13 +28,13 @@ const TestPlayer = () => {
     setStream(generatedStream);
   }, [currentStreamUrls]);
 
-  // useEffect(() => {
-  //   // Play the current track whenever streamIndex changes
-  //   if (stream[streamIndex]) {
-  //     stream[streamIndex].play();
-  //     setPlaying(true); // Ensure global playing state is set to true
-  //   }
-  // }, [streamIndex]);
+  useEffect(() => {
+    // Play the current track whenever streamIndex changes
+    if (stream[streamIndex]) {
+      stream[streamIndex].play();
+      setPlaying(true); // Ensure global playing state is set to true
+    }
+  }, [streamIndex]);
 
 
   // create stream array from mixTapes

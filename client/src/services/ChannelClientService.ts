@@ -36,11 +36,29 @@ export const addUserToChannel = async (channelId: string, userId: string) => {
 
 // Add message to channel
 export const addComment = async (channelId: string, body: CommentsType) => {
-  console.log(body);
-  return await apiClient<ChannelType>(`channels/${channelId}`, "POST", body);
+  return await apiClient<ChannelType>(`channels/${channelId}`, 'POST', body);
 };
 
 // Delete channel
-export const deleteChannel = async (channelId: string) => {
-  return await apiClient<ChannelType>(`channels/${channelId}`, "DELETE");
-};
+export async function deleteChannel(channelId: string) {
+  try {
+    const response = await fetch(
+      import.meta.env.VITE_SERVER ||
+        'http://localhost:3001' + '/channels/' + channelId,
+      {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        mode: 'cors',
+      }
+    );
+    if (!response.ok) throw new Error('Failed to delete');
+
+    return response;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+}
+
