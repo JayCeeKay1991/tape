@@ -5,21 +5,6 @@ import { createChannel } from '@/services/ChannelClientService';
 import { postImageToCloudinary } from '@/services/CloudinaryService';
 
 type FormValues = Omit<ChannelType, '_id'>;
-
-type FormValuesAddChannel = {
-  name: string;
-  // file: File | null;
-  picture: string;
-};
-
-const initialStateFormValuesAddChannel = {
-  name: '',
-  // file: null,
-  picture: '',
-};
-
-type ChannelData = Omit<ChannelType, '_id'>;
-
 type propsType = {
   setShowForm: Dispatch<SetStateAction<boolean>>;
   setChannelList: Dispatch<SetStateAction<ChannelType[]>>;
@@ -29,7 +14,7 @@ export default function AddChannelForm({
   setChannelList,
   setShowForm,
 }: propsType) {
-  const { user } = useMainContext();
+  const { user, setUser } = useMainContext();
 
   const initialState = {
     name: '',
@@ -37,20 +22,18 @@ export default function AddChannelForm({
     owner: user,
     members: [],
     mixTapes: [],
-    comments: [],
+    comments: []
   };
 
   const [formValues, setFormValues] = useState<FormValues>(initialState);
   const [pictureFile, setPictureFile] = useState<File | null>(null);
-  const [FormValuesAddChannel, setFormValuesAddChannel] =
-    useState<FormValuesAddChannel>(initialStateFormValuesAddChannel);
 
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, files } = e.target;
     if (type === 'file' && files) {
+      console.log('Click File');
       setPictureFile(files[0]); // Set the image file
-      // } else setFormValues({ ...formValues, [name]: value });
-    } else setFormValuesAddChannel({ ...FormValuesAddChannel, [name]: value });
+    } else setFormValues({ ...formValues, [name]: value });
   };
 
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -67,33 +50,15 @@ export default function AddChannelForm({
       }
     }
 
-    console.log(FormValuesAddChannel);
-
-    // const newChannelData: Omit<ChannelType, '_id'> = {
-    //   ...formValues,
-    //   picture: pictureUrl,
-    //   //member:1, as the owner or user herself
-    //   members: [user],
-    // };
-
-    const newChannelData: ChannelData = {
-      // ...formValues,
-      ...FormValuesAddChannel,
-      owner: user,
+    const newChannelData: Omit<ChannelType, '_id'> = {
+      ...formValues,
       picture: pictureUrl,
-      members: [user],
-      mixTapes: [],
-      comments: [],
     };
-
-    console.log(newChannelData);
 
     try {
       const newChannel = await createChannel(newChannelData);
-      console.log(newChannel);
-      setChannelList((prevList: ChannelType[]) => [...prevList, newChannel]);
-      // setFormValues(initialState);
-      setFormValuesAddChannel(initialStateFormValuesAddChannel);
+      setUser(prev =>( {...prev, channels: [...prev.channels, newChannel]}))
+      setFormValues(initialState);
       setShowForm(false);
       setPictureFile(null);
     } catch (error) {
@@ -102,27 +67,33 @@ export default function AddChannelForm({
   };
 
   return (
-    <form className="flex flex-col w-72 absolute right-32 top-60">
-      <h1>Create a new channel</h1>
+    <form
+    className='flex flex-col w-72 absolute right-32 top-60 border-tapeDarkGrey bg-tapeBlack border-[2px] rounded-[20px] w-[300px] h-[380px] p-[20px]'
+    >
+      <h1 className='text-2xl mb-5 text-center' >Create a new channel</h1>
+      <label>Name</label>
       <input
-        name="name"
-        value={FormValuesAddChannel.name}
-        type="text"
+        name='name'
+        value={formValues.name}
+        type='text'
         onChange={changeHandler}
-        placeholder="name"
-        data-testid="input-channel-name"
-      ></input>
+        placeholder='Channel title'
+        className='h-[30px] mt-[5px] mb-[20px] p-[20px] text-sm border-tapeDarkGrey bg-tapeBlack border-[2px] text-[25px] text-tapeWhite font-small outline-none'
+        data-testid='input-channel-name'>
+      </input>
+      <label>Image</label>
       <input
-        name="picture"
-        value={FormValuesAddChannel.picture}
-        type="file"
+        name='picture'
+        value={formValues.picture}
+        type='file'
         onChange={changeHandler}
-      ></input>
+        className='border-tapeDarkGrey bg-tapeBlack mt-[5px] mb-[20px]'
+        >
+        </input>
       <button
         onClick={handleSubmit}
-        className="white-button"
-        data-testid="create-button"
-      >
+        className='white-button self-center mt-3'
+        data-testid='create-button'>
         Create
       </button>
     </form>

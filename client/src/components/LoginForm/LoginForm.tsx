@@ -18,6 +18,7 @@ function LoginForm() {
   const { setUser } = useMainContext();
   const navigate = useNavigate();
 
+  const [failedToLogin, setFailedToLogin] = useState(false);
   const [formValuesUserLogin, setFormValuesUserLogin] =
     useState<FormValuesUserLogin>(initialStateUserLogin);
 
@@ -35,25 +36,26 @@ function LoginForm() {
     // make service call login function
     const loggedinUser = await login(loginData);
 
-    // set user to the logged in user
-    loggedinUser && setUser(loggedinUser);
-
+    
     // empty the form
     setFormValuesUserLogin(initialStateUserLogin);
+    
+    // set user to the logged in user
+   if (loggedinUser) {
+     setUser(loggedinUser);
+     // set the localstorage to the logged in user id
+     localStorage.setItem('loggedinUser', loggedinUser._id);
+  
+     // SET navigation to Dashboard
+     navigate('/dash');
+   } else {
+     setFailedToLogin(true);
+   }
 
-    // set the localstorage to the logged in user id
-    if (loggedinUser) {
-      localStorage.setItem('loggedinUser', loggedinUser._id);
-    }
-
-    // SET navigation to Dashboard
-    navigate('/dash');
   };
 
-
-
   return (
-    <>
+    <div className="flex flex-col justify-center items-center">
       <form
         id="login-form"
         onSubmit={handleLogin}
@@ -66,9 +68,14 @@ function LoginForm() {
           onChange={changeHandler}
           placeholder="Email"
           required={true}
-          className="h-[90px] mb-[50px] p-[30px]  border-tapeDarkGrey bg-tapeBlack border-[2px] text-[25px] text-tapeWhite font-medium outline-none"
+          className="h-[90px] p-[30px]  border-tapeDarkGrey bg-tapeBlack border-[2px] text-[25px] text-tapeWhite font-medium outline-none"
           data-testid="input-email"
         ></input>
+          <div className='w-full h-[50px] flex flex-row justify-center items-center'>
+          {failedToLogin ? 
+            <p className=" text-[20px] text-tapeDarkGrey">Incorrect email or password</p>
+            : null}
+            </div>
         <input
           name="password"
           type="password"
@@ -86,7 +93,7 @@ function LoginForm() {
           Login
         </button>
       </form>
-    </>
+    </div>
   );
 }
 

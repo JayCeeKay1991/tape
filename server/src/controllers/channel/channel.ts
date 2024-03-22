@@ -7,15 +7,24 @@ import mongoose from 'mongoose';
 export const getChannel = async (req: Request, res: Response) => {
   const channelId = req.params.channelId;
   try {
-    const channel = await ChannelModel.findById(channelId)
-      .populate({
-        path: 'members',
-        model: 'User',
-      })
-      .populate({
-        path: 'mixTapes',
-        model: 'MixTape',
-      });
+
+    const channel = await ChannelModel.findById(channelId).populate({
+      path: "members",
+      model: "User"
+    })
+    .populate({
+      path: "mixTapes",
+      model: "MixTape"
+    }).populate({
+      path: "comments",
+      model: "Comments",
+      populate: [
+        {
+          path: "owner"
+        }
+      ]
+    })
+
     if (!channel) {
       res.status(400).json('No channel with that id!');
     }

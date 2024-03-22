@@ -37,7 +37,6 @@ const AddMembersSelect = ({ channel, setChannel }: AddMembersSelectProps) => {
     retrieveAllUsers();
   }, [])
 
-  // console.log(channel.members)
 
   const handleMemberSelect = async (userId: string) => {
     setMatchedUsers([])
@@ -60,9 +59,8 @@ const AddMembersSelect = ({ channel, setChannel }: AddMembersSelectProps) => {
   }
 
   return (
-
     <div className='flex flex-col w-[400px] pb-[10px] rounded bg-tapeBlack'>
-      <input type='text' placeholder='Search for a friend...' onChange={handleChange} value={searchQuery} className="h-[0px] p-[30px] border-tapeDarkGrey bg-tapeBlack border-[2px] text-[25px] text-tapeWhite font-medium outline-none" />
+      <input name='user-search' type='text' placeholder='Search for a friend...' onChange={handleChange} value={searchQuery} className="h-[0px] p-[30px] border-tapeDarkGrey bg-tapeBlack border-[2px] text-[25px] text-tapeWhite font-medium outline-none" />
       <ul className='text-tapeWhite bg-tapeOffBlack'>
         {matchedUsers.length ? matchedUsers.map(user => (
           <li
@@ -77,7 +75,7 @@ const AddMembersSelect = ({ channel, setChannel }: AddMembersSelectProps) => {
               />
             </div>
             <p className='text-tapeWhite mx-8'>{user.userName}</p>
-            <HiPlus onClick={() => handleMemberSelect(user._id)} className='mx-8  rounded-full ml-40'/>
+            <HiPlus name='add-button' onClick={() => handleMemberSelect(user._id)} className='mx-8  rounded-full ml-40'/>
           </li>
         )) : <></>}
       </ul>
