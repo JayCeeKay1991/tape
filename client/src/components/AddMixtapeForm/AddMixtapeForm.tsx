@@ -170,20 +170,26 @@ const AddMixtapeForm = ({
 
   return (
     <form
-      className="text-tapeWhite flex flex-col w-72 gap-5 m-10"
+      className="absolute inset-y-1/4 inset-x-1/3 z-50 text-tapeWhite flex flex-col w-72 gap-5 m-10 border-tapeDarkGrey bg-tapeBlack border-[2px] rounded-[20px] w-[300px] h-[380px] p-[20px]"
       onSubmit={submitHandler}
     >
+      <h1 className='text-2xl text-center' >Add a mixtape</h1>
+      <label>Name</label>
       <input
         name="name"
         type="text"
         value={formValuesMixTape.name}
         onChange={changeHandler}
-        placeholder="mixtape name"
+        placeholder="mixtape title"
+        className='h-[30px] p-[20px] text-sm border-tapeDarkGrey bg-tapeBlack border-[2px] text-[25px] text-tapeWhite font-small outline-none'
       ></input>
+      <label>Image</label>
       <div className="flex flex-row gap-3">
-        <input name="file" type="file" onChange={changeHandler}></input>
+        <input name="file" type="file" onChange={changeHandler}
+        className='border-tapeDarkGrey bg-tapeBlack mt-[5px] mb-[5px]'>
+        </input>
         <button
-          className="white-button"
+          className="white-button h-[50px]"
           onClick={uploadFile}
           disabled={uploading}
         >
@@ -193,8 +199,11 @@ const AddMixtapeForm = ({
       {uploading ? (
         <></>
       ) : (
-        <button type="submit" className="white-button">
-          Add Mixtape
+        <button
+          type="submit"
+          disabled={uploading}
+          className="white-button self-center">
+        Add Mixtape
         </button>
       )}
     </form>

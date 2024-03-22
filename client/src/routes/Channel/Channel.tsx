@@ -20,12 +20,17 @@ import { GoPlus } from "react-icons/go";
 import { extractStreamUrls } from "@/utils/extractStreamUrls";
 
 const Channel = () => {
-  const { user } = useMainContext();
+  const { user, setCurrentStreamUrls, currentStreamUrls } = useMainContext();
   const location = useLocation();
   const [channel, setChannel] = useState<ChannelType>(location.state.channel);
   const [showMixForm, setShowMixForm] = useState(false);
   const [showMemberForm, setShowMemberForm] = useState(false);
+
   const [isCommentsOpen, setIsCommentsOpen] = useState(true);
+
+  const [currentUrls, setCurrentUrls] = useState<string[]>([])
+
+
 
   const initialState = {
     name: "",
@@ -60,8 +65,14 @@ const Channel = () => {
     retrieveAllUsers();
   }, []);
 
-  // Generate stream from mixtape urls
-  const currentStream = extractStreamUrls(channel.mixTapes);
+
+
+  const handlePlayClick = () => {
+    const channelUrls = extractStreamUrls(channel.mixTapes)
+    setCurrentStreamUrls(channelUrls);
+  }
+
+
 
   const toggleMixForm = () => {
     setShowMixForm(!showMixForm);
@@ -80,9 +91,6 @@ const Channel = () => {
 			setIsCommentsOpen(true)
 		}
 	};
-
-	console.log(channel.members)
-
   return (
     <div id="channel" className="flex flex-col items-center">
       <div
@@ -127,6 +135,7 @@ const Channel = () => {
             })}
             <button className="w-[80px] h-[80px] flex flex-row justify-center items-center bg-tapeBlack rounded-full border-tapePink border-[2px] -ml-[30px]" onClick={toggleMemberForm}>
               <GoPlus className="text-tapeWhite" size={30} />
+
             </button>
           </div>
         </div>
@@ -137,6 +146,7 @@ const Channel = () => {
         {/* <AudioWave/> */}
         <img src={channel.picture} className="w-48 rounded-2xl object-cover" />
       </div>
+
 
       <div className="w-full h-[100px] pl-[50px] pr-[50px] flex flex-col items-start">
         <div className="flex flex-row">
@@ -178,6 +188,7 @@ const Channel = () => {
       {isCommentsOpen ? (
         <CommentList channel={channel} setChannel={setChannel} />
       ) : (
+
         <AddMixtapeForm
           channelId={channel._id}
           channel={channel}
@@ -187,6 +198,7 @@ const Channel = () => {
       )}
 
       <TestPlayer urls={currentStream} />
+
     </div>
   );
 };

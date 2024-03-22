@@ -14,7 +14,7 @@ export default function AddChannelForm({
   setChannelList,
   setShowForm,
 }: propsType) {
-  const { user } = useMainContext();
+  const { user, setUser } = useMainContext();
 
   const initialState = {
     name: '',
@@ -22,6 +22,7 @@ export default function AddChannelForm({
     owner: user,
     members: [],
     mixTapes: [],
+    comments: []
   };
 
   const [formValues, setFormValues] = useState<FormValues>(initialState);
@@ -30,6 +31,7 @@ export default function AddChannelForm({
   const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, files } = e.target;
     if (type === 'file' && files) {
+      console.log('Click File');
       setPictureFile(files[0]); // Set the image file
     } else setFormValues({ ...formValues, [name]: value });
   };
@@ -55,7 +57,7 @@ export default function AddChannelForm({
 
     try {
       const newChannel = await createChannel(newChannelData);
-      setChannelList((prevList: ChannelType[]) => [...prevList, newChannel]);
+      setUser(prev =>( {...prev, channels: [...prev.channels, newChannel]}))
       setFormValues(initialState);
       setShowForm(false);
       setPictureFile(null);
@@ -65,23 +67,32 @@ export default function AddChannelForm({
   };
 
   return (
-    <form className='flex flex-col w-72 absolute right-32 top-60'>
-      <h1>Create a new channel</h1>
+    <form
+    className='flex flex-col w-72 absolute right-32 top-60 border-tapeDarkGrey bg-tapeBlack border-[2px] rounded-[20px] w-[300px] h-[380px] p-[20px]'
+    >
+      <h1 className='text-2xl mb-5 text-center' >Create a new channel</h1>
+      <label>Name</label>
       <input
         name='name'
         value={formValues.name}
         type='text'
         onChange={changeHandler}
-        placeholder='name'
-        data-testid='input-channel-name'></input>
+        placeholder='Channel title'
+        className='h-[30px] mt-[5px] mb-[20px] p-[20px] text-sm border-tapeDarkGrey bg-tapeBlack border-[2px] text-[25px] text-tapeWhite font-small outline-none'
+        data-testid='input-channel-name'>
+      </input>
+      <label>Image</label>
       <input
         name='picture'
         value={formValues.picture}
         type='file'
-        onChange={changeHandler}></input>
+        onChange={changeHandler}
+        className='border-tapeDarkGrey bg-tapeBlack mt-[5px] mb-[20px]'
+        >
+        </input>
       <button
         onClick={handleSubmit}
-        className='white-button'
+        className='white-button self-center mt-3'
         data-testid='create-button'>
         Create
       </button>
