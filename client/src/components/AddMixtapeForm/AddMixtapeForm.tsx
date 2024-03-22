@@ -1,4 +1,4 @@
-import { useState, Dispatch, SetStateAction } from 'react';
+import { useState, Dispatch, SetStateAction, useRef, MouseEvent } from 'react';
 import {
   CloudinaryRes,
   postMusicToCloudinary,
@@ -6,6 +6,7 @@ import {
 import { createMixTape } from '../../services/MixtapeClientService';
 import { ChannelType } from '../../types/Channel';
 import { useMainContext } from '../Context/Context';
+import { PiUploadSimple } from "react-icons/pi";
 
 type AddMixtapeFormProps = {
   channelId: string;
@@ -49,24 +50,31 @@ const AddMixtapeForm = ({
   setChannel,
   setShowMixForm,
 }: AddMixtapeFormProps) => {
+  const { user } = useMainContext();
   const [file, setFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
   const [uploadComplete, setUploadComplete] = useState(false);
-  const [cldResponse, setCldResponse] = useState<CloudinaryRes>(
-    initCloudinaryResState
-  );
+  const [cldResponse, setCldResponse] = useState<CloudinaryRes>(initCloudinaryResState);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const [formValuesMixTape, setFormValuesMixTape] = useState<FormValuesMixTape>(
     initialStateFormValuesMixTape
   );
 
-  const { user } = useMainContext();
+  // Handle choose file click
+  const handleChooseFilesClick = (e: MouseEvent<HTMLButtonElement>) => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  }
+
   //Change handler function keeps track of the upload form
-  const changeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const changeHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, files } = e.target;
 
     if (type === 'file' && files) {
-      setFile(files[0]); // Set the image file
+      setFile(files[0]); // Set the file
+      const response = await uploadFile()
     } else
       setFormValuesMixTape((prevFormData) => ({
         ...prevFormData,
@@ -75,9 +83,7 @@ const AddMixtapeForm = ({
   };
 
   // upload file to cloudinary
-  const uploadFile = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
-
+  const uploadFile = async (): Promise<CloudinaryRes | undefined> => {
     if (!file) {
       console.error('Please select a file.');
       return;
@@ -115,6 +121,7 @@ const AddMixtapeForm = ({
       setCldResponse(response);
       console.log('Upload complete response:', response);
       setUploading(false);
+      return response;
     };
 
     const uploadNextChunk = (start: number, end: number) => {
@@ -128,7 +135,6 @@ const AddMixtapeForm = ({
         onComplete
       );
     };
-
     uploadNextChunk(0, Math.min(chunkSize, file.size));
   };
 
@@ -170,10 +176,18 @@ const AddMixtapeForm = ({
 
   return (
     <form
-      className="absolute inset-y-1/4 inset-x-1/3 z-50 text-tapeWhite flex flex-col w-72 gap-5 m-10 border-tapeDarkGrey bg-tapeBlack border-[2px] rounded-[20px] w-[300px] h-[380px] p-[20px]"
+      className="inset-y-1/4 inset-x-1/3 z-50 text-tapeWhite flex flex-col w-72 gap-5 m-8 border-dashed border-tapeDarkGrey bg-tapeBlack border-[2px] rounded-[20px] w-[900px] h-[300px] p-[20px]"
       onSubmit={submitHandler}
     >
-      <h1 className='text-2xl text-center' >Add a mixtape</h1>
+      <div className='flex flex-col items-center'>
+        <PiUploadSimple size={120} className='text-tapeDarkGrey m-5' />
+        <p>Or</p>
+        <button type='button' className='rounded-full border-[2px] border-tapeDarkGrey w-[150px] p-[5px] m-8' onClick={handleChooseFilesClick}>Choose files</button>
+      </div>
+      <input name="file" type="file" onChange={changeHandler}
+        className='hidden' ref={fileInputRef}>
+      </input>
+      {/* <h1 className='text-2xl text-center' >Add a mixtape</h1>
       <label>Name</label>
       <input
         name="name"
@@ -186,7 +200,7 @@ const AddMixtapeForm = ({
       <label>Image</label>
       <div className="flex flex-row gap-3">
         <input name="file" type="file" onChange={changeHandler}
-        className='border-tapeDarkGrey bg-tapeBlack mt-[5px] mb-[5px]'>
+        className='hidden' ref={fileInputRef}>
         </input>
         <button
           className="white-button h-[50px]"
@@ -205,7 +219,7 @@ const AddMixtapeForm = ({
           className="white-button self-center">
         Add Mixtape
         </button>
-      )}
+      )} */}
     </form>
   );
 };
