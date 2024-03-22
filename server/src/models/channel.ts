@@ -44,18 +44,6 @@ async function updateUser(doc: ChannelDocument) {
 
 Channel.post('save', updateUser);
 
-// doesnt work-ask Felipe why
-// Define your pre-remove hook function
-
-// const preRemoveHook = async function (next: () => void, doc: ChannelDocument) {
-//   await mongoose
-//     .model('User')
-//     .updateOne({ _id: doc.owner }, { $pull: { channels: doc._id } });
-//   next();
-// };
-
-// Channel.pre('findOneAndDelete', preRemoveHook);
-
 const ChannelModel = mongoose.model('Channel', Channel);
 
 export default ChannelModel;

@@ -29,9 +29,7 @@ export const getChannel = async (req: Request, res: Response) => {
 
 export const createChannel = async (req: Request, res: Response) => {
   try {
-    console.log(req.body);
     const newChannel = new ChannelModel<ChannelType>(req.body);
-    console.log(newChannel);
     const savedChannel = await newChannel.save();
     res.status(201).json(savedChannel);
   } catch (error) {
