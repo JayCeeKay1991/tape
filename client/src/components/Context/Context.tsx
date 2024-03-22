@@ -18,10 +18,12 @@ import { Howl } from 'howler';
 type MainContext = {
   user: User;
   currentStreamUrls: string[];
+  streamIndex: number;
   setUser: Dispatch<SetStateAction<User>>;
   setChannels: Dispatch<SetStateAction<ChannelType[]>>;
   setMixTapes: Dispatch<SetStateAction<MixTape[]>>;
   setCurrentStreamUrls: Dispatch<SetStateAction<string[]>>;
+  setStreamIndex: Dispatch<SetStateAction<number>>;
 };
 
 export const initialStateUser = {
@@ -52,6 +54,8 @@ export default function ContextProvider({ children }: PropsWithChildren) {
   const [channels, setChannels] = useState<ChannelType[]>([]);
   const [mixTapes, setMixTapes] = useState<MixTape[]>([]);
   const [currentStreamUrls, setCurrentStreamUrls] = useState<string[]>([]);
+  const [streamIndex, setStreamIndex] = useState<number>(0);
+
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -82,7 +86,9 @@ export default function ContextProvider({ children }: PropsWithChildren) {
         setUser,
         setChannels,
         setMixTapes,
-        setCurrentStreamUrls
+        setCurrentStreamUrls,
+        streamIndex,
+        setStreamIndex
       }}>
       {children}
     </MainContext.Provider>

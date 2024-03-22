@@ -6,9 +6,10 @@ import { useMainContext } from '../Context/Context';
 
 // A React component that will render wavesurfer
 const AudioWave = () => {
-  const {currentStreamUrls} = useMainContext();
+  const {currentStreamUrls, streamIndex} = useMainContext();
   const [stream, setStream] = useState<Howl[]>([]);
-  const [streamIndex, setStreamIndex] = useState<number>(0);
+  //const [streamIndex, setStreamIndex] = useState<number>(0);
+
   const [playing, setPlaying] = useState(false);
   const progressBarRef = useRef<HTMLInputElement>(null);
 

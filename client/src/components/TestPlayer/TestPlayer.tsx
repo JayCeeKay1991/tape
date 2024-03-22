@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Howl } from 'howler';
 // styling
 import { IoMdPlay } from 'react-icons/io';
@@ -12,7 +12,7 @@ import { useMainContext } from '../Context/Context';
 
 
 const TestPlayer = () => {
-  const { currentStreamUrls } = useMainContext()
+  const { currentStreamUrls} = useMainContext()
   // states
   const [stream, setStream] = useState<Howl[]>([]); // current stream, array of howls created in useeffect
   const [streamIndex, setStreamIndex] = useState<number>(0); // stores the index of current mixTape in stream
