@@ -4,15 +4,14 @@ import {
   createUser,
   editUser,
   getAllUsers,
-
   getUserById,
-
 } from './controllers/user/user';
 import {
   createChannel,
   addUserToChannel,
   getChannel,
-  addComment
+  addComment,
+  deleteChannel,
 } from './controllers/channel/channel';
 import { createMixTape } from './controllers/mixTape/mixTape';
 
@@ -30,13 +29,12 @@ router.get('/channels/:channelId', getChannel);
 router.post('/channels', createChannel);
 router.post('/channels/:channelId/:userId', addUserToChannel);
 
-
-router.get('/channels/:channelId', getChannel)
-router.post("/channels", createChannel);
-router.post("/channels/:channelId/:userId", addUserToChannel)
-router.post("/channels/:channelId/", addComment);
+router.get('/channels/:channelId', getChannel);
+router.post('/channels', createChannel);
+router.post('/channels/:channelId/:userId', addUserToChannel);
+router.post('/channels/:channelId/', addComment);
+router.delete('/channels/:channelId/', deleteChannel);
 
 router.post('/mixtape', createMixTape);
-
 
 export default router;
