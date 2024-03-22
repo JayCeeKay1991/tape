@@ -13,12 +13,8 @@ import AddMixtapeForm from "@/components/AddMixtapeForm/AddMixtapeForm";
 import CommentList from "@/components/CommentList/CommentList";
 // styling
 import { MdPlayArrow } from "react-icons/md";
-
 import AudioWave from "@/components/AudioWave/AudioWave";
-
 import { GoPlus } from "react-icons/go";
-// import AudioWave from "@/components/AudioWave/AudioWave";
-
 // utils
 import { extractStreamUrls } from "@/utils/extractStreamUrls";
 
@@ -126,7 +122,6 @@ const Channel = () => {
         {showMemberForm && (
           <AddMembersSelect channel={channel} setChannel={setChannel} />
         )}
-        {/* <AudioWave/> */}
         <img src={channel.picture} className="w-48 rounded-2xl object-cover" />
       </div>
       <div className="w-full h-[100px] pl-[50px] pr-[50px] flex flex-col items-start">
