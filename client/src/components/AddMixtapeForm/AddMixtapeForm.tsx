@@ -170,7 +170,7 @@ const AddMixtapeForm = ({
 
   return (
     <form
-      className="absolute z-50 text-tapeWhite flex flex-col w-72 gap-5 m-10 border-tapeDarkGrey bg-tapeBlack border-[2px] rounded-[20px] w-[300px] h-[380px] p-[20px]"
+      className="absolute inset-y-1/4 inset-x-1/3 z-50 text-tapeWhite flex flex-col w-72 gap-5 m-10 border-tapeDarkGrey bg-tapeBlack border-[2px] rounded-[20px] w-[300px] h-[380px] p-[20px]"
       onSubmit={submitHandler}
     >
       <h1 className='text-2xl text-center' >Add a mixtape</h1>
@@ -180,7 +180,7 @@ const AddMixtapeForm = ({
         type="text"
         value={formValuesMixTape.name}
         onChange={changeHandler}
-        placeholder="..."
+        placeholder="mixtape title"
         className='h-[30px] p-[20px] text-sm border-tapeDarkGrey bg-tapeBlack border-[2px] text-[25px] text-tapeWhite font-small outline-none'
       ></input>
       <label>Image</label>

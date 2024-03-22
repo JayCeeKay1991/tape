@@ -77,6 +77,7 @@ export default function AddChannelForm({
         value={formValues.name}
         type='text'
         onChange={changeHandler}
+        placeholder='Channel title'
         className='h-[30px] mt-[5px] mb-[20px] p-[20px] text-sm border-tapeDarkGrey bg-tapeBlack border-[2px] text-[25px] text-tapeWhite font-small outline-none'
         data-testid='input-channel-name'>
       </input>
