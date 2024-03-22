@@ -7,7 +7,6 @@ import { ChannelType } from "@/types/Channel";
 import { getAllUsers } from "@/services/UserClientService";
 import { getChannel } from "@/services/ChannelClientService";
 // components
-import TestPlayer from "@/components/TestPlayer/TestPlayer";
 import { useMainContext } from "@/components/Context/Context";
 import AddMembersSelect from "@/components/AddMembersSelect/AddMembersSelect";
 import AddMixtapeForm from "@/components/AddMixtapeForm/AddMixtapeForm";
@@ -25,7 +24,7 @@ import { extractStreamUrls } from "@/utils/extractStreamUrls";
 
 
 const Channel = () => {
-  const { user, setCurrentStreamUrls } = useMainContext();
+  const { user, setCurrentStreamUrls, setStreamIndex, setCurrentPlaybackTime, setPlaying } = useMainContext();
   const location = useLocation();
   const [channel, setChannel] = useState<ChannelType>(location.state.channel);
   const [showMixForm, setShowMixForm] = useState(false);
@@ -67,9 +66,9 @@ const Channel = () => {
 
   const handlePlayClick = () => {
     console.log('play clicked')
-    const channelUrls = extractStreamUrls(channel.mixTapes)
+    const channelUrls = extractStreamUrls(channel.mixTapes);
     setCurrentStreamUrls(channelUrls);
-    console.log(channelUrls)
+    console.log(channelUrls);
   }
 
   const toggleMemberForm = () => {
