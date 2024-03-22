@@ -8,7 +8,7 @@ type propsType = {
 
 function Comment({ comment }: propsType) {
   return (
-    <div className="bg-tapeBlack w-[700px] h-[120px] flex flex-row pl-[20px] rounded-[20px] border-[2px] p-[10px] mb-[50px] items-center border-tapeDarkGrey border-[1px]">
+    <div className="bg-tapeBlack w-[700px] h-[120px] flex flex-row pl-[20px] rounded-[20px] p-[10px] mb-[50px] items-center border-tapeDarkGrey border-[1px]">
       <div
         id="comment-crop"
         className="w-[80px] h-[80px] overflow-hidden rounded-full mr-[40px]"
