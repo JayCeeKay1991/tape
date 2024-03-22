@@ -22,13 +22,17 @@ import { GoPlus } from "react-icons/go";
 
 // utils
 import { extractStreamUrls } from "@/utils/extractStreamUrls";
+
+
 const Channel = () => {
-  const { user } = useMainContext();
+  const { user, setCurrentStreamUrls } = useMainContext();
   const location = useLocation();
   const [channel, setChannel] = useState<ChannelType>(location.state.channel);
   const [showMixForm, setShowMixForm] = useState(false);
   const [showMemberForm, setShowMemberForm] = useState(false);
   const [isCommentsOpen, setIsCommentsOpen] = useState(true);
+
+
   const initialState = {
     name: "",
     url: "",
@@ -59,16 +63,20 @@ const Channel = () => {
     retrieveChannel();
     retrieveAllUsers();
   }, []);
-  // Generate stream from mixtape urls
-  const currentStream = extractStreamUrls(channel.mixTapes);
-  const toggleMixForm = () => {
-    setShowMixForm(!showMixForm);
-    setShowMemberForm(false);
-  };
+ 
+
+  const handlePlayClick = () => {
+    console.log('play clicked')
+    const channelUrls = extractStreamUrls(channel.mixTapes)
+    setCurrentStreamUrls(channelUrls);
+    console.log(channelUrls)
+  }
+
   const toggleMemberForm = () => {
     setShowMemberForm(!showMemberForm);
     setShowMixForm(false);
   };
+
   const toggleComments = () => {
     if (isCommentsOpen === true) {
       setIsCommentsOpen(false)
@@ -85,7 +93,7 @@ const Channel = () => {
       >
         <div id="channel-info" className="w-2/5 text-xl">
           <div className="flex flex-row">
-            <MdPlayArrow size={70} />
+            <MdPlayArrow size={70} onClick={handlePlayClick} className="cursor-pointer"/>
             <div className="flex flex-col">
               <h1 className="text-[55px] font-medium mb-[20px]">
                 {channel.name}
@@ -176,7 +184,6 @@ const Channel = () => {
           setShowMixForm={setShowMixForm}
         />
       )}
-      <TestPlayer urls={currentStream} />
     </div>
   );
 };
