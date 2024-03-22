@@ -73,7 +73,7 @@ function CommentList({ channel }: propsType) {
               value={formValue}
               onChange={handleChange}
               placeholder="Leave a comment"
-              className="border-tapeDarkGrey bg-tapeBlack h-[60px] mr-[10px] text-tapeWhite border-none text-[20px] font-medium outline-none border-b-4"
+              className="bg-tapeBlack h-[60px] mr-[10px] text-tapeWhite border-none text-[20px] font-medium outline-none border-b-4 placeholder-tapeDarkGrey"
             ></input>
             <button
               type="submit"
@@ -88,7 +88,7 @@ function CommentList({ channel }: propsType) {
         <form className="w-[200px]">
           <select
             id="underline_select"
-            className="block px-0 w-full text-[20px] text-tapeDarkGrey bg-tapeBlack border-0 border-b-[1px] border-tapeDarkGrey appearance-none dark:text-tapeDarkGrey dark:border-tapeGrey focus:outline-none focus:ring-0 focus:border-tapeGrey peer"
+            className=" w-full block px-0 text-[20px] text-tapeDarkGrey font-medium bg-tapeBlack border-0 border-b-[1px] border-tapeDarkGrey appearance-none dark:text-tapeDarkGrey dark:border-tapeGrey focus:outline-none focus:ring-0 focus:border-tapeGrey peer"
             defaultValue="latest"
             onChange={sortComments}
           >
@@ -101,7 +101,9 @@ function CommentList({ channel }: propsType) {
       {comments.length > 0 ? (
         <div id="comments list" className="flex flex-col items-center">
           <div className="w-full mb-[20px]">
-            <p className="text-tapeDarkGrey text-[20px]">{comments.length} Comments</p>
+            <p className="text-tapeDarkGrey text-[20px]">
+              {comments.length} Comments
+            </p>
           </div>
           {comments.map((comment, index) => (
             <Comment key={index} comment={comment} />

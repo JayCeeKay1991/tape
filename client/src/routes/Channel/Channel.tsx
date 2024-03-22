@@ -80,7 +80,7 @@ const Channel = () => {
       setIsCommentsOpen(true)
     }
   };
-  console.log(channel.members)
+
   return (
     <div id="channel" className="flex flex-col items-center">
       <div
@@ -113,10 +113,10 @@ const Channel = () => {
             </div>
           </div>
           <div className="flex flex-row ml-[30px] mt-[50px]">
-            {channel.members.map((member) => {
+            {channel.members.map((member, index) => {
               return (
                 <div
-                  key={member._id}
+                  key={index}
                   className="w-[80px] h-[80px] overflow-hidden rounded-full border-tapePink border-[2px] -ml-[30px]"
                 >
                   <img src={member.profilePic}></img>
