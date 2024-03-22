@@ -30,19 +30,8 @@ const Channel = () => {
   const [showMixForm, setShowMixForm] = useState(false);
   const [showMemberForm, setShowMemberForm] = useState(false);
   const [isCommentsOpen, setIsCommentsOpen] = useState(true);
+  const [users, setUsers] = useState<User[]>([]);
 
-
-  const initialState = {
-    name: "",
-    url: "",
-    duration: 0,
-    creator: user,
-    parentChannel: channel,
-    channels: [],
-    users: [],
-  };
-
-  const [users, setUsers] = useState<User[]>(initialState.users);
 
   useEffect(() => {
     async function retrieveAllUsers() {
@@ -55,8 +44,8 @@ const Channel = () => {
     }
     async function retrieveChannel() {
       try {
-        const channel = await getChannel(initialState.parentChannel._id);
-        setChannel(channel);
+        const channelData = await getChannel(channel._id);
+        setChannel(channelData);
       } catch (error) {
         console.error("error getting channel");
       }
