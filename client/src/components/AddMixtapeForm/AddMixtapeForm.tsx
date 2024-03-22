@@ -1,4 +1,4 @@
-import { useState, Dispatch, SetStateAction, useRef, MouseEvent, useCallback } from 'react';
+import { useState, Dispatch, SetStateAction, useRef, MouseEvent } from 'react';
 import { CloudinaryRes, postMusicToCloudinary } from '../../services/CloudinaryService';
 import { createMixTape } from '../../services/MixtapeClientService';
 import { useMainContext } from '../Context/Context';
@@ -16,18 +16,15 @@ type AddMixtapeFormProps = {
 const AddMixtapeForm = ({ channelId, channel, setChannel, setShowMixForm, }: AddMixtapeFormProps) => {
   const { user } = useMainContext();
   const [uploading, setUploading] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
-
 
   const { getRootProps } = useDropzone({
     maxFiles: 1,
     onDrop: async (acceptedFiles) => {
       if (acceptedFiles.length > 0) {
-        setSelectedFile(acceptedFiles[0]);
         console.log(`File "${acceptedFiles[0].name}" dropped.`);
         try {
-          await uploadMixTapeCloudinary(acceptedFiles[0]);
+          await uploadMixTapeCloudinary(acceptedFiles[0], acceptedFiles[0].name);
         } catch (error) {
           console.error("Error uploading mixtape:", error);
         }
@@ -45,9 +42,8 @@ const AddMixtapeForm = ({ channelId, channel, setChannel, setShowMixForm, }: Add
   // Change handler for file selection
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
-      setSelectedFile(e.target.files[0])
       try {
-        await uploadMixTapeCloudinary(selectedFile!);
+        await uploadMixTapeCloudinary(e.target.files[0], e.target.files[0].name)
       } catch (error) {
         console.error("Error uploading mixtape:", error);
       }
@@ -55,7 +51,7 @@ const AddMixtapeForm = ({ channelId, channel, setChannel, setShowMixForm, }: Add
   };
 
   // upload mixtape to Cloudinary
-  const uploadMixTapeCloudinary = async (file: File) => {
+  const uploadMixTapeCloudinary = async (file: File, name: string) => {
     if (!file) {
       console.error('Please select a file.');
       return;
@@ -91,7 +87,7 @@ const AddMixtapeForm = ({ channelId, channel, setChannel, setShowMixForm, }: Add
     const onComplete = (response: CloudinaryRes) => {
       console.log('Upload complete response:', response);
       setUploading(false);
-      return addMixtape(response, selectedFile!.name)
+      return addMixtape(response, name)
     };
 
     const uploadNextChunk = (start: number, end: number) => {
@@ -131,7 +127,6 @@ const AddMixtapeForm = ({ channelId, channel, setChannel, setShowMixForm, }: Add
     }
   };
 
-
   return (
     <form
       className="inset-y-1/4 inset-x-1/3 z-50 text-tapeWhite flex flex-col w-72 gap-5 m-8 border-dashed border-tapeDarkGrey bg-tapeBlack border-[2px] rounded-[20px] w-[900px] h-[300px] p-[20px]"
@@ -143,14 +138,11 @@ const AddMixtapeForm = ({ channelId, channel, setChannel, setShowMixForm, }: Add
           </div>
         </div>
         <p>Or</p>
-        <button type='button' className='rounded-full border-[2px] border-tapeDarkGrey w-[150px] p-[5px] m-8' onClick={handleChooseFilesClick}>Choose files</button>
+        <button type='button' className='rounded-full border-[2px] border-tapeDarkGrey w-[150px] p-[5px] m-8' onClick={handleChooseFilesClick} disabled={uploading}>Choose files</button>
       </div>
-      <input name="file" type="file" onChange={handleFileSelect}
-        className='hidden' ref={fileInputRef}>
-      </input>
+      <input name="file" type="file" onChange={handleFileSelect} className='hidden' ref={fileInputRef} disabled={uploading}></input>
     </form>
   );
 
 };
-
 export default AddMixtapeForm;
