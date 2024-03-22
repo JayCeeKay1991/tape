@@ -1,4 +1,4 @@
-import React, {
+import {
   createContext,
   useContext,
   useState,
@@ -46,7 +46,6 @@ const initialContext = {
 const MainContext = createContext<MainContext>(initialContext);
 
 export default function ContextProvider({ children }: PropsWithChildren) {
-
 
   const navigate = useNavigate();
   const [user, setUser] = useState<User>(initialStateUser);

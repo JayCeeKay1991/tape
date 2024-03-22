@@ -15,7 +15,7 @@ import AddMixtapeForm from '@/components/AddMixtapeForm/AddMixtapeForm';
 import CommentList from "@/components/CommentList/CommentList";
 // styling
 import { MdPlayArrow } from "react-icons/md";
-// import AudioWave from "@/components/AudioWave/AudioWave";
+import AudioWave from "@/components/AudioWave/AudioWave";
 // utils
 import { extractStreamUrls } from "@/utils/extractStreamUrls";
 
@@ -94,6 +94,7 @@ const Channel = () => {
           className="cursor-pointer" />{channel.name}</h1>
           <p className="pl-3" >{channel.mixTapes.length ? `${channel.mixTapes.length} mixtape${channel.mixTapes.length === 1 ? '' : 's'}` : 'No mixtapes'}</p>
           <p className="pl-3">{channel.members.length ? `${channel.members.length} member${channel.members.length === 1 ? '' : 's'}` : 'No members'}</p>
+          <AudioWave currentStreamUrls={currentStreamUrls} />
           <div
             id="channel-controls"
             className="mt-12"
@@ -110,7 +111,6 @@ const Channel = () => {
             </button>
           </div>
         </div>
-          {/* <AudioWave/> */}
         <img src={channel.picture} className="w-48 rounded-2xl object-cover" />
       </div>
 
