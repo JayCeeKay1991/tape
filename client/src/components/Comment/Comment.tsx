@@ -17,14 +17,14 @@ function Comment({ comment }: propsType) {
       </div>
       <div className="flex flex-col leading-[30px] justify-start items-start">
         <div className=" flex flex-row">
-          <p className="bg-tape font-semibold text-[25px] mr-[20px]">
+          <p className="bg-tape font-semibold text-[25px] mr-[20px]" data-testid='comment-author'>
             {comment.owner?.userName || "Unknown User"}
           </p>
           <p className="font-medium text-[20px] text-tapeDarkGrey">
             {TimePrettier(comment.date)}
           </p>
         </div>
-        <p className="text-[25px] whitespace-nowrap">{comment.message}</p>
+        <p className="text-[25px] whitespace-nowrap" data-testid='comment-content'>{comment.message}</p>
       </div>
     </div>
   );
