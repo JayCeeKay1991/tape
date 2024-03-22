@@ -71,7 +71,7 @@ const Channel = () => {
     const channelUrls = extractStreamUrls(channel.mixTapes)
     setCurrentStreamUrls(channelUrls);
   }
-  
+
 
   const toggleMixForm = () => {
     setShowMixForm(!showMixForm);
@@ -104,7 +104,7 @@ const Channel = () => {
       </button>
       {showMixForm ? (
         <AddMixtapeForm
-        channelId={channel._id}
+          channelId={channel._id}
           channel={channel}
           setChannel={setChannel}
           setShowMixForm={setShowMixForm}

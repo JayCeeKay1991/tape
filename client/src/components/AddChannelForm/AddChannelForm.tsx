@@ -22,6 +22,7 @@ export default function AddChannelForm({
     owner: user,
     members: [],
     mixTapes: [],
+    comments: []
   };
 
   const [formValues, setFormValues] = useState<FormValues>(initialState);
@@ -85,12 +86,12 @@ export default function AddChannelForm({
         value={formValues.picture}
         type='file'
         onChange={changeHandler}
-        className='border-tapeDarkGrey bg-tapeBlack  mt-[5px] mb-[20px]'
+        className='border-tapeDarkGrey bg-tapeBlack mt-[5px] mb-[20px]'
         >
         </input>
       <button
         onClick={handleSubmit}
-        className='border-tapeDarkGrey bg-tapeBlack w-[90px] self-center rounded-[20px] p-1 mt-3'
+        className='white-button self-center mt-3'
         data-testid='create-button'>
         Create
       </button>
