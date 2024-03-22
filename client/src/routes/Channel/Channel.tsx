@@ -24,7 +24,7 @@ import { extractStreamUrls } from "@/utils/extractStreamUrls";
 
 
 const Channel = () => {
-  const { user, setCurrentStreamUrls, setStreamIndex, setCurrentPlaybackTime, setPlaying } = useMainContext();
+  const { user, setCurrentStreamUrls } = useMainContext();
   const location = useLocation();
   const [channel, setChannel] = useState<ChannelType>(location.state.channel);
   const [showMixForm, setShowMixForm] = useState(false);
@@ -41,7 +41,9 @@ const Channel = () => {
     channels: [],
     users: [],
   };
+
   const [users, setUsers] = useState<User[]>(initialState.users);
+
   useEffect(() => {
     async function retrieveAllUsers() {
       try {

@@ -17,8 +17,6 @@ const AudioWave = () => {
         waveColor: 'white',
         progressColor: '#909090',
         barGap: 1,
-
-
       });
       setWavesurfer(ws);
     }
@@ -43,7 +41,7 @@ const AudioWave = () => {
   useEffect(() => {
     if (wavesurfer && typeof currentPlaybackTime === 'number') {
       const duration = wavesurfer.getDuration();
-      if (duration > 0) { // Ensure duration is greater than 0
+      if (duration > 0) {
         const seekTo = currentPlaybackTime / duration;
         wavesurfer.seekTo(seekTo);
       }

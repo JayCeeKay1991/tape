@@ -25,17 +25,16 @@ const TestPlayer = () => {
 
   useEffect(() => {
     const generatedStream = generateStream(currentStreamUrls);
-    // setCurrentStream(generatedStream)
     setStream(generatedStream);
   }, [currentStreamUrls]);
 
-  useEffect(() => {
-    // Play the current track whenever streamIndex changes
-    if (stream[streamIndex]) {
-      stream[streamIndex].play();
-      setPlaying(true); // Ensure global playing state is set to true
-    }
-  }, [stream, streamIndex]);
+  // useEffect(() => {
+  //   // Play the current track whenever streamIndex changes
+  //   if (stream[streamIndex]) {
+  //     stream[streamIndex].play();
+  //     setPlaying(true); // Ensure global playing state is set to true
+  //   }
+  // }, [streamIndex]);
 
 
   // create stream array from mixTapes
@@ -53,7 +52,6 @@ const TestPlayer = () => {
           }
           // Update state to trigger the next song to play
           setStreamIndex(nextIndex);
-          // Note: Removed direct call to .play() here
         },
         onplay: function (this: Howl) {
           // defines callback function that runs onplay, must be function needs explicit this
@@ -174,7 +172,6 @@ const TestPlayer = () => {
     const currentTimeState = parseFloat(event.target.value);
     const currentMixtape = stream[streamIndex];
     currentMixtape.seek(currentTimeState);
-
     setCurrentPlaybackTime(currentTimeState);
     updateRangeValue(currentTimeState, audioDuration);
 
