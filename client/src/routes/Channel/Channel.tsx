@@ -14,8 +14,12 @@ import AddMixtapeForm from "@/components/AddMixtapeForm/AddMixtapeForm";
 import CommentList from "@/components/CommentList/CommentList";
 // styling
 import { MdPlayArrow } from "react-icons/md";
+
+import AudioWave from "@/components/AudioWave/AudioWave";
+
 import { GoPlus } from "react-icons/go";
 // import AudioWave from "@/components/AudioWave/AudioWave";
+
 // utils
 import { extractStreamUrls } from "@/utils/extractStreamUrls";
 
@@ -59,7 +63,7 @@ const Channel = () => {
     retrieveChannel();
     retrieveAllUsers();
   }, []);
- 
+
 
   const handlePlayClick = () => {
     console.log('play clicked')
@@ -127,6 +131,7 @@ const Channel = () => {
               <GoPlus className="text-tapeWhite" size={30} />
             </button>
           </div>
+          <AudioWave></AudioWave>
         </div>
         {showMemberForm && (
           <AddMembersSelect channel={channel} setChannel={setChannel} />

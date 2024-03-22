@@ -5,7 +5,10 @@ import { MemoryRouter as Router } from 'react-router-dom';
 
 describe('Element renders correctly', async () => {
   const toggleShowLogin = vi.fn();
-  const setFormValue = vi.fn()
+
+  const setFormValue = vi.fn();
+
+
   beforeEach(() => {
     render(
       <Router>
@@ -22,12 +25,16 @@ describe('Element renders correctly', async () => {
 
 describe('Login form is toggled', async () => {
   const toggleShowLogin = vi.fn();
-  const setFormValue = vi.fn()
+
+  const setFormValue = vi.fn();
+
 
   beforeEach(() => {
     render(
       <Router>
-        <Nav toggleShowLogin={toggleShowLogin} setFormValue={setFormValue} />
+
+        <Nav toggleShowLogin={toggleShowLogin} setFormValue={setFormValue}/>
+
       </Router>
     );
   });
