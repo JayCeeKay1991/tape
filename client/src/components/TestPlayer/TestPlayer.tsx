@@ -24,9 +24,14 @@ const TestPlayer = () => {
   const progressBarRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    stream.forEach(howl => howl.unload());
+
     const generatedStream = generateStream(currentStreamUrls);
     setStream(generatedStream);
   }, [currentStreamUrls]);
+
+
+
 
   useEffect(() => {
     // Play the current track whenever streamIndex changes
