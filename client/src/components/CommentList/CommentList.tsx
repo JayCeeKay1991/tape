@@ -12,17 +12,12 @@ type propsType = {
 
 function CommentList({ channel }: propsType) {
   const { user, setUser } = useMainContext();
-  // Form state
   const [formValue, setFormValue] = useState<string>("");
-  // Local comments state
   const [comments, setComments] = useState<CommentsType[]>(channel.comments);
 
   // Set and sort comments
   useEffect(() => {
-    const sortedComments = [...channel.comments].sort((a, b) =>
-      b.date?.toString()?.localeCompare(a.date?.toString())
-    );
-    setComments(sortedComments);
+    setComments(channel.comments);
   }, [channel]);
 
   // Handle comments form change
