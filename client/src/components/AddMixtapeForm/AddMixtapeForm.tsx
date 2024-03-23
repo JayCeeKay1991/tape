@@ -50,8 +50,6 @@ const AddMixtapeForm = ({ channelId, channel, setChannel, setShowMixForm, }: Add
     }
   }
 
- 
-
   // Change handler for file selection
   const handleFileSelect = async (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files.length > 0) {
@@ -154,7 +152,7 @@ const AddMixtapeForm = ({ channelId, channel, setChannel, setShowMixForm, }: Add
         <p>Or</p>
         <button type='button' className='rounded-full border-[2px] border-tapeDarkGrey w-[150px] p-[5px] m-8' onClick={handleChooseFilesClick} disabled={uploading}>Choose files</button>
       </div>
-      <input name="file" type="file" onChange={handleFileSelect} className='hidden' ref={fileInputRef} disabled={uploading}></input>
+      <input name="file" type="file" onChange={handleFileSelect} className='hidden' ref={fileInputRef} disabled={uploading} accept=".aac, .mp3, .mpga, .m4a, .ogg, .oga, .wav, .weba, .flac"></input>
     </form>
   );
 
