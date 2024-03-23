@@ -71,7 +71,6 @@ export default function Dash() {
       </div>
       {showForm ? (
         <AddChannelForm
-          setChannelList={setChannelList}
           setShowForm={setShowForm}
         />
       ) : null}

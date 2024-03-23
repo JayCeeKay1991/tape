@@ -58,6 +58,7 @@ export const createUser = async (req: Request, res: Response) => {
     res.status(500).json('Error creating user');
   }
 };
+
 // getting the logged in user
 export const login = async (req: Request, res: Response) => {
   try {
@@ -104,6 +105,7 @@ export const login = async (req: Request, res: Response) => {
     res.status(500).json('Error logging in user');
   }
 };
+
 
 export const editUser = async (req: Request, res: Response) => {
   try {
