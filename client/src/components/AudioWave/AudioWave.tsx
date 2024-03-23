@@ -5,7 +5,7 @@ import WaveSurfer from 'wavesurfer.js';
 
 // A React component that will render wavesurfer
 const AudioWave = () => {
-  const { currentStreamUrls, streamIndex, playing, currentPlaybackTime } = useMainContext();
+  const { currentStreamUrls, streamIndex, currentPlaybackTime } = useMainContext();
   const waveContainerRef = useRef<HTMLDivElement | null>(null);
   const [wavesurfer, setWavesurfer] = useState<WaveSurfer | null>(null);
 

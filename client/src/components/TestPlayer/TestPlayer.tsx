@@ -28,8 +28,13 @@ const TestPlayer = () => {
 
     const generatedStream = generateStream(currentStreamUrls);
     setStream(generatedStream);
-  }, [currentStreamUrls]);
 
+    if (stream[streamIndex]) {
+      stream[streamIndex].play();
+      setPlaying(true); // Ensure global playing state is set to true
+    }
+
+  }, [currentStreamUrls]);
 
 
 
@@ -50,7 +55,6 @@ const TestPlayer = () => {
         src: [mixtape],
         html5: true,
         onend: function (this: Howl) {
-          console.log("Song ended");
           let nextIndex = index + 1;
           if (nextIndex >= urls.length) {
             nextIndex = 0; // Loop back to the first song
@@ -95,7 +99,6 @@ const TestPlayer = () => {
     });
     return mixtapes;
   };
-
 
 
   const handlePlayClick = () => {
