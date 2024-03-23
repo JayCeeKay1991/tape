@@ -9,7 +9,6 @@ type propsType = {
 };
 
 function Comment({ comment }: propsType) {
-  const { user, setUser } = useMainContext();
 
   return (
     <div className="bg-tapeBlack w-[700px] h-[120px] flex flex-row pl-[20px] rounded-[20px] p-[10px] mb-[50px] items-center border-tapeDarkGrey border-[1px]">
@@ -18,7 +17,7 @@ function Comment({ comment }: propsType) {
         className="w-[80px] h-[80px] overflow-hidden rounded-full mr-[40px] flex items-center justify-center"
       >
         <img
-          src={user.profilePic}
+          src={comment.owner.profilePic}
           className="w-full"
           alt="get a profile pic you dummy"
         />
