@@ -12,14 +12,12 @@ import { useMainContext } from '@/components/Context/Context';
 import AddMembersSelect from '@/components/AddMembersSelect/AddMembersSelect';
 import AddMixtapeForm from '@/components/AddMixtapeForm/AddMixtapeForm';
 import CommentList from '@/components/CommentList/CommentList';
-
 // styling
 import { MdPlayArrow } from 'react-icons/md';
 import AudioWave from '@/components/AudioWave/AudioWave';
 import { GoPlus } from 'react-icons/go';
 // utils
 import { extractStreamUrls } from '@/utils/extractStreamUrls';
-
 import ConfirmationDialog from '@/utils/ConfirmationDialog';
 
 const Channel = () => {
@@ -31,7 +29,7 @@ const Channel = () => {
   const [isCommentsOpen, setIsCommentsOpen] = useState(true);
   const [users, setUsers] = useState<User[]>([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
-
+  const [isThereMix, setIsThereMix] = useState(false)
   const navigateTo = useNavigate();
 
   useEffect(() => {
@@ -55,6 +53,13 @@ const Channel = () => {
     retrieveAllUsers();
   }, []);
 
+  useEffect(() => {
+    if (channel.mixTapes.length > 0) {
+      setIsThereMix(!isThereMix)
+    }
+  },[channel.mixTapes])
+
+  // Play stream
   const handlePlayClick = () => {
     console.log('play clicked');
     const channelUrls = extractStreamUrls(channel.mixTapes);
@@ -62,22 +67,19 @@ const Channel = () => {
     console.log(channelUrls);
   };
 
+  // Toggle members form
   const toggleMemberForm = () => {
     setShowMemberForm(!showMemberForm);
     setShowMixForm(false);
   };
 
+  // Toggle comments
   const toggleComments = () => {
-    if (isCommentsOpen === true) {
-      setIsCommentsOpen(false);
-    } else {
-      setIsCommentsOpen(true);
-    }
+    setIsCommentsOpen(!isCommentsOpen);
   };
 
   // Asks for a confirmation
   const handleDelete = () => {
-    // Show confirmation dialog when delete button is clicked
     setShowConfirmation(true);
   };
 
@@ -85,7 +87,7 @@ const Channel = () => {
   const handleConfirmDelete = async () => {
     await deleteChannel(channel._id);
 
-    // update the dashboard
+  // update the dashboard
     setUser((prevList) => ({
       ...prevList,
       channels: prevList.channels.filter((el) => el._id !== channel._id),
@@ -98,7 +100,7 @@ const Channel = () => {
     <div id="channel" className="flex flex-col items-center">
       <div
         id="channel-element"
-        className="text-tapeWhite w-[1350px] h-72 flex justify-between p-10 rounded-2xl bg-gradient-to-r from-tapePink to-tapeYellow mb-[20px]"
+        className="text-tapeWhite w-[1350px] h-72 flex justify-between p-10 rounded-2xl bg-gradient-to-r from-tapePink to-tapeYellow mb-[20px] relative"
       >
         <div id="channel-info" className="w-2/5 text-xl">
           <div className="flex flex-row">
@@ -115,16 +117,16 @@ const Channel = () => {
                 <p className="mr-[20px] font-medium">
                   {channel.mixTapes.length
                     ? `${channel.mixTapes.length} mixtape${
-                        channel.mixTapes.length === 1 ? '' : 's'
+                        channel.mixTapes.length === 1 ? "" : "s"
                       }`
-                    : '0 mixtapes'}
+                    : "0 mixtapes"}
                 </p>
                 <p className="font-medium">
                   {channel.members.length
                     ? `${channel.members.length} member${
-                        channel.members.length === 1 ? '' : 's'
+                        channel.members.length === 1 ? "" : "s"
                       }`
-                    : '0 members'}
+                    : "0 members"}
                 </p>
               </div>
             </div>
@@ -134,24 +136,31 @@ const Channel = () => {
               return (
                 <div
                   key={index}
-                  className="w-[80px] h-[80px] overflow-hidden rounded-full border-tapePink border-[2px] -ml-[30px]"
+                  className="w-[80px] h-[80px] overflow-hidden rounded-full border-tapePink border-[2px] -ml-[30px] flex-none bg-tapeOffBlack"
                 >
                   <img src={member.profilePic}></img>
                 </div>
               );
             })}
-            <button
-              className="w-[80px] h-[80px] flex flex-row justify-center items-center bg-tapeBlack rounded-full border-tapePink border-[2px] -ml-[30px]"
-              onClick={toggleMemberForm}
-            >
-              <GoPlus className="text-tapeWhite" size={30} />
-            </button>
+            <div className="-ml-[30px] z-10">
+              <button
+                className="w-[80px] h-[80px] flex flex-row justify-center items-center bg-tapeBlack rounded-full border-tapePink border-[2px]"
+                onClick={toggleMemberForm}
+              >
+                <GoPlus className="text-tapeWhite" size={30} />
+              </button>
+              {showMemberForm && (
+                <AddMembersSelect
+                  channel={channel}
+                  setChannel={setChannel}
+                  toggleMemberForm={toggleMemberForm}
+                />
+              )}
+            </div>
           </div>
-          <AudioWave></AudioWave>
+          {isThereMix && <AudioWave></AudioWave>}
         </div>
-        {showMemberForm && (
-          <AddMembersSelect channel={channel} setChannel={setChannel} />
-        )}
+
         <img src={channel.picture} className="w-48 rounded-2xl object-cover" />
       </div>
       <div className="w-full h-[100px] pl-[50px] pr-[50px] flex flex-col items-start">

@@ -44,7 +44,7 @@ const AudioWave = () => {
   }, [currentPlaybackTime, wavesurfer]);
 
   return (
-    <div id="wave" className="w-full h-[100px] relative bottom-[200px] left-[300px] z-49" style={{pointerEvents: 'none'}}>
+    <div id="wave" className="h-[100px] absolute ml-[50px] bottom-[40px] left-[300px] border-tapeWhite border-[2px] rounded-full" style={{pointerEvents: 'none'}}>
       <div
       className='w-[600px]'
       ref={waveContainerRef}>
