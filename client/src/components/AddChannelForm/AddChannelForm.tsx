@@ -9,11 +9,9 @@ import { PiUploadSimple } from "react-icons/pi";
 type FormValues = Omit<ChannelType, '_id'>;
 type propsType = {
   setShowForm: Dispatch<SetStateAction<boolean>>;
-  setChannelList: Dispatch<SetStateAction<ChannelType[]>>;
 };
 
 export default function AddChannelForm({
-  setChannelList,
   setShowForm,
 }: propsType) {
   const { user, setUser } = useMainContext();

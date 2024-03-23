@@ -6,7 +6,7 @@ import { getChannelsUserMemberOf } from '@/services/ChannelClientService';
 import { ChannelType } from '@/types/Channel';
 
 export default function Dash() {
-  const { user, setChannels: setChannelList } = useMainContext();
+  const { user } = useMainContext();
   const channelList = user.channels;
   const [showForm, setShowForm] = useState(false);
   const [channels, setChannels] = useState<ChannelType[]>([]);
@@ -19,6 +19,7 @@ export default function Dash() {
     }
     getAllChannels();
   }, [user]);
+
   const toggleAddForm = () => {
     setShowForm(!showForm);
   };

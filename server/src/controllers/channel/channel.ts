@@ -21,7 +21,6 @@ export const getChannel = async (req: Request, res: Response) => {
   try {
     const channel = await ChannelModel.findById(channelId)
       .populate({
-
         path: "members",
         model: "User",
       })
