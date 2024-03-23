@@ -33,6 +33,12 @@ const Channel = new mongoose.Schema({
       ref: 'Comments',
     },
   ],
+  notifications: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Notifications",
+    },
+  ],
 });
 
 
