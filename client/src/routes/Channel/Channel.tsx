@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
+import { Howler, Howl} from 'howler';
 // types
 import { User } from '@/types/User';
 import { ChannelType } from '@/types/Channel';
+import { MixTape } from '@/types/Mixtape';
 // services
 import { getAllUsers } from '@/services/UserClientService';
 import { getChannel, deleteChannel } from '@/services/ChannelClientService';
@@ -18,12 +20,13 @@ import { MdPlayArrow } from 'react-icons/md';
 import AudioWave from '@/components/AudioWave/AudioWave';
 import { GoPlus } from 'react-icons/go';
 // utils
-import { extractStreamUrls } from '@/utils/extractStreamUrls';
-
 import ConfirmationDialog from '@/utils/ConfirmationDialog';
+import { usePlayerContext } from '@/components/Context/PlayerContext';
+
 
 const Channel = () => {
-  const { user, setCurrentStreamUrls, setUser } = useMainContext();
+  const { user, setUser } = useMainContext();
+  const { setCurrentStream, currentStream, setMixTapeDuration, setCurrentPlaybackTime} = usePlayerContext()
   const location = useLocation();
   const [channel, setChannel] = useState<ChannelType>(location.state.channel);
   const [showMixForm, setShowMixForm] = useState(false);
@@ -34,6 +37,7 @@ const Channel = () => {
 
   const navigateTo = useNavigate();
 
+  // users useEffect
   useEffect(() => {
     async function retrieveAllUsers() {
       try {
@@ -55,11 +59,61 @@ const Channel = () => {
     retrieveAllUsers();
   }, []);
 
+  // GENERATE STREAM FUNCTIONS
+
+  // main generate streamfunction
+  function generateStream(channel: ChannelType) {
+    // extract urls
+    const urls = extractStreamUrls(channel.mixTapes);
+    // generate howls
+    return generateHowlsfromUrls(urls)
+  }
+
+  // generate howl instances from urls
+  function generateHowlsfromUrls(urls: string[]) {
+    // map through urls and return an array of howls
+    return urls.map((url) => new Howl({
+      src: [url],
+      html5: true,
+      preload: true,
+      onplay: onPlay,
+    }))
+  }
+
+  // Custom on play function
+  function updateBar(this: Howl) {
+    const timerId = setInterval(() => {
+      setCurrentPlaybackTime(this.seek());
+    }, 1000);
+    // Cleanup function to clear the interval
+    return () => clearInterval(timerId);
+  }
+
+  // custom on play function
+  function onPlay(this: Howl) {
+    // setDuration;
+    updateBar;
+  }
+
+  // // set duration onload
+  // function setDuration(this: Howl) {
+  //   // sets duration of mixtape in context and renders it in dom
+  //   console.log('mixtapeDuration set to', this.duration())
+  //   setMixTapeDuration(this.duration());
+  // };
+
+  // extract the urls from the mixtapes and returns as array
+  function extractStreamUrls(mixTapes: MixTape[]) {
+    const urls = mixTapes.map((tape) => tape.url);
+    return urls;
+  }
+
+  
+
   const handlePlayClick = () => {
-    console.log('play clicked');
-    const channelUrls = extractStreamUrls(channel.mixTapes);
-    setCurrentStreamUrls(channelUrls);
-    console.log(channelUrls);
+    setCurrentStream([])
+    const channelStream = generateStream(channel);
+    setCurrentStream(channelStream)
   };
 
   const toggleMemberForm = () => {
@@ -114,16 +168,14 @@ const Channel = () => {
               <div className="flex flex-row">
                 <p className="mr-[20px] font-medium">
                   {channel.mixTapes.length
-                    ? `${channel.mixTapes.length} mixtape${
-                        channel.mixTapes.length === 1 ? '' : 's'
-                      }`
+                    ? `${channel.mixTapes.length} mixtape${channel.mixTapes.length === 1 ? '' : 's'
+                    }`
                     : '0 mixtapes'}
                 </p>
                 <p className="font-medium">
                   {channel.members.length
-                    ? `${channel.members.length} member${
-                        channel.members.length === 1 ? '' : 's'
-                      }`
+                    ? `${channel.members.length} member${channel.members.length === 1 ? '' : 's'
+                    }`
                     : '0 members'}
                 </p>
               </div>
@@ -147,7 +199,7 @@ const Channel = () => {
               <GoPlus className="text-tapeWhite" size={30} />
             </button>
           </div>
-          <AudioWave></AudioWave>
+          {/* <AudioWave></AudioWave> */}
         </div>
         {showMemberForm && (
           <AddMembersSelect channel={channel} setChannel={setChannel} />

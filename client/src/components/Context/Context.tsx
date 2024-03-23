@@ -13,10 +13,10 @@ import { ChannelType } from '@/types/Channel';
 import { MixTape } from '@/types/Mixtape';
 import { getUserById } from '@/services/UserClientService';
 import { useNavigate } from 'react-router-dom';
+import { Howl } from 'howler';
 
 type MainContext = {
   user: User;
-  currentStreamUrls: string[];
   streamIndex: number;
   playing: boolean;
   currentPlaybackTime: number;
@@ -28,7 +28,6 @@ type MainContext = {
   setChannels: Dispatch<SetStateAction<ChannelType[]>>;
   setMixTapes: Dispatch<SetStateAction<MixTape[]>>;
 
-  setCurrentStreamUrls: Dispatch<SetStateAction<string[]>>;
   setStreamIndex: Dispatch<SetStateAction<number>>;
   setPlaying: Dispatch<SetStateAction<boolean>>;
   setCurrentPlaybackTime: Dispatch<SetStateAction<number>>;
@@ -80,7 +79,6 @@ export default function ContextProvider({ children }: PropsWithChildren) {
   const [currentPlaybackTime, setCurrentPlaybackTime] = useState<number>(0);
   const [activeHowls, setActiveHowls] = useState<Howl[]>([]);
   const [mixTapeDuration, setMixTapeDuration] = useState<number>(0);
-
 
 
   useEffect(() => {

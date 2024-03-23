@@ -1,6 +1,4 @@
-
 import { useState, useRef, useEffect } from 'react';
-import { useMainContext } from '../Context/Context';
 // helpers
 import { formatTime } from '@/utils/playerHelpers';
 // styling
@@ -11,123 +9,101 @@ import { MdSkipPrevious } from 'react-icons/md';
 import { BiSolidVolumeMute } from 'react-icons/bi';
 import { GoUnmute } from 'react-icons/go';
 import './Player.css';
+import { usePlayerContext } from '../Context/PlayerContext';
 
 
 const Player = () => {
     const {
-        activeHowls,
+        currentStream,
+        setCurrentStream,
         streamIndex,
         setStreamIndex,
-        playing,
-        setPlaying,
         currentPlaybackTime,
         setCurrentPlaybackTime,
         mixTapeDuration,
-    } = useMainContext()
+    } = usePlayerContext();
 
-    // states
+    const [playing, setPlaying] = useState<boolean>(false);
     const [muted, setMuted] = useState<boolean>(false);
-    const [currentMixtape, setCurrentMixtape] = useState<Howl | null>(null)
-    // refs
+    const [percentagePlayed, setPercentagePlayed] = useState(0);
+
     const totalDurationRef = useRef<HTMLParagraphElement>(null);
     const progressBarRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-        // player re-renders when the stream index or active howls changes aka mixtape or channel switched
-        setCurrentMixtape(activeHowls[streamIndex])
-    }, [streamIndex, activeHowls]);
+        const newPercentage = (currentPlaybackTime / mixTapeDuration) * 100;
+        setPercentagePlayed(newPercentage);
+    }, [currentPlaybackTime, mixTapeDuration]);
 
-    // PLAYER CONTROLS
     const handlePlayClick = () => {
-        if (!currentMixtape || currentMixtape.playing()) {
-            return
+        if (!currentStream[streamIndex] || currentStream[streamIndex].playing()) {
+            return;
         }
-        currentMixtape.play();
+        currentStream[streamIndex].play();
         setPlaying(true);
     };
 
     const handlePauseClick = () => {
-        if (!currentMixtape || !currentMixtape.playing()) {
-            return
+        if (!currentStream[streamIndex] || !currentStream[streamIndex].playing()) {
+            return;
         }
-        currentMixtape.pause();
+        currentStream[streamIndex].pause();
         setPlaying(false);
     };
 
     const handleClickNavigation = (newIndex: number) => {
-        if (!currentMixtape || !newIndex) {
-            return
+        if (!currentStream[newIndex]) {
+            return;
         }
         setStreamIndex(newIndex);
-        setCurrentMixtape(activeHowls[newIndex])
-        currentMixtape.play();
+        currentStream[newIndex].play();
         setPlaying(true);
     };
 
     const handleNextClick = () => {
-        if (!currentMixtape) {
-            return
+        if (!currentStream[streamIndex]) {
+            return;
         }
-        currentMixtape.stop();
-        // if the stream is not at the end, increment it
-        if (streamIndex < activeHowls.length - 1) {
-            const newIndex = streamIndex + 1;
-            handleClickNavigation(newIndex);
-            // else start from the beginning
-        } else {
-            const newIndex = 0;
-            handleClickNavigation(newIndex);
-        }
+        currentStream[streamIndex].stop();
+        const newIndex = (streamIndex < currentStream.length - 1) ? streamIndex + 1 : 0;
+        handleClickNavigation(newIndex);
     };
 
     const handlePreviousClick = () => {
-        if (!currentMixtape) {
-            return
+        if (!currentStream[streamIndex]) {
+            return;
         }
-        currentMixtape.stop();
-        //if streamIndex is greater or equal than 1, decrement it
-        if (streamIndex >= 1) {
-            const newIndex = streamIndex - 1;
-            handleClickNavigation(newIndex);
-            // else go to the end
-        } else {
-            const newIndex = activeHowls.length - 1;
-            handleClickNavigation(newIndex);
-        }
+        currentStream[streamIndex].stop();
+        const newIndex = (streamIndex >= 1) ? streamIndex - 1 : currentStream.length - 1;
+        handleClickNavigation(newIndex);
     };
 
     const handleToggleMute = () => {
-        if (!currentMixtape) {
-            return
+        if (!currentStream[streamIndex]) {
+            return;
         }
-        if (muted === true) {
-            currentMixtape.volume(1);
-            setMuted(false);
+        const currentAudio = currentStream[streamIndex];
+        if (muted) {
+            currentAudio.volume(1);
         } else {
-            currentMixtape.volume(0);
-            setMuted(true);
+            currentAudio.volume(0);
         }
+        setMuted(!muted);
     };
 
-    // PROGRESS BAR FUNCTIONS
     const handleChange = () => {
-        if (!currentMixtape) {
-            return
+        if (!currentStream[streamIndex]) {
+            return;
         }
-        setCurrentPlaybackTime(currentMixtape.seek())
-        updateRangeValue();
-    }
-
-    // Updates the value of the bar, so that it tracks the played time
-    const updateRangeValue = () => {
-        const percentage = (currentPlaybackTime / mixTapeDuration) * 100;
-        if (progressBarRef.current) {
-            progressBarRef.current.style.setProperty(
-                '--range-value',
-                percentage + '%'
-            );
-        }
+        setCurrentPlaybackTime(currentStream[streamIndex].seek());
     };
+
+    // const updateRangeValue = () => {
+    //     const percentage = (currentPlaybackTime / mixTapeDuration) * 100;
+    //     if (progressBarRef.current) {
+    //         progressBarRef.current.style.setProperty('--range-value', percentage + '%');
+    //     }
+    // };
 
     return (
         <div
@@ -162,16 +138,13 @@ const Player = () => {
                     id="seek-slider"
                     ref={progressBarRef}
                     value={currentPlaybackTime}
-                    defaultValue="0"
                     max={mixTapeDuration.toString()}
                     onChange={handleChange}
                     className="me-2"
                 />
-                <span
-                    id="duration"
-                    ref={totalDurationRef}
-                    className="text-tapeWhite me-5"
-                >{formatTime(mixTapeDuration)}</span>
+                <span id="duration" ref={totalDurationRef} className="text-tapeWhite me-5">
+                    {currentStream && currentStream[streamIndex] ? formatTime(currentStream[streamIndex].duration()) : '0:00'}
+                </span>
                 <div id="fastforward-rewind" className=" flex flex-row ">
                     <button
                         type="button"
