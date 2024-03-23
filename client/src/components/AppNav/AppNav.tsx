@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom';
 import { useMainContext, initialStateUser } from '@/components/Context/Context';
-import johnMartin from './johnmartin.jpg';
 import { MdHome } from 'react-icons/md';
 import { FiLogOut } from 'react-icons/fi';
 import { useState } from 'react';
@@ -21,6 +20,7 @@ const AppNav = () => {
   }
 
   return (
+
     <nav className="w-full h-20 bg-tapeBlack fixed top-0 left-0 flex flex-row items-center justify-between pr-[20px] pl-[20px]">
       <div className="flex flex-row align-middle">
         <Link to={`/dash`}>
@@ -56,10 +56,13 @@ const AppNav = () => {
               src={user.profilePic ? user.profilePic : johnMartin}
               className="w-16 h-16 object-cover"
               style={{ objectPosition: "center-center" }}
+
               data-testid="profile-image"
             />
           </div>
         </Link>
+
+
       </div>
     </nav>
   );

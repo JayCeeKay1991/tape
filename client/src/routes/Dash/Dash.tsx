@@ -40,6 +40,7 @@ export default function Dash() {
           </div>
         </div>
 
+
         <div id="all-channels" className="flex flex-col gap-x-10 py-1">
           <p className="text-[20px] text-tapeDarkGrey">
             {channelList.length} streams
@@ -72,6 +73,7 @@ export default function Dash() {
                 : "No channels yet."}
             </div>
           </div>
+
         </div>
       </div>
     </div>
