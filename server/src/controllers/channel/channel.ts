@@ -54,6 +54,10 @@ export const createChannel = async (req: Request, res: Response) => {
   try {
     const newChannel = new ChannelModel<ChannelType>(req.body);
     const savedChannel = await newChannel.save();
+
+    // update owner
+    const updatedUser = await UserModel.updateOne({ _id: savedChannel.owner }, { $push: { channels: savedChannel._id } });
+
     res.status(201).json(savedChannel);
   } catch (error) {
     console.error(error);
