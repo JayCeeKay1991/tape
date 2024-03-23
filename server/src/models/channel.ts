@@ -35,14 +35,6 @@ const Channel = new mongoose.Schema({
   ],
 });
 
-// update the user when a channel has been posted
-async function updateUser(doc: ChannelDocument) {
-  await mongoose
-    .model('User')
-    .updateOne({ _id: doc.owner }, { $push: { channels: doc } });
-}
-
-Channel.post('save', updateUser);
 
 const ChannelModel = mongoose.model('Channel', Channel);
 

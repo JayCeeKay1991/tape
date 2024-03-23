@@ -13,15 +13,18 @@ import { useMainContext } from '../Context/Context';
 import { HiPlus } from 'react-icons/hi2';
 
 interface AddMembersSelectProps {
-  channel: ChannelType;
-  setChannel: Dispatch<SetStateAction<ChannelType>>;
+
+  channel: ChannelType
+  setChannel: Dispatch<SetStateAction<ChannelType>>
+  toggleMemberForm: () => void;
 }
 
-const AddMembersSelect = ({ channel, setChannel }: AddMembersSelectProps) => {
-  const [users, setUsers] = useState<User[]>([]);
-  const [matchedUsers, setMatchedUsers] = useState<User[]>([]);
-  const [searchQuery, setSearchQuery] = useState<string>('');
-  const { user: loggedInUser } = useMainContext();
+const AddMembersSelect = ({ channel, setChannel, toggleMemberForm }: AddMembersSelectProps) => {
+  const [users, setUsers] = useState<User[]>([])
+  const [matchedUsers, setMatchedUsers] = useState<User[]>([])
+  const [searchQuery, setSearchQuery] = useState<string>('')
+  const { user: loggedInUser } = useMainContext()
+
 
   useEffect(() => {
     // get all users to populate dropdown
@@ -43,7 +46,9 @@ const AddMembersSelect = ({ channel, setChannel }: AddMembersSelectProps) => {
       }
     }
     retrieveAllUsers();
+
   }, []);
+
 
   const handleMemberSelect = async (userId: string) => {
     setMatchedUsers([]);
@@ -54,6 +59,7 @@ const AddMembersSelect = ({ channel, setChannel }: AddMembersSelectProps) => {
       const updatedChannel = await addUserToChannel(id, user._id);
       setChannel(updatedChannel);
     }
+    toggleMemberForm();
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -73,39 +79,43 @@ const AddMembersSelect = ({ channel, setChannel }: AddMembersSelectProps) => {
   };
 
   return (
-    <div className="flex flex-col w-[400px] pb-[10px] rounded bg-tapeBlack">
+
+    <div className="flex flex-col w-[400px] pb-[10px] rounded bg-tapeBlack pl-[20px] pr-[10px]">
+
       <input
         name="user-search"
         type="text"
         placeholder="Search for a friend..."
         onChange={handleChange}
         value={searchQuery}
-        className="h-[0px] p-[30px] border-tapeDarkGrey bg-tapeBlack border-[2px] text-[25px] text-tapeWhite font-medium outline-none"
+
+        className="h-[0px] pr-[30px] pb-[20px] pt-[50px] border-tapeDarkGrey bg-tapeBlack border-none text-[25px] text-tapeWhite font-medium outline-none text-left"
       />
+      <hr className="w-11/12 border-tapeDarkGrey"></hr>
+
       <ul className="text-tapeWhite bg-tapeOffBlack">
         {matchedUsers.length ? (
           matchedUsers.map((user) => (
             <li
               key={user._id}
-              className="flex items-center bg-tapeBlack p-[10px] text-[25px] text-tapeWhite font-medium hover:bg-tapeOffBlack rounded cursor-pointer"
+
+              className="flex items-center bg-tapeBlack p-[10px] text-[25px] text-tapeWhite font-medium hover:bg-tapeDarkGrey rounded cursor-pointer"
+              onClick={() => handleMemberSelect(user._id)}
             >
               <div
                 id="profile-pic-mask"
-                className="overflow-hidden rounded-full w-[50px] h-[50px]"
+                className="overflow-hidden rounded-full w-[50px] h-[50px] flex-none"
               >
                 <img
-                  src={user.profilePic}
+                  src={user.profilePic ? user.profilePic : johnMartin}
                   alt={user.userName}
                   className="w-16 h-16 object-cover"
-                  style={{ objectPosition: 'center-center' }}
+                  style={{ objectPosition: "center-center" }}
                 />
               </div>
-              <p className="text-tapeWhite mx-8">{user.userName}</p>
-              <HiPlus
-                name="add-button"
-                onClick={() => handleMemberSelect(user._id)}
-                className="mx-8  rounded-full ml-40"
-              />
+              <p className="text-tapeWhite mx-8 flex-grow">{user.userName}</p>
+              <HiPlus name="add-button" className="mx-8  rounded-full ml-" />
+
             </li>
           ))
         ) : (
