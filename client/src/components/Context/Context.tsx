@@ -20,13 +20,20 @@ type MainContext = {
   streamIndex: number;
   playing: boolean;
   currentPlaybackTime: number;
+  activeHowls: Howl[];
+  mixTapeDuration: number;
+
+
   setUser: Dispatch<SetStateAction<User>>;
   setChannels: Dispatch<SetStateAction<ChannelType[]>>;
   setMixTapes: Dispatch<SetStateAction<MixTape[]>>;
+
   setCurrentStreamUrls: Dispatch<SetStateAction<string[]>>;
   setStreamIndex: Dispatch<SetStateAction<number>>;
   setPlaying: Dispatch<SetStateAction<boolean>>;
   setCurrentPlaybackTime: Dispatch<SetStateAction<number>>;
+  setActiveHowls: Dispatch<SetStateAction<Howl[]>>;
+  setMixTapeDuration: Dispatch<SetStateAction<number>>;
 };
 
 export const initialStateUser = {
@@ -41,17 +48,21 @@ export const initialStateUser = {
 
 const initialContext = {
   user: initialStateUser,
-  currentStreamUrls: [],
   playing: false,
   streamIndex: 0,
   currentPlaybackTime: 0,
+  activeHowls: [],
+  mixTapeDuration: 0,
+
+
   setUser: () => {},
   setChannels: () => {},
   setMixTapes: () => {},
-  setCurrentStreamUrls: () => {},
   setPlaying: () => false,
   setStreamIndex: () => 0,
-  setCurrentPlaybackTime: () => 0
+  setCurrentPlaybackTime: () => 0,
+  setActiveHowls: () => {},
+  setMixTapeDuration: () => 0,
 };
 
 const MainContext = createContext<MainContext>(initialContext);
@@ -62,10 +73,13 @@ export default function ContextProvider({ children }: PropsWithChildren) {
   const [user, setUser] = useState<User>(initialStateUser);
   const [channels, setChannels] = useState<ChannelType[]>([]);
   const [mixTapes, setMixTapes] = useState<MixTape[]>([]);
-  const [currentStreamUrls, setCurrentStreamUrls] = useState<string[]>([]);
+
+  // player contexts
   const [streamIndex, setStreamIndex] = useState<number>(0);
   const [playing, setPlaying] = useState<boolean>(false);
   const [currentPlaybackTime, setCurrentPlaybackTime] = useState<number>(0);
+  const [activeHowls, setActiveHowls] = useState<Howl[]>([]);
+  const [mixTapeDuration, setMixTapeDuration] = useState<number>(0);
 
 
 
@@ -94,17 +108,19 @@ export default function ContextProvider({ children }: PropsWithChildren) {
     <MainContext.Provider
       value={{
         user,
-        currentStreamUrls,
         setUser,
         setChannels,
         setMixTapes,
-        setCurrentStreamUrls,
         streamIndex,
         setStreamIndex,
         playing,
         setPlaying,
         currentPlaybackTime,
-        setCurrentPlaybackTime
+        setCurrentPlaybackTime,
+        activeHowls,
+        setActiveHowls,
+        mixTapeDuration,
+        setMixTapeDuration
       }}>
       {children}
     </MainContext.Provider>
