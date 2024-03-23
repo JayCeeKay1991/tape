@@ -97,7 +97,7 @@ const Channel = () => {
   };
 
   return (
-    <div id="channel" className="flex flex-col items-center">
+    <div id="channel" className="flex flex-col items-center m-[100px]">
       <div
         id="channel-element"
         className="text-tapeWhite w-[1350px] h-72 flex justify-between p-10 rounded-2xl bg-gradient-to-r from-tapePink to-tapeYellow mb-[20px] relative"

@@ -53,7 +53,7 @@ const AppNav = () => {
         <Link to={"/user"}>
           <div className="overflow-hidden rounded-full w-[50px] h-[50px] flex justify-center items-center">
             <img
-              src={user.profilePic ? user.profilePic : johnMartin}
+              src={user.profilePic}
               className="w-16 h-16 object-cover"
               style={{ objectPosition: "center-center" }}
 
