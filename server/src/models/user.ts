@@ -8,7 +8,11 @@ const User = new mongoose.Schema({
   userName: { type: String, required: true },
   email: { type: String, required: true },
   password: { type: String, required: true },
-  profilePic: String,
+  profilePic: {
+    type: String,
+    default:
+      "https://res.cloudinary.com/dfjxxmzot/image/upload/v1711191890/upswlzydiqcb0p8th1ys.png",
+  },
   channels: [
     {
       type: mongoose.Schema.Types.ObjectId,

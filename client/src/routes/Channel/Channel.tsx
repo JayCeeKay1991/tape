@@ -202,6 +202,7 @@ const Channel = () => {
               >
                 Uploads
               </button>
+
               {channel.owner.toString() === user._id && (
                 <>
                   <button
@@ -218,6 +219,7 @@ const Channel = () => {
                     />
                   )}
                 </>
+
               )}
             </>
           )}
