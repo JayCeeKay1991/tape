@@ -198,6 +198,19 @@ const Channel = () => {
               >
                 Uploads
               </button>
+              <button
+                className="border-none mr-[40px] text-[20px] text-tapeDarkGrey hover:text-tapeWhite"
+                onClick={handleDelete}
+              >
+                Delete
+              </button>
+              {showConfirmation && (
+                <ConfirmationDialog
+                  isOpen={showConfirmation}
+                  onCancel={() => setShowConfirmation(false)}
+                  onConfirm={handleConfirmDelete}
+                />
+              )}
             </>
           )}
         </div>
