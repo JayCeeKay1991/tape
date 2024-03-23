@@ -51,13 +51,16 @@ export default function Dash() {
       </div>
       <h2 className='text-[50px]'><b>Friends channels</b></h2>
       <p className='text-[20px] text-tapeDarkGrey'>{channels.length} streams</p>
-       <div id='membership-channels' className='flex gap-x-10 py-12'>
-             {channels.length
-          ? channels.map((channel) => (
-            <ChannelItem key={channel._id} channel={channel} />
-          ))
-          : 'No channels yet.'}
-       </div>
+      <div id='membership-channels' className='flex gap-x-10 py-12'>
+       {channels.length > 0 ? (
+         channels.map(channel => (
+          channel.owner._id === user._id ? null : <ChannelItem key={channel._id} channel={channel} />
+         ))
+         ) : (
+        'No channels yet.'
+       )}
+      </div>
+
       </div>
       {showForm ? (
         <AddChannelForm
