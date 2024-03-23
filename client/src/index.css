@@ -1,6 +1,18 @@
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-  color: black
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+
+    .white-button {
+        @apply bg-tapeWhite rounded-full text-tapeBlack;
+    }
+
+    input {
+        @apply bg-tapeWhite border-tapeBlack text-tapeBlack rounded-xl p-1;
+    }
+}
+
+body{
+    background: #151515;
 }
