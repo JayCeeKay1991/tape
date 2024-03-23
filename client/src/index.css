@@ -4,9 +4,8 @@
 
 @layer components {
 
-
     .white-button {
-        @apply bg-tapeWhite rounded-full p-[10px] text-tapeBlack;
+        @apply bg-tapeWhite rounded-full text-tapeBlack;
     }
 
     input {
@@ -14,54 +13,6 @@
     }
 }
 
-/* || For vanilla css */
-
-body {
-    width: 100%;
-    height: 100%;
-    font-family: "Darker Grotesque", sans-serif;
-    font-optical-sizing: auto;
-    font-style: normal;
-    margin: 0;
-    padding: 100px 0;
-    background-color: var(--tapeBlack);
-}
-
-html {
-    box-sizing: border-box;
-}
-
-* {
-    box-sizing: inherit;
-    margin: 0;
-    padding: 0;
-}
-
-/* Root styles */
-
-:root {
-    /* COLORS */
-    --tapeBlack: #151515;
-    --tapeOffBlack: #1B1B1B;
-    --tapeGreen: #BBF771;
-    --tapePink: #FF65AA;
-    --darkGrey: #87888A;
-    --mediumGrey: #BCBDC0;
-    --mediumLight: #E5E7EB;
-    --lightGrey: #F2F4F7;
-    --lighterGrey: #F8F9FA;
-    --tapeWhite: #ffffff;
-
-    /* FONT SIZES */
-    --font-xlarge: 2.4rem;
-    --font-large: 2rem;
-    --font-medium: 1.6rem;
-    --font-small: 1.2rem;
-    --font-xsmall: 1rem;
-    --font-xxsmall: 0.9rem;
-
-    /* FONT WEIGHT */
-    --bold: 600;
-    --regular: 400;
-    --light: 200;
+body{
+    background: #151515;
 }

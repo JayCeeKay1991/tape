@@ -94,7 +94,7 @@ export default function AddChannelForm({
 
   return (
     <form
-    className='flex flex-col w-72 absolute right-32 top-60 border-tapeDarkGrey bg-tapeBlack border-[2px] rounded-[20px] w-[350px] h-content p-[20px]'
+    className='flex flex-col absolute border-tapeDarkGrey bg-tapeBlack border-[2px] rounded-[20px] w-[350px] h-content p-[20px] -left-[230px] mt-[20px]'
     >
       <h1 className='text-2xl mb-5 text-center' >Create a new channel</h1>
       <label>Name</label>
