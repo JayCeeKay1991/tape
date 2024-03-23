@@ -13,25 +13,25 @@ import './index.css';
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: "/home",
+    element: <Home />,
+  },
+  {
+    path: "/",
     element: <App />,
     children: [
       {
-        path: '/home',
-        element: <Home />,
-      },
-      {
-        path: '/dash',
+        path: "/dash",
         element: <Dash />,
       },
       {
-        path: '/user',
+        path: "/user",
         element: <UserDetails />,
       },
       {
-        path: '/channels/:id',
+        path: "/channels/:id",
         element: <Channel />,
-      }
+      },
     ],
   },
 ]);

@@ -8,7 +8,7 @@ const App = () => {
   const userId = localStorage.getItem('loggedinUser');
   return (
 <ContextProvider>
-    <div className='App'>
+    <div className='App bg-tapeBlack'>
       <AppNav />
       {userId ? (
         <TestPlayer/>

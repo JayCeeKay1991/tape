@@ -209,11 +209,11 @@ const TestPlayer = () => {
     <>
       <div
         id="player"
-        className="w-full h-[100px] flex flex-col fixed bottom-0 flex-row justify-center items-center"
+        className="w-full h-[100px] flex fixed bottom-0 flex-row justify-center items-center bg-tapeBlack"
       >
         <div
           id="progress-bar"
-          className="w-full flex flex-row justify-center items-center "
+          className="w-11/12 flex flex-row justify-center items-center"
         >
           <div id="btn-playPause">
             {/* if playing false, render play button, else render pause button */}
