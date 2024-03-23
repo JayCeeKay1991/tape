@@ -24,9 +24,19 @@ const TestPlayer = () => {
   const progressBarRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+    stream.forEach(howl => howl.unload());
+
     const generatedStream = generateStream(currentStreamUrls);
     setStream(generatedStream);
+
+    if (stream[streamIndex]) {
+      stream[streamIndex].play();
+      setPlaying(true); // Ensure global playing state is set to true
+    }
+
   }, [currentStreamUrls]);
+
+
 
   useEffect(() => {
     // Play the current track whenever streamIndex changes
@@ -45,7 +55,6 @@ const TestPlayer = () => {
         src: [mixtape],
         html5: true,
         onend: function (this: Howl) {
-          console.log("Song ended");
           let nextIndex = index + 1;
           if (nextIndex >= urls.length) {
             nextIndex = 0; // Loop back to the first song
@@ -90,7 +99,6 @@ const TestPlayer = () => {
     });
     return mixtapes;
   };
-
 
 
   const handlePlayClick = () => {
