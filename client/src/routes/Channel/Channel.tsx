@@ -75,7 +75,7 @@ const Channel = () => {
     }
   };
 
-  // Asks for a confirmation
+  // Asks for a confirmation, shows delete button only on your channel
   const handleDelete = () => {
     // Show confirmation dialog when delete button is clicked
     setShowConfirmation(true);
@@ -170,18 +170,22 @@ const Channel = () => {
               >
                 Uploads
               </button>
-              <button
-                className="border-none mr-[40px] text-[20px] text-tapeDarkGrey hover:text-tapeWhite"
-                onClick={handleDelete}
-              >
-                Delete
-              </button>
-              {showConfirmation && (
-                <ConfirmationDialog
-                  isOpen={showConfirmation}
-                  onCancel={() => setShowConfirmation(false)}
-                  onConfirm={handleConfirmDelete}
-                />
+              {channel.owner.toString() === user._id && (
+                <>
+                  <button
+                    className="border-none mr-[40px] text-[20px] text-tapeDarkGrey hover:text-tapeWhite"
+                    onClick={handleDelete}
+                  >
+                    Delete
+                  </button>
+                  {showConfirmation && (
+                    <ConfirmationDialog
+                      isOpen={showConfirmation}
+                      onCancel={() => setShowConfirmation(false)}
+                      onConfirm={handleConfirmDelete}
+                    />
+                  )}
+                </>
               )}
             </>
           ) : (
@@ -198,18 +202,24 @@ const Channel = () => {
               >
                 Uploads
               </button>
-              <button
-                className="border-none mr-[40px] text-[20px] text-tapeDarkGrey hover:text-tapeWhite"
-                onClick={handleDelete}
-              >
-                Delete
-              </button>
-              {showConfirmation && (
-                <ConfirmationDialog
-                  isOpen={showConfirmation}
-                  onCancel={() => setShowConfirmation(false)}
-                  onConfirm={handleConfirmDelete}
-                />
+
+              {channel.owner.toString() === user._id && (
+                <>
+                  <button
+                    className="border-none mr-[40px] text-[20px] text-tapeDarkGrey hover:text-tapeWhite"
+                    onClick={handleDelete}
+                  >
+                    Delete
+                  </button>
+                  {showConfirmation && (
+                    <ConfirmationDialog
+                      isOpen={showConfirmation}
+                      onCancel={() => setShowConfirmation(false)}
+                      onConfirm={handleConfirmDelete}
+                    />
+                  )}
+                </>
+
               )}
             </>
           )}
