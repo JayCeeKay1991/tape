@@ -8,98 +8,50 @@ import { BiSolidVolumeMute } from 'react-icons/bi';
 import { GoUnmute } from 'react-icons/go';
 import './TestPlayer.css';
 import { useMainContext } from '../Context/Context';
-import { generateHowlsfromUrls, formatTime, getDuration, updateProgressBar, onPlay, updateRangeValue } from '@/utils/playerHelpers';
+import { updateProgressBar } from '@/utils/playerHelpers';
 
 
 const TestPlayer = () => {
-  const { 
-      activeHowls, 
-      setActiveHowls, 
-      streamIndex, 
-      setStreamIndex, 
-      playing, 
-      setPlaying,
-      currentPlaybackTime,
-      setCurrentPlaybackTime
-    } = useMainContext()
+  const {
+    activeHowls,
+    streamIndex,
+    setStreamIndex,
+    playing,
+    setPlaying,
+    currentPlaybackTime,
+    setCurrentPlaybackTime,
+    mixTapeDuration,
+  } = useMainContext()
+
   // states
-  const [muted, setMuted] = useState<boolean>(false); // flag for if player is muted
-  const [audioDuration, setAudioDuration] = useState<number>(0);
+  const [muted, setMuted] = useState<boolean>(false);
+  const [currentMixtape, setCurrentMixtape] = useState<Howl | null>(null)
   // refs
-  const durationRef = useRef<HTMLParagraphElement>(null); 
-  const totalDurationRef = useRef<HTMLParagraphElement>(null); 
+  const totalDurationRef = useRef<HTMLParagraphElement>(null);
   const progressBarRef = useRef<HTMLInputElement>(null);
-
-  // // create stream array from mixTapes
-  // const generateStream = (urls: string[]) => {
-  //   const mixtapes: Howl[] = urls.map((mixtape, index) => {
-  //     // maps through urls and creates new howl obj for each mixtape url
-  //     return new Howl({
-  //       src: [mixtape],
-  //       html5: true,
-  //       onend: function (this: Howl) {
-  //         let nextIndex = index + 1;
-  //         if (nextIndex >= urls.length) {
-  //           nextIndex = 0; // Loop back to the first song
-  //         }
-  //         // Update state to trigger the next song to play
-  //         setStreamIndex(nextIndex);
-  //       },
-  //       onplay: function (this: Howl) {
-  //         // defines callback function that runs onplay, must be function needs explicit this
-
-  //         if (totalDurationRef.current) {
-  //           // renders total duration in p element
-  //           totalDurationRef.current.textContent = formatTime(
-  //             Math.round(this.duration())
-  //           );
-
-  //           // setAudioDuration to the duration of the total duration of the mix
-  //           setAudioDuration(Math.round(this.duration()));
-  //         }
-
-  //         // handles the rendering of the currently elapsed time by updating every second
-  //         const timerId = setInterval(() => {
-  //           if (this.playing()) {
-  //             // seek is property of howl, finds current point
-  //             const currentTime = this.seek();
-  //             // Update the value of the progress bar
-  //             if (progressBarRef.current) {
-  //               progressBarRef.current.value = String(currentTime);
-  //               updateRangeValue(currentTime, this.duration());
-  //             }
-  //             // calculating the duration that has been played
-  //             if (durationRef.current) {
-  //               durationRef.current.textContent = formatTime(
-  //                 Math.round(currentTime)
-  //               );
-  //             }
-  //           }
-  //         }, 1000);
-  //         return () => clearInterval(timerId);
-  //       },
-  //     });
-  //   });
-  //   setActiveHowls(mixtapes)
-  //   return mixtapes;
-  // };
-
 
 
   const handlePlayClick = () => {
-    const currentMixtape = activeHowls[streamIndex];
+    if (!currentMixtape) {
+      return
+    }
     currentMixtape.play();
     setPlaying(true);
   };
 
   const handlePauseClick = () => {
-    const currentMixtape = activeHowls[streamIndex];
+    if (!currentMixtape) {
+      return
+    }
     currentMixtape.pause();
     setPlaying(false);
   };
 
   // Handle click Navigation parent function for next and previous
   const handleClickNavigation = (newIndex: number) => {
+    if (!currentMixtape) {
+      return
+    }
     setStreamIndex(newIndex);
     const newMixtape = activeHowls[newIndex];
     newMixtape.play();
@@ -107,9 +59,10 @@ const TestPlayer = () => {
   };
 
   const handleNextClick = () => {
-    const currentMixtape = activeHowls[streamIndex];
+    if (!currentMixtape) {
+      return
+    }
     currentMixtape.stop();
-
     // if the stream is not at the end, increment it
     if (streamIndex < activeHowls.length - 1) {
       const newIndex = streamIndex + 1;
@@ -122,9 +75,10 @@ const TestPlayer = () => {
   };
 
   const handlePreviousClick = () => {
-    const currentMixtape = activeHowls[streamIndex];
+    if (!currentMixtape) {
+      return
+    }
     currentMixtape.stop();
-
     //if streamIndex is greater or equal than 1, decrement it
     if (streamIndex >= 1) {
       const newIndex = streamIndex - 1;
@@ -135,15 +89,6 @@ const TestPlayer = () => {
       handleClickNavigation(newIndex);
     }
   };
-
-  // // Time Format
-  // const formatTime = (seconds: number) => {
-  //   return (
-  //     Math.floor(seconds / 60) +
-  //     ':' +
-  //     ('0' + Math.floor(seconds % 60)).slice(-2)
-  //   );
-  // };
 
   // Mute function
   const handleToggleMute = () => {
@@ -157,36 +102,30 @@ const TestPlayer = () => {
     }
   };
 
-  // // event for user initiated progress bar change
-  // const handleProgressBarChange = (
-  //   event: React.ChangeEvent<HTMLInputElement>
-  // ) => {
-  //   const currentTimeState = parseFloat(event.target.value);
-  //   const currentMixtape = stream[streamIndex];
-  //   currentMixtape.seek(currentTimeState);
-  //   updateRangeValue(currentTimeState, audioDuration);
+  const updateProgressBar = () => {
+    if (!currentMixtape) {
+      return
+    }
+    const currentTime = currentMixtape.seek()
+    if (progressBarRef.current) {
+      progressBarRef.current.value = String(currentTime);
+      setCurrentPlaybackTime(currentTime)
+      updateRangeValue();
+    }
+  }
 
-  //   if (durationRef.current) {
-  //     durationRef.current.textContent = formatTime(
-  //       Math.round(currentTimeState)
-  //     );
-  //   }
-  // };
+  // Updates the value of the bar, so that it tracks the played time
+  const updateRangeValue = () => {
+    const percentage = (currentPlaybackTime / mixTapeDuration) * 100;
+    if (progressBarRef.current) {
+      progressBarRef.current.style.setProperty(
+        '--range-value',
+        percentage + '%'
+      );
+    }
+  };
 
-  // // Updates the value of the bar, so that it tracks the played time
-  // const updateRangeValue = (
-  //   currentTimeState: number,
-  //   audioDuration: number
-  // ) => {
-  //   const percentage = (currentTimeState / audioDuration) * 100;
 
-  //   if (progressBarRef.current) {
-  //     progressBarRef.current.style.setProperty(
-  //       '--range-value',
-  //       percentage + '%'
-  //     );
-  //   }
-  // };
 
   return (
     <>
@@ -229,7 +168,7 @@ const TestPlayer = () => {
             id="seek-slider"
             ref={progressBarRef}
             defaultValue="0"
-            max={audioDuration.toString()}
+            max={mixTapeDuration.toString()}
             onChange={handleSkipBar}
             className="me-2"
           />
