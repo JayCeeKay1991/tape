@@ -19,11 +19,21 @@ const AddMixtapeForm = ({ channelId, channel, setChannel, setShowMixForm, }: Add
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const { getRootProps } = useDropzone({
+    // sets up the dropzone, to accept only one file of specified types
     maxFiles: 1,
+    accept: {
+      'audio/aac': ['.aac'],
+      'audio/mpeg': ['.mp3', '.mpga', '.m4a'],
+      'audio/ogg': ['.ogg', '.oga'],
+      'audio/wav': ['.wav'],
+      'audio/webm': ['.weba'],
+      'audio/flac': ['.flac'],
+    },
     onDrop: async (acceptedFiles) => {
       if (acceptedFiles.length > 0) {
         console.log(`File "${acceptedFiles[0].name}" dropped.`);
         try {
+          // uploads the file to cloudinary
           await uploadMixTapeCloudinary(acceptedFiles[0], acceptedFiles[0].name);
         } catch (error) {
           console.error("Error uploading mixtape:", error);
@@ -34,6 +44,7 @@ const AddMixtapeForm = ({ channelId, channel, setChannel, setShowMixForm, }: Add
 
   // Handle choose file click
   const handleChooseFilesClick = (e: MouseEvent<HTMLButtonElement>) => {
+    // simulates the clicking of the fileinput 
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
@@ -137,10 +148,11 @@ const AddMixtapeForm = ({ channelId, channel, setChannel, setShowMixForm, }: Add
             <PiUploadSimple size={120} className='text-tapeDarkGrey m-5' />
           </div>
         </div>
+        {uploading? <p>UPLOAD IN PROGRESS</p> : <></>}
         <p>Or</p>
         <button type='button' className='rounded-full border-[2px] border-tapeDarkGrey w-[150px] p-[5px] m-8' onClick={handleChooseFilesClick} disabled={uploading}>Choose files</button>
       </div>
-      <input name="file" type="file" onChange={handleFileSelect} className='hidden' ref={fileInputRef} disabled={uploading}></input>
+      <input name="file" type="file" onChange={handleFileSelect} className='hidden' ref={fileInputRef} disabled={uploading} accept=".aac, .mp3, .mpga, .m4a, .ogg, .oga, .wav, .weba, .flac"></input>
     </form>
   );
 
