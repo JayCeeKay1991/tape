@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, ChangeEvent } from 'react';
 // helpers
 import { formatTime } from '@/utils/playerHelpers';
 // styling
@@ -15,7 +15,6 @@ import { usePlayerContext } from '../Context/PlayerContext';
 const Player = () => {
     const {
         currentStream,
-        setCurrentStream,
         streamIndex,
         setStreamIndex,
         currentPlaybackTime,
@@ -25,17 +24,12 @@ const Player = () => {
 
     const [playing, setPlaying] = useState<boolean>(false);
     const [muted, setMuted] = useState<boolean>(false);
-    const [percentagePlayed, setPercentagePlayed] = useState(0);
-
     const totalDurationRef = useRef<HTMLParagraphElement>(null);
     const progressBarRef = useRef<HTMLInputElement>(null);
 
-    useEffect(() => {
-        const newPercentage = (currentPlaybackTime / mixTapeDuration) * 100;
-        setPercentagePlayed(newPercentage);
-    }, [currentPlaybackTime, mixTapeDuration]);
 
     const handlePlayClick = () => {
+        console.log('playc clicked', currentStream[streamIndex])
         if (!currentStream[streamIndex] || currentStream[streamIndex].playing()) {
             return;
         }
@@ -91,19 +85,29 @@ const Player = () => {
         setMuted(!muted);
     };
 
-    const handleChange = () => {
-        if (!currentStream[streamIndex]) {
-            return;
+    const handleProgressBarChange = (
+        event: React.ChangeEvent<HTMLInputElement>
+      ) => {
+        const currentTimeState = parseFloat(event.target.value);
+        currentStream[streamIndex].seek(currentTimeState);
+        setCurrentPlaybackTime(currentTimeState);
+        updateRangeValue(currentTimeState, mixTapeDuration);
+      };
+    
+      // Updates the value of the bar, so that it tracks the played time
+      const updateRangeValue = (
+        currentTimeState: number,
+        audioDuration: number
+      ) => {
+        const percentage = (currentTimeState / audioDuration) * 100;
+    
+        if (progressBarRef.current) {
+          progressBarRef.current.style.setProperty(
+            '--range-value',
+            percentage + '%'
+          );
         }
-        setCurrentPlaybackTime(currentStream[streamIndex].seek());
-    };
-
-    // const updateRangeValue = () => {
-    //     const percentage = (currentPlaybackTime / mixTapeDuration) * 100;
-    //     if (progressBarRef.current) {
-    //         progressBarRef.current.style.setProperty('--range-value', percentage + '%');
-    //     }
-    // };
+      };
 
     return (
         <div
@@ -139,7 +143,7 @@ const Player = () => {
                     ref={progressBarRef}
                     value={currentPlaybackTime}
                     max={mixTapeDuration.toString()}
-                    onChange={handleChange}
+                    onChange={handleProgressBarChange}
                     className="me-2"
                 />
                 <span id="duration" ref={totalDurationRef} className="text-tapeWhite me-5">

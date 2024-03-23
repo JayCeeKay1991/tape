@@ -26,7 +26,7 @@ import { usePlayerContext } from '@/components/Context/PlayerContext';
 
 const Channel = () => {
   const { user, setUser } = useMainContext();
-  const { setCurrentStream, currentStream, setMixTapeDuration, setCurrentPlaybackTime} = usePlayerContext()
+  const { setCurrentStream, currentStream, setCurrentPlaybackTime, streamIndex} = usePlayerContext()
   const location = useLocation();
   const [channel, setChannel] = useState<ChannelType>(location.state.channel);
   const [showMixForm, setShowMixForm] = useState(false);
@@ -109,11 +109,14 @@ const Channel = () => {
   }
 
   
-
   const handlePlayClick = () => {
+    currentStream[streamIndex].stop()
+    currentStream.forEach((howl) => howl.unload())
     setCurrentStream([])
     const channelStream = generateStream(channel);
     setCurrentStream(channelStream)
+    console.log(currentStream)
+    currentStream[streamIndex].play()
   };
 
   const toggleMemberForm = () => {

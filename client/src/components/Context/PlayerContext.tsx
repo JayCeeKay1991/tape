@@ -44,9 +44,7 @@ const PlayerContext = createContext<PlayerContext>(initialContext);
 
 export default function ContextProvider({ children }: PropsWithChildren) {
     // player contexts
-    // const [currentMixtape, setCurrentMixtape] = useState<Howl | null>(null);
     const [streamIndex, setStreamIndex] = useState<number>(0);
-    // const [playing, setPlaying] = useState<boolean>(false);
     const [currentPlaybackTime, setCurrentPlaybackTime] = useState<number>(0);
     const [currentStream, setCurrentStream] = useState<Howl[]>([]);
     const [mixTapeDuration, setMixTapeDuration] = useState<number>(0);
