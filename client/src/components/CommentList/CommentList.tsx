@@ -28,7 +28,7 @@ function CommentList({ channel }: propsType) {
   // Handle submission of form
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const owner = channel.owner;
+    const owner = user;
     const date = new Date();
     const message = formValue;
     const newComment = { owner, message, date };
