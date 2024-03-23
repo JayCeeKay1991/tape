@@ -58,6 +58,7 @@ export default function UserDetails() {
       const file = files[0]; // Use the file directly from the input event
       try {
         const pictureUrl = await postImageToCloudinary({ file });
+        console.log(pictureUrl);
         const newUser: Omit<User, "password"> = {
           _id: user._id,
           userName: user.userName,
