@@ -49,7 +49,7 @@ export default function Dash() {
         <div id="channel-list" className="flex gap-x-10 py-12">
           {channelList.length
             ? channelList.map((channel) => (
-                <ChannelItem key={channel._id} channel={channel} />
+                <ChannelItem key={`${channel._id}1`} channel={channel} />
               ))
             : 'No channels yet.'}
         </div>
