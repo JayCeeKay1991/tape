@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useEffect } from 'react';
 // styling
 import { IoMdPlay } from 'react-icons/io';
 import { IoMdPause } from 'react-icons/io';
@@ -50,9 +50,10 @@ const Player = () => {
 
     const handleClickNavigation = (newIndex: number) => {
         setStreamIndex(newIndex);
-        setCurrentPlaybackTime(0);
         const newMixtape = currentStream[newIndex];
+        setCurrentPlaybackTime(0)
         newMixtape.play();
+        updateRangeValue(0)
         setPlaying(true);
     };
 

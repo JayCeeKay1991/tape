@@ -5,11 +5,15 @@ import { Howl } from "howler";
 
 
 // main generate streamfunction
-export async function generateStream(channel: ChannelType, setCurrentPlaybackTime: Dispatch<SetStateAction<number>>, setMixTapeDuration: Dispatch<SetStateAction<number>>, setStreamIndex: Dispatch<SetStateAction<number>>) {
+export async function generateStream(channel: ChannelType,
+    setCurrentPlaybackTime: Dispatch<SetStateAction<number>>,
+    setMixTapeDuration: Dispatch<SetStateAction<number>>,
+    setStreamIndex: Dispatch<SetStateAction<number>>,
+    streamIndex: number) {
     // extract urls
     const urls = extractStreamUrls(channel.mixTapes);
     // generate howls and return a promise
-    return generateHowlsfromUrls(urls, setCurrentPlaybackTime, setMixTapeDuration, setStreamIndex);
+    return generateHowlsfromUrls(urls, setCurrentPlaybackTime, setMixTapeDuration, setStreamIndex, streamIndex);
 }
 
 // extract the urls from the mixtapes and returns as array
@@ -21,7 +25,9 @@ function extractStreamUrls(mixTapes: MixTape[]) {
 // generate howl instances from urls
 function generateHowlsfromUrls(
     urls: string[], setCurrentPlaybackTime: Dispatch<SetStateAction<number>>,
-     setMixTapeDuration: Dispatch<SetStateAction<number>>, setStreamIndex: Dispatch<SetStateAction<number>>): Promise<Howl[]> {
+    setMixTapeDuration: Dispatch<SetStateAction<number>>,
+    setStreamIndex: Dispatch<SetStateAction<number>>,
+    streamIndex: number): Promise<Howl[]> {
     // create an array to store promises for each Howl
     const howlPromises: Promise<Howl>[] = [];
 
@@ -37,7 +43,6 @@ function generateHowlsfromUrls(
                     resolve(howl);
                 },
                 onplay: function (this: Howl) {
-                    console.log(`playing`, this);
                     setMixTapeDuration(Math.round(this.duration()));
                     const timerId = setInterval(() => {
                         if (this.playing()) {
@@ -46,8 +51,8 @@ function generateHowlsfromUrls(
                     }, 1000);
                     return () => clearInterval(timerId);
                 },
-                onend: function(this: Howl) {
-                    let nextIndex = (index + 1) % urls.length;
+                onend: function (this: Howl) {
+                    let nextIndex = (streamIndex + 1) % urls.length;
                     setStreamIndex(nextIndex);
                 }
             });

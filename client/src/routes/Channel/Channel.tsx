@@ -67,10 +67,10 @@ const Channel = () => {
     if (currentStream[streamIndex]) {
       currentStream[streamIndex].stop();
       setPlaying(false);
-      setCurrentStream([]);
     }
     try {
-      const stream = await generateStream(channel, setCurrentPlaybackTime, setMixTapeDuration, setStreamIndex);
+      const stream = await generateStream(channel, setCurrentPlaybackTime, setMixTapeDuration, setStreamIndex, streamIndex);
+      console.log('new stream ready', stream)
       setCurrentStream(stream);
     } catch (error) {
       console.error('Error occurred while loading stream:', error);
