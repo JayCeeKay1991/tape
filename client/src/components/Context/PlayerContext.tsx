@@ -31,11 +31,9 @@ type PlayerContext = {
     visible: boolean;
     setVisible: Dispatch<SetStateAction<boolean>>;
 
-    // player control functions
-    play: () => void;
-    pause: () => void;
-    navigateInStream: (direction: 'forward' | 'backward') => void;
-    toggleMute: () => void;
+    // playing or not
+    playing: boolean;
+    setPlaying: Dispatch<SetStateAction<boolean>>;
 
 
 };
@@ -56,10 +54,9 @@ const initialContext = {
     visible: false,
     setVisible: () => { },
 
-    play: () => { },
-    pause: () => { },
-    navigateInStream: () => { },
-    toggleMute: () => { }
+    playing: false,
+    setPlaying: () => { },
+
 };
 
 const PlayerContext = createContext<PlayerContext>(initialContext);
@@ -70,7 +67,8 @@ export default function ContextProvider({ children }: PropsWithChildren) {
     const [streamIndex, setStreamIndex] = useState<number>(0);
     const [currentPlaybackTime, setCurrentPlaybackTime] = useState<number>(0);
     const [mixTapeDuration, setMixTapeDuration] = useState<number>(0);
-    const [visible, setVisible] = useState<boolean>(false);
+    const [visible, setVisible] = useState<boolean>(true);
+    const [playing, setPlaying] = useState<boolean>(false);
 
     useEffect(() => {
         return () => {
@@ -82,61 +80,6 @@ export default function ContextProvider({ children }: PropsWithChildren) {
             });
         };
     }, [currentStream]);
-
-    // Controls
-
-    const play = () => {
-        console.log('play clicked', currentStream[streamIndex]);
-        if (!currentStream[streamIndex]) return;
-
-        const currentHowl = currentStream[streamIndex];
-        if (currentHowl.playing()) return;
-
-        currentHowl.play();
-    };
-
-    const pause = () => {
-        console.log('pause clicked', currentStream[streamIndex]);
-        if (!currentStream[streamIndex]) return;
-
-        const currentHowl = currentStream[streamIndex];
-        if (!currentHowl.playing()) return;
-
-        currentHowl.pause();
-    };
-
-    const navigateInStream = (direction: 'forward' | 'backward') => {
-        // handles navigation in both directions
-        if (!currentStream[streamIndex]) return;
-
-        const newIndex = direction === 'forward'
-            // wraps if we try to navigate out of bounds, or stays at 0
-            ? (streamIndex + 1) % currentStream.length
-            : streamIndex === 0 ? 0 : streamIndex - 1;
-
-        if (currentStream[newIndex]) {
-            // Update streamIndex state
-            setStreamIndex(newIndex);
-
-            // stops previous howl, plays next one
-            setStreamIndex(newIndex);
-            currentStream[streamIndex]?.stop();
-            currentStream[newIndex]?.play();
-        }
-    };
-
-    const toggleMute = () => {
-        if (!currentStream[streamIndex]) {
-            return;
-        }
-        if (currentStream[streamIndex].volume() === 0) {
-            currentStream[streamIndex].volume(1);
-        } else {
-            currentStream[streamIndex].volume(0);
-        }
-    };
-
-
 
     return (
         <PlayerContext.Provider
@@ -151,10 +94,8 @@ export default function ContextProvider({ children }: PropsWithChildren) {
                 setMixTapeDuration,
                 visible,
                 setVisible,
-                play,
-                pause,
-                navigateInStream,
-                toggleMute
+                playing,
+                setPlaying,
             }}>
             {children}
         </PlayerContext.Provider>

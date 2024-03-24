@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { Howler, Howl} from 'howler';
+import { Howler, Howl } from 'howler';
 // types
 import { User } from '@/types/User';
 import { ChannelType } from '@/types/Channel';
@@ -21,12 +21,11 @@ import AudioWave from '@/components/AudioWave/AudioWave';
 import { GoPlus } from 'react-icons/go';
 // utils
 import ConfirmationDialog from '@/utils/ConfirmationDialog';
-import { generateStream } from '@/components/StreamGenerator/StreamGenerator';
-
+import { generateStream } from '@/utils/StreamCreationHelpers';
 
 const Channel = () => {
   const { user, setUser } = useMainContext();
-  const { setCurrentStream, currentStream, streamIndex, currentPlaybackTime, setCurrentPlaybackTime} = usePlayerContext()
+  const { setCurrentStream, currentStream, streamIndex, setCurrentPlaybackTime, setMixTapeDuration, setPlaying} = usePlayerContext()
   const location = useLocation();
   const [channel, setChannel] = useState<ChannelType>(location.state.channel);
   const [showMixForm, setShowMixForm] = useState(false);
@@ -34,6 +33,7 @@ const Channel = () => {
   const [isCommentsOpen, setIsCommentsOpen] = useState(true);
   const [users, setUsers] = useState<User[]>([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
+  const [isPlayClicked, setIsPlayClicked] = useState(false);
 
   const navigateTo = useNavigate();
 
@@ -58,10 +58,27 @@ const Channel = () => {
     retrieveChannel();
     retrieveAllUsers();
   }, []);
- 
-  const handlePlayClick = () => {
-    const stream = generateStream(channel, setCurrentPlaybackTime, updateRangeValue);
+
+  const handlePlayClick = async () => {
+    if (isPlayClicked) {
+      return;
+    }
+    setIsPlayClicked(true);
+    if (currentStream[streamIndex]) {
+      currentStream[streamIndex].stop();
+      setPlaying(false);
+      setCurrentStream([]);
+    }
+    try {
+      const stream = await generateStream(channel, setCurrentPlaybackTime, setMixTapeDuration);
+      setCurrentStream(stream);
+    } catch (error) {
+      console.error('Error occurred while loading stream:', error);
+    } finally {
+      setIsPlayClicked(false);
+    }
   };
+
 
   const toggleMemberForm = () => {
     setShowMemberForm(!showMemberForm);

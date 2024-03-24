@@ -1,6 +1,18 @@
 import { ChannelType } from "@/types/Channel";
 import { MixTape } from "@/types/Mixtape";
 import { Dispatch, SetStateAction } from "react";
+import { Howl } from "howler";
+
+
+
+// main generate streamfunction
+export async function generateStream(channel: ChannelType, setCurrentPlaybackTime: Dispatch<SetStateAction<number>>, setMixTapeDuration: Dispatch<SetStateAction<number>>) {
+    // extract urls
+    const urls = extractStreamUrls(channel.mixTapes);
+    // generate howls and return a promise
+    return generateHowlsfromUrls(urls, setCurrentPlaybackTime, setMixTapeDuration);
+}
+
 
 // extract the urls from the mixtapes and returns as array
 function extractStreamUrls(mixTapes: MixTape[]) {
@@ -8,31 +20,39 @@ function extractStreamUrls(mixTapes: MixTape[]) {
     return urls;
 }
 
-// main generate streamfunction
-function generateStream(channel: ChannelType, currentPlaybackTime: number, setCurrentPlaybackTime: Dispatch<SetStateAction<number>>, updateRangeValue) {
-    // extract urls
-    const urls = extractStreamUrls(channel.mixTapes);
-    // generate howls
-    return generateHowlsfromUrls(urls, currentPlaybackTime, setCurrentPlaybackTime, updateRangeValue)
-}
-
 // generate howl instances from urls
-function generateHowlsfromUrls(urls: string[], currentPlaybackTime: number, setCurrentPlaybackTime: Dispatch<SetStateAction<number>>, updateRangeValue) {
-    // map through urls and return an array of howls
-    return urls.map((url) => new Howl({
-        src: [url],
-        html5: true,
-        preload: true,
-        onplay: function (this: Howl) {
-            const timerId = setInterval(() => {
-                if(this.playing()) {
-                    setCurrentPlaybackTime(this.seek());
-                    updateRangeValue(currentPlaybackTime, this.duration();
-                }
-            }, 1000);
-            return () => clearInterval(timerId);
-        }
-    }))
+function generateHowlsfromUrls(urls: string[], setCurrentPlaybackTime: Dispatch<SetStateAction<number>>, setMixTapeDuration: Dispatch<SetStateAction<number>>): Promise<Howl[]> {
+    // create an array to store promises for each Howl
+    const howlPromises: Promise<Howl>[] = [];
+
+    // map through urls and create promises for each Howl
+    urls.forEach((url) => {
+        const promise = new Promise<Howl>((resolve) => {
+            const howl = new Howl({
+                src: [url],
+                html5: true,
+                preload: true,
+                onload: function () {
+                    // Resolve the promise when the Howl is loaded
+                    resolve(howl);
+                },
+                onplay: function (this: Howl) {
+                    console.log(`playing`, this);
+                    setMixTapeDuration(Math.round(this.duration()));
+                    const timerId = setInterval(() => {
+                        if (this.playing()) {
+                            setCurrentPlaybackTime(this.seek());
+                        }
+                    }, 1000);
+                    return () => clearInterval(timerId);
+                },
+            });
+        });
+        howlPromises.push(promise);
+    });
+
+    // return a promise that resolves when all Howls are loaded
+    return Promise.all(howlPromises);
 }
 
 
