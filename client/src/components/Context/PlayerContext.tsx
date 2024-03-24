@@ -35,6 +35,10 @@ type PlayerContext = {
     playing: boolean;
     setPlaying: Dispatch<SetStateAction<boolean>>;
 
+    // muted or not
+    muted: boolean;
+    setMuted: Dispatch<SetStateAction<boolean>>;
+
 
 };
 
@@ -57,6 +61,9 @@ const initialContext = {
     playing: false,
     setPlaying: () => { },
 
+    muted: false,
+    setMuted: () => {}
+
 };
 
 const PlayerContext = createContext<PlayerContext>(initialContext);
@@ -69,6 +76,7 @@ export default function ContextProvider({ children }: PropsWithChildren) {
     const [mixTapeDuration, setMixTapeDuration] = useState<number>(0);
     const [visible, setVisible] = useState<boolean>(true);
     const [playing, setPlaying] = useState<boolean>(false);
+    const [muted, setMuted] = useState<boolean>(false);
 
     useEffect(() => {
         return () => {
@@ -96,6 +104,8 @@ export default function ContextProvider({ children }: PropsWithChildren) {
                 setVisible,
                 playing,
                 setPlaying,
+                muted,
+                setMuted
             }}>
             {children}
         </PlayerContext.Provider>

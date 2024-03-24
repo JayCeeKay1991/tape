@@ -4,15 +4,13 @@ import { Dispatch, SetStateAction } from "react";
 import { Howl } from "howler";
 
 
-
 // main generate streamfunction
-export async function generateStream(channel: ChannelType, setCurrentPlaybackTime: Dispatch<SetStateAction<number>>, setMixTapeDuration: Dispatch<SetStateAction<number>>) {
+export async function generateStream(channel: ChannelType, setCurrentPlaybackTime: Dispatch<SetStateAction<number>>, setMixTapeDuration: Dispatch<SetStateAction<number>>, setStreamIndex: Dispatch<SetStateAction<number>>) {
     // extract urls
     const urls = extractStreamUrls(channel.mixTapes);
     // generate howls and return a promise
-    return generateHowlsfromUrls(urls, setCurrentPlaybackTime, setMixTapeDuration);
+    return generateHowlsfromUrls(urls, setCurrentPlaybackTime, setMixTapeDuration, setStreamIndex);
 }
-
 
 // extract the urls from the mixtapes and returns as array
 function extractStreamUrls(mixTapes: MixTape[]) {
@@ -21,7 +19,9 @@ function extractStreamUrls(mixTapes: MixTape[]) {
 }
 
 // generate howl instances from urls
-function generateHowlsfromUrls(urls: string[], setCurrentPlaybackTime: Dispatch<SetStateAction<number>>, setMixTapeDuration: Dispatch<SetStateAction<number>>): Promise<Howl[]> {
+function generateHowlsfromUrls(
+    urls: string[], setCurrentPlaybackTime: Dispatch<SetStateAction<number>>,
+     setMixTapeDuration: Dispatch<SetStateAction<number>>, setStreamIndex: Dispatch<SetStateAction<number>>): Promise<Howl[]> {
     // create an array to store promises for each Howl
     const howlPromises: Promise<Howl>[] = [];
 
@@ -46,6 +46,10 @@ function generateHowlsfromUrls(urls: string[], setCurrentPlaybackTime: Dispatch<
                     }, 1000);
                     return () => clearInterval(timerId);
                 },
+                onend: function(this: Howl) {
+                    let nextIndex = (index + 1) % urls.length;
+                    setStreamIndex(nextIndex);
+                }
             });
         });
         howlPromises.push(promise);

@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useRef } from 'react';
 // styling
 import { IoMdPlay } from 'react-icons/io';
 import { IoMdPause } from 'react-icons/io';
@@ -7,13 +7,21 @@ import { MdSkipPrevious } from 'react-icons/md';
 import { BiSolidVolumeMute } from 'react-icons/bi';
 import { GoUnmute } from 'react-icons/go';
 import './Player.css';
+// context
 import { usePlayerContext } from '../Context/PlayerContext';
 
 
 const Player = () => {
-    const { currentStream, playing, setPlaying, streamIndex, setStreamIndex, setCurrentPlaybackTime, mixTapeDuration } = usePlayerContext()
-    // states
-    const [muted, setMuted] = useState<boolean>(false);
+    const { 
+        currentStream,
+        playing,
+        setPlaying,
+        streamIndex,
+        setStreamIndex,
+        setCurrentPlaybackTime,
+        mixTapeDuration,
+        muted,
+        setMuted } = usePlayerContext()
     // refs
     const totalDurationRef = useRef<HTMLParagraphElement>(null);
     const progressBarRef = useRef<HTMLInputElement>(null);
@@ -40,25 +48,34 @@ const Player = () => {
         setPlaying(false);
     };
 
-    const navigateInStream = (direction: 'forward' | 'backward') => {
-        // handles navigation in both directions
-        if (!currentStream[streamIndex]) return;
-
-        const newIndex = direction === 'forward'
-            // wraps if we try to navigate out of bounds, or stays at 0
-            ? (streamIndex + 1) % currentStream.length
-            : streamIndex === 0 ? 0 : streamIndex - 1;
-
-        if (currentStream[newIndex]) {
-            // Update streamIndex state
-            setStreamIndex(newIndex);
-
-            // stops previous howl, plays next one
-            setStreamIndex(newIndex);
-            currentStream[streamIndex]?.stop();
-            currentStream[newIndex]?.play();
-        }
+    const handleClickNavigation = (newIndex: number) => {
+        setStreamIndex(newIndex);
+        setCurrentPlaybackTime(0);
+        const newMixtape = currentStream[newIndex];
+        newMixtape.play();
+        setPlaying(true);
     };
+
+    const handleNextClick = () => {
+        const currentMixtape = currentStream[streamIndex];
+        currentMixtape.stop();
+
+        // Calculate the index for the next track
+        const newIndex = (streamIndex + 1) % currentStream.length;
+
+        handleClickNavigation(newIndex);
+    };
+
+    const handlePreviousClick = () => {
+        const currentMixtape = currentStream[streamIndex];
+        currentMixtape.stop();
+
+        // Calculate the index for the previous track
+        const newIndex = (streamIndex - 1 + currentStream.length) % currentStream.length;
+
+        handleClickNavigation(newIndex);
+    };
+
 
     // Time Format
     const formatTime = (seconds: number) => {
@@ -90,16 +107,15 @@ const Player = () => {
         const currentMixtape = currentStream[streamIndex];
         currentMixtape.seek(currentTimeState);
         setCurrentPlaybackTime(currentTimeState);
-        updateRangeValue(currentTimeState, currentStream[streamIndex].duration());
+        updateRangeValue(currentTimeState);
 
     };
 
     // Updates the value of the bar, so that it tracks the played time
     const updateRangeValue = (
-        currentTimeState: number,
-        audioDuration: number
+        currentTimeState: number
     ) => {
-        const percentage = (currentTimeState / audioDuration) * 100;
+        const percentage = (currentTimeState / mixTapeDuration) * 100;
 
         if (progressBarRef.current) {
             progressBarRef.current.style.setProperty(
@@ -155,14 +171,14 @@ const Player = () => {
                     <div id="fastforward-rewind" className=" flex flex-row ">
                         <button
                             type="button"
-                            onClick={() => navigateInStream('backward')}
+                            onClick={handleNextClick}
                             className="text-tapeWhite me-2 border-none"
                         >
                             <MdSkipPrevious size="35" />
                         </button>
                         <button
                             type="button"
-                            onClick={() => navigateInStream('forward')}
+                            onClick={handlePreviousClick}
                             className="text-tapeWhite me-2 border-none"
                         >
                             <MdSkipNext size="35" />

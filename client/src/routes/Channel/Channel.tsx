@@ -25,7 +25,7 @@ import { generateStream } from '@/utils/StreamCreationHelpers';
 
 const Channel = () => {
   const { user, setUser } = useMainContext();
-  const { setCurrentStream, currentStream, streamIndex, setCurrentPlaybackTime, setMixTapeDuration, setPlaying} = usePlayerContext()
+  const { setCurrentStream, currentStream, streamIndex, setStreamIndex, setCurrentPlaybackTime, setMixTapeDuration, setPlaying} = usePlayerContext()
   const location = useLocation();
   const [channel, setChannel] = useState<ChannelType>(location.state.channel);
   const [showMixForm, setShowMixForm] = useState(false);
@@ -70,7 +70,7 @@ const Channel = () => {
       setCurrentStream([]);
     }
     try {
-      const stream = await generateStream(channel, setCurrentPlaybackTime, setMixTapeDuration);
+      const stream = await generateStream(channel, setCurrentPlaybackTime, setMixTapeDuration, setStreamIndex);
       setCurrentStream(stream);
     } catch (error) {
       console.error('Error occurred while loading stream:', error);
