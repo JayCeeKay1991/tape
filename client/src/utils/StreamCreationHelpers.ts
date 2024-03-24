@@ -24,7 +24,7 @@ function extractStreamUrls(mixTapes: MixTape[]) {
 
 // generate howl instances from urls
 function generateHowlsfromUrls(
-    urls: string[], setCurrentPlaybackTime: Dispatch<SetStateAction<number>>,
+    urls: string[],
     setMixTapeDuration: Dispatch<SetStateAction<number>>,
     setStreamIndex: Dispatch<SetStateAction<number>>,
     streamIndex: number): Promise<Howl[]> {
@@ -54,7 +54,7 @@ function generateHowlsfromUrls(
         howlPromises.push(promise);
     });
 
-    // return a promise that resolves when all Howls are loaded
+    // return a promise all that resolves when all Howls are loaded
     return Promise.all(howlPromises);
 }
 
