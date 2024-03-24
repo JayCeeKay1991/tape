@@ -27,10 +27,6 @@ type PlayerContext = {
     mixTapeDuration: number;
     setMixTapeDuration: Dispatch<SetStateAction<number>>;
 
-    // player visibility
-    visible: boolean;
-    setVisible: Dispatch<SetStateAction<boolean>>;
-
     // playing or not
     playing: boolean;
     setPlaying: Dispatch<SetStateAction<boolean>>;
@@ -55,9 +51,6 @@ const initialContext = {
     mixTapeDuration: 0,
     setMixTapeDuration: () => 0,
 
-    visible: false,
-    setVisible: () => { },
-
     playing: false,
     setPlaying: () => { },
 
@@ -74,18 +67,13 @@ export default function ContextProvider({ children }: PropsWithChildren) {
     const [streamIndex, setStreamIndex] = useState<number>(0);
     const [currentPlaybackTime, setCurrentPlaybackTime] = useState<number>(0);
     const [mixTapeDuration, setMixTapeDuration] = useState<number>(0);
-    const [visible, setVisible] = useState<boolean>(true);
     const [playing, setPlaying] = useState<boolean>(false);
     const [muted, setMuted] = useState<boolean>(false);
 
     useEffect(() => {
         return () => {
-            currentStream.forEach(howl => {
-                if (howl.playing()) {
-                    howl.stop();
-                }
-                howl.unload();
-            });
+            Howler.stop()
+            Howler.unload()
         };
     }, [currentStream]);
 
@@ -100,8 +88,6 @@ export default function ContextProvider({ children }: PropsWithChildren) {
                 setCurrentPlaybackTime,
                 mixTapeDuration,
                 setMixTapeDuration,
-                visible,
-                setVisible,
                 playing,
                 setPlaying,
                 muted,
