@@ -35,6 +35,8 @@ type PlayerContext = {
     play: () => void;
     pause: () => void;
     navigateInStream: (direction: 'forward' | 'backward') => void;
+    toggleMute: () => void;
+
 
 };
 
@@ -52,11 +54,12 @@ const initialContext = {
     setMixTapeDuration: () => 0,
 
     visible: false,
-    setVisible: () => {},
+    setVisible: () => { },
 
-    play: () => {},
-    pause: () => {},
-    navigateInStream: () => {}
+    play: () => { },
+    pause: () => { },
+    navigateInStream: () => { },
+    toggleMute: () => { }
 };
 
 const PlayerContext = createContext<PlayerContext>(initialContext);
@@ -112,6 +115,9 @@ export default function ContextProvider({ children }: PropsWithChildren) {
             : streamIndex === 0 ? 0 : streamIndex - 1;
 
         if (currentStream[newIndex]) {
+            // Update streamIndex state
+            setStreamIndex(newIndex);
+
             // stops previous howl, plays next one
             setStreamIndex(newIndex);
             currentStream[streamIndex]?.stop();
@@ -119,7 +125,16 @@ export default function ContextProvider({ children }: PropsWithChildren) {
         }
     };
 
-
+    const toggleMute = () => {
+        if (!currentStream[streamIndex]) {
+            return;
+        }
+        if (currentStream[streamIndex].volume() === 0) {
+            currentStream[streamIndex].volume(1);
+        } else {
+            currentStream[streamIndex].volume(0);
+        }
+    };
 
 
 
@@ -138,7 +153,8 @@ export default function ContextProvider({ children }: PropsWithChildren) {
                 setVisible,
                 play,
                 pause,
-                navigateInStream
+                navigateInStream,
+                toggleMute
             }}>
             {children}
         </PlayerContext.Provider>

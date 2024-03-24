@@ -9,24 +9,24 @@ import { MixTape } from '@/types/Mixtape';
 // services
 import { getAllUsers } from '@/services/UserClientService';
 import { getChannel, deleteChannel } from '@/services/ChannelClientService';
+import { usePlayerContext } from '@/components/Context/PlayerContext';
 // components
 import { useMainContext } from '@/components/Context/Context';
 import AddMembersSelect from '@/components/AddMembersSelect/AddMembersSelect';
 import AddMixtapeForm from '@/components/AddMixtapeForm/AddMixtapeForm';
 import CommentList from '@/components/CommentList/CommentList';
-
 // styling
 import { MdPlayArrow } from 'react-icons/md';
 import AudioWave from '@/components/AudioWave/AudioWave';
 import { GoPlus } from 'react-icons/go';
 // utils
 import ConfirmationDialog from '@/utils/ConfirmationDialog';
-import { usePlayerContext } from '@/components/Context/PlayerContext';
+import { generateStream } from '@/components/StreamGenerator/StreamGenerator';
 
 
 const Channel = () => {
   const { user, setUser } = useMainContext();
-  const { setCurrentStream, currentStream, setCurrentPlaybackTime, streamIndex} = usePlayerContext()
+  const { setCurrentStream, currentStream, streamIndex, currentPlaybackTime, setCurrentPlaybackTime} = usePlayerContext()
   const location = useLocation();
   const [channel, setChannel] = useState<ChannelType>(location.state.channel);
   const [showMixForm, setShowMixForm] = useState(false);
@@ -58,65 +58,9 @@ const Channel = () => {
     retrieveChannel();
     retrieveAllUsers();
   }, []);
-
-  // GENERATE STREAM FUNCTIONS
-
-  // main generate streamfunction
-  function generateStream(channel: ChannelType) {
-    // extract urls
-    const urls = extractStreamUrls(channel.mixTapes);
-    // generate howls
-    return generateHowlsfromUrls(urls)
-  }
-
-  // generate howl instances from urls
-  function generateHowlsfromUrls(urls: string[]) {
-    // map through urls and return an array of howls
-    return urls.map((url) => new Howl({
-      src: [url],
-      html5: true,
-      preload: true,
-      onplay: onPlay,
-    }))
-  }
-
-  // Custom on play function
-  function updateBar(this: Howl) {
-    const timerId = setInterval(() => {
-      setCurrentPlaybackTime(this.seek());
-    }, 1000);
-    // Cleanup function to clear the interval
-    return () => clearInterval(timerId);
-  }
-
-  // custom on play function
-  function onPlay(this: Howl) {
-    // setDuration;
-    updateBar;
-  }
-
-  // // set duration onload
-  // function setDuration(this: Howl) {
-  //   // sets duration of mixtape in context and renders it in dom
-  //   console.log('mixtapeDuration set to', this.duration())
-  //   setMixTapeDuration(this.duration());
-  // };
-
-  // extract the urls from the mixtapes and returns as array
-  function extractStreamUrls(mixTapes: MixTape[]) {
-    const urls = mixTapes.map((tape) => tape.url);
-    return urls;
-  }
-
-  
+ 
   const handlePlayClick = () => {
-    currentStream[streamIndex].stop()
-    currentStream.forEach((howl) => howl.unload())
-    setCurrentStream([])
-    const channelStream = generateStream(channel);
-    setCurrentStream(channelStream)
-    console.log(currentStream)
-    currentStream[streamIndex].play()
+    const stream = generateStream(channel, setCurrentPlaybackTime, updateRangeValue);
   };
 
   const toggleMemberForm = () => {
