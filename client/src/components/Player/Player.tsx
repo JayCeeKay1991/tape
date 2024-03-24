@@ -17,6 +17,7 @@ const Player = () => {
         setPlaying,
         streamIndex,
         setStreamIndex,
+        currentPlaybackTime,
         setCurrentPlaybackTime,
         mixTapeDuration,
         muted,
@@ -30,7 +31,20 @@ const Player = () => {
         console.log('re rendering player')
         setCurrentPlaybackTime(0)
         updateRangeValue(0)
+        if (progressBarRef.current) {
+            progressBarRef.current.value = '0';
+        }
+        if (currentStream[streamIndex]) {
+            currentStream[streamIndex].play()
+            setPlaying(true);
+        }
     }, [currentStream]);
+
+    useEffect(() => {
+        const cleanup = startProgressBarUpdate();
+        return cleanup;
+    }, [playing, currentStream, streamIndex]);
+
 
     const play = () => {
         console.log('play clicked', currentStream[streamIndex]);
@@ -105,6 +119,22 @@ const Player = () => {
             setMuted(true)
         }
     };
+
+    // update bar as music plays
+    const startProgressBarUpdate = () => {
+        const timerId = setInterval(() => {
+            if (playing && currentStream.length > 0) {
+                const currentTime = currentStream[streamIndex].seek();
+                if (progressBarRef.current) {
+                    progressBarRef.current.value = String(currentTime);
+                    updateRangeValue(currentTime);
+                }
+            }
+        }, 1000);
+    
+        return () => clearInterval(timerId);
+    };
+    
 
     // event for user initiated progress bar change
     const handleProgressBarChange = (

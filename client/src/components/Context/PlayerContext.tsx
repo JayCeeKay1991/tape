@@ -72,11 +72,12 @@ export default function ContextProvider({ children }: PropsWithChildren) {
 
     useEffect(() => {
         return () => {
+            console.log('cleaning up player context')
             Howler.stop()
             Howler.unload()
         };
     }, [currentStream]);
-
+    
     return (
         <PlayerContext.Provider
             value={{

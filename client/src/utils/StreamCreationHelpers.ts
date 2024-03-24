@@ -44,12 +44,6 @@ function generateHowlsfromUrls(
                 },
                 onplay: function (this: Howl) {
                     setMixTapeDuration(Math.round(this.duration()));
-                    const timerId = setInterval(() => {
-                        if (this.playing()) {
-                            setCurrentPlaybackTime(this.seek());
-                        }
-                    }, 1000);
-                    return () => clearInterval(timerId);
                 },
                 onend: function (this: Howl) {
                     let nextIndex = (streamIndex + 1) % urls.length;
