@@ -28,6 +28,8 @@ const Player = () => {
     useEffect(() => {
         // Re-render when current stream changes
         console.log('re rendering player')
+        setCurrentPlaybackTime(0)
+        updateRangeValue(0)
     }, [currentStream]);
 
     const play = () => {
@@ -136,7 +138,7 @@ const Player = () => {
 
     return (
         <>
-            {currentStream.length === 0 ? (
+            {currentStream.length === 0 || !currentStream[streamIndex] ? (
                 <></> ) :(
                 <div
                     id="player"
