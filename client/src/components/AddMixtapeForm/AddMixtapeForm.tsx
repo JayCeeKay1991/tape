@@ -10,10 +10,9 @@ type AddMixtapeFormProps = {
   channelId: string;
   channel: ChannelType;
   setChannel: Dispatch<SetStateAction<ChannelType>>;
-  setShowMixForm: Dispatch<SetStateAction<boolean>>;
 };
 
-const AddMixtapeForm = ({ channelId, channel, setChannel, setShowMixForm, }: AddMixtapeFormProps) => {
+const AddMixtapeForm = ({ channelId, channel, setChannel, }: AddMixtapeFormProps) => {
   const { user } = useMainContext();
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -132,7 +131,7 @@ const AddMixtapeForm = ({ channelId, channel, setChannel, setShowMixForm, }: Add
         mixTapes: [...channel.mixTapes, newMixTape],
       };
       setChannel(updatedChannel);
-      setShowMixForm(false);
+
     } catch (error) {
       console.error(error);
     }

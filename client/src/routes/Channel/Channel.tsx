@@ -24,7 +24,6 @@ const Channel = () => {
   const { user, setCurrentStreamUrls, setUser } = useMainContext();
   const location = useLocation();
   const [channel, setChannel] = useState<ChannelType>(location.state.channel);
-  const [showMixForm, setShowMixForm] = useState(false);
   const [showMemberForm, setShowMemberForm] = useState(false);
   const [isCommentsOpen, setIsCommentsOpen] = useState(true);
   const [users, setUsers] = useState<User[]>([]);
@@ -242,7 +241,6 @@ const Channel = () => {
           channelId={channel._id}
           channel={channel}
           setChannel={setChannel}
-          setShowMixForm={setShowMixForm}
         />
       )}
     </div>
