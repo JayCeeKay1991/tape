@@ -3,10 +3,6 @@ import { render, screen, userEvent } from '@/test/testConfig';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { channels } from '@/test/mocks';
 
-vi.mock('../contextComponent', () => ({
-  useMainContext: () => ({}),
-}));
-
 describe('User inputs are calling change handlers', async () => {
   let nameInput: HTMLInputElement;
   const setShowForm = vi.fn();
