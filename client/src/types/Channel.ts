@@ -1,5 +1,5 @@
 import { User } from './User';
-import { MixTape } from './MixtapeTemp';
+import { MixTape } from './MixTape';
 import { CommentsType } from './Comments';
 
 export type ChannelType = {

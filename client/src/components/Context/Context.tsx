@@ -10,7 +10,7 @@ import {
 
 import { User } from '@/types/User';
 import { ChannelType } from '@/types/Channel';
-import { MixTape } from '@/types/MixtapeTemp';
+import { MixTape } from '@/types/MixTape';
 import { getUserById } from '@/services/UserClientService';
 import { useNavigate } from 'react-router-dom';
 

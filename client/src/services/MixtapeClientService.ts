@@ -1,5 +1,5 @@
 import { apiClient } from './ApiClient';
-import { MixTape } from '../types/MixtapeTemp';
+import { MixTape } from '../types/MixTape';
 
 export type CreateMixTapeArgs = {
   name: string;

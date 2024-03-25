@@ -1,4 +1,4 @@
-import { MixTape } from "../types/MixtapeTemp";
+import { MixTape } from "../types/MixTape";
 
 // extract the urls from the mixtapes and returns as array
 export function extractStreamUrls (mixTapes: MixTape[]) {
