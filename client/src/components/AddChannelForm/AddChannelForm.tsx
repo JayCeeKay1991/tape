@@ -30,6 +30,7 @@ export default function AddChannelForm({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const changeHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log('change')
     const { name, value, type, files } = e.target;
     if (type === 'file' && files) {
       setPictureFile(files[0]); // Set the image file
@@ -40,10 +41,11 @@ export default function AddChannelForm({
     // sets up the dropzone, to accept only one file of specified types
     maxFiles: 1,
     accept: {
-      'image/*': ['.jpg', '.jpeg', '.png', '.webp', '.pdf']
+      'image/*': ['.jpg', '.jpeg', '.png', '.webp']
     },
     onDrop: async (acceptedFiles:File[]) => {
       if (acceptedFiles.length) {
+        console.log(`File "${acceptedFiles[0].name}" dropped.`);
         try {
           setPictureFile(acceptedFiles[0]);
         } catch (error) {
@@ -53,7 +55,6 @@ export default function AddChannelForm({
     },
   });
 
-
   // Handle choose file click
   const handleChooseFilesClick = () => {
     // simulates the clicking of the fileinput
@@ -62,6 +63,7 @@ export default function AddChannelForm({
     }
   }
 
+  // handle create channel click
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
@@ -117,15 +119,16 @@ export default function AddChannelForm({
         </div>
         <p>Or</p>
         <button type='button' className='rounded-full border-[2px] border-tapeDarkGrey w-[150px] p-[5px] m-8' onClick={handleChooseFilesClick} disabled={!!pictureFile}>{pictureFile ? 'File chosen' : 'Choose file'}</button>
-      </div>
-      <input name="file" type="file" onChange={changeHandler} className='hidden' ref={fileInputRef} accept=".jpg, .jpeg, .svg, .png, .webp"></input>
-
-      <button
+        <button
         onClick={handleSubmit}
-        className='white-button self-center mt-3 px-10'
+        className='rounded-full border-[2px] border-tapeDarkGrey w-[150px] p-[5px]'
         data-testid='create-button'>
-        Create
+        Create Channel
       </button>
+      </div>
+
+    <input name="file" type="file" onChange={changeHandler} className='hidden' ref={fileInputRef} accept=".jpg, .jpeg, .svg, .png, .webp"/>
+
     </form>
   );
 }

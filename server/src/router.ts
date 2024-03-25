@@ -15,6 +15,7 @@ import {
   getChannelsByUser,
 } from "./controllers/channel/channel";
 import { createMixTape } from "./controllers/mixTape/mixTape";
+import { createNotification } from "./controllers/notification/notification";
 
 const router = express.Router();
 
@@ -35,5 +36,7 @@ router.delete("/channels/:channelId/", deleteChannel);
 router.get("/dash/:userId", getChannelsByUser);
 
 router.post("/mixtape", createMixTape);
+
+router.post("/notifications", createNotification);
 
 export default router;
