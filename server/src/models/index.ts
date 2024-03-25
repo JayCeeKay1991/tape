@@ -6,7 +6,7 @@ async function main() {
     await mongoose.connect(`${config.dbUrl}`);
     console.log('Database successfully connected to server 🚀');
   } catch (error) {
-    console.log('🔥 Error in the database connection.');
+    console.log('🔥 Error in the database connection.', error);
   }
 }
 main();
