@@ -16,6 +16,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
 export const createUser = async (req: Request, res: Response) => {
   try {
     const { email, password } = req.body;
+    console.log('🦊', email, password);
 
     // Check if email and password are provided
     if (!email || !password) {

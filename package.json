@@ -1,0 +1,13 @@
+{
+  "name": "tape",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node server/dist/index.js",
+    "build": "cd server && npm install && npm run compile",
+    "heroku-postbuild": "cd server && npm install && npm run compile",
+    "postinstall": "npm run build"
+  },
+  "engines": {
+    "node": "16.x"
+  }
+}
