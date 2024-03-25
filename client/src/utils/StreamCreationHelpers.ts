@@ -6,13 +6,12 @@ import { Howl } from "howler";
 
 // main generate streamfunction
 export async function generateStream(channel: ChannelType,
-    setMixTapeDuration: Dispatch<SetStateAction<number>>,
     setStreamIndex: Dispatch<SetStateAction<number>>,
     streamIndex: number) {
     // extract urls
     const urls = extractStreamUrls(channel.mixTapes);
     // generate howls and return a promise
-    return generateHowlsfromUrls(urls, setMixTapeDuration, setStreamIndex, streamIndex);
+    return generateHowlsfromUrls(urls,setStreamIndex, streamIndex);
 }
 
 // extract the urls from the mixtapes and returns as array
@@ -24,7 +23,6 @@ function extractStreamUrls(mixTapes: MixTape[]) {
 // generate howl instances from urls
 function generateHowlsfromUrls(
     urls: string[],
-    setMixTapeDuration: Dispatch<SetStateAction<number>>,
     setStreamIndex: Dispatch<SetStateAction<number>>,
     streamIndex: number): Promise<Howl[]> {
     // create an array to store promises for each Howl

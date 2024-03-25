@@ -70,7 +70,7 @@ const Channel = () => {
       setPlaying(false);
     }
     try {
-      const stream = await generateStream(channel, setCurrentPlaybackTime, setMixTapeDuration, setStreamIndex, streamIndex);
+      const stream = await generateStream(channel, setStreamIndex, streamIndex);
       console.log('new stream ready', stream)
       setCurrentStream(stream);
     } catch (error) {
