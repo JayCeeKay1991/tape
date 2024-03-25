@@ -15,7 +15,7 @@ import { MdPlayArrow } from 'react-icons/md';
 import AudioWave from '@/components/AudioWave/AudioWave';
 import { GoPlus } from 'react-icons/go';
 // utils
-import { generateStream } from '@/utils/StreamCreationHelpers';
+import { generateStream } from '@/utils/streamCreationHelpers';
 import ConfirmationDialog from '@/utils/ConfirmationDialog';
 
 const Channel = () => {
