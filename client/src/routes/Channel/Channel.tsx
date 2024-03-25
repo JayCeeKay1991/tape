@@ -7,6 +7,7 @@ import { ChannelType } from '@/types/Channel';
 import { getChannel, deleteChannel } from '@/services/ChannelClientService';
 // components
 import { useMainContext } from '@/components/Context/Context';
+import { usePlayerContext } from '@/components/Context/PlayerContext';
 import AddMembersSelect from '@/components/AddMembersSelect/AddMembersSelect';
 import AddMixtapeForm from '@/components/AddMixtapeForm/AddMixtapeForm';
 import CommentList from '@/components/CommentList/CommentList';
