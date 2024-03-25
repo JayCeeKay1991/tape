@@ -28,10 +28,10 @@ router.post("/users", createUser);
 router.put("/users/:id", editUser);
 
 router.get("/channels/:channelId", getChannel);
-// router.post("/channels", createChannel);
-// router.post("/channels/:channelId/:userId", addUserToChannel);
-// router.post("/channels/:channelId/", addComment);
-// router.delete("/channels/:channelId/", deleteChannel);
+router.post("/channels", createChannel);
+router.post("/channels/:channelId/:userId", addUserToChannel);
+router.post("/channels/:channelId/", addComment);
+router.delete("/channels/:channelId/", deleteChannel);
 
 router.get("/dash/:userId", getChannelsByUser);
 

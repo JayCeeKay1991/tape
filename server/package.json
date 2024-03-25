@@ -7,8 +7,7 @@
     "test": "jest",
     "compile": "tsc",
     "start": "npm run compile && concurrently \"tsc -w\" \"nodemon ./dist/index.js\"",
-    "lint": "eslint . --ext .ts",
-    "build": "npm run compile"
+    "lint": "eslint . --ext .ts"
   },
   "author": "",
   "license": "ISC",
