@@ -43,8 +43,8 @@ const AddMixtapeForm = ({ channelId, channel, setChannel, setShowMixForm, }: Add
   });
 
   // Handle choose file click
-  const handleChooseFilesClick = (e: MouseEvent<HTMLButtonElement>) => {
-    // simulates the clicking of the fileinput 
+  const handleChooseFilesClick = () => {
+    // simulates the clicking of the fileinput
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }

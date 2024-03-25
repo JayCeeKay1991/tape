@@ -13,9 +13,8 @@ import { useMainContext } from '../Context/Context';
 import { HiPlus } from 'react-icons/hi2';
 
 interface AddMembersSelectProps {
-
-  channel: ChannelType
-  setChannel: Dispatch<SetStateAction<ChannelType>>
+  channel: ChannelType;
+  setChannel: Dispatch<SetStateAction<ChannelType>>;
   toggleMemberForm: () => void;
 }
 
@@ -107,7 +106,7 @@ const AddMembersSelect = ({ channel, setChannel, toggleMemberForm }: AddMembersS
                 className="overflow-hidden rounded-full w-[50px] h-[50px] flex-none"
               >
                 <img
-                  src={user.profilePic ? user.profilePic : johnMartin}
+                  src={user.profilePic}
                   alt={user.userName}
                   className="w-16 h-16 object-cover"
                   style={{ objectPosition: "center-center" }}

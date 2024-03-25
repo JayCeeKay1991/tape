@@ -1,4 +1,4 @@
-import { useState,useRef } from 'react';
+import { useState } from 'react';
 import Nav from '@/components/Nav/Nav';
 import hero from '@/assets/svg/hero-bg.svg';
 import logo from '@/assets/svg/logo.svg';
