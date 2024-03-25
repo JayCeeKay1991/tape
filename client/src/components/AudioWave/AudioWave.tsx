@@ -25,7 +25,7 @@ const AudioWave = () => {
     return () => {
       wavesurfer?.destroy();
     };
-  }, [waveContainerRef, wavesurfer]);
+  }, [waveContainerRef, wavesurfer, currentStream]);
 
   useEffect(() => {
     if (wavesurfer && currentStream[streamIndex]) {
