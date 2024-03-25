@@ -127,7 +127,7 @@ export default function AddChannelForm({
       </button>
       </div>
 
-    <input name="file" type="file" onChange={changeHandler} className='hidden' ref={fileInputRef} accept=".jpg, .jpeg, .svg, .png, .webp"/>
+    <input name="file" type="file" onChange={changeHandler} className='hidden' ref={fileInputRef} accept=".jpg, .jpeg, .svg, .png, .webp" data-testId="input-hidden" />
 
     </form>
   );
