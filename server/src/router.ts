@@ -18,6 +18,7 @@ import { createMixTape } from "./controllers/mixTape/mixTape";
 
 const router = express.Router();
 
+router.get("/", (req, res) => res.send('Hiiii'));
 router.get("/users", getAllUsers);
 
 router.get("/users/:userId", getUserById);
