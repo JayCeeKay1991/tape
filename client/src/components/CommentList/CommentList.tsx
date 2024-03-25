@@ -93,7 +93,7 @@ function CommentList({ channel }: propsType) {
       </div>
 
       {comments.length > 0 ? (
-        <div id="comments list" className="flex flex-col items-center absolute">
+        <div id="comments list" className="flex flex-col items-center">
           <div className="w-full mb-[20px]">
             <p className="text-tapeDarkGrey text-[20px]">
               {comments.length} Comments
