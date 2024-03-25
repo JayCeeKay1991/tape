@@ -2,7 +2,6 @@ import NotificationModel from "../../models/notifications";
 import { NotificationType } from "../../models/notifications";
 import { Request, Response } from "express";
 import ChannelModel, { ChannelType } from "../../models/channel";
-import user from "../user/user";
 
 export async function createNotification(req: Request, res: Response) {
   try {
@@ -32,8 +31,8 @@ export async function createNotification(req: Request, res: Response) {
 
 export async function updateNotification(req: Request, res: Response) {
   try {
-    const userId = req.params.id;
-    const { unNotifiedUsers, _id } = req.body;
+    const userId = req.params.userId; // Changed from req.params.id
+    const { unNotifiedUsers, _id: notificationId } = req.body;
     if (!unNotifiedUsers) {
       return res.status(400).json({
         error: "400",
@@ -42,18 +41,16 @@ export async function updateNotification(req: Request, res: Response) {
     }
 
     if (unNotifiedUsers.length === 1) {
-      deleteNotification(_id);
+      deleteNotification(notificationId);
       return res.status(200).json({
         message: "Successfully deleted notification.",
       });
     } else if (unNotifiedUsers.length > 1) {
       const UpdatedUnNotifiedUsersArray = unNotifiedUsers.filter(
-        (user: string) => {
-          return user !== req.params.id;
-        }
+        (user: string) => user.toString() !== userId
       );
       const updatedNotification = await NotificationModel.findOneAndUpdate(
-        { _id: userId },
+        { _id: notificationId }, // Ensure this is the correct ID for the notification
         { $set: { unNotifiedUsers: UpdatedUnNotifiedUsersArray } },
         { new: true }
       );
@@ -63,7 +60,7 @@ export async function updateNotification(req: Request, res: Response) {
     console.error(error);
     res.status(500).json({
       message:
-        "An unexpected error occurred while editing the user. Please try again later.",
+        "An unexpected error occurred while editing the notification. Please try again later.",
     });
   }
 }
