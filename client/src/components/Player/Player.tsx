@@ -20,7 +20,8 @@ const Player = () => {
         streamIndex,
         setStreamIndex,
         muted,
-        setMuted } = usePlayerContext()
+        setMuted,
+        setPlaybackPosition } = usePlayerContext()
     // refs
     const totalDurationRef = useRef<HTMLParagraphElement>(null);
     const progressBarRef = useRef<HTMLInputElement>(null);
@@ -34,6 +35,7 @@ const Player = () => {
         if (currentStream[streamIndex]) {
             currentStream[streamIndex].play()
             setPlaying(true);
+            setPlaybackPosition(0)
             console.log('playing', currentStream[streamIndex])
         }
     }, [currentStream, streamIndex]);
@@ -110,6 +112,7 @@ const Player = () => {
             if (playing && currentStream.length > 0) {
                 const currentTime = currentStream[streamIndex].seek();
                 updateRangeValue(currentTime);
+                setPlaybackPosition(currentTime);
             }
         }, 1000);
         return () => clearInterval(timerId);
@@ -119,7 +122,7 @@ const Player = () => {
     const handleProgressBarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const currentTimeState = parseFloat(event.target.value);
         currentStream[streamIndex].seek(currentTimeState);
-        // setCurrentPlaybackTime(currentTimeState);
+        setPlaybackPosition(currentTimeState);
         updateRangeValue(currentTimeState);
     };
 
@@ -139,7 +142,7 @@ const Player = () => {
 
     if (currentStream.length === 0 || !currentStream[streamIndex]) {
         // only renders when stream exists
-        return null; 
+        return null;
     }
 
     return (
