@@ -41,9 +41,6 @@ function generateHowlsfromUrls(
                     // Resolve the promise when the Howl is loaded
                     resolve(howl);
                 },
-                onplay: function (this: Howl) {
-                    setMixTapeDuration(Math.round(this.duration()));
-                },
                 onend: function (this: Howl) {
                     let nextIndex = (streamIndex + 1) % urls.length;
                     setStreamIndex(nextIndex);

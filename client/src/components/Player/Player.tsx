@@ -10,6 +10,8 @@ import './Player.css';
 // context
 import { usePlayerContext } from '../Context/PlayerContext';
 
+// I know it seems like I could use a variable name or a local or context state for the currentMixtape rather than currentStream[streamIndex] but for some reason of lifecyles? that breaks it.
+
 const Player = () => {
     const {
         currentStream,
@@ -24,7 +26,7 @@ const Player = () => {
     const progressBarRef = useRef<HTMLInputElement>(null);
 
     useEffect(() => {
-        // Re-render when current stream changes
+        // Re-render when current stream or index changes
         console.log('re rendering player')
         if (progressBarRef.current) {
             progressBarRef.current.value = '0';
@@ -32,6 +34,7 @@ const Player = () => {
         if (currentStream[streamIndex]) {
             currentStream[streamIndex].play()
             setPlaying(true);
+            console.log('playing', currentStream[streamIndex])
         }
     }, [currentStream, streamIndex]);
 
@@ -78,7 +81,6 @@ const Player = () => {
         const newIndex = (streamIndex - 1 + currentStream.length) % currentStream.length;
         handleClickNavigation(newIndex);
     };
-
 
     // Time Format
     const formatTime = (seconds: number) => {
@@ -136,7 +138,8 @@ const Player = () => {
     };
 
     if (currentStream.length === 0 || !currentStream[streamIndex]) {
-        return null; // Render nothing if currentStream is empty
+        // only renders when stream exists
+        return null; 
     }
 
     return (

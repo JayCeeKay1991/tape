@@ -6,6 +6,7 @@ import Player from '../Player/Player';
 
 const App = () => {
   const userId = localStorage.getItem('loggedinUser');
+  
   return (
     <ContextProvider>
       <PlayerContextProvider>
