@@ -1,0 +1,24 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+const express_1 = __importDefault(require("express"));
+const user_1 = require("./controllers/user/user");
+const channel_1 = require("./controllers/channel/channel");
+const mixTape_1 = require("./controllers/mixTape/mixTape");
+const router = express_1.default.Router();
+router.get("/", (req, res) => res.send('Hiiii'));
+router.get("/users", user_1.getAllUsers);
+router.get("/users/:userId", user_1.getUserById);
+router.post("/users/login", user_1.login);
+router.post("/users", user_1.createUser);
+router.put("/users/:id", user_1.editUser);
+router.get("/channels/:channelId", channel_1.getChannel);
+router.post("/channels", channel_1.createChannel);
+router.post("/channels/:channelId/:userId", channel_1.addUserToChannel);
+router.post("/channels/:channelId/", channel_1.addComment);
+router.delete("/channels/:channelId/", channel_1.deleteChannel);
+router.get("/dash/:userId", channel_1.getChannelsByUser);
+router.post("/mixtape", mixTape_1.createMixTape);
+exports.default = router;
