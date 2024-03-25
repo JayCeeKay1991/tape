@@ -4,6 +4,7 @@
   "scripts": {
     "start": "node server/dist/index.js",
     "build": "cd server && npm install && npm run compile",
+    "heroku-postbuild": "cd server && npm install && npm run compile",
     "postinstall": "npm run build"
   },
   "engines": {
