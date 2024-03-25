@@ -5,8 +5,6 @@ export type NotificationType = {
   ownerChannel: ChannelType;
   message: string;
   unNotifiedUsers: User[];
-  change: string[];
+  change: string;
   date: Date;
 };
-
-
