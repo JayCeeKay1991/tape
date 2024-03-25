@@ -2,10 +2,8 @@ import { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 // types
-import { User } from '@/types/User';
 import { ChannelType } from '@/types/Channel';
 // services
-import { getAllUsers } from '@/services/UserClientService';
 import { getChannel, deleteChannel } from '@/services/ChannelClientService';
 // components
 import { useMainContext } from '@/components/Context/Context';
@@ -26,20 +24,11 @@ const Channel = () => {
   const [channel, setChannel] = useState<ChannelType>(location.state.channel);
   const [showMemberForm, setShowMemberForm] = useState(false);
   const [isCommentsOpen, setIsCommentsOpen] = useState(true);
-  const [users, setUsers] = useState<User[]>([]);
   const [showConfirmation, setShowConfirmation] = useState(false);
   const [isThereMix, setIsThereMix] = useState(false)
   const navigateTo = useNavigate();
 
   useEffect(() => {
-    async function retrieveAllUsers() {
-      try {
-        const allUsers = await getAllUsers();
-        setUsers(allUsers);
-      } catch (error) {
-        console.error('error getting all users');
-      }
-    }
     async function retrieveChannel() {
       try {
         const channelData = await getChannel(channel._id);
@@ -49,7 +38,6 @@ const Channel = () => {
       }
     }
     retrieveChannel();
-    retrieveAllUsers();
   }, []);
 
   useEffect(() => {
@@ -69,7 +57,6 @@ const Channel = () => {
   // Toggle members form
   const toggleMemberForm = () => {
     setShowMemberForm(!showMemberForm);
-    setShowMixForm(false);
   };
 
   // Toggle comments

@@ -18,6 +18,7 @@ const initialStateUser = {
 
 const SignupForm = () => {
   const { user, setUser } = useMainContext();
+  console.log(user); // will be used for authentication later
 
   const navigate = useNavigate();
   const [formValuesUser, setFormValuesUser] =

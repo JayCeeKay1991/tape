@@ -1,5 +1,5 @@
 import { ChannelType } from "./Channel";
-import { MixTape } from "./Mixtape";
+import { MixTape } from "./MixtapeTemp";
 
 export type User = {
   _id: string;

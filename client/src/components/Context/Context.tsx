@@ -10,12 +10,14 @@ import {
 
 import { User } from '@/types/User';
 import { ChannelType } from '@/types/Channel';
-import { MixTape } from '@/types/Mixtape';
+import { MixTape } from '@/types/MixtapeTemp';
 import { getUserById } from '@/services/UserClientService';
 import { useNavigate } from 'react-router-dom';
 
 type MainContext = {
   user: User;
+  channels: ChannelType[];
+  mixTapes: MixTape[];
   currentStreamUrls: string[];
   streamIndex: number;
   playing: boolean;
@@ -45,6 +47,8 @@ const initialContext = {
   playing: false,
   streamIndex: 0,
   currentPlaybackTime: 0,
+  channels: [],
+  mixTapes: [],
   setUser: () => {},
   setChannels: () => {},
   setMixTapes: () => {},
@@ -96,7 +100,9 @@ export default function ContextProvider({ children }: PropsWithChildren) {
         user,
         currentStreamUrls,
         setUser,
+        channels,
         setChannels,
+        mixTapes,
         setMixTapes,
         setCurrentStreamUrls,
         streamIndex,
