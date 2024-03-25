@@ -30,8 +30,8 @@ export default function UserDetails() {
 
   function handleEdit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-    const target = e.currentTarget;
-    switch (target.id) {
+    const target = e.currentTarget.id;
+    switch (target) {
       case 'username':
         setChangeUsername(!changeUsername);
         break;
@@ -70,7 +70,7 @@ export default function UserDetails() {
         const updatedUser = await updateUser(newUser);
         if (updatedUser) {
           setUser(updatedUser);
-          setChangeProfilePic(!changeProfilePic); // Optionally toggle UI elements if needed
+          setChangeProfilePic(!changeProfilePic);
         }
       } catch (error) {
         console.error(error);
@@ -107,6 +107,7 @@ export default function UserDetails() {
       };
       updateUser(newUser);
     }
+    // console.log(e.currentTarget.id)
     switch (e.target) {
       case document.getElementById('usernameForm'):
         setChangeUsername(!changeUsername);
@@ -122,7 +123,8 @@ export default function UserDetails() {
     }
   }
   return (
-    <div className="flex flex-col bg-tapeDarkBlack ml-[770px] justify-center items-center w-[350px] h-[600px] rounded-[20px] border-[1px] ">
+      <div className='w-full h-screen flex justify-center items-center '>
+    <div className="flex flex-col bg-tapeDarkBlack justify-center items-center w-[350px] h-[600px] rounded-[20px] border-[1px] ">
       <form
         id="profilePicForm"
         onSubmit={submitHandler}
@@ -163,13 +165,15 @@ export default function UserDetails() {
           </div>
         </div>
       </form>
-      <form id="usernameForm" onSubmit={submitHandler}>
+      <form data-testid="usernameForm" id="usernameForm" onSubmit={submitHandler}>
         <div id="allUsername">
           {changeUsername ? (
             <div>
               <input
                 name="username"
                 type="text"
+                role='textbox'
+                data-testid="username-input"
                 className=" border border-tapeGray rounded-md bg-tapeBlack  text-tapeDarkGrey"
                 onChange={changeHandler}
                 value={formValuesProfile.username}
@@ -180,12 +184,14 @@ export default function UserDetails() {
                   className="rounded-full h-5 w-10 flex  p-1 pb-2 items-center ml-12 mr-5"
                   onClick={handleEdit}
                   id="username"
+                  data-testid="edit-username-button"
                 >
                   cancel
                 </button>
                 <button
                   className="rounded-full h-5 w-10 flex p-1 pb-2 items-center bg-tapeGray"
                   type="submit"
+                  name='username'
                 >
                   save
                 </button>
@@ -196,6 +202,7 @@ export default function UserDetails() {
               onClick={handleEdit}
               id="username"
               className="border-0 fontFamily-sans text-3xl"
+              data-testid="edit-username-button"
             >
               <b>{user.userName}</b>
             </button>
@@ -225,6 +232,7 @@ export default function UserDetails() {
                   type="text"
                   className=" border border-tapeGray rounded-md bg-tapeBlack  text-tapeDarkGrey"
                   onChange={changeHandler}
+                  data-testid="email-input"
                   value={formValuesProfile.email}
                   required={true}
                 />
@@ -247,7 +255,7 @@ export default function UserDetails() {
             ) : (
               <div className="flex flex-row space-x-10">
                 <p>{user.email}</p>
-                <button onClick={handleEdit} id="email" className="border-0">
+                <button onClick={handleEdit} id="email" className="border-0"  data-testid="edit-email-button">
                   <GoPencil />
                 </button>
               </div>
@@ -295,6 +303,7 @@ export default function UserDetails() {
           </div>
         </form>
       </div>
+    </div>
     </div>
   );
 }
