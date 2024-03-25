@@ -15,7 +15,10 @@ import {
   getChannelsByUser,
 } from "./controllers/channel/channel";
 import { createMixTape } from "./controllers/mixTape/mixTape";
-import { createNotification } from "./controllers/notification/notification";
+import {
+  createNotification,
+  updateNotification,
+} from "./controllers/notification/notification";
 
 const router = express.Router();
 
@@ -38,5 +41,6 @@ router.get("/dash/:userId", getChannelsByUser);
 router.post("/mixtape", createMixTape);
 
 router.post("/notifications", createNotification);
+router.put("/notifications/:userId", updateNotification);
 
 export default router;

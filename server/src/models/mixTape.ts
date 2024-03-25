@@ -45,7 +45,7 @@ async function updateChannelAndUser(doc: MixTapeDocument) {
   const newNotification = await NotificationModel.create({
     message: `A new mixtape "${doc.name}" was added.`,
     change: channelDoc.name,
-    unNotifiiedUsers: channelDoc.members,
+    unNotifiedUsers: channelDoc.members,
     date: new Date(),
   });
   const updatedChannel = await ChannelModel.findByIdAndUpdate(

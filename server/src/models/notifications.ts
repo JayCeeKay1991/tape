@@ -12,7 +12,13 @@ const Notifications = new mongoose.Schema({
   },
   message: { type: String, required: true },
   change: { type: String, required: true },
-  unNotifiiedUsers: { type: [String], required: true },
+  unNotifiedUsers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
+    },
+  ],
   date: { type: Date, required: true },
 });
 
