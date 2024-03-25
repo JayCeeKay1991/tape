@@ -27,6 +27,7 @@ const Channel = () => {
   const { user, setUser } = useMainContext();
   const { setCurrentStream, currentStream, streamIndex, setStreamIndex, setCurrentPlaybackTime, setMixTapeDuration, setPlaying} = usePlayerContext()
   const location = useLocation();
+  // states
   const [channel, setChannel] = useState<ChannelType>(location.state.channel);
   const [showMixForm, setShowMixForm] = useState(false);
   const [showMemberForm, setShowMemberForm] = useState(false);

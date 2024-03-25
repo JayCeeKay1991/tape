@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react';
+import { useRef, useEffect } from 'react';
 // styling
 import { IoMdPlay } from 'react-icons/io';
 import { IoMdPause } from 'react-icons/io';
@@ -17,13 +17,11 @@ const Player = () => {
         setPlaying,
         streamIndex,
         setStreamIndex,
+        currentPlaybackTime,
         setCurrentPlaybackTime,
         mixTapeDuration,
         muted,
         setMuted } = usePlayerContext()
-
-    // state
-    const [currentMixtape, setCurrentMixtape] = useState<Howl>(null)
     // refs
     const totalDurationRef = useRef<HTMLParagraphElement>(null);
     const progressBarRef = useRef<HTMLInputElement>(null);
@@ -37,8 +35,7 @@ const Player = () => {
             progressBarRef.current.value = '0';
         }
         if (currentStream[streamIndex]) {
-            setCurrentMixtape(currentStream[streamIndex])
-            currentMixtape.play()
+            currentStream[streamIndex].play()
             setPlaying(true);
         }
     }, [currentStream]);
@@ -50,22 +47,24 @@ const Player = () => {
 
 
     const play = () => {
-        console.log('play clicked', currentMixtape);
-        if (!currentMixtape) return;
+        console.log('play clicked', currentStream[streamIndex]);
+        if (!currentStream[streamIndex]) return;
 
-        if (currentMixtape.playing()) return;
+        const currentHowl = currentStream[streamIndex];
+        if (currentHowl.playing()) return;
 
-        currentMixtape.play();
+        currentHowl.play();
         setPlaying(true);
     };
 
     const pause = () => {
-        console.log('pause clicked', currentMixtape);
-        if (!currentMixtape) return;
+        console.log('pause clicked', currentStream[streamIndex]);
+        if (!currentStream[streamIndex]) return;
 
-        if (!currentMixtape.playing()) return;
+        const currentHowl = currentStream[streamIndex];
+        if (!currentHowl.playing()) return;
 
-        currentMixtape.pause();
+        currentHowl.pause();
         setPlaying(false);
     };
 
@@ -73,13 +72,13 @@ const Player = () => {
         setStreamIndex(newIndex);
         const newMixtape = currentStream[newIndex];
         setCurrentPlaybackTime(0)
-        setCurrentMixtape(newMixtape)
         newMixtape.play();
         updateRangeValue(0)
         setPlaying(true);
     };
 
     const handleNextClick = () => {
+        const currentMixtape = currentStream[streamIndex];
         currentMixtape.stop();
 
         // Calculate the index for the next track
@@ -89,6 +88,7 @@ const Player = () => {
     };
 
     const handlePreviousClick = () => {
+        const currentMixtape = currentStream[streamIndex];
         currentMixtape.stop();
 
         // Calculate the index for the previous track
@@ -108,14 +108,14 @@ const Player = () => {
     };
 
     const toggleMute = () => {
-        if (!currentMixtape) {
+        if (!currentStream[streamIndex]) {
             return;
         }
-        if (currentMixtape.volume() === 0) {
-            currentMixtape.volume(1);
+        if (currentStream[streamIndex].volume() === 0) {
+            currentStream[streamIndex].volume(1);
             setMuted(false)
         } else {
-            currentMixtape.volume(0);
+            currentStream[streamIndex].volume(0);
             setMuted(true)
         }
     };
@@ -124,23 +124,24 @@ const Player = () => {
     const startProgressBarUpdate = () => {
         const timerId = setInterval(() => {
             if (playing && currentStream.length > 0) {
-                const currentTime = currentMixtape.seek();
+                const currentTime = currentStream[streamIndex].seek();
                 if (progressBarRef.current) {
                     progressBarRef.current.value = String(currentTime);
                     updateRangeValue(currentTime);
                 }
             }
         }, 1000);
-
+    
         return () => clearInterval(timerId);
     };
-
+    
 
     // event for user initiated progress bar change
     const handleProgressBarChange = (
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
         const currentTimeState = parseFloat(event.target.value);
+        const currentMixtape = currentStream[streamIndex];
         currentMixtape.seek(currentTimeState);
         setCurrentPlaybackTime(currentTimeState);
         updateRangeValue(currentTimeState);
@@ -168,7 +169,7 @@ const Player = () => {
     return (
         <>
             {currentStream.length === 0 || !currentStream[streamIndex] ? (
-                <></>) : (
+                <></> ) :(
                 <div
                     id="player"
                     className="w-full h-[100px] flex fixed bottom-0 flex-row justify-center items-center bg-tapeBlack"
@@ -245,7 +246,7 @@ const Player = () => {
                         </div>
                     </div>
                 </div>
-            )}
+        )}
 
         </>
 
