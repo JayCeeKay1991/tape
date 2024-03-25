@@ -53,7 +53,7 @@ function CommentList({ channel }: propsType) {
   };
 
   return (
-    <div className="flex flex-col items-center w-full">
+    <div className="flex flex-col items-center w-full ">
       <div
         id="comments-top"
         className="w-full flex flex-row justify-between items-end mb-[80px] pr-[60px] pl-[50px]"
@@ -93,15 +93,17 @@ function CommentList({ channel }: propsType) {
       </div>
 
       {comments.length > 0 ? (
-        <div id="comments list" className="flex flex-col items-center">
+        <div id="comments list" className="flex flex-col items-center absolute">
           <div className="w-full mb-[20px]">
             <p className="text-tapeDarkGrey text-[20px]">
               {comments.length} Comments
             </p>
           </div>
+          <div className="overflow-y-auto no-scrollbar h-[300px] w-full">
           {comments.map((comment, index) => (
-            <Comment key={index} comment={comment} />
+            <Comment key={index} comment={comment}/>
           ))}
+          </div>
         </div>
       ) : (
         <p className="text-[40px] text-tapeDarkGrey">No comments yet</p>
