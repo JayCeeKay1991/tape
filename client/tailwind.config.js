@@ -6,11 +6,11 @@ export default {
       tapeYellow: "#BBF771",
       tapePink: "#FF65AA",
       tapeBlack: "#151515",
-      tapeOffBlack: "#181818",
+      tapeOffBlack: "#1B1B1B",
       tapeWhite: "#FFFFFF",
       tapeGray: "#767676",
       tapeDarkGrey: "#909090",
-      tapeDarkBlack: "#0F0F0F",
+      tapeDarkBlack: "#0C0C0C",
     },
     fontFamily: {
       sans: ["Darker Grotesque"],

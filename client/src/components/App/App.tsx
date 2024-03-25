@@ -6,12 +6,12 @@ import Player from '../Player/Player';
 
 const App = () => {
   const userId = localStorage.getItem('loggedinUser');
-  
+
   return (
     <ContextProvider>
       <PlayerContextProvider>
         <div className='App'>
-          <AppNav />
+          {/* <AppNav /> */}
           {userId ? (
             <Player />
           ) : <></>}

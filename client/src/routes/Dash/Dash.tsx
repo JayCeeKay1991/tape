@@ -1,15 +1,21 @@
-import { useState, useEffect } from 'react';
-import { useMainContext } from '@/components/Context/Context';
-import AddChannelForm from '@/components/AddChannelForm/AddChannelForm';
-import ChannelItem from '@/components/ChannelItem/ChannelItem';
-import { getChannelsUserMemberOf } from '@/services/ChannelClientService';
-import { ChannelType } from '@/types/Channel';
+import { useState, useEffect } from "react";
+import { useMainContext } from "@/components/Context/Context";
+import AddChannelForm from "@/components/AddChannelForm/AddChannelForm";
+import ChannelItem from "@/components/ChannelItem/ChannelItem";
+import { getChannelsUserMemberOf } from "@/services/ChannelClientService";
+import { ChannelType } from "@/types/Channel";
+import AppNav from "@/components/AppNav/AppNav";
+import ChannelSideBar from "@/components/ChannelSideBar/ChannelSideBar";
 
 export default function Dash() {
   const { user } = useMainContext();
   const channelList = user.channels;
   const [showForm, setShowForm] = useState(false);
   const [channels, setChannels] = useState<ChannelType[]>([]);
+  const [showChannel, setShowChannel] = useState(false);
+  const [selectedChannel, setSelectedChannel] = useState<ChannelType | null>(
+    null
+  );
 
   useEffect(() => {
     // get all users to populate dropdown
@@ -25,36 +31,49 @@ export default function Dash() {
   };
 
   return (
-    <div id="dashWrapper" className="w-full h-full">
+    <div
+      id="dashWrapper"
+      className="w-full h-full flex flex-row justify-center gap-[20px] p-[20px]"
+    >
       <div
         id="channel-list-wrap"
-        className="text-tapeWhite bg-tapeOffBlack flex-col w-11/12 mx-10 my-5 px-10 rounded-3xl mt-[80px]"
+        className="text-tapeWhite bg-tapeOffBlack flex-col w-full px-10 rounded-3xl"
       >
-        <div id="channel-list-header" className="flex justify-between items-center pt-5">
+        <AppNav />
+
+        <div
+          id="your-channels"
+          className="flex flex-col justify-between items-center pt-5"
+        >
           <h2 className="text-[50px] font-semibold">Your channels</h2>
-          <div id="channel-list-controls" className=' relative'>
-            <button onClick={toggleAddForm} className="white-button w-[120px] h-[50px] font-medium">
-              Add channel
-            </button>
-            {showForm && <AddChannelForm setShowForm={setShowForm} />}
-          </div>
-        </div>
+          <button
+            onClick={toggleAddForm}
+            className="white-button w-[120px] h-[50px] font-medium"
+          >
+            Add channel
+          </button>
+          {showForm && <AddChannelForm setShowForm={setShowForm} />}
 
-
-        <div id="all-channels" className="flex flex-col gap-x-10 py-1">
           <p className="text-[20px] text-tapeDarkGrey">
             {channelList.length} streams
           </p>
-          <div className="w-full h-[600px] overflow-scroll">
-            <div id="channel-list" className="flex gap-x-10 py-12">
-              {channelList.length
-                ? channelList.map((channel) => (
-                    <ChannelItem key={channel._id} channel={channel} />
-                  ))
-                : "No channels yet."}
-            </div>
-          </div>
 
+          <div id="channel-list" className="flex gap-x-10 py-12 flex-wrap">
+            {channelList.length
+              ? channelList.map((channel, index) => (
+                  <ChannelItem
+                    key={index}
+                    channel={channel}
+                    setSelectedChannel={setSelectedChannel}
+                    showChannel={showChannel}
+                    setShowChannel={setShowChannel}
+                  />
+                ))
+              : "No channels yet."}
+          </div>
+        </div>
+
+        <div id="friends-channels" className="flex flex-col">
           <h2 className="text-[50px]">
             <b>Friends channels</b>
           </h2>
@@ -62,20 +81,28 @@ export default function Dash() {
             {channels.length} streams
           </p>
 
-          <div className="w-full h-[600px] overflow-scroll">
-            <div id="membership-channels" className="flex gap-x-10 py-12">
-              {channels.length > 0
-                ? channels.map((channel) =>
-                    channel.owner.toString() === user._id ? null : (
-                      <ChannelItem key={channel._id} channel={channel} />
-                    )
+          <div
+            id="membership-channels"
+            className="flex gap-x-10 py-12 flex-wrap"
+          >
+            {channels.length > 0
+              ? channels.map((channel, index) =>
+                  channel.owner.toString() === user._id ? null : (
+                    <ChannelItem
+                      key={index}
+                      channel={channel}
+                      setSelectedChannel={setSelectedChannel}
+                      showChannel={showChannel}
+                      setShowChannel={setShowChannel}
+                    />
                   )
-                : "No channels yet."}
-            </div>
+                )
+              : "No channels yet."}
           </div>
-
         </div>
       </div>
+
+      {showChannel && <ChannelSideBar selectedChannel={selectedChannel} />}
     </div>
   );
 }
