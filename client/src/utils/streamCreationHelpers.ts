@@ -35,14 +35,14 @@ function generateHowlsfromUrls(
                 src: [url],
                 html5: true,
                 preload: true,
-                onload: function () {
+                onload: function (this: Howl) {
                     // Resolve the promise when the Howl is loaded
                     resolve(howl);
                 },
                 onend: function (this: Howl) {
                     let nextIndex = (streamIndex + 1) % urls.length;
                     setStreamIndex(nextIndex);
-                }
+                }, 
             });
         });
         howlPromises.push(promise);

@@ -10,6 +10,7 @@ import {
 
 import { Howl } from 'howler';
 
+
 type PlayerContext = {
     
     // current stream of mixtapes, rendered by channel
@@ -28,6 +29,9 @@ type PlayerContext = {
     muted: boolean;
     setMuted: Dispatch<SetStateAction<boolean>>;
 
+    playbackPosition: number,
+    setPlaybackPosition: Dispatch<SetStateAction<number>>
+
 
 };
 
@@ -42,7 +46,10 @@ const initialContext = {
     setPlaying: () => { },
 
     muted: false,
-    setMuted: () => {}
+    setMuted: () => {},
+
+    playbackPosition: 0,
+    setPlaybackPosition: () => 0,
 
 };
 
@@ -54,6 +61,7 @@ export default function ContextProvider({ children }: PropsWithChildren) {
     const [streamIndex, setStreamIndex] = useState<number>(0);
     const [playing, setPlaying] = useState<boolean>(false);
     const [muted, setMuted] = useState<boolean>(false);
+    const [playbackPosition, setPlaybackPosition] = useState<number>(0)
 
     useEffect(() => {
         return () => {
@@ -73,7 +81,9 @@ export default function ContextProvider({ children }: PropsWithChildren) {
                 playing,
                 setPlaying,
                 muted,
-                setMuted
+                setMuted,
+                playbackPosition,
+                setPlaybackPosition
             }}>
             {children}
         </PlayerContext.Provider>
