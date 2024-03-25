@@ -20,6 +20,7 @@ const Player = () => {
         currentPlaybackTime,
         setCurrentPlaybackTime,
         mixTapeDuration,
+        setMixTapeDuration,
         muted,
         setMuted } = usePlayerContext()
     // refs
@@ -30,12 +31,12 @@ const Player = () => {
         // Re-render when current stream changes
         console.log('re rendering player')
         setCurrentPlaybackTime(0)
-        updateRangeValue(0)
         if (progressBarRef.current) {
             progressBarRef.current.value = '0';
         }
         if (currentStream[streamIndex]) {
             currentStream[streamIndex].play()
+            setMixTapeDuration(currentStream[streamIndex].duration())
             setPlaying(true);
         }
     }, [currentStream]);
@@ -49,22 +50,16 @@ const Player = () => {
     const play = () => {
         console.log('play clicked', currentStream[streamIndex]);
         if (!currentStream[streamIndex]) return;
-
-        const currentHowl = currentStream[streamIndex];
-        if (currentHowl.playing()) return;
-
-        currentHowl.play();
+        if (currentStream[streamIndex].playing()) return;
+        currentStream[streamIndex].play();
         setPlaying(true);
     };
 
     const pause = () => {
         console.log('pause clicked', currentStream[streamIndex]);
         if (!currentStream[streamIndex]) return;
-
-        const currentHowl = currentStream[streamIndex];
-        if (!currentHowl.playing()) return;
-
-        currentHowl.pause();
+        if (!currentStream[streamIndex].playing()) return;
+        currentStream[streamIndex].pause();
         setPlaying(false);
     };
 
@@ -78,22 +73,16 @@ const Player = () => {
     };
 
     const handleNextClick = () => {
-        const currentMixtape = currentStream[streamIndex];
-        currentMixtape.stop();
-
+        currentStream[streamIndex].stop();
         // Calculate the index for the next track
         const newIndex = (streamIndex + 1) % currentStream.length;
-
         handleClickNavigation(newIndex);
     };
 
     const handlePreviousClick = () => {
-        const currentMixtape = currentStream[streamIndex];
-        currentMixtape.stop();
-
+        currentStream[streamIndex].stop();
         // Calculate the index for the previous track
         const newIndex = (streamIndex - 1 + currentStream.length) % currentStream.length;
-
         handleClickNavigation(newIndex);
     };
 
@@ -125,24 +114,17 @@ const Player = () => {
         const timerId = setInterval(() => {
             if (playing && currentStream.length > 0) {
                 const currentTime = currentStream[streamIndex].seek();
-                if (progressBarRef.current) {
-                    progressBarRef.current.value = String(currentTime);
-                    updateRangeValue(currentTime);
-                }
+                updateRangeValue(currentTime);
             }
         }, 1000);
-    
         return () => clearInterval(timerId);
     };
     
 
     // event for user initiated progress bar change
-    const handleProgressBarChange = (
-        event: React.ChangeEvent<HTMLInputElement>
-    ) => {
+    const handleProgressBarChange = ( event: React.ChangeEvent<HTMLInputElement> ) => {
         const currentTimeState = parseFloat(event.target.value);
-        const currentMixtape = currentStream[streamIndex];
-        currentMixtape.seek(currentTimeState);
+        currentStream[streamIndex].seek(currentTimeState);
         setCurrentPlaybackTime(currentTimeState);
         updateRangeValue(currentTimeState);
 
@@ -152,7 +134,7 @@ const Player = () => {
     const updateRangeValue = (
         currentTimeState: number
     ) => {
-        const percentage = (currentTimeState / mixTapeDuration) * 100;
+        const percentage = (currentTimeState / currentStream[streamIndex].duration()) * 100;
 
         if (progressBarRef.current) {
             progressBarRef.current.style.setProperty(
@@ -162,14 +144,14 @@ const Player = () => {
         }
     };
 
-    if (currentStream.length === 0) {
+    if (currentStream.length === 0 || !currentStream[streamIndex]) {
         return null; // Render nothing if currentStream is empty
     }
 
     return (
         <>
-            {currentStream.length === 0 || !currentStream[streamIndex] ? (
-                <></> ) :(
+            {/* {currentStream.length === 0 || !currentStream[streamIndex] ? (
+                <></> ) :( */}
                 <div
                     id="player"
                     className="w-full h-[100px] flex fixed bottom-0 flex-row justify-center items-center bg-tapeBlack"
@@ -246,10 +228,9 @@ const Player = () => {
                         </div>
                     </div>
                 </div>
-        )}
+        )
 
         </>
-
     );
 };
 
