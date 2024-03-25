@@ -1,4 +1,3 @@
-
 import { usePlayerContext } from '../Context/PlayerContext';
 import WaveSurfer from 'wavesurfer.js';
 import { useRef, useEffect, useState } from 'react';
@@ -15,6 +14,7 @@ const AudioWave = () => {
       const ws = WaveSurfer.create({
         container: waveContainerRef.current,
         height: 90,
+        width: 600,
         waveColor: 'white',
         progressColor: '#909090',
         barGap: 1,
@@ -26,8 +26,6 @@ const AudioWave = () => {
       wavesurfer?.destroy();
     };
   }, [waveContainerRef, wavesurfer]);
-
-
 
   useEffect(() => {
     if (wavesurfer && currentStream[streamIndex]) {
@@ -48,12 +46,9 @@ const AudioWave = () => {
   }, [wavesurfer, playbackPosition]);
 
   return (
-    <div id="wave" className="h-[100px] absolute ml-[50px] bottom-[40px] left-[300px] border-tapeWhite border-[2px] rounded-full" style={{pointerEvents: 'none'}}>
-      <div
-      className='w-[600px]'
-      ref={waveContainerRef}>
-      </div>
-    </div>
+    <div id="wave" ref={waveContainerRef} className="h-[100px] w-[700px] absolute ml-[50px] bottom-[40px] left-[300px] border-tapeWhite border-[2px] rounded-full flex justify-center" style={{ pointerEvents: 'none' }} />
+
+
   )
 }
 
