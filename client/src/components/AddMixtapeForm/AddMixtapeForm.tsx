@@ -1,4 +1,4 @@
-import { useState, Dispatch, SetStateAction, useRef, MouseEvent } from 'react';
+import { useState, Dispatch, SetStateAction, useRef } from 'react';
 import { CloudinaryRes, postMusicToCloudinary } from '../../services/CloudinaryService';
 import { createMixTape } from '../../services/MixtapeClientService';
 import { useMainContext } from '../Context/Context';

@@ -10,6 +10,7 @@ import { ChannelType } from '@/types/Channel';
 describe('AddMembersSelect Component', () => {
     let inputElement: HTMLInputElement;
     let setChannelList = vi.fn()
+    let toggleMemberForm = vi.fn()
 
     beforeEach(() => {
         setChannelList = vi.fn();
@@ -17,6 +18,7 @@ describe('AddMembersSelect Component', () => {
             <AddMembersSelect
                 channel={mockChannel}
                 setChannel={setChannelList as Dispatch<SetStateAction<ChannelType>>}
+                toggleMemberForm={toggleMemberForm}
             />
         );
         inputElement = screen.getByPlaceholderText('Search for a friend...') as HTMLInputElement;

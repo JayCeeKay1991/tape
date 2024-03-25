@@ -10,13 +10,11 @@ vi.mock('../contextComponent', () => ({
 describe('User inputs are calling change handlers', async () => {
   let nameInput: HTMLInputElement;
   const setShowForm = vi.fn();
-  const setChannelList = vi.fn();
 
   beforeEach(() => {
     render(
       <AddChannelForm
         setShowForm={setShowForm}
-        setChannelList={setChannelList}
       />
     );
     nameInput = screen.getByTestId('input-channel-name') as HTMLInputElement;
