@@ -1,7 +1,7 @@
 {
   "version": 2,
-
-  "routes": [{ "src": "/(.*)", "dest": "dist/index.js",  "headers": {
+  "builds": [{ "src": "dist/index.js", "use": "@vercel/node" }],
+  "routes": [{ "src": "/(.*)", "dest": "/dist",  "headers": {
     "Access-Control-Allow-Credentials": "true",
     "Access-Control-Allow-Origin": "*",
     "Access-Control-Allow-Methods": "GET,OPTIONS,PATCH,DELETE,POST,PUT",
