@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import { useState, useRef } from 'react';
 import './UserDetails.css';
 import { useMainContext } from '../Context/Context';
 import { updateUser } from '../../services/UserClientService';

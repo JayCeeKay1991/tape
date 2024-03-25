@@ -5,7 +5,6 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { render, screen, userEvent } from '../../test/testConfig';
 import UserDetails from './UserDetails';
 import { updateUser } from '@/services/UserClientService';
-import { User } from '../../types/User'; // Assuming you have a type definition for User
 
 // Mock necessary functions and modules
 vi.mock('../Context/Context', () => ({

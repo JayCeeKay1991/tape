@@ -1,11 +1,8 @@
 import { CommentsType } from "../../types/Comments";
 import { TimePrettier } from "../../utils/timePrettifier";
-import { User } from "../../types/User";
-import { useMainContext } from "../Context/Context";
 
 type propsType = {
   comment: CommentsType;
-  user: User;
 };
 
 function Comment({ comment }: propsType) {

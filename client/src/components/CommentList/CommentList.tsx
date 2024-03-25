@@ -11,7 +11,7 @@ type propsType = {
 };
 
 function CommentList({ channel }: propsType) {
-  const { user, setUser } = useMainContext();
+  const { user } = useMainContext();
   const [formValue, setFormValue] = useState<string>("");
   const [comments, setComments] = useState<CommentsType[]>(channel.comments);
 
@@ -100,7 +100,7 @@ function CommentList({ channel }: propsType) {
             </p>
           </div>
           {comments.map((comment, index) => (
-            <Comment key={index} comment={comment} user={user} />
+            <Comment key={index} comment={comment} />
           ))}
         </div>
       ) : (
