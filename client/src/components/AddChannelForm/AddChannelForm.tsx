@@ -1,4 +1,4 @@
-import { Dispatch, useState, SetStateAction, useRef, MouseEvent } from 'react';
+import { Dispatch, useState, SetStateAction, useRef } from 'react';
 import { ChannelType } from '@/types/Channel';
 import { useMainContext } from '../Context/Context';
 import { createChannel } from '@/services/ChannelClientService';
@@ -55,7 +55,7 @@ export default function AddChannelForm({
 
 
   // Handle choose file click
-  const handleChooseFilesClick = (e: MouseEvent<HTMLButtonElement>) => {
+  const handleChooseFilesClick = () => {
     // simulates the clicking of the fileinput
     if (fileInputRef.current) {
       fileInputRef.current.click();
