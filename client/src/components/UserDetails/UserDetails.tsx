@@ -30,8 +30,8 @@ export default function UserDetails() {
 
   function handleEdit(e: React.MouseEvent<HTMLButtonElement>) {
     e.preventDefault();
-    const target = e.currentTarget;
-    switch (target.id) {
+    const target = e.currentTarget.id;
+    switch (target) {
       case 'username':
         setChangeUsername(!changeUsername);
         break;
@@ -107,14 +107,14 @@ export default function UserDetails() {
       };
       updateUser(newUser);
     }
-    switch (e.target) {
-      case document.getElementById('usernameForm'):
+    switch (e.currentTarget.id) {
+      case 'usernameForm':
         setChangeUsername(!changeUsername);
         break;
-      case document.getElementById('emailForm'):
+      case 'emailForm':
         setChangeEmail(!changeEmail);
         break;
-      case document.getElementById('passwordForm'):
+      case 'passwordForm':
         setChangePassword(!changePassword);
         break;
       default:
