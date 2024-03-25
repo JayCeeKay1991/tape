@@ -6,14 +6,13 @@ import { Howl } from "howler";
 
 // main generate streamfunction
 export async function generateStream(channel: ChannelType,
-    setCurrentPlaybackTime: Dispatch<SetStateAction<number>>,
     setMixTapeDuration: Dispatch<SetStateAction<number>>,
     setStreamIndex: Dispatch<SetStateAction<number>>,
     streamIndex: number) {
     // extract urls
     const urls = extractStreamUrls(channel.mixTapes);
     // generate howls and return a promise
-    return generateHowlsfromUrls(urls, setCurrentPlaybackTime, setMixTapeDuration, setStreamIndex, streamIndex);
+    return generateHowlsfromUrls(urls, setMixTapeDuration, setStreamIndex, streamIndex);
 }
 
 // extract the urls from the mixtapes and returns as array
@@ -41,6 +40,9 @@ function generateHowlsfromUrls(
                 onload: function () {
                     // Resolve the promise when the Howl is loaded
                     resolve(howl);
+                },
+                onplay: function (this: Howl) {
+                    setMixTapeDuration(Math.round(this.duration()));
                 },
                 onend: function (this: Howl) {
                     let nextIndex = (streamIndex + 1) % urls.length;

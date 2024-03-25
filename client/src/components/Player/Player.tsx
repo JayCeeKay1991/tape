@@ -17,10 +17,6 @@ const Player = () => {
         setPlaying,
         streamIndex,
         setStreamIndex,
-        currentPlaybackTime,
-        setCurrentPlaybackTime,
-        mixTapeDuration,
-        setMixTapeDuration,
         muted,
         setMuted } = usePlayerContext()
     // refs
@@ -30,16 +26,14 @@ const Player = () => {
     useEffect(() => {
         // Re-render when current stream changes
         console.log('re rendering player')
-        setCurrentPlaybackTime(0)
         if (progressBarRef.current) {
             progressBarRef.current.value = '0';
         }
         if (currentStream[streamIndex]) {
             currentStream[streamIndex].play()
-            setMixTapeDuration(currentStream[streamIndex].duration())
             setPlaying(true);
         }
-    }, [currentStream]);
+    }, [currentStream, streamIndex]);
 
     useEffect(() => {
         const cleanup = startProgressBarUpdate();
@@ -66,7 +60,6 @@ const Player = () => {
     const handleClickNavigation = (newIndex: number) => {
         setStreamIndex(newIndex);
         const newMixtape = currentStream[newIndex];
-        setCurrentPlaybackTime(0)
         newMixtape.play();
         updateRangeValue(0)
         setPlaying(true);
@@ -119,15 +112,13 @@ const Player = () => {
         }, 1000);
         return () => clearInterval(timerId);
     };
-    
 
     // event for user initiated progress bar change
-    const handleProgressBarChange = ( event: React.ChangeEvent<HTMLInputElement> ) => {
+    const handleProgressBarChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const currentTimeState = parseFloat(event.target.value);
         currentStream[streamIndex].seek(currentTimeState);
-        setCurrentPlaybackTime(currentTimeState);
+        // setCurrentPlaybackTime(currentTimeState);
         updateRangeValue(currentTimeState);
-
     };
 
     // Updates the value of the bar, so that it tracks the played time
@@ -149,88 +140,83 @@ const Player = () => {
     }
 
     return (
-        <>
-            {/* {currentStream.length === 0 || !currentStream[streamIndex] ? (
-                <></> ) :( */}
-                <div
-                    id="player"
-                    className="w-full h-[100px] flex fixed bottom-0 flex-row justify-center items-center bg-tapeBlack"
-                >
-                    <div
-                        id="progress-bar"
-                        className="w-11/12 flex flex-row justify-center items-center"
-                    >
-                        <div id="btn-playPause">
-                            {playing ? (
-                                <button
-                                    type="button"
-                                    className="text-tapeWhite me-5"
-                                    onClick={pause}
-                                >
-                                    <IoMdPause size="25" />
-                                </button>
-                            ) : (
-                                <button
-                                    type="button"
-                                    className="text-tapeWhite me-5 border-none "
-                                    onClick={play}
-                                >
-                                    <IoMdPlay size="25" />
-                                </button>
-                            )}
-                        </div>
-                        <input
-                            type="range"
-                            id="seek-slider"
-                            ref={progressBarRef}
-                            defaultValue="0"
-                            max={mixTapeDuration.toString()}
-                            onChange={handleProgressBarChange}
-                            className="me-2"
-                        />
-                        <span
-                            id="duration"
-                            ref={totalDurationRef}
+        <div
+            id="player"
+            className="w-full h-[100px] flex fixed bottom-0 flex-row justify-center items-center bg-tapeBlack"
+        >
+            <div
+                id="progress-bar"
+                className="w-11/12 flex flex-row justify-center items-center"
+            >
+                <div id="btn-playPause">
+                    {playing ? (
+                        <button
+                            type="button"
                             className="text-tapeWhite me-5"
-                        >{formatTime(mixTapeDuration)}</span>
-                        <div id="fastforward-rewind" className=" flex flex-row ">
-                            <button
-                                type="button"
-                                onClick={handleNextClick}
-                                className="text-tapeWhite me-2 border-none"
-                            >
-                                <MdSkipPrevious size="35" />
-                            </button>
-                            <button
-                                type="button"
-                                onClick={handlePreviousClick}
-                                className="text-tapeWhite me-2 border-none"
-                            >
-                                <MdSkipNext size="35" />
-                            </button>
-                            {!muted ? (
-                                <button
-                                    type="button"
-                                    onClick={toggleMute}
-                                    className=" text-tapeWhite me-2 border-none "
-                                >
-                                    <GoUnmute size="30" />
-                                </button>
-                            ) : (
-                                <button
-                                    type="button"
-                                    onClick={toggleMute}
-                                    className="text-tapeWhite me-2 border-none"
-                                >
-                                    <BiSolidVolumeMute size="25" />
-                                </button>
-                            )}
-                        </div>
-                    </div>
+                            onClick={pause}
+                        >
+                            <IoMdPause size="25" />
+                        </button>
+                    ) : (
+                        <button
+                            type="button"
+                            className="text-tapeWhite me-5 border-none "
+                            onClick={play}
+                        >
+                            <IoMdPlay size="25" />
+                        </button>
+                    )}
                 </div>
-        )
+                <input
+                    type="range"
+                    id="seek-slider"
+                    ref={progressBarRef}
+                    defaultValue="0"
+                    max={currentStream[streamIndex].duration().toString()}
+                    onChange={handleProgressBarChange}
+                    className="me-2"
+                />
+                <span
+                    id="duration"
+                    ref={totalDurationRef}
+                    className="text-tapeWhite me-5"
+                >{formatTime(currentStream[streamIndex].duration())}</span>
+                <div id="fastforward-rewind" className=" flex flex-row ">
+                    <button
+                        type="button"
+                        onClick={handleNextClick}
+                        className="text-tapeWhite me-2 border-none"
+                    >
+                        <MdSkipPrevious size="35" />
+                    </button>
+                    <button
+                        type="button"
+                        onClick={handlePreviousClick}
+                        className="text-tapeWhite me-2 border-none"
+                    >
+                        <MdSkipNext size="35" />
+                    </button>
+                    {!muted ? (
+                        <button
+                            type="button"
+                            onClick={toggleMute}
+                            className=" text-tapeWhite me-2 border-none "
+                        >
+                            <GoUnmute size="30" />
+                        </button>
+                    ) : (
+                        <button
+                            type="button"
+                            onClick={toggleMute}
+                            className="text-tapeWhite me-2 border-none"
+                        >
+                            <BiSolidVolumeMute size="25" />
+                        </button>
+                    )}
+                </div>
+            </div>
+        </div>
 
-        </>
     );
 };
 

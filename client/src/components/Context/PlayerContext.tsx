@@ -19,14 +19,6 @@ type PlayerContext = {
     streamIndex: number;
     setStreamIndex: Dispatch<SetStateAction<number>>;
 
-    // current position 
-    currentPlaybackTime: number;
-    setCurrentPlaybackTime: Dispatch<SetStateAction<number>>;
-
-    // total duration of current mixtape
-    mixTapeDuration: number;
-    setMixTapeDuration: Dispatch<SetStateAction<number>>;
-
     // playing or not
     playing: boolean;
     setPlaying: Dispatch<SetStateAction<boolean>>;
@@ -45,12 +37,6 @@ const initialContext = {
     streamIndex: 0,
     setStreamIndex: () => 0,
 
-    currentPlaybackTime: 0,
-    setCurrentPlaybackTime: () => 0,
-
-    mixTapeDuration: 0,
-    setMixTapeDuration: () => 0,
-
     playing: false,
     setPlaying: () => { },
 
@@ -65,8 +51,6 @@ export default function ContextProvider({ children }: PropsWithChildren) {
     // player contexts
     const [currentStream, setCurrentStream] = useState<Howl[]>([]);
     const [streamIndex, setStreamIndex] = useState<number>(0);
-    const [currentPlaybackTime, setCurrentPlaybackTime] = useState<number>(0);
-    const [mixTapeDuration, setMixTapeDuration] = useState<number>(0);
     const [playing, setPlaying] = useState<boolean>(false);
     const [muted, setMuted] = useState<boolean>(false);
 
@@ -85,10 +69,6 @@ export default function ContextProvider({ children }: PropsWithChildren) {
                 setCurrentStream,
                 streamIndex,
                 setStreamIndex,
-                currentPlaybackTime,
-                setCurrentPlaybackTime,
-                mixTapeDuration,
-                setMixTapeDuration,
                 playing,
                 setPlaying,
                 muted,
