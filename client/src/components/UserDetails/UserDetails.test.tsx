@@ -52,5 +52,24 @@ describe('UserDetails component', () => {
     expect(updateUser).toHaveBeenCalledWith(expect.objectContaining({
       userName: 'JaneDoe',
     }));
-  });
+  }
+  );
+  it('allows editing the email', async () => {
+    const editEmailButton = screen.getByTestId('edit-email-button');
+    await userEvent.click(editEmailButton);
+
+    // Find the email input, clear it, and type a new email
+    const emailInput = screen.getByTestId('email-input');
+    await userEvent.clear(emailInput);
+    await userEvent.type(emailInput, 'JaneDoe@mock.com');
+
+    // Find the save button and click it to submit the form
+    const saveButton = screen.getAllByText('save')[0]; // Assuming 'save' is the text on the save button
+    await userEvent.click(saveButton);
+
+    // Verify that updateUser was called with the expected parameters
+    expect(updateUser).toHaveBeenCalledWith(expect.objectContaining({
+      email: 'JaneDoe@mock.com',
+    }));
+  })
 });

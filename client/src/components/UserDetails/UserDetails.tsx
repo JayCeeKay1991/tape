@@ -232,6 +232,7 @@ export default function UserDetails() {
                   type="text"
                   className=" border border-tapeGray rounded-md bg-tapeBlack  text-tapeDarkGrey"
                   onChange={changeHandler}
+                  data-testid="email-input"
                   value={formValuesProfile.email}
                   required={true}
                 />
@@ -254,7 +255,7 @@ export default function UserDetails() {
             ) : (
               <div className="flex flex-row space-x-10">
                 <p>{user.email}</p>
-                <button onClick={handleEdit} id="email" className="border-0">
+                <button onClick={handleEdit} id="email" className="border-0"  data-testid="edit-email-button">
                   <GoPencil />
                 </button>
               </div>
