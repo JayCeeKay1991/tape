@@ -10,7 +10,6 @@ export default function Dash() {
   const { user } = useMainContext();
   const channelList = user.channels;
   const [showForm, setShowForm] = useState(false);
-  const [search, setSearch] = useState('');
   const [channels, setChannels] = useState<ChannelType[]>([]);
   const [filteredChannels, setFilteredChannels] = useState<ChannelType[]>([]);
   const [filteredChannelsOwn, setFilteredChannelsOwn] = useState<ChannelType[]>([]);
@@ -40,9 +39,7 @@ export default function Dash() {
     if (!searchValue.trim()) {
       setFilteredChannels(channels);
       setFilteredChannelsOwn(channelList);
-      setSearch('');
     } else {
-      setSearch(searchValue);
       const searchResult: ChannelType[] = channels.filter(channel => {
         return Object.values(channel).some(value =>
           value.toString().toLowerCase().startsWith(searchValue)
@@ -71,7 +68,6 @@ export default function Dash() {
           <input
             className="bg-tapeBlack text-tapeWhite mx-8 focus:outline none"
             onChange={searchFilter}
-            value={search}
             type="text"
             placeholder="Search..."
           />
