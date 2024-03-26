@@ -53,7 +53,7 @@ function CommentList({ channel }: propsType) {
   };
 
   return (
-    <div className="flex flex-col items-center w-full">
+    <div className="flex flex-col items-center w-full ">
       <div
         id="comments-top"
         className="w-full flex flex-col justify-between  mb-[80px] pr-[60px] pl-[50px]"
@@ -101,9 +101,11 @@ function CommentList({ channel }: propsType) {
             </select>
           </form>
         </div>
+
           {comments.map((comment, index) => (
-            <Comment key={index} comment={comment} />
+            <Comment key={index} comment={comment}/>
           ))}
+          </div>
         </div>
       ) : (
         <p className="text-[40px] text-tapeDarkGrey">No comments yet</p>

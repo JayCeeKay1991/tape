@@ -1,24 +1,20 @@
 import { Outlet } from 'react-router-dom';
 import AppNav from '../AppNav/AppNav';
-import ContextProvider from '../Context/Context';
+import { useMainContext } from '../Context/Context';
 import PlayerContextProvider from '../Context/PlayerContext'; // Renamed import
 import Player from '../Player/Player';
 
 const App = () => {
-  const userId = localStorage.getItem('loggedinUser');
 
+  const { user } = useMainContext();
   return (
-    <ContextProvider>
-      <PlayerContextProvider>
-        <div className='App'>
-          {/* <AppNav /> */}
-          {userId ? (
-            <Player />
-          ) : <></>}
-          <Outlet />
-        </div>
-      </PlayerContextProvider>
-    </ContextProvider>
+    <PlayerContextProvider>
+      <div className="App">
+        <AppNav />
+        {user._id ? <Player /> : <></>}
+        <Outlet />
+      </div>
+    </PlayerContextProvider>
   );
 };
 

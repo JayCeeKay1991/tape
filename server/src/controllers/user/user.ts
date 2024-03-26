@@ -1,6 +1,8 @@
-import { Request, Response } from "express";
-import UserModel from "../../models/user";
-import bcrypt from "bcrypt";
+
+import { Request, Response } from 'express';
+import UserModel from '../../models/user';
+import bcrypt from 'bcrypt';
+import { CustomRequest } from '../../middlewares/auth';
 
 // get all users
 export const getAllUsers = async (req: Request, res: Response) => {
@@ -13,7 +15,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
   }
 };
 
-export const createUser = async (req: Request, res: Response) => {
+export const createUser = async (req: CustomRequest, res: Response) => {
   try {
     const { email, password } = req.body;
 
@@ -50,6 +52,12 @@ export const createUser = async (req: Request, res: Response) => {
 
     // Save the new user to the database
     const user = await newUser.save();
+
+    // SESSION !!!!
+    if (req.session) {
+      req.session.uid = user._id.toString();
+    }
+
     // send the result
     res.status(201).json(user);
   } catch (error) {
@@ -60,7 +68,7 @@ export const createUser = async (req: Request, res: Response) => {
 };
 
 // getting the logged in user
-export const login = async (req: Request, res: Response) => {
+export const login = async (req: CustomRequest, res: Response) => {
   try {
     const { email, password } = req.body;
 
@@ -103,6 +111,12 @@ export const login = async (req: Request, res: Response) => {
         .status(401)
         .json({ error: "401", message: "Username or password is incorrect" });
     }
+
+    // SESSION !!!!
+    if (req.session) {
+      req.session.uid = user._id.toString();
+    }
+
     // if everything correct, send the user
     res.status(200).json(user);
   } catch (error) {
@@ -206,4 +220,28 @@ export const getUserById = async (req: Request, res: Response) => {
   }
 };
 
-export default { createUser, login, editUser };
+export const logout = (req: CustomRequest, res: Response) => {
+  req.session &&
+    req.session.destroy((error) => {
+      if (error) {
+        res
+          .status(500)
+          .send({ error, message: 'Could not log out, please try again' });
+      } else {
+        res.clearCookie('sid');
+
+        res.status(200).send({ message: 'Logout successful' });
+      }
+    });
+};
+
+// get user profile for the session
+export const profile = async (req: CustomRequest, res: Response) => {
+  try {
+    res.status(200).send(req.user);
+  } catch {
+    res.status(404).send({ Error, message: 'User not found' });
+  }
+};
+
+export default { createUser, login, editUser, logout, profile };

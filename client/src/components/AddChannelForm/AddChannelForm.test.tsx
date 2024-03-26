@@ -3,10 +3,6 @@ import { render, screen, userEvent } from '@/test/testConfig';
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { channels } from '@/test/mocks';
 
-vi.mock('../contextComponent', () => ({
-  useMainContext: () => ({}),
-}));
-
 describe('User inputs are calling change handlers', async () => {
   let nameInput: HTMLInputElement;
   const setShowForm = vi.fn();
@@ -20,11 +16,11 @@ describe('User inputs are calling change handlers', async () => {
     nameInput = screen.getByTestId('input-channel-name') as HTMLInputElement;
   });
 
-  it('should render a submit button', async () => {
-    const submitButton = screen.getByTestId(
-      'create-button'
-    ) as HTMLButtonElement;
-    expect(submitButton).toHaveClass('white-button');
+  it('should generate a hidden input element', async () => {
+    const input = screen.getByTestId(
+      'input-hidden'
+    ) as HTMLInputElement;
+    expect(input).toHaveClass('hidden');
   });
 
   it('should handle changes when filling in form', async () => {

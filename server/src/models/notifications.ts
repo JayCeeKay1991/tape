@@ -1,13 +1,24 @@
 import { InferSchemaType } from "mongoose";
 import mongoose from ".";
 
-export type notificationType = InferSchemaType<typeof Notifications>;
+export type NotificationType = InferSchemaType<typeof Notifications>;
 
 // defining data structure
 const Notifications = new mongoose.Schema({
+  ownerChannel: {
+    type: mongoose.Schema.Types.ObjectId,
+    required: true,
+    ref: "Channel",
+  },
   message: { type: String, required: true },
-  channelName: { type: String, required: true },
-  unNotifiiedUsers: { type: [String], required: true },
+  change: { type: String, required: true },
+  unNotifiedUsers: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      required: true,
+      ref: "User",
+    },
+  ],
   date: { type: Date, required: true },
 });
 

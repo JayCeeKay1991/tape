@@ -43,11 +43,10 @@ function LoginForm() {
     // set user to the logged in user
     if (loggedinUser) {
       setUser(loggedinUser);
-      // set the localstorage to the logged in user id
-      localStorage.setItem("loggedinUser", loggedinUser._id);
+
 
       // SET navigation to Dashboard
-      navigate("/dash");
+      navigate('/dash');
     } else {
       setFailedToLogin(true);
     }

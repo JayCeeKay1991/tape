@@ -1,23 +1,33 @@
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useMainContext, initialStateUser } from '@/components/Context/Context';
 import { MdHome } from 'react-icons/md';
 import { FiLogOut } from 'react-icons/fi';
 import { useState } from 'react';
-import { IoSearch } from "react-icons/io5";
+import { IoSearch } from 'react-icons/io5';
+import { logout } from '@/services/UserClientService';
+import { usePlayerContext } from '../Context/PlayerContext';
 
 const AppNav = () => {
   const { user, setUser } = useMainContext();
-  const [isSearchVisible, setIsSearchVisible] = useState(false)
+  const {setCurrentStream} = usePlayerContext();
+  const [isSearchVisible, setIsSearchVisible] = useState(false);
+
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
-    setUser(initialStateUser);
-    localStorage.clear();
-    window.location.href = '/home';
+    try {
+      await logout();
+      setUser(initialStateUser);
+      setCurrentStream([]);
+      navigate('/home');
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const toggleSearch = () => {
     setIsSearchVisible(!isSearchVisible);
-  }
+  };
 
   return (
 
@@ -30,7 +40,7 @@ const AppNav = () => {
         </Link>
         <div id="searchWrap">
           <button className="border-none mt-[2px]" onClick={toggleSearch}>
-            <IoSearch size={25} className='border-none'/>
+            <IoSearch size={25} className="border-none" />
           </button>
           {isSearchVisible && (
             <input
@@ -49,20 +59,16 @@ const AppNav = () => {
         >
           <FiLogOut size={20} />
         </button>
-
-        <Link to={"/user"}>
+        <Link to={'/user'}>
           <div className="overflow-hidden rounded-full w-[50px] h-[50px] flex justify-center items-center">
             <img
               src={user.profilePic}
               className="w-16 h-16 object-cover"
-              style={{ objectPosition: "center-center" }}
-
+              style={{ objectPosition: 'center-center' }}
               data-testid="profile-image"
             />
           </div>
         </Link>
-
-
       </div>
     </nav>
   );
