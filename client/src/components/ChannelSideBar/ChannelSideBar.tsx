@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import React, { Dispatch, SetStateAction } from "react";
 // types
 import { ChannelType } from '@/types/Channel';
 // services
@@ -18,9 +19,11 @@ import ConfirmationDialog from '@/utils/ConfirmationDialog';
 
 type ChannelItemProps = {
   selectedChannel: ChannelType | null;
+  showChannel: boolean;
+  setShowChannel: Dispatch<SetStateAction<boolean>>;
 };
 
-const ChannelSideBar = ({ selectedChannel }:ChannelItemProps) => {
+const ChannelSideBar = ({ selectedChannel, showChannel, setShowChannel }:ChannelItemProps) => {
   const { user, setUser } = useMainContext();
   if (selectedChannel === null) {
     return
@@ -29,6 +32,14 @@ const ChannelSideBar = ({ selectedChannel }:ChannelItemProps) => {
   const [showMemberForm, setShowMemberForm] = useState(false);
   const [isCommentsOpen, setIsCommentsOpen] = useState(true);
   const [showConfirmation, setShowConfirmation] = useState(false);
+
+  useEffect(() => {
+    setChannel(selectedChannel)
+  },[selectedChannel])
+
+  const closeSideBar = () => {
+      setShowChannel(false)
+  }
 
   // Toggle members form
   const toggleMemberForm = () => {
@@ -54,7 +65,7 @@ const ChannelSideBar = ({ selectedChannel }:ChannelItemProps) => {
       ...prevList,
       channels: prevList.channels.filter((el) => el._id !== channel._id),
     }));
-
+    setShowChannel(false);
   };
 
   return (
@@ -67,7 +78,7 @@ const ChannelSideBar = ({ selectedChannel }:ChannelItemProps) => {
         className="text-tapeWhite w-[300px] h-[300px] flex-none rounded-[20px] bg-gradient-to-r from-tapePink to-tapeYellow mb-[20px] relative overflow-hidden"
       >
         <div className='absolute right-[10px] top-[10px]'>
-          <RxCross2 size={30} />
+         <button className='border-none' onClick={closeSideBar}><RxCross2 size={30} /></button>
         </div>
         <div className="flex flex-row ml-[50px] mt-[50px] absolute bottom-[15px]">
           {channel?.members.map((member, index) => {

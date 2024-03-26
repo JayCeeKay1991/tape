@@ -95,37 +95,51 @@ export default function AddChannelForm({
   };
 
   return (
-    <form
-    className='flex flex-col absolute border-tapeDarkGrey bg-tapeBlack border-[2px] rounded-[20px] w-[350px] h-content p-[20px] -left-[230px] mt-[20px]'
-    >
-      <h1 className='text-2xl mb-5 text-center' >Create a new channel</h1>
+    <form className="w-[350px] h-content flex flex-col z-40 absolute border-tapeDarkGrey bg-tapeBlack border-[2px] rounded-[20px] p-[20px] -left-[20px] mt-[20px]">
+      <h1 className="text-2xl mb-5 text-center">Create a new channel</h1>
       <label>Name</label>
       <input
-        name='name'
+        name="name"
         value={formValues.name}
-        type='text'
+        type="text"
         onChange={changeHandler}
-        placeholder='Channel title'
-        className='h-[30px] mt-[5px] mb-[20px] p-[20px] text-sm border-tapeDarkGrey bg-tapeBlack border-[2px] text-[25px] text-tapeWhite font-small outline-none'
-        data-testid='input-channel-name'>
-      </input>
+        placeholder="Channel title"
+        className="h-[30px] mt-[5px] mb-[20px] p-[20px] text-sm border-tapeDarkGrey bg-tapeBlack border-[2px] text-[25px] text-tapeWhite font-small outline-none"
+        data-testid="input-channel-name"
+      ></input>
       <label>Image</label>
 
-      <div {...getRootProps()} className='flex flex-col items-center' >
+      <div {...getRootProps()} className="flex flex-col items-center">
         <div>
           <div>
-            <PiUploadSimple size={120} className='text-tapeDarkGrey m-5' />
+            <PiUploadSimple size={120} className="text-tapeDarkGrey m-5" />
           </div>
         </div>
         <p>Or</p>
-        <button type='button' className='rounded-full border-[2px] border-tapeDarkGrey w-[150px] p-[5px] m-8' onClick={handleChooseFilesClick} disabled={!!pictureFile}>{pictureFile ? 'File chosen' : 'Choose file'}</button>
         <button
-        onClick={handleSubmit}
-        className='rounded-full border-[2px] border-tapeDarkGrey w-[150px] p-[5px]'
-        data-testid='create-button'>
-        Create Channel
-      </button>
-      <input name="file" type="file" onChange={changeHandler} className='hidden' ref={fileInputRef} accept=".jpg, .jpeg, .svg, .png, .webp" data-testId="input-hidden" />
+          type="button"
+          className="rounded-full border-[2px] border-tapeDarkGrey w-[150px] p-[5px] m-8"
+          onClick={handleChooseFilesClick}
+          disabled={!!pictureFile}
+        >
+          {pictureFile ? "File chosen" : "Choose file"}
+        </button>
+        <button
+          onClick={handleSubmit}
+          className="rounded-full border-[2px] border-tapeDarkGrey w-[150px] p-[5px]"
+          data-testid="create-button"
+        >
+          Create Channel
+        </button>
+        <input
+          name="file"
+          type="file"
+          onChange={changeHandler}
+          className="hidden"
+          ref={fileInputRef}
+          accept=".jpg, .jpeg, .svg, .png, .webp"
+          data-testId="input-hidden"
+        />
       </div>
     </form>
   );

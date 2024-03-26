@@ -15,7 +15,7 @@ export default function Dash() {
   const [userChannels, setUserChannels] = useState<ChannelType[]>(user.channels)
   const [channels, setChannels] = useState<ChannelType[]>([]);
   const [isSearchVisible, setIsSearchVisible] = useState(false);
- 
+
   const [showForm, setShowForm] = useState(false);
   const [sorting, setSorting] = useState<string>('none')
   const [searching, setSearching] = useState<boolean>(false);
@@ -179,7 +179,7 @@ export default function Dash() {
         </div>
       </div>
 
-      {showChannel && <ChannelSideBar selectedChannel={selectedChannel} />}
+      {showChannel && <ChannelSideBar selectedChannel={selectedChannel} showChannel={showChannel} setShowChannel={setShowChannel} />}
     </div>
   );
 }

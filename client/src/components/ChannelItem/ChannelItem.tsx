@@ -14,7 +14,7 @@ const ChannelItem = ({ channel, setSelectedChannel, showChannel, setShowChannel 
 
   const handleClick = () => {
     setSelectedChannel(channel)
-    setShowChannel(!showChannel)
+    setShowChannel(true)
   }
 
   return (
