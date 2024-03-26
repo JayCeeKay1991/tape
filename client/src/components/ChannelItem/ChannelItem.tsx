@@ -1,6 +1,7 @@
 
 import React, { Dispatch, SetStateAction } from "react";
 import { ChannelType, } from '@/types/Channel';
+import { IoMdPlay } from "react-icons/io";
 
 type ChannelItemProps = {
   channel: ChannelType;
@@ -17,7 +18,13 @@ const ChannelItem = ({ channel, setSelectedChannel, showChannel, setShowChannel 
   }
 
   return (
-    <button className="rounded-t-3xl border-none mb-[20px] " onClick={handleClick}>
+    <button
+      className="rounded-t-3xl border-none mb-[20px] relative "
+      onClick={handleClick}
+    >
+      <div className="w-full h-full absolute flex flex-row justify-center items-center opacity-0 hover:opacity-100">
+        <IoMdPlay size={90} className="text-tapeWhite" />
+      </div>
       <div
         id="channel-item-wrap"
         className="w-60 h-96 bg-gradient-to-b from-tapePink to-tapeYellow rounded-3xl overflow-hidden text-tapeWhite"

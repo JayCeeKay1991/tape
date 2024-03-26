@@ -79,7 +79,7 @@ const AddMembersSelect = ({ channel, setChannel, toggleMemberForm }: AddMembersS
 
   return (
 
-    <div className="flex flex-col w-[400px] pb-[10px] rounded bg-tapeBlack pl-[20px] pr-[10px]">
+    <div className="flex flex-col w-[400px] z-50 pb-[10px] rounded bg-tapeBlack pl-[20px] pr-[10px] absolute">
 
       <input
         name="user-search"
