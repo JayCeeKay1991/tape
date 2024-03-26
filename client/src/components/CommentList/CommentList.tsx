@@ -56,9 +56,9 @@ function CommentList({ channel }: propsType) {
     <div className="flex flex-col items-center w-full ">
       <div
         id="comments-top"
-        className="w-full flex flex-row justify-between items-end mb-[80px] pr-[60px] pl-[50px]"
+        className="w-full flex flex-col justify-between  mb-[80px] pr-[60px] pl-[50px]"
       >
-        <div className="w-[400px]">
+        <div className="w-[100px]">
           <form
             onSubmit={handleSubmit}
             className="flex flex-row justify-between items-center"
@@ -76,35 +76,37 @@ function CommentList({ channel }: propsType) {
               <FiSend className="text-tapeDarkGrey" size={25} />
             </button>
           </form>
-          <hr className="border-tapeDarkGrey"></hr>
         </div>
-
-        <form className="w-[200px]">
-          <select
-            id="underline_select"
-            className=" w-full block px-0 text-[20px] text-tapeDarkGrey font-medium bg-tapeBlack border-0 border-b-[1px] border-tapeDarkGrey appearance-none dark:text-tapeDarkGrey dark:border-tapeGrey focus:outline-none focus:ring-0 focus:border-tapeGrey peer"
-            defaultValue="latest"
-            onChange={sortComments}
-          >
-            <option value="latest">Latest</option>
-            <option value="oldest">Oldest</option>
-          </select>
-        </form>
       </div>
 
       {comments.length > 0 ? (
         <div id="comments list" className="flex flex-col items-center">
+
+        <div className="">
           <div className="w-full mb-[20px]">
             <p className="text-tapeDarkGrey text-[20px]">
               {comments.length} Comments
             </p>
           </div>
-          <div className="overflow-y-auto no-scrollbar h-[300px] w-full">
+
+          <form className="w-[100px]">
+            <select
+              id="underline_select"
+              className=" w-full block px-0 text-[20px] text-tapeDarkGrey font-medium bg-tapeBlack border-0 border-b-[1px] border-tapeDarkGrey appearance-none dark:text-tapeDarkGrey dark:border-tapeGrey focus:outline-none focus:ring-0 focus:border-tapeGrey peer"
+              defaultValue="latest"
+              onChange={sortComments}
+            >
+              <option value="latest">Latest</option>
+              <option value="oldest">Oldest</option>
+            </select>
+          </form>
+        </div>
+
           {comments.map((comment, index) => (
             <Comment key={index} comment={comment}/>
           ))}
           </div>
-        </div>
+
       ) : (
         <p className="text-[40px] text-tapeDarkGrey">No comments yet</p>
       )}

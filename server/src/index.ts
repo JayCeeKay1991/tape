@@ -4,6 +4,7 @@ import config from './config/config';
 import router from './router';
 import session from 'express-session';
 const PORT = config.port;
+const SECRET = process.env.SECRET || 'this is not very secure';
 
 const app = express();
 
@@ -19,7 +20,7 @@ app.use(
 app.use(
   session({
     name: 'sid',
-    secret: 'keyboard cat',
+    secret: SECRET,
     resave: false,
     saveUninitialized: true,
     cookie: {
@@ -36,7 +37,5 @@ app.use(express.json());
 app.use(router);
 
 app.listen(PORT, () => {
-
-  console.log(`Server listening on port ${PORT}`)
+  console.log(`Server listening on port ${PORT}`);
 });
-

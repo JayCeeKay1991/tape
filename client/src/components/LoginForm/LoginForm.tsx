@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { useMainContext } from '../Context/Context';
-import { useNavigate } from 'react-router-dom';
-import { login } from '../../services/UserClientService';
-import './LoginForm.css';
+import { useState } from "react";
+import { useMainContext } from "../Context/Context";
+import { useNavigate } from "react-router-dom";
+import { login } from "../../services/UserClientService";
+import "./LoginForm.css";
 
 export type FormValuesUserLogin = {
   email: string;
@@ -10,8 +10,8 @@ export type FormValuesUserLogin = {
 };
 
 const initialStateUserLogin = {
-  email: '',
-  password: '',
+  email: "",
+  password: "",
 };
 
 function LoginForm() {
@@ -35,6 +35,7 @@ function LoginForm() {
 
     // make service call login function
     const loggedinUser = await login(loginData);
+    console.log({ loggedinUser });
 
     // empty the form
     setFormValuesUserLogin(initialStateUserLogin);
@@ -42,6 +43,7 @@ function LoginForm() {
     // set user to the logged in user
     if (loggedinUser) {
       setUser(loggedinUser);
+
 
       // SET navigation to Dashboard
       navigate('/dash');
