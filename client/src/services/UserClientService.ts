@@ -4,42 +4,60 @@ import { FormValuesUser } from '@/components/SignupForm/SignupForm';
 import { FormValuesUserLogin } from '@/components/LoginForm/LoginForm';
 
 // Sign up new user
-export async function signup(body: FormValuesUser) {
+export const signup = async (body: FormValuesUser) => {
   try {
     return await apiClient<User>('users', 'POST', body);
   } catch (error) {
     console.error(error);
   }
-}
+};
 
 // log in existing user
-export async function login(body: FormValuesUserLogin) {
+export const login = async (body: FormValuesUserLogin) => {
   try {
     return await apiClient<User>('users/login', 'POST', body);
   } catch (error) {
     console.error(error);
   }
-}
+};
 
 // get all users
 export const getAllUsers = async () => {
   return await apiClient<User[]>('users');
 };
 
-export async function updateUser(
+export const updateUser = async (
   body: Omit<User, 'channels' | 'mixTapes' | 'password'>
-) {
+) => {
   try {
     return await apiClient<User>(`users/${body._id}`, 'PUT', body);
   } catch (error) {
     console.error(error);
   }
-}
+};
 
 export const getUserById = async (id: string) => {
   try {
     return await apiClient<User>(`users/${id}`, 'GET');
   } catch (error) {
     console.error(error);
+  }
+};
+
+export const logout = async () => {
+  try {
+    return await apiClient('logout', 'POST');
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+// Get profile from the session
+export const getProfile = async () => {
+  try {
+    return await apiClient<User>(`me`);
+  } catch (error) {
+    console.error(error);
+    throw error;
   }
 };

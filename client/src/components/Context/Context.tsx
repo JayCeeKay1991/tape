@@ -11,7 +11,7 @@ import {
 import { User } from '@/types/User';
 import { ChannelType } from '@/types/Channel';
 import { MixTape } from '@/types/MixTape';
-import { getUserById } from '@/services/UserClientService';
+import { getProfile, getUserById } from '@/services/UserClientService';
 import { useNavigate } from 'react-router-dom';
 
 type MainContext = {
@@ -40,13 +40,11 @@ const initialContext = {
   setUser: () => {},
   setChannels: () => {},
   setMixTapes: () => {},
- 
 };
 
 const MainContext = createContext<MainContext>(initialContext);
 
 export default function ContextProvider({ children }: PropsWithChildren) {
-
   const navigate = useNavigate();
   const [user, setUser] = useState<User>(initialStateUser);
   const [channels, setChannels] = useState<ChannelType[]>([]);
@@ -55,9 +53,11 @@ export default function ContextProvider({ children }: PropsWithChildren) {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const userId = localStorage.getItem('loggedinUser');
-        if (userId) {
-          const foundUser = await getUserById(userId);
+        // get user profile if there is a session
+        const userProfile = await getProfile();
+        if (userProfile) {
+          // if there is a profile in the session, get user by id, here we use get user by id, because it populates the user
+          const foundUser = await getUserById(userProfile._id);
           if (foundUser) {
             setUser(foundUser);
             setChannels(foundUser.channels);
@@ -82,7 +82,8 @@ export default function ContextProvider({ children }: PropsWithChildren) {
         setChannels,
         mixTapes,
         setMixTapes,
-      }}>
+      }}
+    >
       {children}
     </MainContext.Provider>
   );

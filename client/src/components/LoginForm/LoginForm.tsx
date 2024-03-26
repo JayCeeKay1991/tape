@@ -36,22 +36,18 @@ function LoginForm() {
     // make service call login function
     const loggedinUser = await login(loginData);
 
-    
     // empty the form
     setFormValuesUserLogin(initialStateUserLogin);
-    
-    // set user to the logged in user
-   if (loggedinUser) {
-     setUser(loggedinUser);
-     // set the localstorage to the logged in user id
-     localStorage.setItem('loggedinUser', loggedinUser._id);
-  
-     // SET navigation to Dashboard
-     navigate('/dash');
-   } else {
-     setFailedToLogin(true);
-   }
 
+    // set user to the logged in user
+    if (loggedinUser) {
+      setUser(loggedinUser);
+
+      // SET navigation to Dashboard
+      navigate('/dash');
+    } else {
+      setFailedToLogin(true);
+    }
   };
 
   return (
@@ -71,11 +67,13 @@ function LoginForm() {
           className="h-[90px] p-[30px]  border-tapeDarkGrey bg-tapeBlack border-[2px] text-[25px] text-tapeWhite font-medium outline-none"
           data-testid="input-email"
         ></input>
-          <div className='w-full h-[50px] flex flex-row justify-center items-center'>
-          {failedToLogin ? 
-            <p className=" text-[20px] text-tapeDarkGrey">Incorrect email or password</p>
-            : null}
-            </div>
+        <div className="w-full h-[50px] flex flex-row justify-center items-center">
+          {failedToLogin ? (
+            <p className=" text-[20px] text-tapeDarkGrey">
+              Incorrect email or password
+            </p>
+          ) : null}
+        </div>
         <input
           name="password"
           type="password"
