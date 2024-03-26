@@ -11,6 +11,8 @@ import CommentList from '@/components/CommentList/CommentList';
 // styling
 import AudioWave from '@/components/AudioWave/AudioWave';
 import { GoPlus } from 'react-icons/go';
+import { RxCross2 } from "react-icons/rx";
+
 // utils
 import ConfirmationDialog from '@/utils/ConfirmationDialog';
 
@@ -62,56 +64,57 @@ const ChannelSideBar = ({ selectedChannel }:ChannelItemProps) => {
     >
       <div
         id="channel-element"
-        className="text-tapeWhite w-full h-[300px] rounded-2xl bg-gradient-to-r from-tapePink to-tapeYellow mb-[20px] relative flex-none"
+        className="text-tapeWhite w-[300px] h-[300px] flex-none rounded-[20px] bg-gradient-to-r from-tapePink to-tapeYellow mb-[20px] relative overflow-hidden"
       >
-
-        <div>
-          <div className="flex flex-row ml-[50px] mt-[50px] absolute bottom-[15px]">
-            {channel?.members.map((member, index) => {
-              return (
-                <div
-                  key={index}
-                  className="w-[60px] h-[60px] overflow-hidden rounded-full border-tapePink border-[2px] -ml-[30px] flex-none bg-tapeOffBlack"
-                >
-                  <img src={member.profilePic}></img>
-                </div>
-              );
-            })}
-
-            <div className="-ml-[30px] z-10 ">
-              <button
-                className="w-[60px] h-[60px] flex flex-row justify-center items-center bg-tapeBlack rounded-full border-tapePink border-[2px]"
-                onClick={toggleMemberForm}
+        <div className='absolute right-[10px] top-[10px]'>
+          <RxCross2 size={30} />
+        </div>
+        <div className="flex flex-row ml-[50px] mt-[50px] absolute bottom-[15px]">
+          {channel?.members.map((member, index) => {
+            return (
+              <div
+                key={index}
+                className="w-[60px] h-[60px] overflow-hidden rounded-full border-tapePink border-[2px] -ml-[30px] flex-none bg-tapeOffBlack"
               >
-                <GoPlus className="text-tapeWhite" size={30} />
-              </button>
-              {showMemberForm && (
-                <AddMembersSelect
-                  channel={channel}
-                  setChannel={setChannel}
-                  toggleMemberForm={toggleMemberForm}
-                />
-              )}
-            </div>
+                <img src={member.profilePic}></img>
+              </div>
+            );
+          })}
+          <div className="-ml-[30px] z-10 ">
+            <button
+              className="w-[60px] h-[60px] flex flex-row justify-center items-center bg-tapeBlack rounded-full border-tapePink border-[2px]"
+              onClick={toggleMemberForm}
+            >
+              <GoPlus className="text-tapeWhite" size={30} />
+            </button>
           </div>
           <AudioWave></AudioWave>
         </div>
 
-        <img src={channel?.picture} className="w-full rounded-2xl object-cover" />
+        <img src={channel?.picture} className="w-full h-full object-cover" />
       </div>
+      {showMemberForm && (
+        <AddMembersSelect
+          channel={channel}
+          setChannel={setChannel}
+          toggleMemberForm={toggleMemberForm}
+        />
+      )}
 
-      <div className="flex flex-col">
-        <h1 className="text-[55px] font-medium mb-[20px]">{channel?.name}</h1>
+      <div className="w-full flex flex-col mb-[30px]">
+        <h1 className="text-[45px] font-semibold mb-[15px] leading-[50px]">
+          {channel?.name}
+        </h1>
 
         <div className="flex flex-row">
-          <p className="mr-[20px] font-medium">
+          <p className="mr-[10px]  pr-[15px] pl-[15px] pt-[4px] pb-[4px] font-semibold border-[1px] rounded-full border-tapeDarkGrey text-tapeDarkGrey">
             {channel?.mixTapes.length
               ? `${channel?.mixTapes.length} mixtape${
                   channel?.mixTapes.length === 1 ? "" : "s"
                 }`
               : "0 mixtapes"}
           </p>
-          <p className="font-medium">
+          <p className="pr-[15px] pl-[15px] pt-[4px] pb-[4px] font-semibold border-[1px] rounded-full border-tapeDarkGrey text-tapeDarkGrey">
             {channel?.members.length
               ? `${channel?.members.length} member${
                   channel?.members.length === 1 ? "" : "s"
@@ -121,7 +124,7 @@ const ChannelSideBar = ({ selectedChannel }:ChannelItemProps) => {
         </div>
       </div>
 
-      <div className="w-[400px] h-[100px] pl-[50px] pr-[50px] flex flex-col items-start">
+      <div className="w-[400px] h-[100px] pl-[50px] pr-[50px] flex flex-col items-start mb-[50px]">
         <div className="flex flex-row">
           {isCommentsOpen ? (
             <>
@@ -140,7 +143,7 @@ const ChannelSideBar = ({ selectedChannel }:ChannelItemProps) => {
               {channel?.owner.toString() === user._id && (
                 <>
                   <button
-                    className="border-none mr-[40px] text-[20px] text-tapeDarkGrey hover:text-tapeWhite"
+                    className="border-none mr-[40px] text-[20px] font-medium text-tapeDarkGrey hover:text-tapeWhite"
                     onClick={handleDelete}
                   >
                     Delete
@@ -158,13 +161,13 @@ const ChannelSideBar = ({ selectedChannel }:ChannelItemProps) => {
           ) : (
             <>
               <button
-                className="border-none mr-[40px] text-[20px] text-tapeDarkGrey"
+                className="border-none mr-[40px] text-[20px] text-tapeDarkGrey font-medium"
                 onClick={toggleComments}
               >
                 Comments
               </button>
               <button
-                className="border-none mr-[40px] text-[20px] text-tapeWhite"
+                className="border-none mr-[40px] text-[20px] text-tapeWhite font-medium"
                 onClick={toggleComments}
               >
                 Uploads
@@ -173,7 +176,7 @@ const ChannelSideBar = ({ selectedChannel }:ChannelItemProps) => {
               {channel?.owner.toString() === user._id && (
                 <>
                   <button
-                    className="border-none mr-[40px] text-[20px] text-tapeDarkGrey hover:text-tapeWhite"
+                    className="border-none mr-[40px] text-[20px] text-tapeDarkGrey hover:text-tapeWhite font-medium"
                     onClick={handleDelete}
                   >
                     Delete
@@ -190,7 +193,7 @@ const ChannelSideBar = ({ selectedChannel }:ChannelItemProps) => {
             </>
           )}
         </div>
-        <hr className="w-full mt-[20px] border-tapeDarkGrey"></hr>
+        <hr className="w-full mt-[10px] border-tapeDarkGrey"></hr>
       </div>
       {isCommentsOpen ? (
         <CommentList channel={selectedChannel} />

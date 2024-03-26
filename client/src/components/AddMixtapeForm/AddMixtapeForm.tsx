@@ -139,7 +139,7 @@ const AddMixtapeForm = ({ channelId, channel, setChannel, }: AddMixtapeFormProps
 
   return (
     <form
-      className="inset-y-1/4 inset-x-1/3 z-50 text-tapeWhite flex flex-col w-72 gap-5 m-8 border-dashed border-tapeDarkGrey bg-tapeBlack border-[2px] rounded-[20px] w-[900px] h-[300px] p-[20px]"
+      className="z-10 text-tapeWhite flex flex-col w-full gap-5 border-dashed border-tapeDarkGrey bg-tapeBlack border-[2px] rounded-[20px] h-[300px] p-[20px]"
     >
       <div {...getRootProps()} className='flex flex-col items-center' data-testId="dropzone" >
         <div>
