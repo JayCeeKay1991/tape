@@ -1,5 +1,5 @@
 import icon from '@/assets/svg/logo-icon.svg';
-import { Link, scroller } from 'react-scroll';
+import { scroller } from 'react-scroll';
 
 
 //type react props
@@ -19,10 +19,10 @@ const Nav = ({ toggleShowLogin, setFormValue }: propsType) => {
   };
   const scrollToInteractivity = () => {
     scroller.scrollTo('interact', {
-      smooth: true
+      smooth: true,
+      offset: -90
     });
   };
-
 
 
   return (
@@ -32,10 +32,10 @@ const Nav = ({ toggleShowLogin, setFormValue }: propsType) => {
       </a>
       <ul className="flex flex-row items-center">
         <li className="w-[90px] h-[40px] text-[24px] font-medium text-tapeWhite ml-[100px]">
-          <Link to="channels" className='border-none' onClick={scrollToChannels} >Channels</Link>
+          <button className='border-none' onClick={scrollToChannels} >Channels</button>
         </li>
         <li className="w-[90px] h-[40px] text-[24px] font-medium  text-tapeWhite ml-[100px]">
-          <button className='border-none' onClick={scrollToInteractivity} >
+          <button className='border-none' onClick={scrollToInteractivity}>
             Interactivty
           </button>
         </li>
