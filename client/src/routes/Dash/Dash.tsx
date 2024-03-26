@@ -24,6 +24,7 @@ export default function Dash() {
 
   useEffect(() => {
     async function getAllChannels() {
+      console.log(sorting)
       const allChannels = await getChannelsUserMemberOf(user._id);
       setChannels(allChannels);
       setUserChannels(user.channels)
@@ -121,8 +122,8 @@ export default function Dash() {
               </p>
             </div>
             <div id="button-popup" className="relative">
-              <button className="white-button w-[120px] h-[50px] font-medium cursor-pointer " onClick={() => setSorting('members')}>Sort by Members</button>
-              <button className="white-button w-[120px] h-[50px] font-medium cursor-pointer" onClick={() => setSorting('mixtapes')}>Sort by Mixtapes</button>
+              <button className="white-button w-[120px] h-[50px] font-medium cursor-pointer " onClick={() => setSorting('members')}>Sort by MixTapes</button>
+              <button className="white-button w-[120px] h-[50px] font-medium cursor-pointer" onClick={() => setSorting('mixtapes')}>Sort by Members</button>
               <button
                 onClick={toggleAddForm}
                 className="white-button w-[120px] h-[50px] font-medium"
