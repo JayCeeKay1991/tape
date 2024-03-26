@@ -106,7 +106,7 @@ function CommentList({ channel }: propsType) {
             <Comment key={index} comment={comment}/>
           ))}
           </div>
-        </div>
+
       ) : (
         <p className="text-[40px] text-tapeDarkGrey">No comments yet</p>
       )}

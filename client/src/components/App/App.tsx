@@ -10,7 +10,6 @@ const App = () => {
   return (
     <PlayerContextProvider>
       <div className="App">
-        <AppNav />
         {user._id ? <Player /> : <></>}
         <Outlet />
       </div>
