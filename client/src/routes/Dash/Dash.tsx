@@ -107,7 +107,7 @@ export default function Dash() {
           />
         )}
       </div>
-      <Notifications notifications={notifactions}/>
+      <Notifications notifications={notifactions} channels={channels}/>
       <div
         id="channel-list-wrap"
         className="text-tapeWhite bg-tapeOffBlack flex-col w-full px-10 rounded-3xl"

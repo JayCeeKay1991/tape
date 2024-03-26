@@ -1,12 +1,18 @@
+import { ChannelType } from '@/types/Channel';
 import { NotificationType } from '@/types/Notification';
 import { RxCross2 } from 'react-icons/rx';
 
 
 interface NotifactionsProps {
   notifications: NotificationType[];
+  channels: ChannelType[];
 }
 
-const Notifactions = ({ notifications }: NotifactionsProps) => {
+const Notifications = ({ notifications, channels }: NotifactionsProps) => {
+
+  console.log(channels, notifications)
+
+  cons
 
   // const removeNotification = (notifaction: NotificationType) => {
   //   try {
@@ -16,10 +22,9 @@ const Notifactions = ({ notifications }: NotifactionsProps) => {
   //   }
   // }
  
-  const lastFive = notifications.filter((notification, index) => {
-    return index < 5;
-  });
-
+  // const lastFive = notifications.filter((notification, index) => {
+  //   return index < 5;
+  // });
 
   return (
     <div>
@@ -29,4 +34,4 @@ const Notifactions = ({ notifications }: NotifactionsProps) => {
     </div>
   );
 }
-export default Notifactions;
+export default Notifications;
