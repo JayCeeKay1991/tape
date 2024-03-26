@@ -30,7 +30,8 @@ const AppNav = () => {
   };
 
   return (
-    <nav className="w-full h-20 bg-tapeBlack fixed top-0 left-0 flex flex-row items-center justify-between pr-[20px] pl-[20px]">
+
+    <nav className="w-full h-20 flex flex-row items-center justify-between">
       <div className="flex flex-row align-middle">
         <Link to={`/dash`}>
           <button className=" text-tapeWhite border-none mr-[20px]">

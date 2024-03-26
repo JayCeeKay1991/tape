@@ -1,40 +1,57 @@
 
-import { ChannelType } from '@/types/Channel';
-import { useNavigate } from 'react-router';
+import React, { Dispatch, SetStateAction } from "react";
+import { ChannelType, } from '@/types/Channel';
 
 type ChannelItemProps = {
   channel: ChannelType;
+  setSelectedChannel: (channel: ChannelType) => void;
+  showChannel: boolean;
+  setShowChannel: Dispatch<SetStateAction<boolean>>;
 };
 
+const ChannelItem = ({ channel, setSelectedChannel, showChannel, setShowChannel }: ChannelItemProps) => {
 
-const ChannelItem = ({ channel }: ChannelItemProps) => {
-  const navigate = useNavigate();
-
-  const navigateToChannel = () => {
-    navigate(`/channels/${channel._id}`, { state: { channel } });
-  };
+  const handleClick = () => {
+    setSelectedChannel(channel)
+    setShowChannel(!showChannel)
+  }
 
   return (
-    <button onClick={navigateToChannel} className='rounded-t-3xl border-none'>
-    <div
-      id='channel-item-wrap'
-      className='w-60 h-96 bg-gradient-to-b from-tapePink to-tapeYellow rounded-3xl overflow-hidden text-tapeWhite'>
+    <button className="rounded-t-3xl border-none mb-[20px] " onClick={handleClick}>
+      <div
+        id="channel-item-wrap"
+        className="w-60 h-96 bg-gradient-to-b from-tapePink to-tapeYellow rounded-3xl overflow-hidden text-tapeWhite"
+      >
         <img
-          id='channel-thumbnail'
+          id="channel-thumbnail"
           src={channel.picture}
-          className='rounded-full h-48 w-48 object-cover my-6 mx-6'
-          data-testid='channel-picture'
+          className="rounded-full h-48 w-48 object-cover my-6 mx-6"
+          data-testid="channel-picture"
         />
 
-      <h1 className="mx-2 leading-10" data-testid="channel-name">{channel.name}</h1>
-      <div id="channel-item-footer" className="flex justify-between mx-2" >
-        <div>
-          <p>{channel.mixTapes.length ? `${channel.mixTapes.length} mixtape${channel.mixTapes.length === 1 ? '' : 's'}` : 'No mixtapes'}</p>
-          <p>{channel.members.length ? `${channel.members.length} member${channel.members.length === 1 ? '' : 's'}` : 'No members'}</p>
+        <h1 className="mx-2 leading-10" data-testid="channel-name">
+          {channel.name}
+        </h1>
+        <div id="channel-item-footer" className="flex justify-between mx-2">
+          <div>
+            <p>
+              {channel.mixTapes.length
+                ? `${channel.mixTapes.length} mixtape${
+                    channel.mixTapes.length === 1 ? "" : "s"
+                  }`
+                : "No mixtapes"}
+            </p>
+            <p>
+              {channel.members.length
+                ? `${channel.members.length} member${
+                    channel.members.length === 1 ? "" : "s"
+                  }`
+                : "No members"}
+            </p>
+          </div>
         </div>
       </div>
-    </div>
-      </button>
+    </button>
   );
 };
 
