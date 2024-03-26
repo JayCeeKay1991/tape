@@ -69,14 +69,17 @@ const Home = () => {
 
         <section
           id="feature1"
+          name="channels"
           className="w-full h-screen bg-tapeOffBlack flex flex-row justify-center relative"
-        >
+          >
           <div
             id="feature-body1"
             className="w-full h-full flex flex-col align-middle p-[40px] text-center "
-          >
+            >
             <div className="mt-[100px] h-1/2  flex flex-col justify-between">
-              <h3 className="text-[25px] font-medium mt-[10px] text-tapeWhite">
+
+              <h3 className="text-[25px] font-medium mt-[10px] text-tapeWhite"
+                >
                 Tape channels
               </h3>
               <h1 className="text-[130px] font-semibold leading-[120px] text-tapeWhite">
@@ -94,6 +97,7 @@ const Home = () => {
 
         <section
           id="feature2"
+          name="interact"
           className="h-screen w-full bg-tapeWhite flex flex-col text-center justify-between"
         >
           <h3 className="text-[30px] text-tapeBlack font-medium mt-[20px]">

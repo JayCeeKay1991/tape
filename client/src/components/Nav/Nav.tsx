@@ -1,4 +1,6 @@
 import icon from '@/assets/svg/logo-icon.svg';
+import { Link, scroller } from 'react-scroll';
+
 
 //type react props
 type propsType = {
@@ -6,7 +8,22 @@ type propsType = {
   setFormValue: React.Dispatch<React.SetStateAction<string>>;
 };
 
-export function Nav({ toggleShowLogin, setFormValue }: propsType) {
+const Nav = ({ toggleShowLogin, setFormValue }: propsType) => {
+
+
+
+  const scrollToChannels = () => {
+    scroller.scrollTo('channels', {
+      smooth: true
+    });
+  };
+  const scrollToInteractivity = () => {
+    scroller.scrollTo('interact', {
+      smooth: true
+    });
+  };
+
+
 
   return (
     <nav className="w-full h-[80px] bg-tapeBlack fixed top-0 left-0 flex flex-row items-center justify-between pr-[50px] pl-[50px] z-40">
@@ -15,10 +32,10 @@ export function Nav({ toggleShowLogin, setFormValue }: propsType) {
       </a>
       <ul className="flex flex-row items-center">
         <li className="w-[90px] h-[40px] text-[24px] font-medium text-tapeWhite ml-[100px]">
-          <button className='border-none'>Channels</button>
+          <Link to="channels" className='border-none' onClick={scrollToChannels} >Channels</Link>
         </li>
         <li className="w-[90px] h-[40px] text-[24px] font-medium  text-tapeWhite ml-[100px]">
-          <button className='border-none'>
+          <button className='border-none' onClick={scrollToInteractivity} >
             Interactivty
           </button>
         </li>
