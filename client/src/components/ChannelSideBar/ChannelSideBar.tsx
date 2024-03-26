@@ -1,31 +1,25 @@
 import { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
 // types
 import { ChannelType } from '@/types/Channel';
 // services
 import { getChannel, deleteChannel } from '@/services/ChannelClientService';
 // components
 import { useMainContext } from '@/components/Context/Context';
-import { usePlayerContext } from '@/components/Context/PlayerContext';
 import AddMembersSelect from '@/components/AddMembersSelect/AddMembersSelect';
 import AddMixtapeForm from '@/components/AddMixtapeForm/AddMixtapeForm';
 import CommentList from '@/components/CommentList/CommentList';
 // styling
-import { MdPlayArrow } from 'react-icons/md';
 import AudioWave from '@/components/AudioWave/AudioWave';
 import { GoPlus } from 'react-icons/go';
 // utils
-import { generateStream } from '@/utils/streamCreationHelpers';
 import ConfirmationDialog from '@/utils/ConfirmationDialog';
 
 type ChannelItemProps = {
   selectedChannel: ChannelType | null;
 };
 
-const ChannelSideBar = ({selectedChannel}:ChannelItemProps) => {
+const ChannelSideBar = ({ selectedChannel }:ChannelItemProps) => {
   const { user, setUser } = useMainContext();
-
   if (selectedChannel === null) {
     return
   }
@@ -33,24 +27,6 @@ const ChannelSideBar = ({selectedChannel}:ChannelItemProps) => {
   const [showMemberForm, setShowMemberForm] = useState(false);
   const [isCommentsOpen, setIsCommentsOpen] = useState(true);
   const [showConfirmation, setShowConfirmation] = useState(false);
-  const [isThereMix, setIsThereMix] = useState(false)
-
-  useEffect(() => {
-     async function getAllChannels() {
-       if (selectedChannel) {
-         const allChannels = await getChannel(selectedChannel._id);
-         setChannel(allChannels);
-       }
-     }
-     getAllChannels();
-     console.log(channel);
-  }, [selectedChannel]);
-
-  useEffect(() => {
-    if (channel.mixTapes.length > 0) {
-      setIsThereMix(!isThereMix)
-    }
-  }, [channel.mixTapes])
 
   // Toggle members form
   const toggleMemberForm = () => {
@@ -77,58 +53,34 @@ const ChannelSideBar = ({selectedChannel}:ChannelItemProps) => {
       channels: prevList.channels.filter((el) => el._id !== channel._id),
     }));
 
-   // navigateTo('/dash');
   };
 
   return (
-    <div id="channel" className="flex flex-col items-center bg-tapeOffBlack p-[20px] rounded-[20px]">
+    <div
+      id="channel"
+      className="w-[450px] h-[710px] flex flex-col items-center bg-tapeOffBlack p-[20px] rounded-[20px] overflow-scroll abs"
+    >
       <div
         id="channel-element"
-        className="text-tapeWhite w-full h-72 flex justify-between p-10 rounded-2xl bg-gradient-to-r from-tapePink to-tapeYellow mb-[20px] relative"
+        className="text-tapeWhite w-full h-[300px] rounded-2xl bg-gradient-to-r from-tapePink to-tapeYellow mb-[20px] relative flex-none"
       >
-        <div id="channel-info" className="w-2/5 text-xl">
-          <div className="flex flex-row">
-            <MdPlayArrow
-              size={70}
 
-              className="cursor-pointer"
-            />
-            <div className="flex flex-col">
-              <h1 className="text-[55px] font-medium mb-[20px]">
-                {channel?.name}
-              </h1>
-              <div className="flex flex-row">
-                <p className="mr-[20px] font-medium">
-                  {channel?.mixTapes.length
-                    ? `${channel?.mixTapes.length} mixtape${channel?.mixTapes.length === 1 ? "" : "s"
-                    }`
-                    : "0 mixtapes"}
-                </p>
-                <p className="font-medium">
-                  {channel?.members.length
-                    ? `${channel?.members.length} member${channel?.members.length === 1 ? "" : "s"
-                    }`
-                    : "0 members"}
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="flex flex-row ml-[30px] mt-[50px]">
+        <div>
+          <div className="flex flex-row ml-[50px] mt-[50px] absolute bottom-[15px]">
             {channel?.members.map((member, index) => {
               return (
                 <div
                   key={index}
-                  className="w-[80px] h-[80px] overflow-hidden rounded-full border-tapePink border-[2px] -ml-[30px] flex-none bg-tapeOffBlack"
+                  className="w-[60px] h-[60px] overflow-hidden rounded-full border-tapePink border-[2px] -ml-[30px] flex-none bg-tapeOffBlack"
                 >
                   <img src={member.profilePic}></img>
                 </div>
               );
             })}
 
-            <div className="-ml-[30px] z-10">
+            <div className="-ml-[30px] z-10 ">
               <button
-                className="w-[80px] h-[80px] flex flex-row justify-center items-center bg-tapeBlack rounded-full border-tapePink border-[2px]"
+                className="w-[60px] h-[60px] flex flex-row justify-center items-center bg-tapeBlack rounded-full border-tapePink border-[2px]"
                 onClick={toggleMemberForm}
               >
                 <GoPlus className="text-tapeWhite" size={30} />
@@ -142,12 +94,34 @@ const ChannelSideBar = ({selectedChannel}:ChannelItemProps) => {
               )}
             </div>
           </div>
-          {isThereMix && <AudioWave></AudioWave>}
+          <AudioWave></AudioWave>
         </div>
 
-        <img src={channel?.picture} className="w-48 rounded-2xl object-cover" />
+        <img src={channel?.picture} className="w-full rounded-2xl object-cover" />
       </div>
-      <div className="w-full h-[100px] pl-[50px] pr-[50px] flex flex-col items-start">
+
+      <div className="flex flex-col">
+        <h1 className="text-[55px] font-medium mb-[20px]">{channel?.name}</h1>
+
+        <div className="flex flex-row">
+          <p className="mr-[20px] font-medium">
+            {channel?.mixTapes.length
+              ? `${channel?.mixTapes.length} mixtape${
+                  channel?.mixTapes.length === 1 ? "" : "s"
+                }`
+              : "0 mixtapes"}
+          </p>
+          <p className="font-medium">
+            {channel?.members.length
+              ? `${channel?.members.length} member${
+                  channel?.members.length === 1 ? "" : "s"
+                }`
+              : "0 members"}
+          </p>
+        </div>
+      </div>
+
+      <div className="w-[400px] h-[100px] pl-[50px] pr-[50px] flex flex-col items-start">
         <div className="flex flex-row">
           {isCommentsOpen ? (
             <>
@@ -175,7 +149,7 @@ const ChannelSideBar = ({selectedChannel}:ChannelItemProps) => {
                     <ConfirmationDialog
                       isOpen={showConfirmation}
                       onCancel={() => setShowConfirmation(false)}
-                     onConfirm={handleConfirmDelete}
+                      onConfirm={handleConfirmDelete}
                     />
                   )}
                 </>
@@ -212,7 +186,6 @@ const ChannelSideBar = ({selectedChannel}:ChannelItemProps) => {
                     />
                   )}
                 </>
-
               )}
             </>
           )}
@@ -220,7 +193,7 @@ const ChannelSideBar = ({selectedChannel}:ChannelItemProps) => {
         <hr className="w-full mt-[20px] border-tapeDarkGrey"></hr>
       </div>
       {isCommentsOpen ? (
-        <CommentList channel={channel} />
+        <CommentList channel={selectedChannel} />
       ) : (
         <AddMixtapeForm
           channelId={channel._id}

@@ -33,7 +33,7 @@ export default function Dash() {
   return (
     <div
       id="dashWrapper"
-      className="w-full h-full flex flex-row justify-center gap-[20px] p-[20px]"
+      className="w-full h-full flex flex-row justify-center gap-[20px] p-[20px] relative"
     >
       <div
         id="channel-list-wrap"
@@ -41,22 +41,31 @@ export default function Dash() {
       >
         <AppNav />
 
-        <div
-          id="your-channels"
-          className="flex flex-col justify-between items-center pt-5"
-        >
-          <h2 className="text-[50px] font-semibold">Your channels</h2>
-          <button
-            onClick={toggleAddForm}
-            className="white-button w-[120px] h-[50px] font-medium"
-          >
-            Add channel
-          </button>
-          {showForm && <AddChannelForm setShowForm={setShowForm} />}
+        <div className="text-[60px] font-semibold mb-[40px]">
+          <p> Welcome back {user.userName} 👋</p>
+        </div>
 
-          <p className="text-[20px] text-tapeDarkGrey">
-            {channelList.length} streams
-          </p>
+        <div id="your-channels" className="flex flex-col pt-5 ">
+
+          <div className="flex flex-row justify-between ">
+            <div>
+              <h2 className="text-[40px] font-semibold">Your channels</h2>
+              <p className="text-[20px] text-tapeDarkGrey">
+                {channelList.length} streams
+              </p>
+            </div>
+
+            <div id="button-popup" className="relative">
+              <button
+                onClick={toggleAddForm}
+                className="white-button w-[120px] h-[50px] font-medium"
+              >
+                Add channel
+              </button>
+              {showForm && <AddChannelForm setShowForm={setShowForm} />}
+          </div>
+
+          </div>
 
           <div id="channel-list" className="flex gap-x-10 py-12 flex-wrap">
             {channelList.length
