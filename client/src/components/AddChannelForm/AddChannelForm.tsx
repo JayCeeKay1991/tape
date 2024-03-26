@@ -138,7 +138,7 @@ export default function AddChannelForm({
           className="hidden"
           ref={fileInputRef}
           accept=".jpg, .jpeg, .svg, .png, .webp"
-          data-testId="input-hidden"
+          data-testid="input-hidden"
         />
       </div>
     </form>

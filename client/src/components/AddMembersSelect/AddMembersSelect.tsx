@@ -50,15 +50,20 @@ const AddMembersSelect = ({ channel, setChannel, toggleMemberForm }: AddMembersS
 
 
   const handleMemberSelect = async (userId: string) => {
-    setMatchedUsers([]);
-    const user = users.find((user) => user._id === userId);
-    if (user) {
-      // add new user to channel on back end
-      const id = channel._id;
-      const updatedChannel = await addUserToChannel(id, user._id);
-      setChannel(updatedChannel);
+    try {
+      setMatchedUsers([]);
+      const user = users.find((user) => user._id === userId);
+      if (user) {
+        // add new user to channel on back end
+        const id = channel._id;
+        const updatedChannel = await addUserToChannel(id, user._id);
+        setChannel(updatedChannel);
+      }
+      toggleMemberForm();
+    } catch (error) {
+      console.error(error);
     }
-    toggleMemberForm();
+
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
