@@ -7,9 +7,25 @@ import mongoose from "mongoose";
 export const getChannelsByUser = async (req: Request, res: Response) => {
   try {
     const userId = req.params.userId;
-    const channelsWithUser = await ChannelModel.find({
-      members: userId,
-    });
+    const channelsWithUser = await ChannelModel.find({ members: userId })
+      .populate({
+        path: "members",
+        model: "User",
+      })
+      .populate({
+        path: "mixTapes",
+        model: "MixTape",
+      })
+      .populate({
+        path: "comments",
+        model: "Comments",
+        populate: [
+          {
+            path: "owner",
+            model: "User"
+          },
+        ],
+      });
     res.status(200).json(channelsWithUser);
   } catch (error) {
     res.status(500).send(error);
