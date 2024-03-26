@@ -2,7 +2,6 @@ import { useState } from 'react';
 import { useMainContext } from '../Context/Context';
 import { useNavigate } from 'react-router-dom';
 import { signup } from '@/services/UserClientService';
-import './SignupForm.css';
 
 export type FormValuesUser = {
   userName: string;

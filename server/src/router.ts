@@ -15,10 +15,17 @@ import {
   addComment,
   deleteChannel,
   getChannelsByUser,
-} from './controllers/channel/channel';
+} from "./controllers/channel/channel";
 
-import { createMixTape } from './controllers/mixTape/mixTape';
 import authMiddleware from './middlewares/auth';
+
+
+import { createMixTape } from "./controllers/mixTape/mixTape";
+import {
+  createNotification,
+  updateNotification,
+} from "./controllers/notification/notification";
+
 
 const router = express.Router();
 
@@ -43,5 +50,8 @@ router.post('/mixtape', createMixTape);
 router.get('/me', authMiddleware, profile);
 
 router.post('/logout', authMiddleware, logout);
+
+router.post("/notifications", createNotification);
+router.put("/notifications/:userId", updateNotification);
 
 export default router;
