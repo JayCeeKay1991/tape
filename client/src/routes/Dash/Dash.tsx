@@ -9,6 +9,7 @@ import AppNav from "@/components/AppNav/AppNav";
 import { IoSearch } from 'react-icons/io5';
 import ChannelSideBar from "@/components/ChannelSideBar/ChannelSideBar";
 import { sortByMembers, sortByMixtapes } from "@/utils/sortingUtils";
+import Player from "@/components/Player/Player";
 
 export default function Dash() {
   const { user } = useMainContext();
@@ -178,8 +179,8 @@ export default function Dash() {
           </div>
         </div>
       </div>
-
       {showChannel && <ChannelSideBar selectedChannel={selectedChannel} />}
+      <Player />
     </div>
   );
 }
