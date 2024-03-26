@@ -8,6 +8,10 @@
         @apply bg-tapeWhite rounded-full text-tapeBlack;
     }
 
+    .white-button:hover {
+        @apply bg-tapeOffBlack rounded-full text-tapeWhite border-tapeWhite
+    }
+
     input {
         @apply bg-tapeWhite border-tapeBlack text-tapeBlack rounded-xl p-1;
     }
