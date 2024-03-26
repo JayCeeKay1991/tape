@@ -30,7 +30,6 @@ export default function AddChannelForm({
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const changeHandler = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log('change')
     const { name, value, type, files } = e.target;
     if (type === 'file' && files) {
       setPictureFile(files[0]); // Set the image file
@@ -66,6 +65,7 @@ export default function AddChannelForm({
   // handle create channel click
   const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
+    e.stopPropagation();
 
     let pictureUrl = '';
     if (pictureFile) {
@@ -125,10 +125,8 @@ export default function AddChannelForm({
         data-testid='create-button'>
         Create Channel
       </button>
+      <input name="file" type="file" onChange={changeHandler} className='hidden' ref={fileInputRef} accept=".jpg, .jpeg, .svg, .png, .webp" data-testId="input-hidden" />
       </div>
-
-    <input name="file" type="file" onChange={changeHandler} className='hidden' ref={fileInputRef} accept=".jpg, .jpeg, .svg, .png, .webp" data-testId="input-hidden" />
-
     </form>
   );
 }
