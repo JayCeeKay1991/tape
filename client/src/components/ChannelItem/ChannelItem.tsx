@@ -1,5 +1,7 @@
 
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
+import { usePlayerContext } from "../Context/PlayerContext";
+import { generateStream } from "@/utils/streamCreationHelpers";
 import { ChannelType, } from '@/types/Channel';
 import { IoMdPlay } from "react-icons/io";
 
@@ -11,11 +13,34 @@ type ChannelItemProps = {
 };
 
 const ChannelItem = ({ channel, setSelectedChannel, showChannel, setShowChannel }: ChannelItemProps) => {
+  const [isPlayClicked, setIsPlayClicked] = useState<boolean>(false);
+  const {currentStream, streamIndex, setStreamIndex, setPlaying, setCurrentStream } = usePlayerContext();
 
   const handleClick = () => {
     setSelectedChannel(channel)
     setShowChannel(true)
   }
+
+  const playChannel = async () => {
+    console.log(channel)
+    if (isPlayClicked) {
+      return;
+    }
+    setIsPlayClicked(true);
+    if (currentStream[streamIndex]) {
+      currentStream[streamIndex].stop();
+      setPlaying(false);
+    }
+    try {
+      const stream = await generateStream(channel, setStreamIndex, streamIndex);
+      console.log('new stream ready', stream)
+      setCurrentStream(stream);
+    } catch (error) {
+      console.error('Error occurred while loading stream:', error);
+    } finally {
+      setIsPlayClicked(false);
+    }
+  };
 
   return (
     <button
@@ -23,7 +48,7 @@ const ChannelItem = ({ channel, setSelectedChannel, showChannel, setShowChannel 
       onClick={handleClick}
     >
       <div className="w-full h-full absolute flex flex-row justify-center items-center opacity-0 hover:opacity-100">
-        <IoMdPlay size={90} className="text-tapeWhite" />
+        <IoMdPlay size={90} className="text-tapeWhite" onClick={playChannel} />
       </div>
       <div
         id="channel-item-wrap"
