@@ -34,7 +34,6 @@ const AudioWave = () => {
     }
   }, [wavesurfer, currentStream, streamIndex]);
 
-
   useEffect(() => {
     if (wavesurfer && typeof playbackPosition === 'number') {
       const duration = wavesurfer.getDuration();
@@ -45,10 +44,9 @@ const AudioWave = () => {
     }
   }, [wavesurfer, playbackPosition]);
 
+
   return (
     <div id="wave" ref={waveContainerRef} className="h-[100px] w-[700px] absolute ml-[50px] bottom-[40px] left-[300px] border-tapeWhite border-[2px] rounded-full flex justify-center" style={{ pointerEvents: 'none' }} />
-
-
   )
 }
 
