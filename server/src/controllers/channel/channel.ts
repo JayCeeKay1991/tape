@@ -25,7 +25,11 @@ export const getChannelsByUser = async (req: Request, res: Response) => {
             model: "User"
           },
         ],
-      });
+      })
+      .populate({
+        path: "notifications",
+        model: "Notifications"
+      })
     res.status(200).json(channelsWithUser);
   } catch (error) {
     res.status(500).send(error);
