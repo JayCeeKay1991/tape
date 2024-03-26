@@ -6,7 +6,7 @@ import session from 'express-session';
 const PORT = config.port;
 const SECRET = process.env.SECRET || 'this is not very secure';
 
-const app = express();
+export const app = express();
 
 // Allow requests from the specified origin
 app.use(
@@ -36,6 +36,6 @@ app.use(express.json());
 
 app.use(router);
 
-app.listen(PORT, () => {
+export const server = app.listen(PORT, () => {
   console.log(`Server listening on port ${PORT}`);
 });
