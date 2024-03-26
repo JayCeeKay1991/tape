@@ -5,9 +5,11 @@ import { FiLogOut } from 'react-icons/fi';
 import { useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
 import { logout } from '@/services/UserClientService';
+import { usePlayerContext } from '../Context/PlayerContext';
 
 const AppNav = () => {
   const { user, setUser } = useMainContext();
+  const {setCurrentStream} = usePlayerContext();
   const [isSearchVisible, setIsSearchVisible] = useState(false);
 
   const navigate = useNavigate();
@@ -16,6 +18,7 @@ const AppNav = () => {
     try {
       await logout();
       setUser(initialStateUser);
+      setCurrentStream([]);
       navigate('/home');
     } catch (error) {
       console.log(error);

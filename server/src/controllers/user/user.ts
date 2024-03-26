@@ -14,7 +14,7 @@ export const getAllUsers = async (req: Request, res: Response) => {
   }
 };
 
-export const createUser = async (req: Request, res: Response) => {
+export const createUser = async (req: CustomRequest, res: Response) => {
   try {
     const { email, password } = req.body;
 
@@ -54,7 +54,7 @@ export const createUser = async (req: Request, res: Response) => {
 
     // SESSION !!!!
     if (req.session) {
-      req.session.uid = user._id;
+      req.session.uid = user._id.toString();
     }
 
     // send the result
@@ -67,7 +67,7 @@ export const createUser = async (req: Request, res: Response) => {
 };
 
 // getting the logged in user
-export const login = async (req: Request, res: Response) => {
+export const login = async (req: CustomRequest, res: Response) => {
   try {
     const { email, password } = req.body;
 
@@ -108,7 +108,7 @@ export const login = async (req: Request, res: Response) => {
 
     // SESSION !!!!
     if (req.session) {
-      req.session.uid = user._id;
+      req.session.uid = user._id.toString();
     }
 
     // if everything correct, send the user

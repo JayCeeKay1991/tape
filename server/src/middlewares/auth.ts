@@ -1,15 +1,16 @@
 import { NextFunction, Request, Response } from 'express';
+import { Session } from 'express-session';
 
 import UserModel, { UserType } from '../models/user';
 
 // Define custom session interface
-interface CustomSession extends Express.Session {
+interface CustomSession extends Session {
   uid?: string;
 }
 
 // Extend the Request interface with the custom session type
 export interface CustomRequest extends Request {
-  session?: CustomSession | undefined;
+  session: CustomSession ;
   user?: UserType;
 }
 
