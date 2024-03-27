@@ -19,6 +19,7 @@ import {
 
 import authMiddleware from './middlewares/auth';
 
+
 import { createMixTape } from './controllers/mixTape/mixTape';
 import { updateNotification } from './controllers/notification/notification';
 import {
@@ -46,12 +47,17 @@ router.get('/dash/:userId', getChannelsByUser);
 
 router.post('/mixtape', createMixTape);
 
-router.put('/notifications/:userId', updateNotification);
+
+// router.put("/notifications/:userId", updateNotification);
+router.put("/notifications/:userId", deleteNotifications);
+=======
+// router.put('/notifications/:userId', updateNotification);
 // for session
 router.get('/me', authMiddleware, profile);
 router.post('/logout', authMiddleware, logout);
 // cloudinary
 router.post('/deleteImage', deleteImageFromCloudinary);
 router.post('/deleteMixes', deleteMixesFromCloudinary);
+
 
 export default router;
