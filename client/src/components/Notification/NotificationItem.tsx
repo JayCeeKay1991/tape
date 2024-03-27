@@ -1,7 +1,8 @@
 import { SetStateAction, useState, Dispatch } from 'react';
 import { NotificationType } from '@/types/Notification';
 import { IoIosNotificationsOutline } from "react-icons/io";
-
+import { deleteNotifications } from '@/services/NotificationClientService';
+import { useMainContext } from '../Context/Context';
 
 interface NotificationsProps {
   notifications: NotificationType[];
@@ -10,12 +11,15 @@ interface NotificationsProps {
 
 const Notifications = ({ notifications, setNotifications }: NotificationsProps) => {
   const [showDrop, setShowDrop] = useState<boolean>(false);
+  const { user } = useMainContext()
 
-  const handleClick = () => {
+  const handleClick = async () => {
     if (showDrop) {
       setShowDrop(false)
       if (notifications.length > 0) {
         setNotifications([])
+        const res = await deleteNotifications(user._id);
+        console.log(res);
       }
     }
     else {

@@ -36,7 +36,7 @@ export default function Dash() {
   useEffect(() => {
     async function getAllChannels() {
       const allChannels = await getChannelsUserMemberOf(user._id);
-      const userNotifications = allChannels.flatMap((channel) => channel.notifications);
+      const userNotifications = allChannels.flatMap((channel) => channel.notifications).filter((not) => not.unNotifiedUsers.includes(user._id));
       setChannels(allChannels);
       setNotifications(userNotifications);
       setUserChannels(user.channels);

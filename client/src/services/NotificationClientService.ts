@@ -15,3 +15,14 @@ export const deleteNotification = async (
     console.error(error);
   }
 };
+
+export const deleteNotifications = async (userId: string) => {
+  try {
+    return apiClient<NotificationType> (
+      `notifications/${userId}`,
+      'PUT'
+    )
+  } catch (error) {
+    console.error(`error deleting notifications ${error}`)
+  }
+}
