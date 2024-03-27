@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { NotificationType } from "@/types/Notification";
-
+import "./NotificationsCarousel.css";
 interface NotificationsCarouselProps {
     notifications: NotificationType[];
 }
@@ -24,11 +24,13 @@ const NotificationsCarousel = ({ notifications }: NotificationsCarouselProps) =>
     }, [index, notifications]);
 
     return (
-      <div className="carousel-wrapper bg-tapePink flex flex-col justify-between rounded-3xl w-full h-[320px] p-[30px]">
-
-        <h3 className="w-[120px] h-[40px] flex flex-row justify-center items-center rounded-full text-tapeWhite text-[15px] border-[1px] flex-none">
+      <div
+        id="carousel"
+        className=" w-full h-[320px] p-[30px] carousel-wrapper flex flex-col justify-between rounded-full "
+      >
+        <h3 className="w-[120px] h-[40px] flex flex-row justify-center rounded-full items-center text-tapeWhite text-[15px] border-[1px] flex-none">
           What's new
-         </h3>
+        </h3>
 
         <div id="carousel-item" className="w-[600px] leading-[52px] mt-auto ">
           <p className="text-[45px] font-semibold">

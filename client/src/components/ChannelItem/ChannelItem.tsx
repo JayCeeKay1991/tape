@@ -61,7 +61,7 @@ const ChannelItem = ({ channel, setSelectedChannel, showChannel, setShowChannel 
         <img
           id="channel-thumbnail"
           src={channel.picture}
-          className="object-cover"
+          className="object-cover w-full h-full"
           data-testid="channel-picture"
         ></img>
       </div>
