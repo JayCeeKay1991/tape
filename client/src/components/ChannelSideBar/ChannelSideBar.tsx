@@ -38,7 +38,6 @@ const ChannelSideBar = ({
   }
   const [channel, setChannel] = useState<ChannelType>(selectedChannel);
   const [showMemberForm, setShowMemberForm] = useState(false);
-  const [isCommentsOpen, setIsCommentsOpen] = useState(true);
   const [showConfirmation, setShowConfirmation] = useState(false);
 
   useEffect(() => {
@@ -54,10 +53,6 @@ const ChannelSideBar = ({
     setShowMemberForm(!showMemberForm);
   };
 
-  // Toggle comments
-  const toggleComments = () => {
-    setIsCommentsOpen(!isCommentsOpen);
-  };
 
   // Asks for a confirmation, shows delete button only on your channel
   const handleDelete = () => {
@@ -142,16 +137,14 @@ const ChannelSideBar = ({
         <div className="flex flex-row">
           <p className="mr-[10px]  pr-[15px] pl-[15px] pt-[4px] pb-[4px] font-semibold border-[1px] rounded-full border-tapeDarkGrey text-tapeDarkGrey">
             {channel?.mixTapes.length
-              ? `${channel?.mixTapes.length} mixtape${
-                  channel?.mixTapes.length === 1 ? '' : 's'
-                }`
+              ? `${channel?.mixTapes.length} mixtape${channel?.mixTapes.length === 1 ? '' : 's'
+              }`
               : '0 mixtapes'}
           </p>
           <p className="pr-[15px] pl-[15px] pt-[4px] pb-[4px] font-semibold border-[1px] rounded-full border-tapeDarkGrey text-tapeDarkGrey">
             {channel?.members.length
-              ? `${channel?.members.length} member${
-                  channel?.members.length === 1 ? '' : 's'
-                }`
+              ? `${channel?.members.length} member${channel?.members.length === 1 ? '' : 's'
+              }`
               : '0 members'}
           </p>
         </div>
@@ -159,84 +152,57 @@ const ChannelSideBar = ({
 
       <div className="w-[400px] h-[100px] pl-[50px] pr-[50px] flex flex-col items-start mb-[50px]">
         <div className="flex flex-row">
-          {isCommentsOpen ? (
-            <>
-              <button
-                className="border-none mr-[40px] text-[20px] font-medium text-tapeWhite"
-                onClick={toggleComments}
-              >
-                Comments
-              </button>
-              <button
-                className="border-none mr-[40px] text-[20px] font-medium text-tapeDarkGrey"
-                onClick={toggleComments}
-              >
-                Uploads
-              </button>
-              {channel?.owner.toString() === user._id && (
-                <>
-                  <button
-                    className="border-none mr-[40px] text-[20px] font-medium text-tapeDarkGrey hover:text-tapeWhite"
-                    onClick={handleDelete}
-                  >
-                    Delete
-                  </button>
-                  {showConfirmation && (
-                    <ConfirmationDialog
-                      isOpen={showConfirmation}
-                      onCancel={() => setShowConfirmation(false)}
-                      onConfirm={handleConfirmDelete}
-                    />
-                  )}
-                </>
-              )}
-            </>
-          ) : (
-            <>
-              <button
-                className="border-none mr-[40px] text-[20px] text-tapeDarkGrey font-medium"
-                onClick={toggleComments}
-              >
-                Comments
-              </button>
-              <button
-                className="border-none mr-[40px] text-[20px] text-tapeWhite font-medium"
-                onClick={toggleComments}
-              >
-                Uploads
-              </button>
-
-              {channel?.owner.toString() === user._id && (
-                <>
-                  <button
-                    className="border-none mr-[40px] text-[20px] text-tapeDarkGrey hover:text-tapeWhite font-medium"
-                    onClick={handleDelete}
-                  >
-                    Delete
-                  </button>
-                  {showConfirmation && (
-                    <ConfirmationDialog
-                      isOpen={showConfirmation}
-                      onCancel={() => setShowConfirmation(false)}
-                      onConfirm={handleConfirmDelete}
-                    />
-                  )}
-                </>
-              )}
-            </>
-          )}
+          <>
+            {channel?.owner.toString() === user._id && (
+              <>
+                <button
+                  className="border-none mr-[40px] text-[20px] font-medium text-tapeDarkGrey hover:text-tapeWhite"
+                  onClick={handleDelete}
+                >
+                  Delete
+                </button>
+                {showConfirmation && (
+                  <ConfirmationDialog
+                    isOpen={showConfirmation}
+                    onCancel={() => setShowConfirmation(false)}
+                    onConfirm={handleConfirmDelete}
+                  />
+                )}
+              </>
+            )}
+          </>
+          <>
+            {channel?.owner.toString() === user._id && (
+              <>
+                <button
+                  className="border-none mr-[40px] text-[20px] text-tapeDarkGrey hover:text-tapeWhite font-medium"
+                  onClick={handleDelete}
+                >
+                  Delete
+                </button>
+                {showConfirmation && (
+                  <ConfirmationDialog
+                    isOpen={showConfirmation}
+                    onCancel={() => setShowConfirmation(false)}
+                    onConfirm={handleConfirmDelete}
+                  />
+                )}
+              </>
+            )}
+          </>
+          )
         </div>
         <hr className="w-full mt-[10px] border-tapeDarkGrey"></hr>
       </div>
-      {isCommentsOpen ? (
-        <CommentList channel={selectedChannel} />
-      ) : (
-        <AddMixtapeForm
-          channelId={channel._id}
-          channel={channel}
-          setChannel={setChannel}
-        />
-      )}
+
+      <CommentList channel={selectedChannel} />
+
+      <AddMixtapeForm
+        channelId={channel._id}
+        channel={channel}
+        setChannel={setChannel}
+      />
+
     </div>
   );
 };

@@ -5,6 +5,7 @@ import { useMainContext } from '../Context/Context';
 import { ChannelType } from '../../types/Channel';
 import { useDropzone } from 'react-dropzone';
 import { PiUploadSimple } from "react-icons/pi";
+import Loading from '../Loading/Loading';
 
 type AddMixtapeFormProps = {
   channelId: string;
@@ -141,17 +142,17 @@ const AddMixtapeForm = ({ channelId, channel, setChannel, }: AddMixtapeFormProps
     <form
       className="z-10 text-tapeWhite flex flex-col w-full gap-5 border-dashed border-tapeDarkGrey bg-tapeBlack border-[2px] rounded-[20px] h-[300px] p-[20px]"
     >
-      <div {...getRootProps()} className='flex flex-col items-center' data-testId="dropzone" >
+      <div {...getRootProps()} className='flex flex-col items-center' >
         <div>
           <div>
             <PiUploadSimple size={120} className='text-tapeDarkGrey m-5' />
           </div>
         </div>
-        {uploading? <p>UPLOAD IN PROGRESS</p> : <></>}
+        {uploading? <Loading/> : <></>}
         <p>Or</p>
-        <button data-testId="file-button" type='button' className='rounded-full border-[2px] border-tapeDarkGrey w-[150px] p-[5px] m-8' onClick={handleChooseFilesClick} disabled={uploading}>Choose files</button>
+        <button type='button' className='rounded-full border-[2px] border-tapeDarkGrey w-[150px] p-[5px] m-8' onClick={handleChooseFilesClick} disabled={uploading}>Choose files</button>
       </div>
-      <input name="file" type="file" onChange={handleFileSelect} className='hidden' data-testId="input-hidden" ref={fileInputRef} disabled={uploading} accept=".aac, .mp3, .mpga, .m4a, .ogg, .oga, .wav, .weba, .flac"></input>
+      <input name="file" type="file" onChange={handleFileSelect} className='hidden' ref={fileInputRef} disabled={uploading} accept=".aac, .mp3, .mpga, .m4a, .ogg, .oga, .wav, .weba, .flac"></input>
     </form>
   );
 
