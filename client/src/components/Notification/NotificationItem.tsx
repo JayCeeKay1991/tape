@@ -1,8 +1,5 @@
-import { displayNotification } from '@/routes/Dash/Dash';
-import { ChannelType } from '@/types/Channel';
-import { NotificationType } from '@/types/Notification';
 import { RxCross2 } from 'react-icons/rx';
-
+import { displayNotification, NotificationType } from '@/types/Notification';
 
 interface NotificationsProps {
   notifications: displayNotification[];
@@ -25,10 +22,14 @@ const Notifications = ({ notifications,}: NotificationsProps) => {
   // });
 
   return (
-    <div>
+    <div className='flex flex-col bg-gradient-to-b from-tapePink to-tapeYellow rounded-3xl overflow-hidden text-tapeWhite w-full'>
       {notifications.map((notification) => (
-        <h2 key={notification.channelName}>{notification.channelName}</h2>
-        
+        <>
+         <h2 key={notification.channelName}>{notification.channelName}</h2>
+        {notification.notifications.map((not: NotificationType) => (
+          <p>{not.message}</p>
+        ))}</>
+       
       ))}
     </div>
   );
