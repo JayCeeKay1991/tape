@@ -91,11 +91,11 @@ const ChannelSideBar = ({
   return (
     <div
       id="channel"
-      className="w-[450px] h-[710px] flex flex-col items-center bg-tapeOffBlack p-[20px] rounded-[20px] overflow-scroll abs"
+      className="w-[590px] h-[700px] ml-[30px] flex flex-col items-center bg-tapeDarkBlack p-[30px] rounded-[30px] overflow-scroll border-[1px]"
     >
       <div
         id="channel-element"
-        className="text-tapeWhite w-[300px] h-[300px] flex-none rounded-[20px] bg-gradient-to-r from-tapePink to-tapeYellow mb-[20px] relative overflow-hidden"
+        className="text-tapeWhite w-full h-[300px] flex-none rounded-[20px] bg-gradient-to-r from-tapePink to-tapeYellow mb-[20px] relative overflow-hidden"
       >
         <div className="absolute right-[10px] top-[10px]">
           <button className="border-none" onClick={closeSideBar}>

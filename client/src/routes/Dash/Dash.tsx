@@ -97,11 +97,13 @@ export default function Dash() {
   return (
     <div
       id="dashWrapper"
-      className="w-full h-full flex flex-col justify-center gap-[20px] p-[20px] relative"
+      className="w-full flex flex-row p-[20px] relative border-tapeRed"
     >
+
+     <div id="dash-inner" className="h-[700px] overflow-y-scroll">
       <div
         id="nav"
-        className="w-full flex flex-row justify-between items-center"
+        className="w-full flex flex-row justify-between items-center mb-[30px]"
       >
         <div
           id="searchWrap"
@@ -224,6 +226,8 @@ export default function Dash() {
           </div>
         </div>
       </div>
+     </div>
+
       {showChannel && (
         <ChannelSideBar
           selectedChannel={selectedChannel}
@@ -231,6 +235,7 @@ export default function Dash() {
           setShowChannel={setShowChannel}
         />
       )}
+
       <Player />
     </div>
   );
