@@ -18,10 +18,10 @@ import {
 } from './controllers/channel/channel';
 
 import authMiddleware from './middlewares/auth';
+import { deleteNotifications } from './controllers/notification/notification';
 
 
 import { createMixTape } from './controllers/mixTape/mixTape';
-import { updateNotification } from './controllers/notification/notification';
 import {
   deleteImageFromCloudinary,
   deleteMixesFromCloudinary,
@@ -50,7 +50,7 @@ router.post('/mixtape', createMixTape);
 
 // router.put("/notifications/:userId", updateNotification);
 router.put("/notifications/:userId", deleteNotifications);
-=======
+
 // router.put('/notifications/:userId', updateNotification);
 // for session
 router.get('/me', authMiddleware, profile);
