@@ -88,7 +88,7 @@ const ChannelSideBar = ({
   return (
     <div
       id="channel"
-      className="w-[590px] h-[700px] ml-[30px] flex flex-col items-center bg-tapeDarkBlack p-[30px] rounded-[30px] overflow-scroll border-[1px]"
+      className="w-[590px] h-[700px] ml-[30px] flex flex-col items-center p-[30px] rounded-[30px] overflow-scroll border-[1px]"
     >
       <div
         id="channel-element"
@@ -133,15 +133,20 @@ const ChannelSideBar = ({
       )}
 
       <div className="w-full flex flex-col mb-[40px]">
-        <div className='w-full flex flex-row justify-between items-center'>
-          <h1 className="text-[26px] font-semibold mb-[6px]">{channel?.name}</h1>
+        <div className="w-full flex flex-row justify-between items-center">
+          <h1 className="text-[26px] font-semibold mb-[6px]">
+            {channel?.name}
+          </h1>
           {channel?.owner.toString() === user._id && (
             <>
               <button
                 className="border-none text-[20px] font-medium text-tapeDarkGrey hover:text-tapeWhite"
                 onClick={handleDelete}
               >
-                <RiDeleteBin5Line className='text-tapeDarkGrey hover:text-tapeWhite cursor-pointer' size={17} />
+                <RiDeleteBin5Line
+                  className="text-tapeDarkGrey hover:text-tapeWhite cursor-pointer"
+                  size={17}
+                />
               </button>
               {showConfirmation && (
                 <ConfirmationDialog
@@ -170,7 +175,6 @@ const ChannelSideBar = ({
               : "0 members"}
           </p>
         </div>
-
       </div>
 
       <CommentList channel={selectedChannel} />

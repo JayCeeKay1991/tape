@@ -56,36 +56,23 @@ function CommentList({ channel }: propsType) {
   };
 
   return (
-    <div className="flex flex-col items-center w-full">
-      <form onSubmit={handleSubmit} className="w-full mb-[50px]">
-        <label className="">Comment</label>
-        <input
-          value={formValue}
-          onChange={handleChange}
-          className="bg-tapeOffBlack w-full h-[50px] align-top mb-[10px] leading-[0px] pl-[20px] text-tapeWhite border-[1px] border-tapeDarkGrey text-[20px] font-medium outline-none placeholder-tapeDarkGrey rounded-[10px]"
-        ></input>
-        <button
-          type="submit"
-          className="w-full h-[50px] border-none text-tapeBlack text-[20px] text-semibold rounded-[60px] bg-tapeWhite"
-        >
-          send
-          {/* <FiSend className="text-tapeDarkGrey" size={25} /> */}
-        </button>
-      </form>
-
+    <div className="flex flex-col items-center w-full border-[px] rounded-[20px] p-[15px] mb-[30px] bg-tapeBlack relative">
       {comments.length > 0 ? (
-        <div id="comments list" className="flex flex-col items-center">
+        <div
+          id="comments list"
+          className="w-full flex flex-col items-center relative"
+        >
           <div className="w-full flex flex-row">
-            <div className="w-full mb-[20px]">
-              <p className="text-tapeDarkGrey text-[20px] font-medium">
+            <div className="w-full mb-[10px]">
+              <p className="text-tapeDarkGrey text-[12px] font-medium">
                 {comments.length} Comments
               </p>
             </div>
 
-            <form className="w-[150px]">
+            <form className="w-[80px]">
               <select
                 id="underline_select"
-                className=" w-full block px-0 text-[20px] text-tapeDarkGrey font-medium bg-tapeOffBlack border-0 border-b-[1px] border-tapeDarkGrey appearance-none dark:text-tapeDarkGrey dark:border-tapeGrey focus:outline-none focus:ring-0 focus:border-tapeGrey peer"
+                className=" w-full block px-0 text-[12px] text-tapeDarkGrey font-medium bg-tapeBlack border-tapeDarkGrey appearance-none dark:text-tapeDarkGrey dark:border-tapeGrey focus:outline-none focus:ring-0 focus:border-tapeGrey peer"
                 defaultValue="latest"
                 onChange={sortComments}
               >
@@ -102,6 +89,23 @@ function CommentList({ channel }: propsType) {
       ) : (
         <p className="text-[40px] text-tapeDarkGrey">No comments yet</p>
       )}
+
+      <form
+        onSubmit={handleSubmit}
+        className="w-full flex flex-row mt-auto items-center pl-[6px] pr-[6px] pb-[6px] pt-[5px] rounded-b-[17px]"
+      >
+        <input
+          value={formValue}
+          onChange={handleChange}
+          className="bg-tapeBlack w-full  h-[40px] align-top leading-[0px] pl-[20px] text-tapeBlack border-[2px] border-tapeDarkGrey text-[12px] font-medium outline-none placeholder-tapeDarkGrey rounded-full"
+        ></input>
+        <button
+          type="submit"
+          className="w-[40px] h-[40px] flex-none flex flex-row justify-center items-center border-none text-tapeBlack text-[20px] text-semibold rounded-[60px]"
+        >
+          <FiSend className="text-tapeDarkGrey" size={20} />
+        </button>
+      </form>
     </div>
   );
 }
