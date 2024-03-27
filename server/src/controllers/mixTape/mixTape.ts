@@ -5,13 +5,14 @@ import ChannelModel from "../../models/channel";
 import NotificationModel from "../../models/notifications";
 import { NotificationType } from "../../models/notifications";
 import { ChannelType } from "../../models/channel";
+import { Types } from "mongoose";
 
 export const createMixTape = async (req: Request, res: Response) => {
   try {
     const channel = await ChannelModel.findById(req.body.channel);
     ///////////////////////////////////////////
     if (channel) {
-      await createNotification(channel, req.body.channel);
+      await createNotification(channel, req.body.channel, req.body.creator);
     }
     ///////////////////////////////////////////
     const newMixTape = new MixTapeModel<MixTapeType>(req.body);
@@ -25,7 +26,8 @@ export const createMixTape = async (req: Request, res: Response) => {
 
 export async function createNotification(
   channel: ChannelType,
-  channelId: string
+  channelId: string,
+  creator: Types.ObjectId
 ): Promise<string> {
   try {
     // Construct the notification data
@@ -33,7 +35,11 @@ export async function createNotification(
       message: `New mixtape uploaded in ${channel.name}`,
       change: "New mixtape uploaded",
       ownerChannel: channel.owner,
-      unNotifiedUsers: channel.members ? channel.members : [],
+      unNotifiedUsers: channel.members
+        ? channel.members.filter(
+            (memberId) => memberId._id.toString() !== creator.toString()
+          )
+        : [],
       date: new Date(Date.now()),
     };
 
