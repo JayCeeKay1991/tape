@@ -20,19 +20,23 @@ const NotificationsCarousel = ({ notifications }: NotificationsCarouselProps) =>
                 setIndex(newIndex);
             }
         }, 10000);
-        return () => clearInterval(timerId); 
-    }, [index, notifications]); 
-
-    console.log(notifications)
+        return () => clearInterval(timerId);
+    }, [index, notifications]);
 
     return (
-        <div className="carousel-wrapper bg-gradient-to-b from-tapePink to-tapeYellow rounded-3xl w-full h-[250px] p-[30px]">
-            <h1 className="text-tapeWhite text-7xl">What's new</h1>
-            <div id="carousel-item" className="flex justify-center">
-                <p className="text-2xl">{currentNotification.message}</p>
-                <h1></h1>
-            </div>
+      <div className="carousel-wrapper bg-tapePink flex flex-col justify-between rounded-3xl w-full h-[320px] p-[30px]">
+
+        <h3 className="w-[120px] h-[40px] flex flex-row justify-center items-center rounded-full text-tapeWhite text-[15px] border-[1px] flex-none">
+          What's new
+         </h3>
+
+        <div id="carousel-item" className="w-[600px] leading-[52px] mt-auto ">
+          <p className="text-[45px] font-semibold">
+            {currentNotification.message}
+          </p>
+          <h1></h1>
         </div>
+      </div>
     );
 };
 
