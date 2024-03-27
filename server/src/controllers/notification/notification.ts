@@ -1,9 +1,10 @@
 import NotificationModel from "../../models/notifications";
 import { Request, Response } from "express";
+const { ObjectId } = require("mongoose").Types;
 
 export async function updateNotification(req: Request, res: Response) {
   try {
-    const userId = req.params.userId; // Changed from req.params.id
+    const userId = req.params.userId;
     const { unNotifiedUsers, _id: notificationId } = req.body;
     if (!unNotifiedUsers) {
       return res.status(400).json({
@@ -22,7 +23,7 @@ export async function updateNotification(req: Request, res: Response) {
         (user: string) => user.toString() !== userId
       );
       const updatedNotification = await NotificationModel.findOneAndUpdate(
-        { _id: notificationId }, // Ensure this is the correct ID for the notification
+        { _id: notificationId },
         { $set: { unNotifiedUsers: UpdatedUnNotifiedUsersArray } },
         { new: true }
       );
@@ -36,6 +37,38 @@ export async function updateNotification(req: Request, res: Response) {
     });
   }
 }
+//////////////////////////////////////////////////////////////////////////
+export async function deleteNotifications(req: Request, res: Response) {
+  const userId = req.params.userId;
+  try {
+    // Find notifications where userId is in unNotifiedUsers
+    const allNotifications = await NotificationModel.find({
+      unNotifiedUsers: userId,
+    });
+
+    for (const notification of allNotifications) {
+      if (notification.unNotifiedUsers.length > 1) {
+        // If more than one unNotifiedUser, remove this userId from the array
+        await NotificationModel.findByIdAndUpdate(notification._id, {
+          $pull: { unNotifiedUsers: userId }, // Correctly remove userId from the array
+        });
+      } else {
+        // If this userId is the only unNotifiedUser, delete the notification
+        await NotificationModel.findByIdAndDelete(notification._id);
+      }
+    }
+
+    res.status(200).json({ message: "Notifications processed successfully." });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message:
+        "An unexpected error occurred while processing the notifications.",
+    });
+  }
+}
+
+////////////////////////////////////////////////////////////////////////////
 
 async function deleteNotification(notificationId: string) {
   try {
