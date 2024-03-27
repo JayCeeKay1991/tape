@@ -13,11 +13,16 @@ import Player from "@/components/Player/Player";
 import { NotificationType } from "@/types/Notification";
 import Notifications from '@/components/Notification/NotificationItem'
 
+export interface displayNotification {
+  channelName: string,
+  notifications: NotificationType[]
+}
+
 export default function Dash() {
   const { user } = useMainContext();
   const [userChannels, setUserChannels] = useState<ChannelType[]>(user.channels)
   const [channels, setChannels] = useState<ChannelType[]>([]);
-  const [notifactions, setNotifications] = useState<NotificationType[]>([])
+  const [notifications, setNotifications] = useState<displayNotification[]>([])
   const [isSearchVisible, setIsSearchVisible] = useState(false);
 
   const [showForm, setShowForm] = useState(false);
@@ -30,9 +35,14 @@ export default function Dash() {
     async function getAllChannels() {
       console.log(sorting)
       const allChannels = await getChannelsUserMemberOf(user._id);
-      const notifications = allChannels.forEach((channel) => console.log(channel.notifications))
+      const userNotifications = allChannels.map((channel) => {
+        return {
+          channelName: channel.name,
+          notifications: channel.notifications
+        };
+      });
       setChannels(allChannels);
-      setNotifications(notifactions)
+      setNotifications(userNotifications)
       setUserChannels(user.channels)
       if (sorting === 'none') {
         setUserChannels(user.channels)
@@ -107,7 +117,7 @@ export default function Dash() {
           />
         )}
       </div>
-      <Notifications notifications={notifactions} channels={channels}/>
+      <Notifications notifications={notifications} />
       <div
         id="channel-list-wrap"
         className="text-tapeWhite bg-tapeOffBlack flex-col w-full px-10 rounded-3xl"
