@@ -1,5 +1,4 @@
 import React from 'react'; // Making sure React is imported
-import { RxCross2 } from 'react-icons/rx';
 import { displayNotification } from '@/types/Notification';
 import { User } from '@/types/User';
 import { deleteNotification } from '@/services/NotificationClientService';

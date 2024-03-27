@@ -11,7 +11,6 @@ const Notifications = new mongoose.Schema({
     ref: "Channel",
   },
   message: { type: String, required: true },
-  change: { type: String, required: true },
   unNotifiedUsers: [
     {
       type: mongoose.Schema.Types.ObjectId,
