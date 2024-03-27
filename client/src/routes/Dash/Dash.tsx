@@ -9,9 +9,11 @@ import { IoSearch } from "react-icons/io5";
 import ChannelSideBar from "@/components/ChannelSideBar/ChannelSideBar";
 import { sortByMembers, sortByMixtapes } from "@/utils/sortingUtils";
 import Player from "@/components/Player/Player";
-import Notifications from "@/components/Notification/NotificationItem";
-import { displayNotification } from "@/types/Notification";
 import { IoAddSharp } from "react-icons/io5";
+import Notifications from '@/components/Notification/NotificationItem';
+import NotificationsCarousel from "@/components/NotificationsCarousel/NotificationsCarousel";
+import { NotificationType } from "@/types/Notification";
+
 
 export default function Dash() {
   const { user } = useMainContext();
@@ -19,7 +21,8 @@ export default function Dash() {
     user.channels
   );
   const [channels, setChannels] = useState<ChannelType[]>([]);
-  const [notifications, setNotifications] = useState<displayNotification[]>([]);
+
+  const [notifications, setNotifications] = useState<NotificationType[]>([])
   const [isSearchVisible, setIsSearchVisible] = useState(false);
 
   const [showForm, setShowForm] = useState(false);
@@ -33,12 +36,7 @@ export default function Dash() {
   useEffect(() => {
     async function getAllChannels() {
       const allChannels = await getChannelsUserMemberOf(user._id);
-      const userNotifications = allChannels.map((channel) => {
-        return {
-          channelName: channel.name,
-          notifications: channel.notifications,
-        };
-      });
+      const userNotifications = allChannels.flatMap((channel) => channel.notifications);
       setChannels(allChannels);
       setNotifications(userNotifications);
       setUserChannels(user.channels);
@@ -92,7 +90,9 @@ export default function Dash() {
       setChannels(filteredChannels);
       setUserChannels(filteredUserChannels);
     }
-  };
+
+  }
+
 
   return (
     <div
@@ -112,30 +112,33 @@ export default function Dash() {
           />
         )}
       </div>
+
+      <div className="absolute top-[42px] right-[200px]"><Notifications notifications={notifications} setNotifications={setNotifications}/></div>
       <div
         id="channel-list-wrap"
         className="text-tapeWhite flex-col w-full h-full"
       >
         <AppNav />
 
-        {/* <Notifications notifications={notifications} user={user} /> */}
-        <div
-          id="top-notfication"
-          className="w-full h-[320px] bg-tapePink rounded-[30px]"
-        ></div>
+        <div className="text-[60px] font-semibold mb-[40px]">
+          <p> Welcome back {user.userName} 👋</p>
+        </div>
+        {notifications.length ? (
+            <NotificationsCarousel  notifications={notifications}/>
+        ): <></>}
+        <div id="your-channels" className="flex flex-col pt-5 ">
 
-        <div id="your-channels-wrap" className="flex flex-col pt-5 mb-[60px]">
-          <div className="flex flex-row justify-between mb-[30px]">
-            <div id="channel-details">
-              <h2 className="text-[30px] font-semibold">Your channels</h2>
-              <p className="text-[15px] text-tapeDarkGrey">
+          <div className="flex flex-row justify-between ">
+            <div>
+              <h2 className="text-[40px] font-semibold">Your channels</h2>
+              <p className="text-[20px] text-tapeDarkGrey">
                 {userChannels.length} streams
               </p>
             </div>
-            <div
-              id="button-popup"
-              className="flex flex-row justify-center items-center relative"
-            >
+            <div id="button-popup" className="relative">
+              <button className="white-button w-[120px] h-[50px] font-medium cursor-pointer " onClick={() => setSorting('mixtapes')}>Sort by MixTapes</button>
+              <button className="white-button w-[120px] h-[50px] font-medium cursor-pointer" onClick={() => setSorting('members')}>Sort by Members</button>
+
               <button
                 className={`mr-[10px] pl-[15px] pr-[15px] pt-[7px] pb-[7px] text-[14px] border-tapeWhite border-[1px] rounded-full font-medium cursor-pointer ${
                   sorting === "members"
