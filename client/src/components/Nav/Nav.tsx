@@ -39,7 +39,7 @@ const Nav = ({ toggleShowLogin, setFormValue }: propsType) => {
             className="border-none  hover:text-tapeDarkBlack"
             onClick={scrollToInteractivity}
           >
-            Interactivty
+            Mixtapes
           </button>
         </li>
         <li

@@ -53,11 +53,11 @@ function LoginForm() {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center">
+    <div className="w-full flex flex-col justify-center items-center pl-[40px] pr-[40px]">
       <form
         id="login-form"
         onSubmit={handleLogin}
-        className="flex flex-col w-[400px] pb-[50px]"
+        className="flex flex-col w-full pb-[40px]"
       >
         <input
           name="email"
@@ -66,7 +66,7 @@ function LoginForm() {
           onChange={changeHandler}
           placeholder="Email"
           required={true}
-          className="h-[90px] p-[30px]  border-tapeDarkGrey bg-tapeBlack border-[2px] text-[22px] text-tapeWhite font-medium outline-none"
+          className="h-[90px] p-[30px]  border-tapeDarkGrey bg-tapeDarkBlack border-[1px] text-[17px] text-tapeWhite font-medium outline-none"
           data-testid="input-email"
         ></input>
         <div className="w-full h-[50px] flex flex-row justify-center items-center">
@@ -83,10 +83,10 @@ function LoginForm() {
           onChange={changeHandler}
           placeholder="Password"
           required={true}
-          className="h-[90px] mb-[50px] p-[30px] border-tapeDarkGrey bg-tapeBlack border-[2px] text-[22px] text-tapeWhite font-medium outline-none"
+          className="h-[90px] mb-[50px] p-[30px] border-tapeDarkGrey bg-tapeDarkBlack border-[1px] text-[17px] text-tapeWhite font-medium outline-none"
         ></input>
         <button
-          className="login-button h-[90px] bg-tapeYellow border-none rounded-[10px] text-[28px] font-semibold"
+          className="login-button h-[90px] bg-tapeWhite text-tapeDarkBlack rounded-[10px] text-[19px] font-semibold hover:bg-tapeDarkBlack hover:text-tapeWhite hover:border-[1px] hover:border-tapeWhite"
           type="submit"
           data-testid="login-button"
         >

@@ -31,7 +31,7 @@ const Home = () => {
 
       <div
         id="wrapper"
-        className="w-full h-full flex flex-col top-0 bg-gradient-to-l from-tapePink to-tapeYellow"
+        className="w-full h-full flex flex-col top-0"
       >
         <section
           id="feature0"
@@ -59,7 +59,7 @@ const Home = () => {
         <section
           id="feature1"
           name="channels"
-          className="w-full h-screen bg-tapeOffBlack flex flex-row justify-center relative"
+          className="w-full h-screen bg-tapeDarkBlack flex flex-row justify-center relative"
           >
           <div
             id="feature-body1"
@@ -67,11 +67,11 @@ const Home = () => {
             >
             <div className="mt-[100px] h-1/2  flex flex-col justify-between">
 
-              <h3 className="text-[25px] font-medium mt-[10px] text-tapeWhite"
+              <h3 className="text-[15px] font-medium mt-[10px] text-tapeWhite"
                 >
                 Tape channels
               </h3>
-              <h1 className="text-[130px] font-semibold leading-[120px] text-tapeWhite">
+              <h1 className="text-[80px] font-medium leading-[90px] text-tapeWhite">
                 Create channels <br></br>and share music
               </h1>
             </div>
@@ -89,12 +89,12 @@ const Home = () => {
           name="interact"
           className="h-screen w-full bg-tapeWhite flex flex-col text-center justify-between"
         >
-          <h3 className="text-[30px] text-tapeBlack font-medium mt-[20px]">
+          <h3 className="text-[20px] text-tapeBlack font-medium mt-[20px]">
             How it works
           </h3>
           <img src={keyImage} id="key-image"></img>
-          <h2 className="text-[50px] mb-[40px] font-medium text-tapeBlack">
-            Add your mixtape to the stream for endless playback
+          <h2 className="text-[30px] mb-[40px] font-medium text-tapeBlack">
+            You can add a mixtape to the stream and playback
           </h2>
         </section>
 
@@ -143,7 +143,7 @@ const Home = () => {
 
         <section
           id="feature4"
-          className="w-full h-screen bg-tapeOffBlack flex flex-col justify-between"
+          className="w-full h-screen bg-tapeDarkBlack flex flex-col justify-between"
         >
           <img id="big-vis" className="w-full" src={bigVis}></img>
 
@@ -152,13 +152,13 @@ const Home = () => {
             className="flex flex-row justify-between pr-[50px] pl-[50px] mb-[40px]"
           >
             <img id="logo" className="w-[150px]" src={logo}></img>
-            <p className="text-tapeWhite w-[700px] flex flex-row justify-between text-[20px]">
+            <p className="text-tapeWhite w-[700px] flex flex-row justify-between text-[15px]">
               <span> © 2024 Tape</span>
               <span> Privacy Policy</span>
               <span> Terms & Conditions</span>
               <span>Legal</span>
             </p>
-            <p className="text-tapeWhite  text-[20px]">Contact us</p>
+            <p className="text-tapeWhite  text-[15px]">Contact us</p>
           </div>
         </section>
       </div>

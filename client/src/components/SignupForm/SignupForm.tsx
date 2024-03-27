@@ -52,7 +52,10 @@ const SignupForm = () => {
 
   // do we need conditional below?
   return (
-    <form onSubmit={handleSignup} className="flex flex-col w-[400px] pb-[50px]">
+    <form
+      onSubmit={handleSignup}
+      className="flex flex-col w-full pb-[50px] pl-[40px] pr-[40px]"
+    >
       <input
         name="userName"
         value={formValuesUser.userName}
@@ -60,7 +63,7 @@ const SignupForm = () => {
         placeholder="Username"
         onChange={changeHandler}
         required={true}
-        className="h-[90px] mb-[20px] p-[30px]  border-tapeDarkGrey bg-tapeBlack border-[2px] text-[22px] text-tapeWhite font-medium outline-none"
+        className="h-[70px] mb-[20px] p-[30px]  border-tapeDarkGrey bg-tapeDarkBlack border-[1px] text-[17px] text-tapeWhite font-medium outline-none"
         data-testid="input-name"
       />
       <input
@@ -70,7 +73,7 @@ const SignupForm = () => {
         placeholder="Email"
         onChange={changeHandler}
         required={true}
-        className="h-[90px] mb-[20px] p-[30px]  border-tapeDarkGrey bg-tapeBlack border-[2px] text-[22px] text-tapeWhite font-medium outline-none"
+        className="h-[70px] mb-[20px] p-[30px]  border-tapeDarkGrey bg-tapeDarkBlack border-[1px] text-[17px] text-tapeWhite font-medium outline-none"
       />
       <input
         name="password"
@@ -79,10 +82,10 @@ const SignupForm = () => {
         placeholder="Password"
         onChange={changeHandler}
         required={true}
-        className="h-[90px] mb-[50px] p-[30px]  border-tapeDarkGrey bg-tapeBlack border-[2px] text-[25px] text-tapeWhite font-medium outline-none"
+        className="h-[70px] mb-[30px] p-[30px]  border-tapeDarkGrey bg-tapeDarkBlack border-[1px] text-[17px] text-tapeWhite font-medium outline-none"
       />
       <button
-        className="signup-button h-[90px] bg-tapeYellow border-none rounded-[10px] text-[28px] font-semibold"
+        className="signup-button h-[90px] text-tapeDarkBlack bg-tapeWhite rounded-[10px] text-[19px] font-semibold hover:bg-tapeDarkBlack hover:text-tapeWhite hover:border-[1px] hover:border-tapeWhite"
         type="submit"
         data-testid="signup-button"
       >

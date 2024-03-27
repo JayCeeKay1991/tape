@@ -127,7 +127,7 @@ export default function Dash() {
         </div>
 
         <div className="h-[700px] overflow-y-scroll">
-          <div id="carousel" className="w-full mt-[60px]">
+          <div id="carousel" className="w-full mt-[80px] mb-[10px]">
             {notifications.length ? (
               <NotificationsCarousel notifications={notifications} />
             ) : (
