@@ -1,7 +1,6 @@
 import { SetStateAction, useState, Dispatch } from 'react';
 import { NotificationType } from '@/types/Notification';
 import { IoIosNotificationsOutline } from "react-icons/io";
-import { RxCross2 } from "react-icons/rx";
 
 
 interface NotificationsProps {

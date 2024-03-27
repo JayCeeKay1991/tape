@@ -11,6 +11,7 @@ import ChannelSideBar from "@/components/ChannelSideBar/ChannelSideBar";
 import { sortByMembers, sortByMixtapes } from "@/utils/sortingUtils";
 import Player from "@/components/Player/Player";
 import Notifications from '@/components/Notification/NotificationItem';
+import NotificationsCarousel from "@/components/NotificationsCarousel/NotificationsCarousel";
 import { NotificationType } from "@/types/Notification";
 
 export default function Dash() {
@@ -116,6 +117,10 @@ export default function Dash() {
         <div className="text-[60px] font-semibold mb-[40px]">
           <p> Welcome back {user.userName} 👋</p>
         </div>
+        {notifications.length ? (
+                  <NotificationsCarousel  notifications={notifications}/>
+
+        ): <></>}
         <div id="your-channels" className="flex flex-col pt-5 ">
 
           <div className="flex flex-row justify-between ">
