@@ -37,23 +37,20 @@ export async function updateNotification(req: Request, res: Response) {
     });
   }
 }
-//////////////////////////////////////////////////////////////////////////
+
 export async function deleteNotifications(req: Request, res: Response) {
   const userId = req.params.userId;
   try {
-    // Find notifications where userId is in unNotifiedUsers
     const allNotifications = await NotificationModel.find({
       unNotifiedUsers: userId,
     });
 
     for (const notification of allNotifications) {
       if (notification.unNotifiedUsers.length > 1) {
-        // If more than one unNotifiedUser, remove this userId from the array
         await NotificationModel.findByIdAndUpdate(notification._id, {
-          $pull: { unNotifiedUsers: userId }, // Correctly remove userId from the array
+          $pull: { unNotifiedUsers: userId },
         });
       } else {
-        // If this userId is the only unNotifiedUser, delete the notification
         await NotificationModel.findByIdAndDelete(notification._id);
       }
     }
@@ -67,8 +64,6 @@ export async function deleteNotifications(req: Request, res: Response) {
     });
   }
 }
-
-////////////////////////////////////////////////////////////////////////////
 
 async function deleteNotification(notificationId: string) {
   try {
