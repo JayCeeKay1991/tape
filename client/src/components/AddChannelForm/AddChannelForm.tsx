@@ -22,7 +22,8 @@ export default function AddChannelForm({
     owner: user,
     members: [],
     mixTapes: [],
-    comments: []
+    comments: [],
+    notifications: [],
   };
 
   const [formValues, setFormValues] = useState<FormValues>(initialState);

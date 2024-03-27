@@ -10,14 +10,14 @@ import { IoSearch } from 'react-icons/io5';
 import ChannelSideBar from "@/components/ChannelSideBar/ChannelSideBar";
 import { sortByMembers, sortByMixtapes } from "@/utils/sortingUtils";
 import Player from "@/components/Player/Player";
-import Notifications from '@/components/Notification/NotificationItem'
-import { displayNotification } from "@/types/Notification";
+import Notifications from '@/components/Notification/NotificationItem';
+import { NotificationType } from "@/types/Notification";
 
 export default function Dash() {
   const { user } = useMainContext();
   const [userChannels, setUserChannels] = useState<ChannelType[]>(user.channels)
   const [channels, setChannels] = useState<ChannelType[]>([]);
-  const [notifications, setNotifications] = useState<displayNotification[]>([])
+  const [notifications, setNotifications] = useState<NotificationType[]>([])
   const [isSearchVisible, setIsSearchVisible] = useState(false);
 
   const [showForm, setShowForm] = useState(false);
@@ -29,15 +29,9 @@ export default function Dash() {
   useEffect(() => {
     async function getAllChannels() {
       const allChannels = await getChannelsUserMemberOf(user._id);
-      const userNotifications = allChannels.map((channel) => {
-        return {
-          channelName: channel.name,
-          notifications: channel.notifications
-        };
-      });
-      const filteredNots = userNotifications.filter((el) => el.notifications.length > 0)
+      const userNotifications = allChannels.flatMap((channel) => channel.notifications);
       setChannels(allChannels);
-      setNotifications(filteredNots)
+      setNotifications(userNotifications)
       setUserChannels(user.channels)
       if (sorting === 'none') {
         setUserChannels(user.channels)
@@ -93,7 +87,6 @@ export default function Dash() {
   }
 
 
-
   return (
     <div
       id="dashWrapper"
@@ -112,6 +105,8 @@ export default function Dash() {
           />
         )}
       </div>
+
+      <div className="absolute top-[42px] right-[200px]"><Notifications notifications={notifications} setNotifications={setNotifications}/></div>
       <div
         id="channel-list-wrap"
         className="text-tapeWhite bg-tapeOffBlack flex-col w-full px-10 rounded-3xl"
@@ -121,7 +116,6 @@ export default function Dash() {
         <div className="text-[60px] font-semibold mb-[40px]">
           <p> Welcome back {user.userName} 👋</p>
         </div>
-        <Notifications notifications={notifications} />
         <div id="your-channels" className="flex flex-col pt-5 ">
 
           <div className="flex flex-row justify-between ">
@@ -132,8 +126,8 @@ export default function Dash() {
               </p>
             </div>
             <div id="button-popup" className="relative">
-              <button className="white-button w-[120px] h-[50px] font-medium cursor-pointer " onClick={() => setSorting('members')}>Sort by MixTapes</button>
-              <button className="white-button w-[120px] h-[50px] font-medium cursor-pointer" onClick={() => setSorting('mixtapes')}>Sort by Members</button>
+              <button className="white-button w-[120px] h-[50px] font-medium cursor-pointer " onClick={() => setSorting('mixtapes')}>Sort by MixTapes</button>
+              <button className="white-button w-[120px] h-[50px] font-medium cursor-pointer" onClick={() => setSorting('members')}>Sort by Members</button>
               <button
                 onClick={toggleAddForm}
                 className="white-button w-[120px] h-[50px] font-medium"

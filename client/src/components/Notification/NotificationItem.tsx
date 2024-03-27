@@ -1,25 +1,50 @@
-import { displayNotification } from '@/types/Notification';
-import { deleteNotification } from '@/services/NotificationClientService';
-import { useMainContext } from '../Context/Context';
+import { SetStateAction, useState, Dispatch } from 'react';
+import { NotificationType } from '@/types/Notification';
+import { IoIosNotificationsOutline } from "react-icons/io";
+import { RxCross2 } from "react-icons/rx";
+
 
 interface NotificationsProps {
-  notifications: displayNotification[];
+  notifications: NotificationType[];
+  setNotifications: Dispatch<SetStateAction<NotificationType[]>>;
 }
 
-const Notifications = ({ notifications }: NotificationsProps) => {
-  const { user } = useMainContext();
+const Notifications = ({ notifications, setNotifications }: NotificationsProps) => {
+  const [showDrop, setShowDrop] = useState<boolean>(false);
 
-  console.log(notifications)
+  const handleClick = () => {
+    if (showDrop) {
+      setShowDrop(false)
+      if (notifications.length > 0) {
+        setNotifications([])
+      }
+    }
+    else {
+      setShowDrop(true)
+    }
+  }
 
   return (
-    <div id="notifications-wrapper" className='flex flex-row text-tapeWhite w-full'>
-      <div id="latest-oldest-wrapper">
-        <div id="latest"></div>
-        <div id="oldest"></div>
+    <div>
+      <div id="icon-wrapper" className='flex flex-row'>
+        <p>{notifications.length}</p>
+        <IoIosNotificationsOutline size={30} onClick={handleClick} />
       </div>
-      <div id="last-five"></div>
+      {showDrop && notifications.length > 0 ? (
+        <div id="nots-dropdown" className='w-[300px] h-[300px] overflow-hidden flex flex-col z-40 absolute border-tapeDarkGrey bg-tapeBlack border-[2px] rounded-[20px] p-[20px] right-[0px] mt-[20px] '>
+          <ul className='flex flex-col justify-center absolute right'>
+            {notifications.map(not => (
+                <li key={not._id} className='bg-tapeBlack hover:font-bold cursor-pointer'>
+                  <div className='flex flex-row'>
+                    <p>{not.message}</p>
+                  </div>
+                </li>
+              ))}
+          </ul>
+        </div>
+      ) : <></>}
     </div>
-  );
+  )
 };
 
 export default Notifications;
