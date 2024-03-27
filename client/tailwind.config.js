@@ -3,8 +3,11 @@ export default {
   content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
   theme: {
     colors: {
-      tapeYellow: "#BBF771",
-      tapePink: "#FF65AA",
+      tapeYellow: "#FED837",
+      tapePink: "#FF93CD",
+      tapeOrange: "#FC782E",
+      tapeRed: "#F02930",
+      tapeCream: "#F4E6E3",
       tapeBlack: "#151515",
       tapeOffBlack: "#1B1B1B",
       tapeWhite: "#FFFFFF",
@@ -13,7 +16,7 @@ export default {
       tapeDarkBlack: "#0C0C0C",
     },
     fontFamily: {
-      sans: ["Darker Grotesque"],
+      sans: ["Archivo"],
     },
     extend: {
       gradient: {},

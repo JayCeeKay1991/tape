@@ -1,40 +1,49 @@
-import React from 'react'; // Making sure React is imported
-import { displayNotification } from '@/types/Notification';
-import { User } from '@/types/User';
-import { deleteNotification } from '@/services/NotificationClientService';
+import { SetStateAction, useState, Dispatch } from 'react';
+import { NotificationType } from '@/types/Notification';
+import { IoIosNotificationsOutline } from "react-icons/io";
+
 
 interface NotificationsProps {
-  notifications: displayNotification[];
-  user: User;
+  notifications: NotificationType[];
+  setNotifications: Dispatch<SetStateAction<NotificationType[]>>;
 }
 
-const Notifications: React.FC<NotificationsProps> = ({ notifications, user }) => {
+const Notifications = ({ notifications, setNotifications }: NotificationsProps) => {
+  const [showDrop, setShowDrop] = useState<boolean>(false);
+
+  const handleClick = () => {
+    if (showDrop) {
+      setShowDrop(false)
+      if (notifications.length > 0) {
+        setNotifications([])
+      }
+    }
+    else {
+      setShowDrop(true)
+    }
+  }
+
   return (
-    <div className='flex flex-row text-tapeWhite w-full'>
-      {notifications.map((notification) => (
-        <React.Fragment key={notification.channelName}>
-          {notification.notifications.map((not) => (
-            not.unNotifiedUsers.includes(user._id) && (
-              <button 
-                className='w-[200px] h-[200px] mr-[50px] p-[10px] text-2xl bg-gradient-to-b from-tapePink to-tapeYellow rounded-3xl overflow-hidden'
-                key={not._id}
-                onClick={async (e) => {
-                  e.preventDefault();
-                  try {
-                    await deleteNotification(not, user._id);
-                  } catch (error) {
-                    console.error('error deleting notification');
-                  }
-                }}
-              >
-                {not.message}
-              </button>
-            )
-          ))}
-        </React.Fragment>
-      ))}
+    <div>
+      <div id="icon-wrapper" className='flex flex-row'>
+        <IoIosNotificationsOutline size={30} onClick={handleClick} />
+        <p>{notifications.length}</p>
+        {showDrop && notifications.length > 0 ? (
+          <div id="nots-dropdown" className='w-[300px] h-[300px] overflow-hidden flex flex-col z-40 absolute border-tapeDarkGrey bg-tapeBlack border-[2px] rounded-[20px] p-[20px] right-[0px] mt-[30px] '>
+            <ul className='flex flex-col justify-center absolute right'>
+              {notifications.map(not => (
+                <li key={not._id} className='bg-tapeBlack hover:font-bold cursor-pointer'>
+                  <div className='flex flex-row'>
+                    <p>{not.message}</p>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : <></>}
+      </div>
     </div>
-  );
-};
+  )
+}
 
 export default Notifications;
