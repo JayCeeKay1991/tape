@@ -35,8 +35,9 @@ export default function Dash() {
           notifications: channel.notifications
         };
       });
+      const filteredNots = userNotifications.filter((el) => el.notifications.length > 0)
       setChannels(allChannels);
-      setNotifications(userNotifications)
+      setNotifications(filteredNots)
       setUserChannels(user.channels)
       if (sorting === 'none') {
         setUserChannels(user.channels)
@@ -120,7 +121,7 @@ export default function Dash() {
         <div className="text-[60px] font-semibold mb-[40px]">
           <p> Welcome back {user.userName} 👋</p>
         </div>
-        <Notifications notifications={notifications} user={user} />
+        <Notifications notifications={notifications} />
         <div id="your-channels" className="flex flex-col pt-5 ">
 
           <div className="flex flex-row justify-between ">
