@@ -66,7 +66,7 @@ function LoginForm() {
           onChange={changeHandler}
           placeholder="Email"
           required={true}
-          className="h-[90px] p-[30px]  border-tapeDarkGrey bg-tapeBlack border-[2px] text-[25px] text-tapeWhite font-medium outline-none"
+          className="h-[90px] p-[30px]  border-tapeDarkGrey bg-tapeBlack border-[2px] text-[22px] text-tapeWhite font-medium outline-none"
           data-testid="input-email"
         ></input>
         <div className="w-full h-[50px] flex flex-row justify-center items-center">
@@ -83,10 +83,10 @@ function LoginForm() {
           onChange={changeHandler}
           placeholder="Password"
           required={true}
-          className="h-[90px] mb-[50px] p-[30px] border-tapeDarkGrey bg-tapeBlack border-[2px] text-[25px] text-tapeWhite font-medium outline-none"
+          className="h-[90px] mb-[50px] p-[30px] border-tapeDarkGrey bg-tapeBlack border-[2px] text-[22px] text-tapeWhite font-medium outline-none"
         ></input>
         <button
-          className="login-button h-[90px] bg-tapeYellow border-none rounded-[10px] text-[30px] font-semibold"
+          className="login-button h-[90px] bg-tapeYellow border-none rounded-[10px] text-[28px] font-semibold"
           type="submit"
           data-testid="login-button"
         >

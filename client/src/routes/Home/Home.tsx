@@ -37,33 +37,22 @@ const Home = () => {
           id="feature0"
           className="w-full h-screen flex flex-col justify-center top-0 "
         >
-          <div id="cta" className="w-[700px] z-10 ml-[50px]">
-            <h1 className="text-[120px] leading-[100px] mb-[40px] text-tapeWhite font-semibold ">
+          <div id="cta" className="w-[750px] z-10 ml-[50px]">
+            <h1 className="text-[80px] leading-[100px] mb-[40px] text-tapeWhite font-semibold ">
               Make mixtape streams with your friends
             </h1>
-            <p className="w-[470px] mb-[30px] font-regular text-[26px] leading-[30px]  text-tapeWhite">
-              Tape FM lets you upload mixes and share <br></br>them in groups of
-              your friends
+            <p className="w-[470px] mb-[30px] font-regular text-[20px] leading-[30px]  text-tapeWhite">
+              Tape FM lets you upload mixes and  <br></br>share them in groups of your friends
             </p>
             <button
               onClick={() => {
                 setFormValue("signUp");
                 toggleShowLogin();
               }}
-              className="w-[170px] h-[70px] text-2xl font-medium rounded-[10px] bg-tapeWhite text-tapeBlack border-none hover:bg-tapeYellow"
+              className="w-[170px] h-[70px] text-2xl font-medium rounded-full bg-tapeWhite text-tapeBlack border-none hover:bg-tapeYellow"
             >
               Join now
             </button>
-          </div>
-          <div
-            id="img-crop"
-            className="w-full h-screen absolute overflow-hidden"
-          >
-            <img
-              src={hero}
-              id="hero-bg"
-              className=" w-full absolute -top-[50px]"
-            ></img>
           </div>
         </section>
 
