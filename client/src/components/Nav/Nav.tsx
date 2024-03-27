@@ -24,16 +24,21 @@ const Nav = ({ toggleShowLogin, setFormValue }: propsType) => {
 
 
   return (
-    <nav className="w-11/12 h-[60px] border-white border-2 bg-tapeWhite/30 fixed top-10 ml-[50px] flex flex-row  items-center justify-between pl-[50px] z-40 rounded-full">
+    <nav className="w-11/12 h-[60px] border-white border-[1px] bg-tapeWhite/30 fixed top-10 ml-[50px] flex flex-row  items-center justify-between pl-[50px] z-40 rounded-full backdrop-blur-md">
       <a>
         <img id="icon" className="w-[50px]" src={icon}></img>
       </a>
-      <ul className="flex flex-row items-center">
-        <li className="w-[90px] h-[40px] text-[24px] font-medium text-tapeWhite ml-[100px]">
-          <button className='border-none' onClick={scrollToChannels} >Channels</button>
+      <ul className="flex flex-row items-center justify-center">
+        <li className=" text-[22px] font-medium text-tapeWhite ml-[50px] hover:text-tapeDarkBlack">
+          <button className="border-none" onClick={scrollToChannels}>
+            Channels
+          </button>
         </li>
-        <li className="w-[90px] h-[40px] text-[24px] font-medium  text-tapeWhite ml-[100px]">
-          <button className='border-none' onClick={scrollToInteractivity}>
+        <li className="text-[22px] font-medium  text-tapeWhite ml-[50px]">
+          <button
+            className="border-none  hover:text-tapeDarkBlack"
+            onClick={scrollToInteractivity}
+          >
             Interactivty
           </button>
         </li>
@@ -42,10 +47,10 @@ const Nav = ({ toggleShowLogin, setFormValue }: propsType) => {
             toggleShowLogin();
             setFormValue("login");
           }}
-          className="w-[130px] h-[54px] text-center ml-[100px] mr-[2px] text-[24px] font-medium  text-tapeWhite bg-tapeBlack hover:bg-tapeWhite hover:text-tapeBlack rounded-full cursor-pointer flex flex-col justify-center"
+          className="w-[130px] h-[54px] text-center ml-[50px] mr-[2px] text-[20px] font-medium  text-tapeWhite bg-tapeBlack hover:bg-tapeWhite hover:text-tapeBlack rounded-full cursor-pointer flex flex-col justify-center"
           data-testid="login-toggle"
         >
-          <button className='border-none rounded-full'>Login</button>
+          <button className="border-none rounded-full">Login</button>
         </li>
       </ul>
     </nav>

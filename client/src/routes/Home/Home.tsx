@@ -37,11 +37,11 @@ const Home = () => {
           id="feature0"
           className="w-full h-screen flex flex-col justify-center top-0 "
         >
-          <div id="cta" className="w-[750px] z-10 ml-[50px]">
-            <h1 className="text-[80px] leading-[100px] mb-[40px] text-tapeWhite font-semibold ">
+          <div id="cta" className="w-[750px] z-10 ml-[50px] mt-[50px]">
+            <h1 className="text-[80px] leading-[90px] mb-[40px] text-tapeWhite font-semibold ">
               Make mixtape streams with your friends
             </h1>
-            <p className="w-[470px] mb-[30px] font-regular text-[20px] leading-[30px]  text-tapeWhite">
+            <p className="w-[470px] mb-[30px] font-regular text-[17px] leading-[20px]  text-tapeWhite">
               Tape FM lets you upload mixes and  <br></br>share them in groups of your friends
             </p>
             <button
@@ -49,7 +49,7 @@ const Home = () => {
                 setFormValue("signUp");
                 toggleShowLogin();
               }}
-              className="w-[170px] h-[70px] text-2xl font-medium rounded-full bg-tapeWhite text-tapeBlack border-none hover:bg-tapeYellow"
+              className="w-[150px] h-[60px] text-[20px] font-medium rounded-full bg-tapeWhite text-tapeBlack border-none hover:bg-tapeDarkBlack hover:bg-tapeWhite"
             >
               Join now
             </button>
@@ -102,40 +102,37 @@ const Home = () => {
           id="feature3"
           className="h-screen w-full bg-gradient-to-t from-tapePink to-tapeYellow  flex flex-col justify-center relative"
         >
-          {/* <div id='blur1'></div>
-          <div id='blur2'></div> */}
-
           <div id="text-wrapper">
-            <div className="w-full h-[160px] text-[200px] overflow-hidden relative">
-              <p className="font-semibold whitespace-nowrap absolute -top-[110px]">
+            <div className="w-full h-[160px] text-[150px] overflow-hidden relative">
+              <p className="font-semibold whitespace-nowrap absolute -top-[50px]">
                 <span className="text-tapeWhite">Sharing music </span>
                 <span>Making mixtapes </span>
                 <span className="text-tapeWhite">Playing tunes </span>
               </p>
             </div>
-            <div className="w-full h-[160px] text-[200px] overflow-hidden relative">
-              <p className="font-semibold whitespace-nowrap absolute -top-[110px]">
+            <div className="w-full h-[160px] text-[150px] overflow-hidden relative">
+              <p className="font-semibold whitespace-nowrap absolute -top-[50px]">
                 <span>Sharing music </span>
                 <span className="text-tapeWhite">Making mixtapes </span>
                 <span>Playing tunes </span>
               </p>
             </div>
-            <div className="w-full h-[160px] text-[200px] overflow-hidden relative">
-              <p className="font-semibold whitespace-nowrap absolute -top-[110px]">
+            <div className="w-full h-[160px] text-[150px] overflow-hidden relative">
+              <p className="font-semibold whitespace-nowrap absolute -top-[50px]">
                 <span className="text-tapeWhite">Sharing music </span>
                 <span>Making mixtapes </span>
                 <span className="text-tapeWhite">Playing tunes </span>
               </p>
             </div>
-            <div className="w-full h-[160px] text-[200px] overflow-hidden relative">
-              <p className="font-semibold whitespace-nowrap absolute -top-[110px]">
+            <div className="w-full h-[160px] text-[150px] overflow-hidden relative">
+              <p className="font-semibold whitespace-nowrap absolute -top-[50px]">
                 <span>Sharing music </span>
                 <span className="text-tapeWhite">Making mixtapes </span>
                 <span>Playing tunes </span>
               </p>
             </div>
-            <div className="w-full h-[160px] text-[200px] overflow-hidden relative">
-              <p className="font-semibold whitespace-nowrap absolute -top-[110px]">
+            <div className="w-full h-[160px]  text-[150px] overflow-hidden relative">
+              <p className="font-semibold whitespace-nowrap absolute -top-[50px]">
                 <span className="text-tapeWhite">Sharing music </span>
                 <span>Making mixtapes </span>
                 <span className="text-tapeWhite">Playing tunes </span>
