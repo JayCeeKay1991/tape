@@ -66,7 +66,10 @@ const ChannelItem = ({ channel, setSelectedChannel, showChannel, setShowChannel 
         ></img>
       </div>
 
-      <h2 className="w-full text-[28px] text-wrap text-left" data-testid="channel-name">
+      <h2
+        className="w-full text-[28px] text-wrap text-left"
+        data-testid="channel-name"
+      >
         {channel.name}
       </h2>
 
