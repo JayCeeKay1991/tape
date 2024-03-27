@@ -44,38 +44,41 @@ const ChannelItem = ({ channel, setSelectedChannel, showChannel, setShowChannel 
 
   return (
     <button
-      className="w-[425px] h-[355px] p-[20px] relative border-[1px] border-tapeWhite rounded-[20px]"
+      className="w-[380px] h-[350px] p-[20px] relative border-[1px] border-tapeWhite rounded-[30px] flex flex-col justify-between"
       onClick={handleClick}
     >
-      <div className="w-full h-full absolute flex flex-row justify-center items-center opacity-0 hover:opacity-100">
-        <IoMdPlay size={90} className="text-tapeWhite" onClick={playChannel} />
-      </div>
-
-      <div className="w-full h-[205px] flex justify-content items-center overflow-hidden rounded-[20px]">
+      <div
+        id="image-wrap"
+        className="w-full h-[205px] relative flex flex-col justify-center items-center rounded-[20px] overflow-hidden"
+      >
+        <div className="w-full h-full absolute flex flex-col justify-center items-center opacity-0 hover:opacity-100 ease-in-out duration-200">
+          <IoMdPlay
+            size={90}
+            className="text-tapeWhite"
+            onClick={playChannel}
+          />
+        </div>
         <img
           id="channel-thumbnail"
           src={channel.picture}
           className="object-cover"
           data-testid="channel-picture"
-        />
+        ></img>
       </div>
 
-      <h2
-        className="w-full bg-tapeYellow "
-        data-testid="channel-name"
-      >
+      <h2 className="w-full text-[28px] text-wrap text-left" data-testid="channel-name">
         {channel.name}
       </h2>
 
-      <div id="channel-item-footer" className="flex flex-row bg-tapePink ">
-        <p className="mr-[20px]">
+      <div id="channel-item-footer" className="flex flex-row">
+        <p className="w-[100px] h-[30px] text-[10px] flex flex-row justify-center items-center mr-[10px] border-[1px] rounded-full">
           {channel.mixTapes.length
             ? `${channel.mixTapes.length} mixtape${
                 channel.mixTapes.length === 1 ? "" : "s"
               }`
             : "No mixtapes"}
         </p>
-        <p>
+        <p className="w-[100px] h-[30px] text-[10px] flex flex-row justify-center items-center mr-[20px] border-[1px] rounded-full">
           {channel.members.length
             ? `${channel.members.length} member${
                 channel.members.length === 1 ? "" : "s"

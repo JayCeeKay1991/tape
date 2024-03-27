@@ -12,6 +12,7 @@ import { sortByMembers, sortByMixtapes } from "@/utils/sortingUtils";
 import Player from "@/components/Player/Player";
 import Notifications from '@/components/Notification/NotificationItem'
 import { displayNotification } from "@/types/Notification";
+import { IoAddSharp } from "react-icons/io5";
 
 export default function Dash() {
   const { user } = useMainContext();
@@ -98,7 +99,7 @@ export default function Dash() {
       id="dashWrapper"
       className="w-full h-full flex flex-row justify-center gap-[20px] p-[20px] relative"
     >
-      
+
       <div id="searchWrap" className='absolute top-[42px] left-[105px]' >
         <button className="border-none mt-[2px]" onClick={toggleSearch}>
           <IoSearch size={25} className="border-none" />
@@ -119,31 +120,27 @@ export default function Dash() {
         <AppNav />
 
         {/* <Notifications notifications={notifications} user={user} /> */}
-          <div id="top-notfication" className="w-full h-[320px] bg-tapePink rounded-[30px]"></div>
-        <div id="your-channels" className="flex flex-col pt-5 ">
+        <div id="top-notfication" className="w-full h-[320px] bg-tapePink rounded-[30px]"></div>
 
-          <div className="flex flex-row justify-between ">
+        <div id="your-channels" className="flex flex-col pt-5">
+          <div className="flex flex-row justify-between mb-[30px]">
             <div>
-              <h2 className="text-[40px] font-semibold">Your channels</h2>
-              <p className="text-[20px] text-tapeDarkGrey">
+              <h2 className="text-[30px] font-semibold">Your channels</h2>
+              <p className="text-[15px] text-tapeDarkGrey">
                 {userChannels.length} streams
               </p>
             </div>
-            <div id="button-popup" className="relative">
-              <button className="white-button w-[120px] h-[50px] font-medium cursor-pointer " onClick={() => setSorting('members')}>Sort by MixTapes</button>
-              <button className="white-button w-[120px] h-[50px] font-medium cursor-pointer" onClick={() => setSorting('mixtapes')}>Sort by Members</button>
-              <button
-                onClick={toggleAddForm}
-                className="white-button w-[120px] h-[50px] font-medium"
-              >
-                Add channel
+            <div id="button-popup" className="pr-[20px] flex flex-row justify-center items-center relative">
+              <button className={`ml-[10px] pl-[15px] pr-[15px] pt-[7px] pb-[7px] text-[14px] border-tapeWhite border-[1px] rounded-full font-medium cursor-pointer ${sorting === 'members' ? 'text-tapeBlack bg-tapeWhite' : 'text-tapeWhite'}`} onClick={() => setSorting('members')}>Sort by MixTapes</button>
+              <button className={`ml-[10px] pl-[15px] pr-[15px] pt-[7px] pb-[7px] text-[14px] border-tapeWhite border-[1px] rounded-full font-medium cursor-pointer ${sorting === 'mixtapes' ? 'text-tapeBlack bg-tapeWhite' : 'text-tapeWhite'}`} onClick={() => setSorting('mixtapes')}>Sort by Members</button>
+              <button className="ml-[10px]  p-[7px] text-[14px] text-tapeWhite bg-tapeBlack border-[1px] border-tapeWhite rounded-full font-medium hover:bg-tapeWhite hover:text-tapeBlack cursor-pointer" onClick={toggleAddForm}>
+                <IoAddSharp size={20} />
               </button>
               {showForm && <AddChannelForm setShowForm={setShowForm} />}
             </div>
-
           </div>
 
-          <div id="channel-list" className="flex gap-x-10 py-12 flex-wrap">
+          <div id="channel-list" className="flex gap-x-10 flex-wrap">
             {userChannels.length
               ? userChannels.map((channel, index) => (
                 <ChannelItem
