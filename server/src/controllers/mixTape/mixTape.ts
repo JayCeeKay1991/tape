@@ -33,7 +33,6 @@ export async function createNotification(
     // Construct the notification data
     const notificationData: NotificationType = {
       message: `New mixtape uploaded in ${channel.name}`,
-      change: "New mixtape uploaded",
       ownerChannel: channel.owner,
       unNotifiedUsers: channel.members
         ? channel.members.filter(

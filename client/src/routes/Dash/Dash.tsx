@@ -28,7 +28,6 @@ export default function Dash() {
 
   useEffect(() => {
     async function getAllChannels() {
-      console.log(sorting)
       const allChannels = await getChannelsUserMemberOf(user._id);
       const userNotifications = allChannels.map((channel) => {
         return {
