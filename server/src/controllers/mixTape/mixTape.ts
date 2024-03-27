@@ -1,6 +1,5 @@
 import { Request, Response } from "express";
 import MixTapeModel, { MixTapeType } from "../../models/mixTape";
-// import { createNotification } from "../notification/notification";
 import ChannelModel from "../../models/channel";
 import NotificationModel from "../../models/notifications";
 import { NotificationType } from "../../models/notifications";
@@ -34,11 +33,12 @@ export async function createNotification(
   creator: Types.ObjectId
 ): Promise<string> {
   try {
-    // Construct the notification data
     const notificationData: NotificationType = {
       message: `New mixtape uploaded in ${channel.name}`,
       ownerChannel: channel.name,
-      unNotifiedUsers: channel.members
+      unNotifiedUsers: channel.members.filter(
+        (member) => member._id.toString() !== creator.toString()
+      )
         ? channel.members.filter(
             (memberId) => memberId._id.toString() !== creator.toString()
           )
