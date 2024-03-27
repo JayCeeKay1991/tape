@@ -20,7 +20,7 @@ export const createMixTape = async (req: Request, res: Response) => {
     res.status(201).json(savedMixTape);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Could not create mixtape." });
+    res.status(500).json({ message: `Could not create mixtape ${error}` });
   }
 };
 
