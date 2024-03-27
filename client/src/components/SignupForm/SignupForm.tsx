@@ -57,32 +57,32 @@ const SignupForm = () => {
         name="userName"
         value={formValuesUser.userName}
         type="text"
-        placeholder="username"
+        placeholder="Username"
         onChange={changeHandler}
         required={true}
-        className="h-[90px] mb-[20px] p-[30px]  border-tapeDarkGrey bg-tapeBlack border-[2px] text-[25px] text-tapeWhite font-medium outline-none"
+        className="h-[90px] mb-[20px] p-[30px]  border-tapeDarkGrey bg-tapeBlack border-[2px] text-[22px] text-tapeWhite font-medium outline-none"
         data-testid="input-name"
       />
       <input
         name="email"
         value={formValuesUser.email}
         type="text"
-        placeholder="email"
+        placeholder="Email"
         onChange={changeHandler}
         required={true}
-        className="h-[90px] mb-[20px] p-[30px]  border-tapeDarkGrey bg-tapeBlack border-[2px] text-[25px] text-tapeWhite font-medium outline-none"
+        className="h-[90px] mb-[20px] p-[30px]  border-tapeDarkGrey bg-tapeBlack border-[2px] text-[22px] text-tapeWhite font-medium outline-none"
       />
       <input
         name="password"
         value={formValuesUser.password}
         type="password"
-        placeholder="password"
+        placeholder="Password"
         onChange={changeHandler}
         required={true}
         className="h-[90px] mb-[50px] p-[30px]  border-tapeDarkGrey bg-tapeBlack border-[2px] text-[25px] text-tapeWhite font-medium outline-none"
       />
       <button
-        className="signup-button h-[90px] bg-tapeYellow border-none rounded-[10px] text-[30px] font-semibold"
+        className="signup-button h-[90px] bg-tapeYellow border-none rounded-[10px] text-[28px] font-semibold"
         type="submit"
         data-testid="signup-button"
       >
