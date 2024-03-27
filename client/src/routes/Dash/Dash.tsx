@@ -97,137 +97,143 @@ export default function Dash() {
   return (
     <div
       id="dashWrapper"
-      className="w-full flex flex-row p-[20px] relative border-tapeRed"
+      className="w-full flex flex-row pl-[30px] pr-[30px] pt-[30px] relative border-tapeRed"
     >
-
-     <div id="dash-inner" className="h-[700px] overflow-y-scroll">
-      <div
-        id="nav"
-        className="w-full flex flex-row justify-between items-center mb-[30px]"
-      >
+      <div id="dash-inner" className="relative">
         <div
-          id="searchWrap"
-          className="h-[50px] flex flex-row border-[1px] border-tapeWhite rounded-full pl-[10px]"
+          id="nav"
+          className="w-full flex flex-row justify-between items-center pb-[10px] mb-[30px] bg-tapeDarkBlack absolute z-50"
         >
-          <button className="border-none" onClick={toggleSearch}>
-            <IoSearch size={25} className="border-none flex-none" />
-          </button>
-          <input
-            className="bg-tapeDarkBlack text-tapeWhite focus:outline none border-none rounded-full pl-[20px]"
-            onChange={search}
-            type="text"
-          />
+          <div
+            id="searchWrap"
+            className="h-[40px] flex flex-row border-[1px] border-tapeWhite rounded-full pl-[10px] pt-[5px] pb-[5px] pr-[5px]"
+          >
+            <button className="border-none" onClick={toggleSearch}>
+              <IoSearch size={25} className="border-none flex-none" />
+            </button>
+            <input
+              className="bg-tapeDarkBlack text-tapeWhite focus:outline-none border-none rounded-full pl-[20px]"
+              onChange={search}
+              type="text"
+            />
+          </div>
+          <div className="flex flex-row items-center">
+            <Notifications
+              notifications={notifications}
+              setNotifications={setNotifications}
+            />
+            <AppNav />
+          </div>
         </div>
-        <div className="flex flex-row">
-          <Notifications
-            notifications={notifications}
-            setNotifications={setNotifications}
-          />
-          <AppNav />
-        </div>
-      </div>
 
-      <div id="carousel" className="w-full">
-        {notifications.length ? (
-          <NotificationsCarousel notifications={notifications} />
-        ) : (
-          <></>
-        )}
-      </div>
+        <div className="h-[700px] overflow-y-scroll">
+          <div id="carousel" className="w-full mt-[60px]">
+            {notifications.length ? (
+              <NotificationsCarousel notifications={notifications} />
+            ) : (
+              <></>
+            )}
+          </div>
 
-      <div
-        id="channel-list-wrap"
-        className="text-tapeWhite flex-col w-full h-full"
-      >
-        <div id="your-channels" className="flex flex-col pt-5 mb-[50px]">
-          <div id="channel-controls" className="flex flex-row justify-between items-start mb-[30px]">
-            <div id="channel-details" className="">
-              <h2 className="text-[30px] font-semibold">Your channels</h2>
-              <p className="text-[15px] text-tapeDarkGrey">
-                {userChannels.length} streams
-              </p>
+          <div
+            id="channel-list-wrap"
+            className="text-tapeWhite flex-col w-full h-full"
+          >
+            <div id="your-channels" className="flex flex-col pt-5 mb-[70px]">
+              <div
+                id="channel-controls"
+                className="flex flex-row justify-between items-start mb-[30px]"
+              >
+                <div id="channel-details" className="">
+                  <h2 className="text-[30px] font-semibold">Your channels</h2>
+                  <p className="text-[15px] text-tapeDarkGrey">
+                    {userChannels.length} streams
+                  </p>
+                </div>
+
+                <div
+                  id="button-popup"
+                  className="relative flex flex-row items-center"
+                >
+                  <button
+                    className={`mr-[10px] pl-[15px] pr-[15px] pt-[7px] pb-[7px] text-[14px] border-tapeWhite border-[1px] rounded-full font-medium hover:bg-tapeWhite hover:text-tapeDarkBlack cursor-pointer ${
+                      sorting === "members"
+                        ? "text-tapeBlack bg-tapeWhite"
+                        : "text-tapeWhite"
+                    }`}
+                    onClick={() => setSorting("members")}
+                  >
+                    Sort by MixTapes
+                  </button>
+                  <button
+                    className={`mr-[10px] pl-[15px] pr-[15px] pt-[7px] pb-[7px] text-[14px] border-tapeWhite border-[1px] rounded-full font-medium hover:bg-tapeWhite hover:text-tapeDarkBlack cursor-pointer ${
+                      sorting === "mixtapes"
+                        ? "text-tapeBlack bg-tapeWhite"
+                        : "text-tapeWhite"
+                    }`}
+                    onClick={() => setSorting("mixtapes")}
+                  >
+                    Sort by Members
+                  </button>
+                  <button
+                    className={`p-[7px] text-[14px] border-[1px] border-tapeWhite rounded-full font-medium hover:bg-tapeWhite hover:text-tapeBlack cursor-pointer ${
+                      showForm
+                        ? "text-tapeBlack bg-tapeWhite"
+                        : "text-tapeWhite bg-tapeBlack"
+                    }`}
+                    onClick={toggleAddForm}
+                  >
+                    <IoAddSharp size={20} />
+                  </button>
+                  {showForm && <AddChannelForm setShowForm={setShowForm} />}
+                </div>
+              </div>
+
+              <div id="channel-list" className="flex gap-[20px] flex-wrap">
+                {userChannels.length
+                  ? userChannels.map((channel, index) => (
+                      <ChannelItem
+                        key={index}
+                        channel={channel}
+                        setSelectedChannel={setSelectedChannel}
+                        showChannel={showChannel}
+                        setShowChannel={setShowChannel}
+                      />
+                    ))
+                  : "No channels yet."}
+              </div>
             </div>
 
-            <div
-              id="button-popup"
-              className="relative flex flex-row items-center"
-            >
-              <button
-                className={`mr-[10px] pl-[15px] pr-[15px] pt-[7px] pb-[7px] text-[14px] border-tapeWhite border-[1px] rounded-full font-medium cursor-pointer ${
-                  sorting === "members"
-                    ? "text-tapeBlack bg-tapeWhite"
-                    : "text-tapeWhite"
-                }`}
-                onClick={() => setSorting("members")}
+            <div id="friends-channels" className="flex flex-col">
+              <div id="channel-details" className="mb-[30px]">
+                <h2 className="text-[30px] font-semibold">Friends channels</h2>
+                <p className="text-[15px] text-tapeDarkGrey">
+                  {channels.length} streams
+                </p>
+              </div>
+
+              <div
+                id="membership-channels"
+                className="flex gap-[30px] flex-wrap"
               >
-                Sort by MixTapes
-              </button>
-              <button
-                className={`mr-[10px] pl-[15px] pr-[15px] pt-[7px] pb-[7px] text-[14px] border-tapeWhite border-[1px] rounded-full font-medium cursor-pointer ${
-                  sorting === "mixtapes"
-                    ? "text-tapeBlack bg-tapeWhite"
-                    : "text-tapeWhite"
-                }`}
-                onClick={() => setSorting("mixtapes")}
-              >
-                Sort by Members
-              </button>
-              <button
-                className={`p-[7px] text-[14px] border-[1px] border-tapeWhite rounded-full font-medium hover:bg-tapeWhite hover:text-tapeBlack cursor-pointer ${
-                  showForm
-                    ? "text-tapeBlack bg-tapeWhite"
-                    : "text-tapeWhite bg-tapeBlack"
-                }`}
-                onClick={toggleAddForm}
-              >
-                <IoAddSharp size={20} />
-              </button>
-              {showForm && <AddChannelForm setShowForm={setShowForm} />}
+                {channels.length > 0
+                  ? channels.map((channel, index) =>
+                      channel.owner.toString() === user._id ? null : (
+                        <ChannelItem
+                          key={index}
+                          channel={channel}
+                          setSelectedChannel={setSelectedChannel}
+                          showChannel={showChannel}
+                          setShowChannel={setShowChannel}
+                        />
+                      )
+                    )
+                  : "No channels yet."}
+              </div>
             </div>
-          </div>
-
-          <div id="channel-list" className="flex gap-[20px] flex-wrap">
-            {userChannels.length
-              ? userChannels.map((channel, index) => (
-                  <ChannelItem
-                    key={index}
-                    channel={channel}
-                    setSelectedChannel={setSelectedChannel}
-                    showChannel={showChannel}
-                    setShowChannel={setShowChannel}
-                  />
-                ))
-              : "No channels yet."}
-          </div>
-        </div>
-
-        <div id="friends-channels" className="flex flex-col">
-          <div id="channel-details" className="mb-[30px]">
-            <h2 className="text-[30px] font-semibold">Friends channels</h2>
-            <p className="text-[15px] text-tapeDarkGrey">
-              {channels.length} streams
-            </p>
-          </div>
-
-          <div id="membership-channels" className="flex gap-[30px] flex-wrap">
-            {channels.length > 0
-              ? channels.map((channel, index) =>
-                  channel.owner.toString() === user._id ? null : (
-                    <ChannelItem
-                      key={index}
-                      channel={channel}
-                      setSelectedChannel={setSelectedChannel}
-                      showChannel={showChannel}
-                      setShowChannel={setShowChannel}
-                    />
-                  )
-                )
-              : "No channels yet."}
           </div>
         </div>
       </div>
-     </div>
-
       {showChannel && (
         <ChannelSideBar
           selectedChannel={selectedChannel}

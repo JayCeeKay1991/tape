@@ -29,9 +29,11 @@ const Notifications = ({ notifications, setNotifications }: NotificationsProps) 
 
   return (
     <div>
-      <div id="icon-wrapper" className='flex flex-row'>
+      <div id="icon-wrapper" className='flex flex-row border-[1px] w-[45px] h-[45px] justify-center items-center rounded-full mr-[15px] hover:bg-tapeWhite hover:text-tapeDarkBlack'>
         <IoIosNotificationsOutline size={30} onClick={handleClick} />
-        <p>{notifications.length}</p>
+
+        <p className='-ml-[8px]'>{notifications.length}</p>
+
         {showDrop && notifications.length > 0 ? (
           <div id="nots-dropdown" className='w-[300px] h-[300px] overflow-hidden flex flex-col z-40 absolute border-tapeDarkGrey bg-tapeBlack border-[2px] rounded-[20px] p-[20px] right-[0px] mt-[30px] '>
             <ul className='flex flex-col justify-center absolute right'>

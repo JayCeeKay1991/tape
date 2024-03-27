@@ -88,7 +88,7 @@ const ChannelSideBar = ({
   return (
     <div
       id="channel"
-      className="w-[590px] h-[700px] ml-[30px] flex flex-col items-center p-[30px] rounded-[30px] overflow-scroll border-[1px]"
+      className="w-[390px] h-[700px] ml-[30px] flex-none flex flex-col items-center p-[30px] rounded-[30px] overflow-scroll border-[1px]"
     >
       <div
         id="channel-element"

@@ -28,14 +28,13 @@ const AppNav = () => {
 
 
   return (
-    <nav className="">
-      <div className="w-[100px] pl-[20px] flex flex-row  bg-tapeWhite rounded-full">
+    <nav className=" flex flex-row items-center">
         <button
-          className="bg-none text-tapeBlack border-none"
+          className="bg-none text-tapeWhite border-[1px] border-tapeWhite flex flex-row justify-center items-center rounded-full mr-[15px] w-[45px] h-[45px] hover:bg-tapeWhite hover:text-tapeDarkBlack "
           onClick={handleLogout}
           data-testid="logout-button"
         >
-          <FiLogOut size={20} />
+          <FiLogOut size={22} />
         </button>
 
         <Link to={"/user"}>
@@ -48,7 +47,7 @@ const AppNav = () => {
             />
           </div>
         </Link>
-      </div>
+
     </nav>
   );
 };

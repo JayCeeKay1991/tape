@@ -87,7 +87,7 @@ function CommentList({ channel }: propsType) {
           ))}
         </div>
       ) : (
-        <p className="text-[40px] text-tapeDarkGrey">No comments yet</p>
+        <p className="text-[20px] mb-[10px] text-tapeDarkGrey">No comments yet</p>
       )}
 
       <form

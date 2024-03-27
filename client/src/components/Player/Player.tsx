@@ -148,7 +148,7 @@ const Player = () => {
     return (
         <div
             id="player"
-            className="w-full h-[100px] flex fixed bottom-0 flex-row justify-center items-center bg-tapeBlack"
+            className="w-full h-[90px] flex fixed bottom-0 flex-row justify-center items-center bg-tapeDarkBlack "
         >
             <div
                 id="progress-bar"
@@ -158,7 +158,7 @@ const Player = () => {
                     {playing ? (
                         <button
                             type="button"
-                            className="text-tapeWhite me-5"
+                            className="text-tapeWhite me-5 border-none"
                             onClick={pause}
                         >
                             <IoMdPause size="25" />
