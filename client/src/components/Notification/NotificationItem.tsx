@@ -1,18 +1,16 @@
+import { displayNotification } from '@/routes/Dash/Dash';
 import { ChannelType } from '@/types/Channel';
 import { NotificationType } from '@/types/Notification';
 import { RxCross2 } from 'react-icons/rx';
 
 
-interface NotifactionsProps {
-  notifications: NotificationType[];
-  channels: ChannelType[];
+interface NotificationsProps {
+  notifications: displayNotification[];
 }
 
-const Notifications = ({ notifications, channels }: NotifactionsProps) => {
+const Notifications = ({ notifications,}: NotificationsProps) => {
 
-  console.log(channels, notifications)
-
-  cons
+  console.log(notifications)
 
   // const removeNotification = (notifaction: NotificationType) => {
   //   try {
@@ -29,7 +27,8 @@ const Notifications = ({ notifications, channels }: NotifactionsProps) => {
   return (
     <div>
       {notifications.map((notification) => (
-        <p key={notification._id}>{notification.message}</p>
+        <h2 key={notification.channelName}>{notification.channelName}</h2>
+        
       ))}
     </div>
   );

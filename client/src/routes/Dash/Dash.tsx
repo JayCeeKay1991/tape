@@ -10,13 +10,8 @@ import { IoSearch } from 'react-icons/io5';
 import ChannelSideBar from "@/components/ChannelSideBar/ChannelSideBar";
 import { sortByMembers, sortByMixtapes } from "@/utils/sortingUtils";
 import Player from "@/components/Player/Player";
-import { NotificationType } from "@/types/Notification";
 import Notifications from '@/components/Notification/NotificationItem'
-
-export interface displayNotification {
-  channelName: string,
-  notifications: NotificationType[]
-}
+import { displayNotification } from "@/types/Notification";
 
 export default function Dash() {
   const { user } = useMainContext();
