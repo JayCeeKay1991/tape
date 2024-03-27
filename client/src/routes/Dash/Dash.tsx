@@ -136,9 +136,6 @@ export default function Dash() {
               </p>
             </div>
             <div id="button-popup" className="relative">
-              <button className="white-button w-[120px] h-[50px] font-medium cursor-pointer " onClick={() => setSorting('mixtapes')}>Sort by MixTapes</button>
-              <button className="white-button w-[120px] h-[50px] font-medium cursor-pointer" onClick={() => setSorting('members')}>Sort by Members</button>
-
               <button
                 className={`mr-[10px] pl-[15px] pr-[15px] pt-[7px] pb-[7px] text-[14px] border-tapeWhite border-[1px] rounded-full font-medium cursor-pointer ${
                   sorting === "members"
