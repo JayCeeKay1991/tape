@@ -98,6 +98,7 @@ export default function Dash() {
       id="dashWrapper"
       className="w-full h-full flex flex-row justify-center gap-[20px] p-[20px] relative"
     >
+      
       <div id="searchWrap" className='absolute top-[42px] left-[105px]' >
         <button className="border-none mt-[2px]" onClick={toggleSearch}>
           <IoSearch size={25} className="border-none" />
@@ -113,14 +114,12 @@ export default function Dash() {
       </div>
       <div
         id="channel-list-wrap"
-        className="text-tapeWhite bg-tapeOffBlack flex-col w-full px-10 rounded-3xl"
+        className="text-tapeWhite flex-col w-full h-full"
       >
         <AppNav />
 
-        <div className="text-[60px] font-semibold mb-[40px]">
-          <p> Welcome back {user.userName} 👋</p>
-        </div>
-        <Notifications notifications={notifications} user={user} />
+        {/* <Notifications notifications={notifications} user={user} /> */}
+          <div id="top-notfication" className="w-full h-[320px] bg-tapePink rounded-[30px]"></div>
         <div id="your-channels" className="flex flex-col pt-5 ">
 
           <div className="flex flex-row justify-between ">

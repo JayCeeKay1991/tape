@@ -13,7 +13,7 @@ export default {
       tapeDarkBlack: "#0C0C0C",
     },
     fontFamily: {
-      sans: ["Darker Grotesque"],
+      sans: ["Archivo"],
     },
     extend: {
       gradient: {},
