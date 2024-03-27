@@ -121,7 +121,7 @@ export default function Dash() {
         <div className="text-[60px] font-semibold mb-[40px]">
           <p> Welcome back {user.userName} 👋</p>
         </div>
-        <Notifications notifications={notifications} />
+        <Notifications notifications={notifications} user={user} />
         <div id="your-channels" className="flex flex-col pt-5 ">
 
           <div className="flex flex-row justify-between ">
