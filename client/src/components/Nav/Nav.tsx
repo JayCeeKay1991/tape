@@ -10,8 +10,6 @@ type propsType = {
 
 const Nav = ({ toggleShowLogin, setFormValue }: propsType) => {
 
-
-
   const scrollToChannels = () => {
     scroller.scrollTo('channels', {
       smooth: true
@@ -44,7 +42,7 @@ const Nav = ({ toggleShowLogin, setFormValue }: propsType) => {
             toggleShowLogin();
             setFormValue("login");
           }}
-          className="w-[130px] h-[56px] text-center ml-[100px] mr-[2px] text-[24px] font-medium  text-tapeWhite bg-tapeBlack hover:bg-tapeWhite hover:text-tapeBlack rounded-full cursor-pointer flex flex-col justify-center"
+          className="w-[130px] h-[54px] text-center ml-[100px] mr-[2px] text-[24px] font-medium  text-tapeWhite bg-tapeBlack hover:bg-tapeWhite hover:text-tapeBlack rounded-full cursor-pointer flex flex-col justify-center"
           data-testid="login-toggle"
         >
           <button className='border-none rounded-full'>Login</button>

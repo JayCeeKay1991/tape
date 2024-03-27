@@ -31,7 +31,7 @@ const Home = () => {
 
       <div
         id="wrapper"
-        className="w-full h-full flex flex-col top-0 bg-tapeOffBlack"
+        className="w-full h-full flex flex-col top-0 bg-gradient-to-l from-tapePink to-tapeYellow"
       >
         <section
           id="feature0"

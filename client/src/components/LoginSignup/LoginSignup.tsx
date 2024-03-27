@@ -23,7 +23,7 @@ export function LoginSignup({ formValue, toggleShowLogin }: propsType) {
   return (
     <div
       id="loginBackground"
-      className="w-full h-full bg-tapeBlack/90 fixed z-50 top-0 left-0 flex flex-row justify-center items-center "
+      className="w-full h-full bg-tapeBlack/60 fixed z-50 top-0 left-0 flex flex-row justify-center items-center "
     >
       <div
         id="loginSignup"
