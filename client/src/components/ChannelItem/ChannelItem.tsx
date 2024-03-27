@@ -44,7 +44,7 @@ const ChannelItem = ({ channel, setSelectedChannel, showChannel, setShowChannel 
 
   return (
     <button
-      className="w-[380px] h-[350px] p-[20px] relative border-[1px] border-tapeWhite rounded-[30px] flex flex-col justify-between"
+      className="w-[320px] h-[350px] p-[20px] relative border-[1px] border-tapeWhite rounded-[30px] flex flex-col justify-between"
       onClick={handleClick}
     >
       <div
