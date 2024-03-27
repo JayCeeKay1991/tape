@@ -26,24 +26,24 @@ const Notifications = ({ notifications, setNotifications }: NotificationsProps) 
   return (
     <div>
       <div id="icon-wrapper" className='flex flex-row'>
-        <p>{notifications.length}</p>
         <IoIosNotificationsOutline size={30} onClick={handleClick} />
-      </div>
-      {showDrop && notifications.length > 0 ? (
-        <div id="nots-dropdown" className='w-[300px] h-[300px] overflow-hidden flex flex-col z-40 absolute border-tapeDarkGrey bg-tapeBlack border-[2px] rounded-[20px] p-[20px] right-[0px] mt-[20px] '>
-          <ul className='flex flex-col justify-center absolute right'>
-            {notifications.map(not => (
+        <p>{notifications.length}</p>
+        {showDrop && notifications.length > 0 ? (
+          <div id="nots-dropdown" className='w-[300px] h-[300px] overflow-hidden flex flex-col z-40 absolute border-tapeDarkGrey bg-tapeBlack border-[2px] rounded-[20px] p-[20px] right-[0px] mt-[30px] '>
+            <ul className='flex flex-col justify-center absolute right'>
+              {notifications.map(not => (
                 <li key={not._id} className='bg-tapeBlack hover:font-bold cursor-pointer'>
                   <div className='flex flex-row'>
                     <p>{not.message}</p>
                   </div>
                 </li>
               ))}
-          </ul>
-        </div>
-      ) : <></>}
+            </ul>
+          </div>
+        ) : <></>}
+      </div>
     </div>
   )
-};
+}
 
 export default Notifications;

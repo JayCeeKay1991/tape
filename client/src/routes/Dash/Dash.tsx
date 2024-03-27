@@ -118,8 +118,7 @@ export default function Dash() {
           <p> Welcome back {user.userName} 👋</p>
         </div>
         {notifications.length ? (
-                  <NotificationsCarousel  notifications={notifications}/>
-
+            <NotificationsCarousel  notifications={notifications}/>
         ): <></>}
         <div id="your-channels" className="flex flex-col pt-5 ">
 
