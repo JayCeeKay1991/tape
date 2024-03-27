@@ -20,7 +20,10 @@ import {
 import authMiddleware from "./middlewares/auth";
 
 import { createMixTape } from "./controllers/mixTape/mixTape";
-import { updateNotification } from "./controllers/notification/notification";
+import {
+  updateNotification,
+  deleteNotifications,
+} from "./controllers/notification/notification";
 
 const router = express.Router();
 
@@ -46,6 +49,7 @@ router.get("/me", authMiddleware, profile);
 
 router.post("/logout", authMiddleware, logout);
 
-router.put("/notifications/:userId", updateNotification);
+// router.put("/notifications/:userId", updateNotification);
+router.put("/notifications/:userId", deleteNotifications);
 
 export default router;

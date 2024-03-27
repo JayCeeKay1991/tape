@@ -6,9 +6,8 @@ export type NotificationType = InferSchemaType<typeof Notifications>;
 // defining data structure
 const Notifications = new mongoose.Schema({
   ownerChannel: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     required: true,
-    ref: "Channel",
   },
   message: { type: String, required: true },
   unNotifiedUsers: [
