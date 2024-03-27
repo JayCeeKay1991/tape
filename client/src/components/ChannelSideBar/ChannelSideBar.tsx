@@ -17,6 +17,8 @@ import CommentList from '@/components/CommentList/CommentList';
 import AudioWave from '@/components/AudioWave/AudioWave';
 import { GoPlus } from 'react-icons/go';
 import { RxCross2 } from 'react-icons/rx';
+import { RiDeleteBin5Line } from "react-icons/ri";
+
 
 // utils
 import ConfirmationDialog from '@/utils/ConfirmationDialog';
@@ -90,7 +92,7 @@ const ChannelSideBar = ({
     >
       <div
         id="channel-element"
-        className="text-tapeWhite w-full h-[300px] flex-none rounded-[20px] bg-gradient-to-r from-tapePink to-tapeYellow mb-[20px] relative overflow-hidden"
+        className="text-tapeWhite w-full h-[300px] flex-none rounded-[20px] bg-gradient-to-r from-tapePink to-tapeYellow mb-[10px] relative overflow-hidden"
       >
         <div className="absolute right-[10px] top-[10px]">
           <button className="border-none" onClick={closeSideBar}>
@@ -121,6 +123,7 @@ const ChannelSideBar = ({
 
         <img src={channel?.picture} className="w-full h-full object-cover" />
       </div>
+
       {showMemberForm && (
         <AddMembersSelect
           channel={channel}
@@ -129,70 +132,45 @@ const ChannelSideBar = ({
         />
       )}
 
-      <div className="w-full flex flex-col mb-[30px]">
-        <h1 className="text-[45px] font-semibold mb-[15px] leading-[50px]">
-          {channel?.name}
-        </h1>
+      <div className="w-full flex flex-col mb-[40px]">
+        <div className='w-full flex flex-row justify-between items-center'>
+          <h1 className="text-[26px] font-semibold mb-[6px]">{channel?.name}</h1>
+          {channel?.owner.toString() === user._id && (
+            <>
+              <button
+                className="border-none text-[20px] font-medium text-tapeDarkGrey hover:text-tapeWhite"
+                onClick={handleDelete}
+              >
+                <RiDeleteBin5Line className='text-tapeDarkGrey hover:text-tapeWhite cursor-pointer' size={17} />
+              </button>
+              {showConfirmation && (
+                <ConfirmationDialog
+                  isOpen={showConfirmation}
+                  onCancel={() => setShowConfirmation(false)}
+                  onConfirm={handleConfirmDelete}
+                />
+              )}
+            </>
+          )}
+        </div>
 
         <div className="flex flex-row">
-          <p className="mr-[10px]  pr-[15px] pl-[15px] pt-[4px] pb-[4px] font-semibold border-[1px] rounded-full border-tapeDarkGrey text-tapeDarkGrey">
+          <p className="mr-[10px] pr-[10px] pl-[10px] pb-[5px] pt-[5px] text-[10px] font-semibold border-[1px] rounded-full border-tapeDarkGrey text-tapeDarkGrey flex-none">
             {channel?.mixTapes.length
-              ? `${channel?.mixTapes.length} mixtape${channel?.mixTapes.length === 1 ? '' : 's'
-              }`
-              : '0 mixtapes'}
+              ? `${channel?.mixTapes.length} mixtape${
+                  channel?.mixTapes.length === 1 ? "" : "s"
+                }`
+              : "0 mixtapes"}
           </p>
-          <p className="pr-[15px] pl-[15px] pt-[4px] pb-[4px] font-semibold border-[1px] rounded-full border-tapeDarkGrey text-tapeDarkGrey">
+          <p className="text-[10px] pr-[10px] pl-[10px] pb-[5px]  pt-[5px] font-semibold border-[1px] rounded-full border-tapeDarkGrey text-tapeDarkGrey">
             {channel?.members.length
-              ? `${channel?.members.length} member${channel?.members.length === 1 ? '' : 's'
-              }`
-              : '0 members'}
+              ? `${channel?.members.length} member${
+                  channel?.members.length === 1 ? "" : "s"
+                }`
+              : "0 members"}
           </p>
         </div>
-      </div>
 
-      <div className="w-[400px] h-[100px] pl-[50px] pr-[50px] flex flex-col items-start mb-[50px]">
-        <div className="flex flex-row">
-          <>
-            {channel?.owner.toString() === user._id && (
-              <>
-                <button
-                  className="border-none mr-[40px] text-[20px] font-medium text-tapeDarkGrey hover:text-tapeWhite"
-                  onClick={handleDelete}
-                >
-                  Delete
-                </button>
-                {showConfirmation && (
-                  <ConfirmationDialog
-                    isOpen={showConfirmation}
-                    onCancel={() => setShowConfirmation(false)}
-                    onConfirm={handleConfirmDelete}
-                  />
-                )}
-              </>
-            )}
-          </>
-          <>
-            {channel?.owner.toString() === user._id && (
-              <>
-                <button
-                  className="border-none mr-[40px] text-[20px] text-tapeDarkGrey hover:text-tapeWhite font-medium"
-                  onClick={handleDelete}
-                >
-                  Delete
-                </button>
-                {showConfirmation && (
-                  <ConfirmationDialog
-                    isOpen={showConfirmation}
-                    onCancel={() => setShowConfirmation(false)}
-                    onConfirm={handleConfirmDelete}
-                  />
-                )}
-              </>
-            )}
-          </>
-          )
-        </div>
-        <hr className="w-full mt-[10px] border-tapeDarkGrey"></hr>
       </div>
 
       <CommentList channel={selectedChannel} />
@@ -202,7 +180,6 @@ const ChannelSideBar = ({
         channel={channel}
         setChannel={setChannel}
       />
-
     </div>
   );
 };
