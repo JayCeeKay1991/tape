@@ -28,16 +28,8 @@ const AppNav = () => {
 
 
   return (
-
-    <nav className="w-full h-20 flex flex-row items-center justify-between">
-      <div className="flex flex-row align-middle">
-        <Link to={`/dash`}>
-          <button className=" text-tapeWhite border-none mr-[20px]">
-            <MdHome size={30} />
-          </button>
-        </Link>
-      </div>
-      <div className=" w-[100px] pl-[20px] flex flex-row  bg-tapeWhite rounded-full items-center justify-between">
+    <nav className="">
+      <div className="w-[100px] pl-[20px] flex flex-row  bg-tapeWhite rounded-full">
         <button
           className="bg-none text-tapeBlack border-none"
           onClick={handleLogout}
@@ -45,12 +37,13 @@ const AppNav = () => {
         >
           <FiLogOut size={20} />
         </button>
-        <Link to={'/user'}>
+
+        <Link to={"/user"}>
           <div className="overflow-hidden rounded-full w-[50px] h-[50px] flex justify-center items-center">
             <img
               src={user.profilePic}
               className="w-16 h-16 object-cover"
-              style={{ objectPosition: 'center-center' }}
+              style={{ objectPosition: "center-center" }}
               data-testid="profile-image"
             />
           </div>

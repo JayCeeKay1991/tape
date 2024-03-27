@@ -97,45 +97,59 @@ export default function Dash() {
   return (
     <div
       id="dashWrapper"
-      className="w-full h-full flex flex-row justify-center gap-[20px] p-[20px] relative"
+      className="w-full h-full flex flex-col justify-center gap-[20px] p-[20px] relative"
     >
-      <div id="searchWrap" className="absolute top-[42px] left-[105px]">
-        <button className="border-none mt-[2px]" onClick={toggleSearch}>
-          <IoSearch size={25} className="border-none" />
-        </button>
-        {isSearchVisible && (
+      <div
+        id="nav"
+        className="w-full flex flex-row justify-between items-center"
+      >
+        <div
+          id="searchWrap"
+          className="h-[50px] flex flex-row border-[1px] border-tapeWhite rounded-full pl-[10px]"
+        >
+          <button className="border-none" onClick={toggleSearch}>
+            <IoSearch size={25} className="border-none flex-none" />
+          </button>
           <input
-            className="bg-tapeBlack text-tapeWhite mx-8 focus:outline none"
+            className="bg-tapeDarkBlack text-tapeWhite focus:outline none border-none rounded-full pl-[20px]"
             onChange={search}
             type="text"
-            placeholder="Search..."
           />
+        </div>
+        <div className="flex flex-row">
+          <Notifications
+            notifications={notifications}
+            setNotifications={setNotifications}
+          />
+          <AppNav />
+        </div>
+      </div>
+
+      <div id="carousel" className="w-full">
+        {notifications.length ? (
+          <NotificationsCarousel notifications={notifications} />
+        ) : (
+          <></>
         )}
       </div>
 
-      <div className="absolute top-[42px] right-[200px]"><Notifications notifications={notifications} setNotifications={setNotifications}/></div>
       <div
         id="channel-list-wrap"
         className="text-tapeWhite flex-col w-full h-full"
       >
-        <AppNav />
-
-        <div className="text-[60px] font-semibold mb-[40px]">
-          <p> Welcome back {user.userName} 👋</p>
-        </div>
-        {notifications.length ? (
-            <NotificationsCarousel  notifications={notifications}/>
-        ): <></>}
-        <div id="your-channels" className="flex flex-col pt-5 ">
-
-          <div className="flex flex-row justify-between ">
-            <div>
-              <h2 className="text-[40px] font-semibold">Your channels</h2>
-              <p className="text-[20px] text-tapeDarkGrey">
+        <div id="your-channels" className="flex flex-col pt-5 mb-[50px]">
+          <div id="channel-controls" className="flex flex-row justify-between items-start mb-[30px]">
+            <div id="channel-details" className="">
+              <h2 className="text-[30px] font-semibold">Your channels</h2>
+              <p className="text-[15px] text-tapeDarkGrey">
                 {userChannels.length} streams
               </p>
             </div>
-            <div id="button-popup" className="relative">
+
+            <div
+              id="button-popup"
+              className="relative flex flex-row items-center"
+            >
               <button
                 className={`mr-[10px] pl-[15px] pr-[15px] pt-[7px] pb-[7px] text-[14px] border-tapeWhite border-[1px] rounded-full font-medium cursor-pointer ${
                   sorting === "members"
@@ -187,8 +201,7 @@ export default function Dash() {
 
         <div id="friends-channels" className="flex flex-col">
           <div id="channel-details" className="mb-[30px]">
-            <h2 className="text-[30px] font-semibold">Friends channels
-            </h2>
+            <h2 className="text-[30px] font-semibold">Friends channels</h2>
             <p className="text-[15px] text-tapeDarkGrey">
               {channels.length} streams
             </p>
