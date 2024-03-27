@@ -10,14 +10,14 @@ import { IoSearch } from 'react-icons/io5';
 import ChannelSideBar from "@/components/ChannelSideBar/ChannelSideBar";
 import { sortByMembers, sortByMixtapes } from "@/utils/sortingUtils";
 import Player from "@/components/Player/Player";
-import { NotificationType } from "@/types/Notification";
 import Notifications from '@/components/Notification/NotificationItem'
+import { displayNotification } from "@/types/Notification";
 
 export default function Dash() {
   const { user } = useMainContext();
   const [userChannels, setUserChannels] = useState<ChannelType[]>(user.channels)
   const [channels, setChannels] = useState<ChannelType[]>([]);
-  const [notifactions, setNotifications] = useState<NotificationType[]>([])
+  const [notifications, setNotifications] = useState<displayNotification[]>([])
   const [isSearchVisible, setIsSearchVisible] = useState(false);
 
   const [showForm, setShowForm] = useState(false);
@@ -30,9 +30,14 @@ export default function Dash() {
     async function getAllChannels() {
       console.log(sorting)
       const allChannels = await getChannelsUserMemberOf(user._id);
-      const notifications = allChannels.forEach((channel) => console.log(channel.notifications))
+      const userNotifications = allChannels.map((channel) => {
+        return {
+          channelName: channel.name,
+          notifications: channel.notifications
+        };
+      });
       setChannels(allChannels);
-      setNotifications(notifactions)
+      setNotifications(userNotifications)
       setUserChannels(user.channels)
       if (sorting === 'none') {
         setUserChannels(user.channels)
@@ -107,7 +112,6 @@ export default function Dash() {
           />
         )}
       </div>
-      <Notifications notifications={notifactions}/>
       <div
         id="channel-list-wrap"
         className="text-tapeWhite bg-tapeOffBlack flex-col w-full px-10 rounded-3xl"
@@ -117,7 +121,7 @@ export default function Dash() {
         <div className="text-[60px] font-semibold mb-[40px]">
           <p> Welcome back {user.userName} 👋</p>
         </div>
-
+        <Notifications notifications={notifications} />
         <div id="your-channels" className="flex flex-col pt-5 ">
 
           <div className="flex flex-row justify-between ">

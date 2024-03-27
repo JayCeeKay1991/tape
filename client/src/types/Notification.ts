@@ -10,3 +10,10 @@ export type NotificationType = {
   change: string;
   date: Date;
 };
+
+
+export interface displayNotification {
+  channelName: string,
+  notifications: NotificationType[]
+}
+
