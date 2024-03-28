@@ -93,15 +93,19 @@ export default function Dash() {
 
 
   return (
+
     <>
       {isLoading ? (
-        <Loading />
-      ) :
+        <div className="w-full h-screen fixed  flex flex-row justify-center items-center">
+          <Loading />
+        </div>
+      ) : (
+
         <div
           id="dashWrapper"
-          className="w-full flex flex-row pl-[30px] pr-[30px] pt-[30px] relative border-tapeRed"
+          className="w-full h-screen flex flex-row pl-[30px] pr-[30px] pt-[30px] relative "
         >
-          <div id="dash-inner" className="relative">
+          <div id="dash-inner" className="w-full h-screen relative ">
             <div
               id="nav"
               className="w-full flex flex-row justify-between items-center pb-[10px] mb-[30px] bg-tapeDarkBlack absolute z-50"
@@ -159,8 +163,8 @@ export default function Dash() {
                     >
                       <button
                         className={`mr-[10px] pl-[15px] pr-[15px] pt-[7px] pb-[7px] text-[14px] border-tapeWhite border-[1px] rounded-full font-medium hover:bg-tapeWhite hover:text-tapeDarkBlack cursor-pointer ${sorting === "members"
-                            ? "text-tapeBlack bg-tapeWhite"
-                            : "text-tapeWhite"
+                          ? "text-tapeBlack bg-tapeWhite"
+                          : "text-tapeWhite"
                           }`}
                         onClick={() => setSorting("members")}
                       >
@@ -168,8 +172,8 @@ export default function Dash() {
                       </button>
                       <button
                         className={`mr-[10px] pl-[15px] pr-[15px] pt-[7px] pb-[7px] text-[14px] border-tapeWhite border-[1px] rounded-full font-medium hover:bg-tapeWhite hover:text-tapeDarkBlack cursor-pointer ${sorting === "mixtapes"
-                            ? "text-tapeBlack bg-tapeWhite"
-                            : "text-tapeWhite"
+                          ? "text-tapeBlack bg-tapeWhite"
+                          : "text-tapeWhite"
                           }`}
                         onClick={() => setSorting("mixtapes")}
                       >
@@ -177,8 +181,8 @@ export default function Dash() {
                       </button>
                       <button
                         className={`p-[7px] text-[14px] border-[1px] border-tapeWhite rounded-full font-medium hover:bg-tapeWhite hover:text-tapeBlack cursor-pointer ${showForm
-                            ? "text-tapeBlack bg-tapeWhite"
-                            : "text-tapeWhite bg-tapeBlack"
+                          ? "text-tapeBlack bg-tapeWhite"
+                          : "text-tapeWhite bg-tapeBlack"
                           }`}
                         onClick={toggleAddForm}
                       >
@@ -241,7 +245,8 @@ export default function Dash() {
           )}
 
           <Player />
-        </div>}
-    </>
+
+        </div>)}
+      </>
   );
 }
