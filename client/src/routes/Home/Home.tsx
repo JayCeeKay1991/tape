@@ -6,6 +6,8 @@ import keyImage from '@/assets/svg/key-image.svg';
 import bigVis from '@/assets/svg/big-vis.svg';
 import img1 from '@/assets/img/pexels-anastasia-shuraeva-5704849.jpg';
 import img2 from '@/assets/img/pexels-juan-gomez-2589650.jpg';
+import img3 from '@/assets/img/pexels-sindre-fs-1040880.jpg';
+import img4 from '@/assets/img/pexels-vazhnik-7562313.jpg';
 import './Home.css';
 import LoginSignup from '@/components/LoginSignup/LoginSignup';
 
@@ -86,10 +88,10 @@ const Home = () => {
             How it works
           </h3>
           <div id="img-crop11" className="">
-            <img src={img1} id="img11" className="absolute "></img>
+            <img src={img3} id="img11" className="absolute "></img>
           </div>
           <div id="img-crop22" className="">
-            <img src={img2} id="img22" className="absolute "></img>
+            <img src={img4} id="img22" className="absolute "></img>
           </div>
           <img src={keyImage} id="key-image"></img>
           <h2 className="text-[30px] mb-[40px] font-medium text-tapeBlack">
