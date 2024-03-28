@@ -179,9 +179,9 @@ export default function UserDetails() {
                 value={formValuesProfile.username}
                 required={true}
               />
-              <div>
+              <div className='flex justify-end items-center'>
                 <button
-                  className="rounded-full h-5 w-10 flex  p-1 pb-2 items-center ml-12 mr-5"
+                  className="rounded-full h-5 w-10 flex  p-2 items-center ml-12 mr-5"
                   onClick={handleEdit}
                   id="username"
                   data-testid="edit-username-button"
@@ -189,7 +189,7 @@ export default function UserDetails() {
                   cancel
                 </button>
                 <button
-                  className="rounded-full h-5 w-10 flex p-1 pb-2 items-center bg-tapeGray"
+                  className="rounded-full h-[20px] ml-[15px] flex p-2 items-center bg-tapeGray"
                   type="submit"
                   name='username'
                 >
@@ -236,17 +236,17 @@ export default function UserDetails() {
                   value={formValuesProfile.email}
                   required={true}
                 />
-                <div className="flex flex-row">
+              <div className='flex justify-end items-center'>
                   <button
-                    className="rounded-full h-5 w-10 flex  p-1 pb-2 items-center ml-12 mr-5"
-                    onClick={handleEdit}
+                  className="rounded-full h-5 w-10 flex  p-2 items-center ml-12 mr-5"
+                  onClick={handleEdit}
                     id="email"
                   >
                     cancel
                   </button>
                   <button
-                    className="rounded-full h-5 w-10 flex p-1 pb-2 items-center bg-tapeGray "
-                    type="submit"
+                  className="rounded-full h-[20px] ml-[15px] flex p-2 items-center bg-tapeGray"
+                  type="submit"
                   >
                     save
                   </button>
@@ -276,7 +276,7 @@ export default function UserDetails() {
                   onChange={changeHandler}
                   value={formValuesProfile.password}
                 />
-                <div className="flex flex-row">
+              <div className='flex justify-end items-center'>
                   <button
                     className="rounded-full h-5 w-10 flex  p-1 pb-2 items-center ml-12 mr-5"
                     onClick={handleEdit}
@@ -285,8 +285,8 @@ export default function UserDetails() {
                     cancel
                   </button>
                   <button
-                    className="rounded-full h-5 w-10 flex p-1 pb-2 items-center bg-tapeGray"
-                    type="submit"
+                  className="rounded-full h-[20px] ml-[15px] flex p-2 items-center bg-tapeGray"
+                  type="submit"
                   >
                     save
                   </button>
