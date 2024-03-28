@@ -1,4 +1,5 @@
 import { ChannelType } from "@/types/Channel";
+import { Dispatch, SetStateAction } from "react";
 
 // sort channelList by number  of members
   export const sortByMembers = (channelItems: ChannelType[]) => {
@@ -10,3 +11,7 @@ import { ChannelType } from "@/types/Channel";
     return channelItems.sort((a, b) => b.mixTapes.length - a.mixTapes.length);
   }
   
+  // update context channels
+  export const updateContextChannels = (setter: Dispatch<SetStateAction<ChannelType[]>>, updatedChannel: ChannelType) => {
+    setter(prev => [...prev.filter((channel) => channel._id !== updatedChannel._id), updatedChannel])
+  }

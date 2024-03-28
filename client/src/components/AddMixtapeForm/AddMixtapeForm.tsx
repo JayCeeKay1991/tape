@@ -9,11 +9,11 @@ import Loading from '../Loading/Loading';
 
 type AddMixtapeFormProps = {
   channelId: string;
-  channel: ChannelType;
-  setChannel: Dispatch<SetStateAction<ChannelType>>;
+  selectedChannel: ChannelType | null;
+  setSelectedChannel: Dispatch<SetStateAction<ChannelType | null>>;
 };
 
-const AddMixtapeForm = ({ channelId, channel, setChannel, }: AddMixtapeFormProps) => {
+const AddMixtapeForm = ({ channelId, selectedChannel, setSelectedChannel, }: AddMixtapeFormProps) => {
   const { user } = useMainContext();
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -128,10 +128,10 @@ const AddMixtapeForm = ({ channelId, channel, setChannel, }: AddMixtapeFormProps
       const newMixTape = await createMixTape(newMixtapeData);
       console.log(`newmixtape : ${newMixTape.name}`)
       const updatedChannel = {
-        ...channel,
-        mixTapes: [...channel.mixTapes, newMixTape],
+        ...selectedChannel,
+        mixTapes: [...selectedChannel.mixTapes, newMixTape],
       };
-      setChannel(updatedChannel);
+      setSelectedChannel(updatedChannel);
 
     } catch (error) {
       console.error(error);

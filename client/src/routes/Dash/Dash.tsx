@@ -16,11 +16,11 @@ import { NotificationType } from "@/types/Notification";
 
 
 export default function Dash() {
-  const { user } = useMainContext();
-  const [userChannels, setUserChannels] = useState<ChannelType[]>(
-    user.channels
-  );
-  const [channels, setChannels] = useState<ChannelType[]>([]);
+  const { user, channels, setChannels, friendsChannels, setFriendsChannels } = useMainContext();
+  // const [userChannels, setUserChannels] = useState<ChannelType[]>(
+  //   user.channels
+  // );
+  // const [channels, setChannels] = useState<ChannelType[]>([]);
 
   const [notifications, setNotifications] = useState<NotificationType[]>([])
   const [isSearchVisible, setIsSearchVisible] = useState(false);
@@ -29,28 +29,24 @@ export default function Dash() {
   const [sorting, setSorting] = useState<string>("none");
   const [searching, setSearching] = useState<boolean>(false);
   const [showChannel, setShowChannel] = useState(false);
-  const [selectedChannel, setSelectedChannel] = useState<ChannelType | null>(
-    null
-  );
+  const [selectedChannel, setSelectedChannel] = useState<ChannelType | null>(null);
 
   useEffect(() => {
     async function getAllChannels() {
-      const allChannels = await getChannelsUserMemberOf(user._id);
-      const userNotifications = allChannels.flatMap((channel) => channel.notifications).filter((not) => not.unNotifiedUsers.includes(user._id));
-      setChannels(allChannels);
+      // const allChannels = await getChannelsUserMemberOf(user._id);
+      const userNotifications = friendsChannels.flatMap((channel) => channel.notifications).filter((not) => not.unNotifiedUsers.includes(user._id));
       setNotifications(userNotifications);
-      setUserChannels(user.channels);
-      if (sorting === "none") {
-        setUserChannels(user.channels);
-      } else {
-        if (sorting === "members") {
-          setUserChannels(sortByMembers(userChannels));
-          setChannels(sortByMembers(channels));
-        } else {
-          setUserChannels(sortByMixtapes(userChannels));
-          setChannels(sortByMixtapes(channels));
-        }
-      }
+      // if (sorting === "none") {
+      //   setChannels(prev => prev.sort((a, b)=> ));
+      // } else {
+      //   if (sorting === "members") {
+      //     setUserChannels(sortByMembers(userChannels));
+      //     setChannels(sortByMembers(channels));
+      //   } else {
+      //     setUserChannels(sortByMixtapes(userChannels));
+      //     setChannels(sortByMixtapes(channels));
+      //   }
+      // }
     }
     getAllChannels();
   }, [user, sorting, searching]);
@@ -78,7 +74,7 @@ export default function Dash() {
       );
     });
 
-    const filteredUserChannels: ChannelType[] = userChannels.filter(
+    const filteredUserChannels: ChannelType[] = friendsChannels.filter(
       (channel) => {
         return Object.values(channel).some((value) =>
           value.toString().toLowerCase().trim().startsWith(searchValue)
@@ -87,8 +83,8 @@ export default function Dash() {
     );
 
     if (filteredChannels.length > 0 || filteredUserChannels.length > 0) {
-      setChannels(filteredChannels);
-      setUserChannels(filteredUserChannels);
+      setFriendsChannels(filteredChannels);
+      setChannels(filteredUserChannels);
     }
 
   }
@@ -147,7 +143,7 @@ export default function Dash() {
                 <div id="channel-details" className="">
                   <h2 className="text-[30px] font-semibold">Your channels</h2>
                   <p className="text-[15px] text-tapeDarkGrey">
-                    {userChannels.length} streams
+                    {channels.length} streams
                   </p>
                 </div>
 
@@ -190,8 +186,8 @@ export default function Dash() {
               </div>
 
               <div id="channel-list" className="flex gap-[20px] flex-wrap">
-                {userChannels.length
-                  ? userChannels.map((channel, index) => (
+                {channels.length
+                  ? channels.map((channel, index) => (
                       <ChannelItem
                         key={index}
                         channel={channel}
@@ -208,7 +204,7 @@ export default function Dash() {
               <div id="channel-details" className="mb-[30px]">
                 <h2 className="text-[30px] font-semibold">Friends channels</h2>
                 <p className="text-[15px] text-tapeDarkGrey">
-                  {channels.length} streams
+                  {friendsChannels.length} streams
                 </p>
               </div>
 
@@ -216,8 +212,8 @@ export default function Dash() {
                 id="membership-channels"
                 className="flex gap-[30px] flex-wrap"
               >
-                {channels.length > 0
-                  ? channels.map((channel, index) =>
+                {friendsChannels.length > 0
+                  ? friendsChannels.map((channel, index) =>
                       channel.owner.toString() === user._id ? null : (
                         <ChannelItem
                           key={index}
@@ -234,11 +230,10 @@ export default function Dash() {
           </div>
         </div>
       </div>
-      {showChannel && (
+      {selectedChannel && (
         <ChannelSideBar
           selectedChannel={selectedChannel}
-          showChannel={showChannel}
-          setShowChannel={setShowChannel}
+          setSelectedChannel={setSelectedChannel}
         />
       )}
 
