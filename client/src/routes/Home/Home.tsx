@@ -20,19 +20,13 @@ const Home = () => {
 
   return (
     <>
-      <Nav
-        toggleShowLogin={toggleShowLogin}
-        setFormValue={setFormValue}
-      />
+      <Nav toggleShowLogin={toggleShowLogin} setFormValue={setFormValue} />
 
       {loginVisible && (
         <LoginSignup formValue={formValue} toggleShowLogin={toggleShowLogin} />
       )}
 
-      <div
-        id="wrapper"
-        className="w-full h-full flex flex-col top-0"
-      >
+      <div id="wrapper" className="w-full h-full flex flex-col top-0">
         <section
           id="feature0"
           className="w-full h-screen flex flex-col justify-center top-0 "
@@ -42,7 +36,8 @@ const Home = () => {
               Make mixtape streams with your friends
             </h1>
             <p className="w-[470px] mb-[30px] font-regular text-[17px] leading-[20px]  text-tapeWhite">
-              Tape FM lets you upload mixes and  <br></br>share them in groups of your friends
+              Tape FM lets you upload mixes and <br></br>share them in groups of
+              your friends
             </p>
             <button
               onClick={() => {
@@ -60,15 +55,13 @@ const Home = () => {
           id="feature1"
           name="channels"
           className="w-full h-screen bg-tapeDarkBlack flex flex-row justify-center relative"
-          >
+        >
           <div
             id="feature-body1"
             className="w-full h-full flex flex-col align-middle p-[40px] text-center "
-            >
+          >
             <div className="mt-[100px] h-1/2  flex flex-col justify-between">
-
-              <h3 className="text-[15px] font-medium mt-[10px] text-tapeWhite"
-                >
+              <h3 className="text-[15px] font-medium mt-[10px] text-tapeWhite">
                 Tape channels
               </h3>
               <h1 className="text-[80px] font-medium leading-[90px] text-tapeWhite">
@@ -87,11 +80,17 @@ const Home = () => {
         <section
           id="feature2"
           name="interact"
-          className="h-screen w-full bg-tapeWhite flex flex-col text-center justify-between"
+          className="h-screen w-full bg-tapeWhite flex flex-col text-center justify-between relative"
         >
           <h3 className="text-[20px] text-tapeBlack font-medium mt-[20px]">
             How it works
           </h3>
+          <div id="img-crop11" className="">
+            <img src={img1} id="img11" className="absolute "></img>
+          </div>
+          <div id="img-crop22" className="">
+            <img src={img2} id="img22" className="absolute "></img>
+          </div>
           <img src={keyImage} id="key-image"></img>
           <h2 className="text-[30px] mb-[40px] font-medium text-tapeBlack">
             You can add a mixtape to the stream and playback
