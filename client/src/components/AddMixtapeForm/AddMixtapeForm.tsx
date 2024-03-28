@@ -128,8 +128,8 @@ const AddMixtapeForm = ({ channelId, selectedChannel, setSelectedChannel, }: Add
       const newMixTape = await createMixTape(newMixtapeData);
       console.log(`newmixtape : ${newMixTape.name}`)
       const updatedChannel = {
-        ...selectedChannel,
-        mixTapes: [...selectedChannel.mixTapes, newMixTape],
+        ...selectedChannel!,
+        mixTapes: [...selectedChannel!.mixTapes, newMixTape],
       };
       setSelectedChannel(updatedChannel);
 
@@ -145,11 +145,10 @@ const AddMixtapeForm = ({ channelId, selectedChannel, setSelectedChannel, }: Add
       <div {...getRootProps()} className='flex flex-col items-center' >
         <div>
           <div>
-            <PiUploadSimple size={120} className='text-tapeDarkGrey m-5' />
+          {uploading ? <Loading/> :<PiUploadSimple size={120} className='text-tapeDarkGrey m-5'/> }
           </div>
         </div>
-        {uploading? <Loading/> : <></>}
-        <p>Or</p>
+        {uploading? <></> :  <p>Or</p> }
         <button type='button' className='rounded-full border-[2px] border-tapeDarkGrey w-[150px] p-[5px] m-8' onClick={handleChooseFilesClick} disabled={uploading}>Choose files</button>
       </div>
       <input name="file" type="file" onChange={handleFileSelect} className='hidden' ref={fileInputRef} disabled={uploading} accept=".aac, .mp3, .mpga, .m4a, .ogg, .oga, .wav, .weba, .flac"></input>
