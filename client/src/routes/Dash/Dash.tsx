@@ -2,12 +2,10 @@ import { useState, useEffect, ChangeEvent } from "react";
 import { useMainContext } from "@/components/Context/Context";
 import AddChannelForm from "@/components/AddChannelForm/AddChannelForm";
 import ChannelItem from "@/components/ChannelItem/ChannelItem";
-import { getChannelsUserMemberOf } from "@/services/ChannelClientService";
 import { ChannelType } from "@/types/Channel";
 import AppNav from "@/components/AppNav/AppNav";
 import { IoSearch } from "react-icons/io5";
 import ChannelSideBar from "@/components/ChannelSideBar/ChannelSideBar";
-import { sortByMembers, sortByMixtapes } from "@/utils/sortingUtils";
 import Player from "@/components/Player/Player";
 import { IoAddSharp } from "react-icons/io5";
 import Notifications from '@/components/Notification/NotificationItem';
@@ -23,7 +21,6 @@ export default function Dash() {
   const [showForm, setShowForm] = useState(false);
   const [sorting, setSorting] = useState<string>("none");
   const [searching, setSearching] = useState<boolean>(false);
-  const [showChannel, setShowChannel] = useState(false);
   const [selectedChannel, setSelectedChannel] = useState<ChannelType | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -199,8 +196,6 @@ export default function Dash() {
                           key={index}
                           channel={channel}
                           setSelectedChannel={setSelectedChannel}
-                          showChannel={showChannel}
-                          setShowChannel={setShowChannel}
                         />
                       ))
                       : "No channels yet."}
@@ -226,8 +221,6 @@ export default function Dash() {
                             key={index}
                             channel={channel}
                             setSelectedChannel={setSelectedChannel}
-                            showChannel={showChannel}
-                            setShowChannel={setShowChannel}
                           />
                         )
                       )

@@ -3,7 +3,7 @@ import React, { Dispatch, SetStateAction } from 'react';
 // types
 import { ChannelType } from '@/types/Channel';
 // services
-import { getChannel, deleteChannel } from '@/services/ChannelClientService';
+import { deleteChannel } from '@/services/ChannelClientService';
 import {
   deleteImageFromCoudinary,
   deleteMixesFromCloudinary,
@@ -21,7 +21,7 @@ import { RiDeleteBin5Line } from "react-icons/ri";
 
 
 // utils
-import ConfirmationDialog from '@/utils/ConfirmationDialog';
+import ConfirmationDialog from '@/components/ConfirmationDialog/ConfirmationDialog';
 import { updateContextChannels } from '@/utils/sortingUtils';
 
 type ChannelItemProps = {
@@ -34,7 +34,7 @@ const ChannelSideBar = ({
   setSelectedChannel,
 }: ChannelItemProps) => {
   const { user, setUser, setChannels, setFriendsChannels, channels } = useMainContext();
-  
+
 
   useEffect(() => {
     // update context channels

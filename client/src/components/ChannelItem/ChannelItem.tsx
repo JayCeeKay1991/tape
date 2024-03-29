@@ -1,5 +1,5 @@
 
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { useState } from "react";
 import { usePlayerContext } from "../Context/PlayerContext";
 import { generateStream } from "@/utils/streamCreationHelpers";
 import { ChannelType, } from '@/types/Channel';
@@ -8,17 +8,14 @@ import { IoMdPlay } from "react-icons/io";
 type ChannelItemProps = {
   channel: ChannelType;
   setSelectedChannel: (channel: ChannelType) => void;
-  showChannel: boolean;
-  setShowChannel: Dispatch<SetStateAction<boolean>>;
 };
 
-const ChannelItem = ({ channel, setSelectedChannel, showChannel, setShowChannel }: ChannelItemProps) => {
+const ChannelItem = ({ channel, setSelectedChannel }: ChannelItemProps) => {
   const [isPlayClicked, setIsPlayClicked] = useState<boolean>(false);
   const {currentStream, streamIndex, setStreamIndex, setPlaying, setCurrentStream } = usePlayerContext();
 
   const handleClick = () => {
     setSelectedChannel(channel)
-    setShowChannel(true)
   }
 
   const playChannel = async () => {

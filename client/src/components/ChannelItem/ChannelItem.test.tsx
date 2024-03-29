@@ -1,13 +1,18 @@
 import ChannelItem from './ChannelItem';
 import { render, screen } from '@/test/testConfig';
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { channels } from '@/test/mocks';
 import { MemoryRouter as Router } from 'react-router-dom';
 
 beforeEach(() => {
+
+  const setSelectedChannel = vi.fn();
+  const setShowChannel = vi.fn();
+  const channel = channels[0];
+
   render(
     <Router>
-      <ChannelItem channel={channels[0]} />
+      <ChannelItem channel={channel} setSelectedChannel={setSelectedChannel} setShowChannel={setShowChannel} />
     </Router>
   );
 });
