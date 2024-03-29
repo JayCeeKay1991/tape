@@ -4,8 +4,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import App from './components/App/App';
 import Home from './routes/Home/Home';
 import Dash from './routes/Dash/Dash';
-import UserDetails from './components/UserDetails/UserDetails';
-import Channel from './routes/Channel/Channel';
+import UserDetails from './routes/UserDetails/UserDetails';
+
 import './index.css';
 import ContextProvider from './components/Context/Context';
 
@@ -29,12 +29,8 @@ const router = createBrowserRouter([
       {
         path: '/user',
         element: <UserDetails />,
-      },
-      {
-        path: '/channels/:id',
-        element: <Channel />,
-      },
-    ],
+      }
+    ]
   },
 ]);
 

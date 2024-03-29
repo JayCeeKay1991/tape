@@ -21,7 +21,6 @@ export default function Dash() {
   const [showForm, setShowForm] = useState(false);
   const [sorting, setSorting] = useState<string>("none");
   const [searching, setSearching] = useState<boolean>(false);
-  const [showChannel, setShowChannel] = useState(false);
   const [selectedChannel, setSelectedChannel] = useState<ChannelType | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
@@ -197,8 +196,6 @@ export default function Dash() {
                           key={index}
                           channel={channel}
                           setSelectedChannel={setSelectedChannel}
-                          showChannel={showChannel}
-                          setShowChannel={setShowChannel}
                         />
                       ))
                       : "No channels yet."}
@@ -224,8 +221,6 @@ export default function Dash() {
                             key={index}
                             channel={channel}
                             setSelectedChannel={setSelectedChannel}
-                            showChannel={showChannel}
-                            setShowChannel={setShowChannel}
                           />
                         )
                       )

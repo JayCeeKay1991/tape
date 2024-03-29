@@ -1,12 +1,12 @@
 import { useState, useRef } from 'react';
 import './UserDetails.css';
-import { useMainContext } from '../Context/Context';
+import { useMainContext } from '../../components/Context/Context';
 import { updateUser } from '../../services/UserClientService';
 import { User } from '../../types/User';
 import { postImageToCloudinary } from '../../services/CloudinaryService';
 import { HiPlus } from 'react-icons/hi2';
 import { GoPencil } from 'react-icons/go';
-import AppNav from '../AppNav/AppNav';
+import AppNav from '../../components/AppNav/AppNav';
 import { MdHome } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 
