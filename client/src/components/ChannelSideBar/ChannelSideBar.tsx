@@ -21,7 +21,7 @@ import { RiDeleteBin5Line } from "react-icons/ri";
 
 
 // utils
-import ConfirmationDialog from '@/components/ConfirmationDialog/ConfirmationDialog';
+import ConfirmationDialog from '@/components/ConfirmationDialogue/ConfirmationDialog';
 import { updateContextChannels } from '@/utils/sortingUtils';
 
 type ChannelItemProps = {
