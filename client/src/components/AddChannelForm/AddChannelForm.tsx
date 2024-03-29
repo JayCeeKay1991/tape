@@ -14,7 +14,7 @@ type propsType = {
 export default function AddChannelForm({
   setShowForm,
 }: propsType) {
-  const { user, setUser } = useMainContext();
+  const { user, setChannels} = useMainContext();
 
   const initialState = {
     name: '',
@@ -86,7 +86,7 @@ export default function AddChannelForm({
 
     try {
       const newChannel = await createChannel(newChannelData);
-      setUser(prev =>( {...prev, channels: [...prev.channels, newChannel]}))
+      setChannels(prev => [...prev, newChannel])
       setFormValues(initialState);
       setShowForm(false);
       setPictureFile(null);
