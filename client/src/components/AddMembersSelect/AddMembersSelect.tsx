@@ -56,7 +56,7 @@ const AddMembersSelect = ({ selectedChannel, setSelectedChannel, toggleMemberFor
         // add new user to channel on back end
         const id = selectedChannel._id;
         const updatedChannel = await addUserToChannel(id, user._id);
-        
+
         setSelectedChannel(updatedChannel);
       }
       toggleMemberForm();
@@ -84,7 +84,7 @@ const AddMembersSelect = ({ selectedChannel, setSelectedChannel, toggleMemberFor
 
   return (
 
-    <div className="flex flex-col w-[400px] z-50 pb-[10px] rounded bg-tapeBlack pl-[20px] pr-[10px] absolute">
+    <div className="flex flex-col w-[400px] z-50 pb-[10px] rounded-[10px] bg-tapeBlack pl-[20px] pr-[10px] absolute top-[200px] border-solid border-1 border-tapeDarkGray">
 
       <input
         name="user-search"
@@ -93,7 +93,7 @@ const AddMembersSelect = ({ selectedChannel, setSelectedChannel, toggleMemberFor
         onChange={handleChange}
         value={searchQuery}
 
-        className="h-[0px] pr-[30px] pb-[20px] pt-[50px] border-tapeDarkGrey bg-tapeBlack border-none text-[25px] text-tapeWhite font-medium outline-none text-left"
+        className="h-[0px] pr-[30px] pb-[20px] pt-[50px] border-tapeDarkGrey bg-tapeBlack border-none text-[22px] text-tapeWhite font-medium outline-none text-left"
       />
       <hr className="w-11/12 border-tapeDarkGrey"></hr>
 

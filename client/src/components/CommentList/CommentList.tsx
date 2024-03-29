@@ -97,7 +97,7 @@ function CommentList({ channel }: propsType) {
         <input
           value={formValue}
           onChange={handleChange}
-          className="bg-tapeBlack w-full  h-[40px] align-top leading-[0px] pl-[20px] text-tapeBlack border-[2px] border-tapeDarkGrey text-[12px] font-medium outline-none placeholder-tapeDarkGrey rounded-full"
+          className="text-tapeDarkGrey bg-tapeBlack w-full  h-[40px] align-top leading-[0px] pl-[20px] text-tapeBlack border-[2px] border-tapeDarkGrey text-[12px] font-medium outline-none placeholder-tapeDarkGrey rounded-full"
         ></input>
         <button
           type="submit"
