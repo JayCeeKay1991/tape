@@ -5,16 +5,16 @@ import { channels } from "@/test/mocks";
 
 
 describe('Form is correctly rendered', async () => {
-  const setChannel = vi.fn();
+  const setSelectedChannel = vi.fn();
   const channelId = channels[0]._id;
-  const channel = channels[0];
+  const selectedChannel = channels[0];
 
   beforeEach(() => {
     render(
       <AddMixtapeForm
         channelId={channelId}
-        channel={channel}
-        setChannel={setChannel}
+        selectedChannel={selectedChannel}
+        setSelectedChannel={setSelectedChannel}
       />
     );
   });

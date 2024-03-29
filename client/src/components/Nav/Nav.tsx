@@ -11,12 +11,12 @@ type propsType = {
 const Nav = ({ toggleShowLogin, setFormValue }: propsType) => {
 
   const scrollToChannels = () => {
-    scroller.scrollTo('channels', {
+    scroller.scrollTo('feature1', {
       smooth: true
     });
   };
   const scrollToInteractivity = () => {
-    scroller.scrollTo('interact', {
+    scroller.scrollTo('feature2', {
       smooth: true,
       offset: -90
     });

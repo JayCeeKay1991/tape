@@ -156,8 +156,8 @@ const Channel = () => {
               </button>
               {showMemberForm && (
                 <AddMembersSelect
-                  channel={channel}
-                  setChannel={setChannel}
+                  selectedChannel={channel}
+                  setSelectedChannel={setChannel}
                   toggleMemberForm={toggleMemberForm}
                 />
               )}

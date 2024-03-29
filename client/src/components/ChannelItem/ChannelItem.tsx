@@ -8,11 +8,10 @@ import { IoMdPlay } from "react-icons/io";
 type ChannelItemProps = {
   channel: ChannelType;
   setSelectedChannel: (channel: ChannelType) => void;
-  showChannel: boolean;
   setShowChannel: Dispatch<SetStateAction<boolean>>;
 };
 
-const ChannelItem = ({ channel, setSelectedChannel, showChannel, setShowChannel }: ChannelItemProps) => {
+const ChannelItem = ({ channel, setSelectedChannel, setShowChannel }: ChannelItemProps) => {
   const [isPlayClicked, setIsPlayClicked] = useState<boolean>(false);
   const {currentStream, streamIndex, setStreamIndex, setPlaying, setCurrentStream } = usePlayerContext();
 

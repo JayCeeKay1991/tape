@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import Nav from '@/components/Nav/Nav';
-import hero from '@/assets/svg/hero-bg.svg';
 import logo from '@/assets/svg/logo.svg';
 import keyImage from '@/assets/svg/key-image.svg';
 import bigVis from '@/assets/svg/big-vis.svg';
@@ -55,7 +54,6 @@ const Home = () => {
 
         <section
           id="feature1"
-          name="channels"
           className="w-full h-screen bg-tapeDarkBlack flex flex-row justify-center relative"
         >
           <div
@@ -81,7 +79,6 @@ const Home = () => {
 
         <section
           id="feature2"
-          name="interact"
           className="h-screen w-full bg-tapeWhite flex flex-col text-center justify-between relative"
         >
           <h3 className="text-[20px] text-tapeBlack font-medium mt-[20px]">

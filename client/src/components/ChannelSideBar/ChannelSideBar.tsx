@@ -3,7 +3,7 @@ import React, { Dispatch, SetStateAction } from 'react';
 // types
 import { ChannelType } from '@/types/Channel';
 // services
-import { getChannel, deleteChannel } from '@/services/ChannelClientService';
+import { deleteChannel } from '@/services/ChannelClientService';
 import {
   deleteImageFromCoudinary,
   deleteMixesFromCloudinary,
@@ -34,7 +34,7 @@ const ChannelSideBar = ({
   setSelectedChannel,
 }: ChannelItemProps) => {
   const { user, setUser, setChannels, setFriendsChannels, channels } = useMainContext();
-  
+
 
   useEffect(() => {
     // update context channels
