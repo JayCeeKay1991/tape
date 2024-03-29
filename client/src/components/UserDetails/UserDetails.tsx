@@ -6,6 +6,10 @@ import { User } from '../../types/User';
 import { postImageToCloudinary } from '../../services/CloudinaryService';
 import { HiPlus } from 'react-icons/hi2';
 import { GoPencil } from 'react-icons/go';
+import AppNav from '../AppNav/AppNav';
+import { MdHome } from 'react-icons/md';
+import { Link } from 'react-router-dom';
+
 export type FormValuesUserProfile = {
   username: string;
   email: string;
@@ -123,6 +127,11 @@ export default function UserDetails() {
     }
   }
   return (
+    <div id='details-with-nav' className='flex flex-col'>
+      <div id="nav-userdetails" className='flex justify-between align-center m-7' >
+        <Link to={`/dash`}> <MdHome size={30} className='' /> </Link>
+        <AppNav />
+      </div>
       <div className='w-full h-screen flex justify-center items-center '>
     <div className="flex flex-col bg-tapeDarkBlack justify-center items-center w-[350px] h-[600px] rounded-[20px] border-[1px] ">
       <form
@@ -305,5 +314,8 @@ export default function UserDetails() {
       </div>
     </div>
     </div>
+    </ div>
   );
 }
+
+

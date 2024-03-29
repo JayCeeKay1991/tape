@@ -1,6 +1,5 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { useMainContext, initialStateUser } from '@/components/Context/Context';
-import { MdHome } from 'react-icons/md';
 import { FiLogOut } from 'react-icons/fi';
 import { logout } from '@/services/UserClientService';
 import { usePlayerContext } from '../Context/PlayerContext';
@@ -8,7 +7,6 @@ import { usePlayerContext } from '../Context/PlayerContext';
 const AppNav = () => {
   const { user, setUser } = useMainContext();
   const {setCurrentStream, currentStream, streamIndex} = usePlayerContext();
-
 
   const navigate = useNavigate();
 
@@ -26,9 +24,8 @@ const AppNav = () => {
     }
   };
 
-
   return (
-    <nav className=" flex flex-row items-center">
+    <nav className=" flex flex-row items-center self-end">
         <button
           className="bg-none text-tapeWhite border-[1px] border-tapeWhite flex flex-row justify-center items-center rounded-full mr-[15px] w-[45px] h-[45px] hover:bg-tapeWhite hover:text-tapeDarkBlack "
           onClick={handleLogout}
