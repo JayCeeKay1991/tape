@@ -73,6 +73,8 @@ export default function Dash() {
   const search = (e: ChangeEvent<HTMLInputElement>) => {
     console.log(`searching ${e.target.value}`);
     if (e.target.value === "") {
+      setSearchedChannels([])
+      setSearchedFriendsChannels([])
       return;
     }
     const searchValue = e.target.value.toLowerCase().trim();
