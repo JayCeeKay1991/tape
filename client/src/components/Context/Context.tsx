@@ -68,6 +68,7 @@ export default function ContextProvider({ children }: PropsWithChildren) {
         // get user profile if there is a session
         const userProfile = await getProfile();
         if (userProfile) {
+          console.log('💚', userProfile)
           // if there is a profile in the session, get user by id, here we use get user by id, because it populates the user
           const foundUser = await getUserById(userProfile._id);
           if (foundUser) {
