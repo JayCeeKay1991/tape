@@ -7,12 +7,11 @@ import { MemoryRouter as Router } from 'react-router-dom';
 beforeEach(() => {
 
   const setSelectedChannel = vi.fn();
-  const setShowChannel = vi.fn();
   const channel = channels[0];
 
   render(
     <Router>
-      <ChannelItem channel={channel} setSelectedChannel={setSelectedChannel} setShowChannel={setShowChannel} />
+      <ChannelItem channel={channel} setSelectedChannel={setSelectedChannel} />
     </Router>
   );
 });
