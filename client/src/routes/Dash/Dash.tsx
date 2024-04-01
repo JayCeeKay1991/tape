@@ -1,47 +1,59 @@
 import { useState, useEffect, ChangeEvent } from "react";
+// components
 import { useMainContext } from "@/components/Context/Context";
 import AddChannelForm from "@/components/AddChannelForm/AddChannelForm";
 import ChannelItem from "@/components/ChannelItem/ChannelItem";
-import { ChannelType } from "@/types/Channel";
 import AppNav from "@/components/AppNav/AppNav";
-import { IoSearch } from "react-icons/io5";
-import ChannelSideBar from "@/components/ChannelSideBar/ChannelSideBar";
-import Player from "@/components/Player/Player";
-import { IoAddSharp } from "react-icons/io5";
 import Notifications from '@/components/Notification/NotificationItem';
 import NotificationsCarousel from "@/components/NotificationsCarousel/NotificationsCarousel";
-import { NotificationType } from "@/types/Notification";
+import Player from "@/components/Player/Player";
 import Loading from "@/components/Loading/Loading";
+import ChannelSideBar from "@/components/ChannelSideBar/ChannelSideBar";
+// types
+import { ChannelType } from "@/types/Channel";
+import { NotificationType } from "@/types/Notification";
+// styling
+import { IoSearch } from "react-icons/io5";
+import { IoAddSharp } from "react-icons/io5";
+// utils
+import { sortByMembers, sortByMixtapes } from "@/utils/sortingUtils";
 
 
 export default function Dash() {
   const { user, channels, setChannels, friendsChannels, setFriendsChannels } = useMainContext();
+  const [searchedChannels, setSearchedChannels] = useState<ChannelType[]>([])
+  const [searchedFriendsChannels, setSearchedFriendsChannels] = useState<ChannelType[]>([])
   const [notifications, setNotifications] = useState<NotificationType[]>([])
   const [isSearchVisible, setIsSearchVisible] = useState(false);
   const [showForm, setShowForm] = useState(false);
   const [sorting, setSorting] = useState<string>("none");
-  const [searching, setSearching] = useState<boolean>(false);
   const [selectedChannel, setSelectedChannel] = useState<ChannelType | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
 
+  // Populate notifications
   useEffect(() => {
     async function getAllChannels() {
+      console.log(friendsChannels)
       const userNotifications = friendsChannels.flatMap((channel) => channel.notifications).filter((not) => not.unNotifiedUsers.includes(user._id));
       setNotifications(userNotifications);
-      // if (sorting === "none") {
-      //   setChannels(prev => prev.sort((a, b)=> ));
-      // } else {
-      //   if (sorting === "members") {
-      //     setUserChannels(sortByMembers(userChannels));
-      //     setChannels(sortByMembers(channels));
-      //   } else {
-      //     setUserChannels(sortByMixtapes(userChannels));
-      //     setChannels(sortByMixtapes(channels));
-      //   }
-      // }
     }
     getAllChannels();
-  }, [user, sorting, searching]);
+  }, [user]);
+
+  // handle sorting
+  useEffect(() => {
+    if (sorting === "none") {
+      return
+    } else {
+      if (sorting === "members") {
+        setChannels(prev => sortByMembers(prev));
+        setFriendsChannels(prev => sortByMembers(prev));
+      } else {
+        setChannels(prev => sortByMixtapes(prev));
+        setFriendsChannels(prev => sortByMixtapes(prev));
+      }
+    }
+  }, [sorting]);
 
   useEffect(() => {
     const delay = setTimeout(() => {
@@ -61,33 +73,27 @@ export default function Dash() {
   const search = (e: ChangeEvent<HTMLInputElement>) => {
     console.log(`searching ${e.target.value}`);
     if (e.target.value === "") {
-      setSearching(false);
       return;
     }
     const searchValue = e.target.value.toLowerCase().trim();
-    setSearching(true);
 
-    const filteredChannels: ChannelType[] = channels.filter((channel) => {
-      return Object.values(channel).some((value) =>
-        value.toString().toLowerCase().trim().startsWith(searchValue)
-      );
-    });
-
-    const filteredUserChannels: ChannelType[] = friendsChannels.filter(
+    const filteredUserChannels: ChannelType[] = channels.filter(
       (channel) => {
         return Object.values(channel).some((value) =>
-          value.toString().toLowerCase().trim().startsWith(searchValue)
+          value.toString().toLowerCase().startsWith(searchValue)
         );
       }
     );
 
-    if (filteredChannels.length > 0 || filteredUserChannels.length > 0) {
-      setFriendsChannels(filteredChannels);
-      setChannels(filteredUserChannels);
-    }
+    const filteredFriendsChannels: ChannelType[] = friendsChannels.filter((channel) => {
+      return Object.values(channel).some((value) =>
+        value.toString().toLowerCase().startsWith(searchValue)
+      );
+    });
 
+    setSearchedChannels(filteredUserChannels);
+    setSearchedFriendsChannels(filteredFriendsChannels);
   }
-
 
   return (
 
@@ -190,15 +196,22 @@ export default function Dash() {
                   </div>
 
                   <div id="channel-list" className="flex gap-[20px] flex-wrap">
-                    {channels.length
-                      ? channels.map((channel, index) => (
-                        <ChannelItem
-                          key={index}
-                          channel={channel}
-                          setSelectedChannel={setSelectedChannel}
-                        />
-                      ))
-                      : "No channels yet."}
+                    {searchedChannels.length ? searchedChannels.map((channel, index) => (
+                      <ChannelItem
+                        key={index}
+                        channel={channel}
+                        setSelectedChannel={setSelectedChannel}
+                      />
+                    )) :
+                      channels.length
+                        ? channels.map((channel, index) => (
+                          <ChannelItem
+                            key={index}
+                            channel={channel}
+                            setSelectedChannel={setSelectedChannel}
+                          />
+                        ))
+                        : "No channels yet."}
                   </div>
                 </div>
 
@@ -214,7 +227,14 @@ export default function Dash() {
                     id="membership-channels"
                     className="flex gap-[30px] flex-wrap"
                   >
-                    {friendsChannels.length > 0
+                     {searchedFriendsChannels.length ? searchedFriendsChannels.map((channel, index) => (
+                      <ChannelItem
+                        key={index}
+                        channel={channel}
+                        setSelectedChannel={setSelectedChannel}
+                      />
+                    )) :
+                    friendsChannels.length > 0
                       ? friendsChannels.map((channel, index) =>
                         channel.owner.toString() === user._id ? null : (
                           <ChannelItem
@@ -240,6 +260,6 @@ export default function Dash() {
           <Player />
 
         </div>)}
-      </>
+    </>
   );
 }
