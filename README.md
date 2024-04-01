@@ -1,6 +1,8 @@
 # Tape FM
 
-Tape FM is a co-created music mixtape streaming platform. Users can be membrs of channels, where they share music mixes with each other. The mixes are combined to a stream belonging to its respective channel.
+Tape FM is a co-created music mixtape streaming platform. Users can be members of channels, where they share music mixes with each other. The mixes are combined to a stream belonging to its respective channel.
+
+<img width="450" alt="desktop-preview" src="https://github.com/JayCeeKay1991/tape/assets/70958275/91dcb405-ee86-4b7e-9cda-c4890c122027">
 
 
 
