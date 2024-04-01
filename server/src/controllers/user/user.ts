@@ -240,7 +240,7 @@ export const profile = async (req: CustomRequest, res: Response) => {
   try {
     res.status(200).send(req.user);
   } catch {
-    res.status(404).send({ Error, message: 'User not found' });
+    res.status(500).send({ Error, message: 'An unexpected error occured.' });
   }
 };
 

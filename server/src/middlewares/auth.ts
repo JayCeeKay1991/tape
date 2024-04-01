@@ -21,14 +21,13 @@ const authMiddleware = async (
 ) => {
   try {
     const uid = req.session?.uid;
-    if (!uid) throw new Error();
+    if (!uid) throw new Error('No user id');
     const user = await UserModel.findOne({ _id: uid });
-    if (!user) throw new Error();
+    if (!user) throw new Error('No user found');
     req.user = user;
     next();
-    return;
   } catch (error) {
-    return res.sendStatus(401);
+    return res.sendStatus(500).send(error);
   }
 };
 
