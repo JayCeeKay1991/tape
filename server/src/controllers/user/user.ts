@@ -113,9 +113,8 @@ export const login = async (req: CustomRequest, res: Response) => {
     }
 
     // SESSION !!!!
-    if (req.session) {
+
       req.session.uid = user._id.toString();
-    }
 
     // if everything correct, send the user
     res.status(200).json(user);
