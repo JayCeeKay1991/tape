@@ -30,9 +30,7 @@ import {
 const router = express.Router();
 
 router.get('/users', getAllUsers);
-
 router.get('/users/:userId', getUserById);
-
 router.post('/users/login', login);
 router.post('/users', createUser);
 router.put('/users/:id', editUser);
@@ -46,12 +44,8 @@ router.delete('/channels/:channelId/', deleteChannel);
 router.get('/dash/:userId', getChannelsByUser);
 
 router.post('/mixtape', createMixTape);
-
-
-// router.put("/notifications/:userId", updateNotification);
 router.put("/notifications/:userId", deleteNotifications);
 
-// router.put('/notifications/:userId', updateNotification);
 // for session
 router.get('/me', authMiddleware, profile);
 router.post('/logout', authMiddleware, logout);

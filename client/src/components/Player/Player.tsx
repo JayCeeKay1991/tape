@@ -28,7 +28,6 @@ const Player = () => {
 
     useEffect(() => {
         // Re-render when current stream or index changes
-        console.log('re rendering player')
         if (progressBarRef.current) {
             progressBarRef.current.value = '0';
         }
@@ -36,7 +35,6 @@ const Player = () => {
             currentStream[streamIndex].play()
             setPlaying(true);
             setPlaybackPosition(0)
-            console.log('playing', currentStream[streamIndex])
         }
     }, [currentStream, streamIndex]);
 
@@ -47,7 +45,6 @@ const Player = () => {
 
 
     const play = () => {
-        console.log('play clicked', currentStream[streamIndex]);
         if (!currentStream[streamIndex]) return;
         if (currentStream[streamIndex].playing()) return;
         currentStream[streamIndex].play();
@@ -55,7 +52,6 @@ const Player = () => {
     };
 
     const pause = () => {
-        console.log('pause clicked', currentStream[streamIndex]);
         if (!currentStream[streamIndex]) return;
         if (!currentStream[streamIndex].playing()) return;
         currentStream[streamIndex].pause();
