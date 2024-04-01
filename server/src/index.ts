@@ -11,7 +11,7 @@ export const app = express();
 // Allow requests from the specified origin
 app.use(
   cors({
-    origin: 'http://localhost:5173',
+    origin: ['http://localhost:5173', 'https://tapefm.netlify.app'],
     credentials: true, // Allow credentials (e.g., cookies)
   })
 );
