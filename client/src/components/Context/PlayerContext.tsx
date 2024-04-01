@@ -12,7 +12,7 @@ import { Howl } from 'howler';
 
 
 type PlayerContext = {
-    
+
     // current stream of mixtapes, rendered by channel
     currentStream: Howl[];
     setCurrentStream: Dispatch<SetStateAction<Howl[]>>;
@@ -65,12 +65,11 @@ export default function ContextProvider({ children }: PropsWithChildren) {
 
     useEffect(() => {
         return () => {
-            console.log('cleaning up player context')
             Howler.stop()
             Howler.unload()
         };
     }, [currentStream]);
-    
+
     return (
         <PlayerContext.Provider
             value={{

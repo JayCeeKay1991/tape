@@ -33,7 +33,7 @@ export default function Dash() {
   // Populate notifications
   useEffect(() => {
     async function getAllChannels() {
-      console.log(friendsChannels)
+
       const userNotifications = friendsChannels.flatMap((channel) => channel.notifications).filter((not) => not.unNotifiedUsers.includes(user._id));
       setNotifications(userNotifications);
     }
@@ -71,7 +71,6 @@ export default function Dash() {
   };
 
   const search = (e: ChangeEvent<HTMLInputElement>) => {
-    console.log(`searching ${e.target.value}`);
     if (e.target.value === "") {
       setSearchedChannels([])
       setSearchedFriendsChannels([])
