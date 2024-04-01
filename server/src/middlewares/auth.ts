@@ -27,7 +27,7 @@ const authMiddleware = async (
     req.user = user;
     next();
   } catch (error) {
-    return res.sendStatus(500).send(error);
+    return res.send(error).status(500);
   }
 };
 

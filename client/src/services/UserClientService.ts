@@ -60,7 +60,7 @@ export const logout = async () => {
 // Get profile from the session
 export const getProfile = async () => {
   try {
-    return await apiClient<User>(`me`);
+    return await apiClient<User>('me');
   } catch (error) {
     console.error(error);
     throw error;
