@@ -35,6 +35,3 @@ Make sure you set up a .env file in both the client and the server root folder. 
 ### Database
 - MongoDB
 - Mongoose
-
-
-Tape is live and deployed at https://tapefm.netlify.app from the main branch.
